@@ -93,14 +93,6 @@ const updateTopicInput = {
       invalid_type_error: "only ALL, ARTILCE, MOVIE and TV are accepted",
     })
     .optional(),
-  slug: z
-    .string({
-      required_error: "Slug is required",
-      invalid_type_error: "Slug must be a string",
-    })
-    .regex(new RegExp(/^[a-zA-Z0-9_-]*$/), {
-      message: "Slug should be character a-z, A-Z, number, - and _",
-    }),
   featuredImageId: z
     .string({
       invalid_type_error: "featuredImageId must be a string",
@@ -109,6 +101,14 @@ const updateTopicInput = {
 }
 
 const updateTopicTranslationInput = {
+  slug: z
+    .string({
+      required_error: "Slug is required",
+      invalid_type_error: "Slug must be a string",
+    })
+    .regex(new RegExp(/^[a-zA-Z0-9_-]*$/), {
+      message: "Slug should be character a-z, A-Z, number, - and _",
+    }),
   title: z
     .string({
       required_error: "Title is required",
@@ -167,7 +167,6 @@ const topicTranslationResponseSchema = z.object({
 
 const topicResponseSchema = z.object({
   id: z.string(),
-  slug: z.string(),
   type: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
