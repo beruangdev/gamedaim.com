@@ -20,11 +20,11 @@ export async function createTopic({
 }: CreateTopicInput & { slug: string }) {
   return await db.topic.create({
     data: {
-      slug: slug,
       type: type,
       featuredImageId: featuredImageId,
       translations: {
         create: {
+          slug: slug,
           language: language,
           title: title,
           description: description,
@@ -38,15 +38,17 @@ export async function createTopic({
 
 export async function createTopicTranslation({
   topicId,
+  slug,
   title,
   description,
   meta_title,
   meta_description,
   language,
-}: CreateTopicTranslationInput) {
+}: CreateTopicTranslationInput & { slug: string }) {
   return await db.topicTranslation.create({
     data: {
       topicId: topicId,
+      slug: slug,
       title: title,
       description: description,
       meta_title: meta_title,
@@ -61,27 +63,26 @@ export async function getTopicsByLang(
   topicPage: number,
   perPage: number,
 ) {
-  return await db.topic.findMany({
+  return await db.topicTranslation.findMany({
     orderBy: {
       createdAt: "desc",
     },
-    where: { translations: { some: { language: topicLanguage } } },
+    where: { language: topicLanguage },
     select: {
-      id: true,
       slug: true,
-      type: true,
-      featuredImage: {
+      title: true,
+      description: true,
+      meta_title: true,
+      meta_description: true,
+      main: {
         select: {
-          url: true,
-        },
-      },
-      translations: {
-        where: { language: topicLanguage },
-        select: {
-          title: true,
-          description: true,
-          meta_title: true,
-          meta_description: true,
+          id: true,
+          type: true,
+          featuredImage: {
+            select: {
+              url: true,
+            },
+          },
         },
       },
     },
@@ -104,11 +105,11 @@ export async function getTopicsDashboardByLang(
     take: perPage,
     select: {
       id: true,
-      slug: true,
       type: true,
       translations: {
         where: { language: topicLanguage },
         select: {
+          slug: true,
           title: true,
         },
       },
@@ -119,10 +120,12 @@ export async function getTopicsDashboardByLang(
 }
 
 export async function getTopicsSitemapByLang(
+  topicLanguage: "id_ID" | "en_US",
   topicPage: number,
   perPage: number,
 ) {
-  return await db.topic.findMany({
+  return await db.topicTranslation.findMany({
+    where: { language: topicLanguage },
     orderBy: {
       createdAt: "desc",
     },
@@ -142,6 +145,7 @@ export async function getTopicTranslationById(topicTranslationId: string) {
     where: { id: topicTranslationId },
     select: {
       id: true,
+      slug: true,
       title: true,
       description: true,
       meta_title: true,
@@ -149,7 +153,6 @@ export async function getTopicTranslationById(topicTranslationId: string) {
       topic: {
         select: {
           id: true,
-          slug: true,
           type: true,
           featuredImage: {
             select: {
@@ -187,7 +190,6 @@ export async function getTopicsByTypeAndLang(
     take: perPage,
     select: {
       id: true,
-      slug: true,
       type: true,
       featuredImage: {
         select: {
@@ -196,6 +198,7 @@ export async function getTopicsByTypeAndLang(
       },
       translations: {
         select: {
+          slug: true,
           title: true,
           description: true,
           meta_title: true,
@@ -210,26 +213,23 @@ export async function getTopicsByTypeAndLang(
 
 //TODO: create getTopicArticles
 
-export async function getTopicBySlug(topicSlug: string) {
-  return await db.topic.findUnique({
-    where: {
-      slug: topicSlug,
-    },
+export async function getTopicTranslationBySlug(topicSlug: string) {
+  return await db.topicTranslation.findUnique({
+    where: { slug: topicSlug },
     select: {
-      id: true,
       slug: true,
-      type: true,
-      featuredImage: {
+      title: true,
+      description: true,
+      meta_title: true,
+      meta_description: true,
+      topic: {
         select: {
-          url: true,
-        },
-      },
-      translations: {
-        select: {
-          title: true,
-          description: true,
-          meta_title: true,
-          meta_description: true,
+          type: true,
+          featuredImage: {
+            select: {
+              url: true,
+            },
+          },
         },
       },
       createdAt: true,
@@ -240,12 +240,11 @@ export async function getTopicBySlug(topicSlug: string) {
 
 export async function updateTopic(
   topicId: string,
-  { slug, type, featuredImageId }: UpdateTopicInput,
+  { type, featuredImageId }: UpdateTopicInput,
 ) {
   return await db.topic.update({
     where: { id: topicId },
     data: {
-      slug: slug,
       type: type,
       featuredImageId: featuredImageId,
     },
@@ -287,7 +286,7 @@ export async function searchTopicsByLang(
       ],
       OR: [
         {
-          slug: { contains: searchTopicQuery },
+          translations: { some: { slug: { contains: searchTopicQuery } } },
         },
         { translations: { some: { title: { contains: searchTopicQuery } } } },
         {
@@ -299,7 +298,6 @@ export async function searchTopicsByLang(
     },
     select: {
       id: true,
-      slug: true,
       type: true,
       featuredImage: {
         select: {
@@ -308,6 +306,7 @@ export async function searchTopicsByLang(
       },
       translations: {
         select: {
+          slug: true,
           title: true,
         },
       },
@@ -328,7 +327,7 @@ export async function searchTopicsDashboardByLang(
       ],
       OR: [
         {
-          slug: { contains: searchTopicQuery },
+          translations: { some: { slug: { contains: searchTopicQuery } } },
         },
         { translations: { some: { title: { contains: searchTopicQuery } } } },
         {
@@ -340,10 +339,10 @@ export async function searchTopicsDashboardByLang(
     },
     select: {
       id: true,
-      slug: true,
       type: true,
       translations: {
         select: {
+          slug: true,
           title: true,
         },
       },

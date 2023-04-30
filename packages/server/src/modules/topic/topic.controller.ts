@@ -11,7 +11,7 @@ import {
   createTopic,
   deleteTopicById,
   getTopicTranslationById,
-  getTopicBySlug,
+  getTopicTranslationBySlug,
   getTopicsByLang,
   searchTopicsByLang,
   updateTopic,
@@ -187,7 +187,7 @@ export async function getTopicBySlugHandler(
   try {
     const { topicSlug } = request.params
 
-    const topic = await getTopicBySlug(topicSlug)
+    const topic = await getTopicTranslationBySlug(topicSlug)
     return reply.code(201).send(topic)
   } catch (e) {
     console.log(e)

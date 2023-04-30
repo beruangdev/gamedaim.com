@@ -9,26 +9,26 @@ datasource db {
 }
 
 model User {
-  id                String             @id @unique @default(uuid())
-  email             String             @unique
-  username          String             @unique
-  name              String?
-  phoneNumber       String?
-  profilePictureId  String?
-  about             String?
-  password          String
-  meta_title        String?
-  meta_description  String?
-  role              UserRole           @default(USER)
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  medias            Media[]            @relation("MediaAuthors")
-  profilePicture    Media?             @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
+  id               String      @id @unique @default(uuid())
+  email            String      @unique
+  username         String      @unique
+  name             String?
+  gender           GenderType?
+  phoneNumber      String?
+  about            String?
+  password         String
+  role             UserRole    @default(USER)
+  metaDescription  String?
+  metaTitle        String?
+  profilePictureId String?
+  profilePicture   Media?      @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
+  medias           Media[]     @relation("MediaAuthors")
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 }
 
 model Topic {
   id              String             @id @unique @default(uuid())
-  slug            String             @unique
   type            TopicType          @default(ALL)
   featuredImageId String?
   featuredImage   Media?             @relation("TopicFeaturedImages", fields: [featuredImageId], references: [id])
@@ -38,30 +38,115 @@ model Topic {
 }
 
 model TopicTranslation {
-  id               String       @id @unique @default(uuid())
-  topicId          String
-  language         LanguageType @default(id_ID)
-  title            String
-  description      String?
-  meta_title       String?
-  meta_description String?
-  topic            Topic        @relation("TopicTranslations", fields: [topicId], references: [id])
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  id              String       @id @unique @default(uuid())
+  topicId         String
+  slug            String       @unique
+  title           String
+  description     String?
+  metaDescription String?
+  metaTitle       String?
+  language        LanguageType @default(id_ID)
+  main            Topic        @relation("TopicTranslations", fields: [topicId], references: [id])
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model Movie {
+  id                  String              @id @unique @default(uuid())
+  originalTitle       String
+  originalLanguage    LanguageType        @default(id_ID)
+  overview            String
+  metaTitle           String?
+  metaDescription     String?
+  slug                String              @unique
+  releaseDate         String
+  spokenLanguage      String
+  status              String              @default("released")
+  tagline             String?
+  budget              Int?
+  revenue             Int?
+  popularity          Int                 @default(0)
+  voteAverage         Int                 @default(0)
+  voteCount           Int                 @default(0)
+  posterId            String
+  poster              Media               @relation("MoviePosters", fields: [posterId], references: [id])
+  photos              Media[]             @relation("MoviePhotos")
+  videos              MovieVideo[]        @relation("MovieVideos")
+  genres              MovieGenre[]        @relation("MovieGenres")
+  cast                People[]            @relation("MovieCasts")
+  crew                People[]            @relation("MovieCrews")
+  ProductionCompanies ProductionCompany[] @relation("MovieProductionCompanies")
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+}
+
+model MovieGenre {
+  id        String   @id @unique @default(uuid())
+  name      String
+  slug      String   @unique
+  movies    Movie    @relation("MovieGenres", fields: [movieId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  movieId   String
+}
+
+model MovieVideo {
+  id        String         @id @unique @default(uuid())
+  title     String
+  URL       String
+  type      MovieVideoType @default(TEASER)
+  movies    Movie[]        @relation("MovieVideos")
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model ProductionCompany {
+  id            String   @id @unique @default(uuid())
+  name          String
+  description   String?
+  originCountry String?
+  headquarters  String?
+  logoId        String?
+  logo          Media?   @relation("ProductionCompanyLogos", fields: [logoId], references: [id])
+  movies        Movie[]  @relation("MovieProductionCompanies")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model People {
+  id               String     @id @unique @default(uuid())
+  name             String
+  slug             String     @unique
+  biography        String?
+  birthday         String?
+  deathday         String?
+  placeOfBirth     String?
+  gender           GenderType @default(MALE)
+  popularity       Int        @default(0)
+  profilePictureId String?
+  profilePicture   Media?     @relation("PeopleProfilePictures", fields: [profilePictureId], references: [id])
+  movies           Movie[]    @relation("MovieCasts")
+  crews            Movie[]    @relation("MovieCrews")
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
 }
 
 model Media {
-  id          String   @id @unique @default(uuid())
-  name        String   @unique
-  url         String   @unique
-  type        String
-  description String?
-  authorId    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  author      User     @relation("MediaAuthors", fields: [authorId], references: [id])
-  topics      Topic[]  @relation("TopicFeaturedImages")
-  users       User[]   @relation("UserProfilePictures")
+  id                  String              @id @unique @default(uuid())
+  name                String              @unique
+  url                 String              @unique
+  type                String
+  description         String?
+  authorId            String
+  author              User                @relation("MediaAuthors", fields: [authorId], references: [id])
+  moviePosters        Movie[]             @relation("MoviePosters")
+  ProductionCompanies ProductionCompany[] @relation("ProductionCompanyLogos")
+  topics              Topic[]             @relation("TopicFeaturedImages")
+  users               User[]              @relation("UserProfilePictures")
+  people              People[]            @relation("PeopleProfilePictures")
+  moviePhotos         Movie[]             @relation("MoviePhotos")
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
 }
 
 model Setting {
@@ -87,6 +172,20 @@ enum TopicType {
   MOVIE
   TV
   GAME
+}
+
+enum GenderType {
+  MALE
+  FEMALE
+}
+
+enum MovieVideoType {
+  TRAILER
+  TEASER
+  CLIP
+  BEHIND_THE_SCENE
+  BLOOPER
+  FEATURE
 }
 
 enum LanguageType {
