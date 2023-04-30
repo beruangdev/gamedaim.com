@@ -1,0 +1,44 @@
+{
+  "name": "gamedaim.com",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Dafunda Dev Team <dev@dafunda.io>",
+  "homepage": "https://gamedaim.com",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dafundacom/gamedaim.com"
+  },
+  "bugs": {
+    "url": "https://github.com/dafundacom/gamedaim.com/issues"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "clean:build": "turbo run clean:build",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,css,md,mdx}\"",
+    "commit": "cz",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "@commitlint/cz-commitlint": "^17.5.0",
+    "commitizen": "^4.3.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.2.7",
+    "rimraf": "^5.0.0",
+    "turbo": "^1.9.3"
+  },
+  "packageManager": "pnpm@7.15.0",
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  }
+}

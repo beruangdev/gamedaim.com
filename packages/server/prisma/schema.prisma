@@ -1,0 +1,95 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String             @id @unique @default(uuid())
+  email             String             @unique
+  username          String             @unique
+  name              String?
+  phoneNumber       String?
+  profilePictureId  String?
+  about             String?
+  password          String
+  meta_title        String?
+  meta_description  String?
+  role              UserRole           @default(USER)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  medias            Media[]            @relation("MediaAuthors")
+  profilePicture    Media?             @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
+}
+
+model Topic {
+  id              String             @id @unique @default(uuid())
+  slug            String             @unique
+  type            TopicType          @default(ALL)
+  featuredImageId String?
+  featuredImage   Media?             @relation("TopicFeaturedImages", fields: [featuredImageId], references: [id])
+  translations    TopicTranslation[] @relation("TopicTranslations")
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+model TopicTranslation {
+  id               String       @id @unique @default(uuid())
+  topicId          String
+  language         LanguageType @default(id_ID)
+  title            String
+  description      String?
+  meta_title       String?
+  meta_description String?
+  topic            Topic        @relation("TopicTranslations", fields: [topicId], references: [id])
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
+
+model Media {
+  id          String   @id @unique @default(uuid())
+  name        String   @unique
+  url         String   @unique
+  type        String
+  description String?
+  authorId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  author      User     @relation("MediaAuthors", fields: [authorId], references: [id])
+  topics      Topic[]  @relation("TopicFeaturedImages")
+  users       User[]   @relation("UserProfilePictures")
+}
+
+model Setting {
+  id        String   @id @unique @default(uuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UserRole {
+  USER
+  PRO_USER
+  AUTHOR
+  ADMIN
+}
+
+enum TopicType {
+  ALL
+  ARTICLE
+  REVIEW
+  TUTORIAL
+  MOVIE
+  TV
+  GAME
+}
+
+enum LanguageType {
+  id_ID
+  en_US
+}

@@ -1,0 +1,62 @@
+{
+  "name": "editor",
+  "version": "0.0.1",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint *.ts*",
+    "clean": "rimraf node_modules .next build dist"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.1",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.1",
+    "eslint": "8.39.0",
+    "eslint-config-next-custom": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.4",
+    "typescript-config": "workspace:*"
+  },
+  "dependencies": {
+    "@tiptap/core": "2.0.3",
+    "@tiptap/extension-blockquote": "2.0.3",
+    "@tiptap/extension-bold": "2.0.3",
+    "@tiptap/extension-bullet-list": "2.0.3",
+    "@tiptap/extension-character-count": "2.0.3",
+    "@tiptap/extension-code": "2.0.3",
+    "@tiptap/extension-code-block-lowlight": "2.0.3",
+    "@tiptap/extension-color": "2.0.3",
+    "@tiptap/extension-document": "2.0.3",
+    "@tiptap/extension-dropcursor": "2.0.3",
+    "@tiptap/extension-gapcursor": "2.0.3",
+    "@tiptap/extension-hard-break": "2.0.3",
+    "@tiptap/extension-heading": "2.0.3",
+    "@tiptap/extension-history": "2.0.3",
+    "@tiptap/extension-horizontal-rule": "2.0.3",
+    "@tiptap/extension-image": "2.0.3",
+    "@tiptap/extension-italic": "2.0.3",
+    "@tiptap/extension-link": "2.0.3",
+    "@tiptap/extension-list-item": "2.0.3",
+    "@tiptap/extension-ordered-list": "2.0.3",
+    "@tiptap/extension-paragraph": "2.0.3",
+    "@tiptap/extension-placeholder": "2.0.3",
+    "@tiptap/extension-strike": "2.0.3",
+    "@tiptap/extension-text": "2.0.3",
+    "@tiptap/extension-text-align": "2.0.3",
+    "@tiptap/extension-text-style": "2.0.3",
+    "@tiptap/extension-underline": "2.0.3",
+    "@tiptap/extension-youtube": "2.0.3",
+    "@tiptap/react": "2.0.3",
+    "highlight.js": "^11.7.0",
+    "lowlight": "^2.8.1",
+    "next": "^13.3.1",
+    "react-icons": "^4.8.0",
+    "ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
