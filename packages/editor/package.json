@@ -9,7 +9,7 @@
     "clean": "rimraf node_modules .next build dist"
   },
   "devDependencies": {
-    "@types/node": "^18.16.1",
+    "@types/node": "^18.16.3",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.1",
     "eslint": "8.39.0",
@@ -49,9 +49,9 @@
     "@tiptap/extension-underline": "2.0.3",
     "@tiptap/extension-youtube": "2.0.3",
     "@tiptap/react": "2.0.3",
-    "highlight.js": "^11.7.0",
+    "highlight.js": "^11.8.0",
     "lowlight": "^2.8.1",
-    "next": "^13.3.1",
+    "next": "^13.3.2",
     "react-icons": "^4.8.0",
     "ui": "workspace:*"
   },
