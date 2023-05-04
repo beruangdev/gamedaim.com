@@ -63,6 +63,7 @@ model Movie {
   spokenLanguage      String
   status              String              @default("released")
   tagline             String?
+  homePage            String?
   budget              Int?
   revenue             Int?
   popularity          Int                 @default(0)
@@ -73,8 +74,8 @@ model Movie {
   photos              Media[]             @relation("MoviePhotos")
   videos              MovieVideo[]        @relation("MovieVideos")
   genres              MovieGenre[]        @relation("MovieGenres")
-  cast                People[]            @relation("MovieCasts")
-  crew                People[]            @relation("MovieCrews")
+  casts               MovieCast[]         @relation("MovieCasts")
+  crews               MovieCrew[]         @relation("MovieCrews")
   ProductionCompanies ProductionCompany[] @relation("MovieProductionCompanies")
   createdAt           DateTime            @default(now())
   updatedAt           DateTime            @updatedAt
@@ -100,6 +101,28 @@ model MovieVideo {
   updatedAt DateTime       @updatedAt
 }
 
+model MovieCast {
+  id         String   @id @unique @default(uuid())
+  popularity Int      @default(0)
+  character  String
+  people     People[] @relation("PeopleCasts")
+  movies     Movie[]  @relation("MovieCasts")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model MovieCrew {
+  id          String   @id @unique @default(uuid())
+  popularity  Int      @default(0)
+  departement String
+  job         String
+  character   String
+  people      People[] @relation("PeopleCrews")
+  movies      Movie[]  @relation("MovieCrews")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model ProductionCompany {
   id            String   @id @unique @default(uuid())
   name          String
@@ -114,21 +137,21 @@ model ProductionCompany {
 }
 
 model People {
-  id               String     @id @unique @default(uuid())
+  id               String      @id @unique @default(uuid())
   name             String
-  slug             String     @unique
+  slug             String      @unique
   biography        String?
   birthday         String?
   deathday         String?
   placeOfBirth     String?
-  gender           GenderType @default(MALE)
-  popularity       Int        @default(0)
+  gender           GenderType  @default(MALE)
+  popularity       Int         @default(0)
   profilePictureId String?
-  profilePicture   Media?     @relation("PeopleProfilePictures", fields: [profilePictureId], references: [id])
-  movies           Movie[]    @relation("MovieCasts")
-  crews            Movie[]    @relation("MovieCrews")
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
+  profilePicture   Media?      @relation("PeopleProfilePictures", fields: [profilePictureId], references: [id])
+  casts            MovieCast[] @relation("PeopleCasts")
+  crews            MovieCrew[] @relation("PeopleCrews")
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 }
 
 model Media {
