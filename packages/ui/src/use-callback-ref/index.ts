@@ -1,4 +1,7 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use client"
+
 import * as React from "react"
 
 export function useCallbackRef<T extends (...args: any[]) => any>(
