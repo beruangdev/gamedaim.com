@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 
 import { Checkbox as InternalCheckbox, CheckboxProps } from "./checkbox"

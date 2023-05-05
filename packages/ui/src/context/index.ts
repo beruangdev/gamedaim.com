@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 
 import {
@@ -20,7 +22,7 @@ export type CreateContextReturn<T> = [
   React.Context<T>,
 ]
 
-function getErrorMessage(hook: string, provider: string) {
+function getErrorMessage(_hook: string, _provider: string) {
   return '${hook} returned "undefined". Seems you forgot to wrap component within ${provider}'
 }
 

@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 
 import { cn } from "../classname-utils"
@@ -39,6 +41,7 @@ export const CheckboxGroup = React.forwardRef<
 
   const _onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let newValues: any
     if (checked) {
       newValues = [...(_values || []), value]

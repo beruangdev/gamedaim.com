@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 
 import { useCallbackRef } from "../use-callback-ref"
@@ -34,7 +36,6 @@ export function useDisclosure(props: UseDisclosureProps = {}) {
 
   const isControlled = isOpenProp !== undefined
 
-  const uid = React.useId()
   const id = idProp ?? "disclosure-${uid}"
 
   const onClose = React.useCallback(() => {
