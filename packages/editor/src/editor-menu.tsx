@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// FIX: typescript problem
 // TODO: add textStyle color option
 
 import * as React from "react"
@@ -17,11 +19,11 @@ import {
   MdAdd,
 } from "react-icons/md"
 import { SiYoutube } from "react-icons/si"
-import { Button, IconButton } from "ui"
+import { Button, IconButton } from "@dafunda-ui-test/react"
 
 import { BubbleMenu, FloatingMenu } from "@tiptap/react"
 
-export function EditorMenu(props: any) {
+export function EditorMenu(props: { editor: any }) {
   const { editor } = props
   const [showMenu, setShowMenu] = React.useState(false)
 
@@ -220,8 +222,8 @@ export function EditorMenu(props: any) {
                     editor.chain().focus().toggleBulletList().run()
                   }}
                   variant={editor.isActive("bulletList") ? "outline" : "ghost"}
-                  leftIcon={<MdFormatListBulleted />}
                 >
+                  <MdFormatListBulleted className="mr-2 h-4 w-4" />
                   List Bullet
                 </Button>
                 <Button
@@ -230,8 +232,8 @@ export function EditorMenu(props: any) {
                     editor.chain().focus().toggleOrderedList().run()
                   }}
                   variant={editor.isActive("orderedList") ? "outline" : "ghost"}
-                  leftIcon={<MdFormatListNumbered />}
                 >
+                  <MdFormatListNumbered className="mr-2 h-4 w-4" />
                   List Number
                 </Button>
                 <Button
@@ -240,8 +242,8 @@ export function EditorMenu(props: any) {
                     editor.chain().focus().toggleBlockquote().run()
                   }}
                   variant={editor.isActive("blockquote") ? "outline" : "ghost"}
-                  leftIcon={<MdFormatQuote />}
                 >
+                  <MdFormatQuote className="mr-2 h-4 w-4" />
                   Quote
                 </Button>
                 <Button
@@ -252,15 +254,12 @@ export function EditorMenu(props: any) {
                   variant={
                     editor.isActive("horizontalRule") ? "outline" : "ghost"
                   }
-                  leftIcon={<MdHorizontalRule />}
                 >
+                  <MdHorizontalRule className="mr-2 h-4 w-4" />
                   Horizontal Rule
                 </Button>
-                <Button
-                  onClick={addImage}
-                  variant="ghost"
-                  leftIcon={<MdImage />}
-                >
+                <Button onClick={addImage} variant="ghost">
+                  <MdImage className="mr-2 h-4 w-4" />
                   Image
                 </Button>
                 <Button
@@ -269,15 +268,15 @@ export function EditorMenu(props: any) {
                     editor.chain().focus().toggleCodeBlock().run()
                   }}
                   variant={editor.isActive("codeBlock") ? "outline" : "ghost"}
-                  leftIcon={<MdCode />}
                 >
+                  <MdCode className="mr-2 h-4 w-4" />
                   Code
                 </Button>
                 <Button
                   onClick={addYoutubeVideo}
                   variant={editor.isActive("youtube") ? "outline" : "ghost"}
-                  leftIcon={<SiYoutube />}
                 >
+                  <SiYoutube className="mr-2 h-4 w-4" />
                   Youtube
                 </Button>
               </div>

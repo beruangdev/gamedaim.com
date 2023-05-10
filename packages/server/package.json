@@ -26,7 +26,7 @@
     "@fastify/multipart": "^7.6.0",
     "@fastify/swagger": "^8.3.1",
     "@fastify/swagger-ui": "^1.8.1",
-    "@prisma/client": "^4.13.0",
+    "@prisma/client": "^4.14.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "eslint": "8.40.0",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
-    "@types/node": "^20.1.1",
+    "@types/node": "^20.1.2",
     "@types/tap": "^15.0.8",
     "eslint-config-node-custom": "workspace:*",
     "sinon": "^15.0.4",

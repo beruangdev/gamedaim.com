@@ -21,31 +21,27 @@ export const EditorKitBasicExtension =
       const extensions = []
 
       if (this.options.document !== false) {
-        //@ts-ignore
-        extensions.push(Document.configure(this.option?.document))
+        extensions.push(Document.configure(this.options?.document) as never)
       }
 
       if (this.options.history !== false) {
-        //@ts-ignore
-        extensions.push(History.configure(this.options?.history))
+        extensions.push(History.configure(this.options?.history) as never)
       }
 
       if (this.options.paragraph !== false) {
-        //@ts-ignore
-        extensions.push(Paragraph.configure(this.options?.paragraph))
+        extensions.push(Paragraph.configure(this.options?.paragraph) as never)
       }
 
       if (this.options.placeholder !== false) {
-        //@ts-ignore
         extensions.push(
-          //@ts-ignore
-          Placeholder.configure({ placeholder: "Write Something ..." }),
+          Placeholder.configure({
+            placeholder: "Write Something ...",
+          }) as never,
         )
       }
 
       if (this.options.text !== false) {
-        //@ts-ignore
-        extensions.push(Text.configure(this.options?.text))
+        extensions.push(Text.configure(this.options?.text) as never)
       }
 
       return extensions

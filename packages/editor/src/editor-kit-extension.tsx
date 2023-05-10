@@ -78,130 +78,109 @@ export const EditorKitExtension = Extension.create<EditorKitExtensionOptions>({
     const extensions = []
 
     if (this.options.blockquote !== false) {
-      //@ts-ignore
-      extensions.push(Blockquote.configure(this.options?.blockquote))
+      extensions.push(Blockquote.configure(this.options?.blockquote) as never)
     }
 
     if (this.options.bold !== false) {
-      //@ts-ignore
-      extensions.push(Bold.configure(this.options?.bold))
+      extensions.push(Bold.configure(this.options?.bold) as never)
     }
 
     if (this.options.bulletList !== false) {
-      //@ts-ignore
-      extensions.push(BulletList.configure(this.options?.bulletList))
+      extensions.push(BulletList.configure(this.options?.bulletList) as never)
     }
 
     if (this.options.characterCount !== false) {
-      //@ts-ignore
-      extensions.push(CharacterCount.configure(this.options?.characterCount))
+      extensions.push(
+        CharacterCount.configure(this.options?.characterCount) as never,
+      )
     }
 
     if (this.options.code !== false) {
-      //@ts-ignore
-      extensions.push(Code.configure(this.options?.code))
+      extensions.push(Code.configure(this.options?.code) as never)
     }
 
     if (this.options.codeBlockLowlight !== false) {
-      //@ts-ignore
       extensions.push(
         CodeBlockLowlight.configure({
           lowlight,
-        }),
+        }) as never,
       )
     }
 
     if (this.options.document !== false) {
-      //@ts-ignore
-      extensions.push(Document.configure(this.option?.document))
+      extensions.push(Document.configure(this.options?.document) as never)
     }
 
     if (this.options.dropcursor !== false) {
-      //@ts-ignore
-      extensions.push(Dropcursor.configure(this.options?.dropcursor))
+      extensions.push(Dropcursor.configure(this.options?.dropcursor) as never)
     }
 
     if (this.options.gapcursor !== false) {
-      //@ts-ignore
-      extensions.push(Gapcursor.configure(this.options?.gapcursor))
+      extensions.push(Gapcursor.configure(this.options?.gapcursor) as never)
     }
 
     if (this.options.hardBreak !== false) {
-      //@ts-ignore
-      extensions.push(HardBreak.configure(this.options?.hardBreak))
+      extensions.push(HardBreak.configure(this.options?.hardBreak) as never)
     }
 
     if (this.options.heading !== false) {
-      //@ts-ignore
-      extensions.push(Heading.configure(this.options?.heading))
+      extensions.push(Heading.configure(this.options?.heading) as never)
     }
 
     if (this.options.history !== false) {
-      //@ts-ignore
-      extensions.push(History.configure(this.options?.history))
+      extensions.push(History.configure(this.options?.history) as never)
     }
 
     if (this.options.horizontalRule !== false) {
-      //@ts-ignore
-      extensions.push(HorizontalRule.configure(this.options?.horizontalRule))
+      extensions.push(
+        HorizontalRule.configure(this.options?.horizontalRule) as never,
+      )
     }
 
     if (this.options.image !== false) {
-      //@ts-ignore
-      extensions.push(Image.configure(this.options?.image))
+      extensions.push(Image.configure(this.options?.image) as never)
     }
 
     if (this.options.italic !== false) {
-      //@ts-ignore
-      extensions.push(Italic.configure(this.options?.italic))
+      extensions.push(Italic.configure(this.options?.italic) as never)
     }
 
     if (this.options.link !== false) {
-      //@ts-ignore
-      extensions.push(Link.configure({ openOnClick: false }))
+      extensions.push(Link.configure({ openOnClick: false }) as never)
     }
 
     if (this.options.listItem !== false) {
-      //@ts-ignore
-      extensions.push(ListItem.configure(this.options?.listItem))
+      extensions.push(ListItem.configure(this.options?.listItem) as never)
     }
 
     if (this.options.orderedList !== false) {
-      //@ts-ignore
-      extensions.push(OrderedList.configure(this.options?.orderedList))
+      extensions.push(OrderedList.configure(this.options?.orderedList) as never)
     }
 
     if (this.options.paragraph !== false) {
-      //@ts-ignore
-      extensions.push(Paragraph.configure(this.options?.paragraph))
+      extensions.push(Paragraph.configure(this.options?.paragraph) as never)
     }
 
     if (this.options.placeholder !== false) {
-      //@ts-ignore
       extensions.push(
-        //@ts-ignore
-        Placeholder.configure({ placeholder: "Write Something ..." }),
+        Placeholder.configure({ placeholder: "Write Something ..." }) as never,
       )
     }
 
     if (this.options.strike !== false) {
-      //@ts-ignore
-      extensions.push(Strike.configure(this.options?.strike))
+      extensions.push(Strike.configure(this.options?.strike) as never)
     }
 
     if (this.options.text !== false) {
-      //@ts-ignore
-      extensions.push(Text.configure(this.options?.text))
+      extensions.push(Text.configure(this.options?.text) as never)
     }
 
     if (this.options.underline !== false) {
-      //@ts-ignore
-      extensions.push(Underline.configure(this.options?.underline))
+      extensions.push(Underline.configure(this.options?.underline) as never)
     }
 
     if (this.options.youtube !== false) {
-      //@ts-ignore
-      extensions.push(Youtube.configure(this.options?.youtube))
+      extensions.push(Youtube.configure(this.options?.youtube) as never)
     }
 
     return extensions
