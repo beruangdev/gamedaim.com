@@ -29,12 +29,12 @@ const userCore = {
     .string({ invalid_type_error: "Profile Picture must be a string" })
     .optional(),
   about: z.string({ invalid_type_error: "About must be a string" }).optional(),
-  meta_title: z
+  metaTitle: z
     .string({
       invalid_type_error: "Meta Title must be a string",
     })
     .optional(),
-  meta_description: z
+  metaDescription: z
     .string({
       invalid_type_error: "Meta Description must be a string",
     })

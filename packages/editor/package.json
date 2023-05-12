@@ -9,7 +9,7 @@
     "clean": "rimraf node_modules .next build dist"
   },
   "devDependencies": {
-    "@types/node": "^20.1.2",
+    "@types/node": "^20.1.3",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "eslint": "8.40.0",
@@ -52,7 +52,7 @@
     "@tiptap/react": "2.0.3",
     "highlight.js": "^11.8.0",
     "lowlight": "^2.9.0",
-    "next": "^13.4.1",
+    "next": "^13.4.2",
     "react-icons": "^4.8.0"
   },
   "peerDependencies": {

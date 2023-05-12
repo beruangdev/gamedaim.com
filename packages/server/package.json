@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --exit-child --respawn src/app.ts",
     "start": "node dist/src/app.js",
+    "prebuild": "npm run lint",
     "build": "rimraf ./dist && tsc",
     "clean": "rimraf node_modules build dist",
     "clean:build": "rimraf build dist",
@@ -18,9 +19,9 @@
     "db:studio": "pnpx prisma studio"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.329.0",
-    "@aws-sdk/lib-storage": "^3.329.0",
-    "@faker-js/faker": "^7.6.0",
+    "@aws-sdk/client-s3": "^3.332.0",
+    "@aws-sdk/lib-storage": "^3.332.0",
+    "@faker-js/faker": "^8.0.0",
     "@fastify/cors": "^8.2.1",
     "@fastify/jwt": "^6.7.1",
     "@fastify/multipart": "^7.6.0",
@@ -38,11 +39,11 @@
     "tap": "^16.3.4",
     "ts-mock-imports": "^1.3.8",
     "zod": "^3.21.4",
-    "zod-to-json-schema": "^3.21.0"
+    "zod-to-json-schema": "^3.21.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
-    "@types/node": "^20.1.2",
+    "@types/node": "^20.1.3",
     "@types/tap": "^15.0.8",
     "eslint-config-node-custom": "workspace:*",
     "sinon": "^15.0.4",

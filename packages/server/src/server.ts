@@ -7,15 +7,15 @@ import fastifySwaggerUi from "@fastify/swagger-ui"
 import { withRefResolver } from "fastify-zod"
 
 import env from "./env"
-import { loggerOption } from "./utils/logger"
+import { LoggerOption, loggerOption } from "./utils/logger"
 
 import { version } from "../package.json"
-// import adRoutes from "./modules/ad/ad.route"
-// import { adSchemas } from "./modules/ad/ad.schema"
-// import articleRoutes from "./modules/article/article.route"
-// import { articleSchemas } from "./modules/article/article.schema"
-// import commentRoutes from "./modules/comment/comment.route"
-// import { commentSchemas } from "./modules/comment/comment.schema"
+import adRoutes from "./modules/ad/ad.route"
+import { adSchemas } from "./modules/ad/ad.schema"
+import articleRoutes from "./modules/article/article.route"
+import { articleSchemas } from "./modules/article/article.schema"
+import articleCommentRoutes from "./modules/article-comment/article-comment.route"
+import { articleCommentSchemas } from "./modules/article-comment/article-comment.schema"
 import mediaRoutes from "./modules/media/media.route"
 import { mediaSchemas } from "./modules/media/media.schema"
 import settingRoutes from "./modules/setting/setting.route"
@@ -27,7 +27,7 @@ import { userSchemas } from "./modules/user/user.schema"
 
 function buildServer() {
   const server = fastify({
-    logger: loggerOption[env.NODE_ENV] ?? true,
+    logger: loggerOption[env.NODE_ENV as keyof LoggerOption] ?? true,
   })
 
   const allowedOrigins = (env.ORIGIN?.split(",") ?? []).map((origin) => {
@@ -79,10 +79,10 @@ function buildServer() {
   })
 
   for (const schema of [
-    // ...adSchemas,
+    ...adSchemas,
     ...userSchemas,
-    // ...articleSchemas,
-    // ...commentSchemas,
+    ...articleSchemas,
+    ...articleCommentSchemas,
     ...mediaSchemas,
     ...topicSchemas,
     ...settingSchemas,
@@ -107,10 +107,10 @@ function buildServer() {
     routePrefix: "/docs",
   })
 
-  // server.register(adRoutes, { prefix: "api/ad" })
+  server.register(adRoutes, { prefix: "api/ad" })
   server.register(userRoutes, { prefix: "api/user" })
-  // server.register(articleRoutes, { prefix: "api/article" })
-  // server.register(commentRoutes, { prefix: "api/comment" })
+  server.register(articleRoutes, { prefix: "api/article" })
+  server.register(articleCommentRoutes, { prefix: "api/article-comment" })
   server.register(topicRoutes, { prefix: "api/topic" })
   server.register(mediaRoutes, { prefix: "api/media" })
   server.register(settingRoutes, { prefix: "api/setting" })

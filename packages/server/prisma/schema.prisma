@@ -9,167 +9,116 @@ datasource db {
 }
 
 model User {
-  id               String      @id @unique @default(uuid())
-  email            String      @unique
-  username         String      @unique
+  id               String           @id @unique @default(uuid())
+  email            String           @unique
+  username         String           @unique
   name             String?
-  gender           GenderType?
   phoneNumber      String?
+  profilePictureId String?
   about            String?
   password         String
-  role             UserRole    @default(USER)
-  metaDescription  String?
   metaTitle        String?
-  profilePictureId String?
-  profilePicture   Media?      @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
-  medias           Media[]     @relation("MediaAuthors")
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  metaDescription  String?
+  role             UserRole         @default(USER)
+  articleAuthors   Article[]        @relation("ArticleAuthors")
+  articleEditors   Article[]        @relation("ArticleEditors")
+  articleComments  ArticleComment[] @relation("CommentAuthors")
+  medias           Media[]          @relation("MediaAuthors")
+  profilePicture   Media?           @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model ArticleParent {
+  id        String    @id @unique @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  locales   Article[] @relation("ArticleLocales")
+}
+
+model Article {
+  id              String           @id @unique @default(uuid())
+  language        LanguageType     @default(id_ID)
+  title           String
+  slug            String           @unique
+  content         String
+  excerpt         String
+  metaTitle       String?
+  metaDescription String?
+  featuredImageId String
+  featuredImage   Media            @relation(name: "ArticleFeaturedImages", fields: [featuredImageId], references: [id])
+  articleParentId String
+  articleParent   ArticleParent    @relation("ArticleLocales", fields: [articleParentId], references: [id])
+  topics          Topic[]          @relation(name: "ArticleTopics")
+  authors         User[]           @relation(name: "ArticleAuthors")
+  editors         User[]           @relation(name: "ArticleEditors")
+  comments        ArticleComment[] @relation(name: "ArticleComments")
+  status          ArticleStatus    @default(PUBLISHED)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model TopicParent {
+  id        String   @id @unique @default(uuid())
+  locales   Topic[]  @relation("TopicLocales")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Topic {
-  id              String             @id @unique @default(uuid())
-  type            TopicType          @default(ALL)
-  featuredImageId String?
-  featuredImage   Media?             @relation("TopicFeaturedImages", fields: [featuredImageId], references: [id])
-  translations    TopicTranslation[] @relation("TopicTranslations")
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
-}
-
-model TopicTranslation {
   id              String       @id @unique @default(uuid())
-  topicId         String
-  slug            String       @unique
-  title           String
-  description     String?
-  metaDescription String?
-  metaTitle       String?
   language        LanguageType @default(id_ID)
-  main            Topic        @relation("TopicTranslations", fields: [topicId], references: [id])
+  title           String
+  slug            String       @unique
+  description     String?
+  metaTitle       String?
+  metaDescription String?
+  type            TopicType    @default(ALL)
+  topicParentId   String
+  topicParent     TopicParent  @relation("TopicLocales", fields: [topicParentId], references: [id])
+  featuredImageId String?
+  featuredImage   Media?       @relation("TopicFeaturedImages", fields: [featuredImageId], references: [id])
+  articles        Article[]    @relation(name: "ArticleTopics")
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 }
 
-model Movie {
-  id                  String              @id @unique @default(uuid())
-  originalTitle       String
-  originalLanguage    LanguageType        @default(id_ID)
-  overview            String
-  metaTitle           String?
-  metaDescription     String?
-  slug                String              @unique
-  releaseDate         String
-  spokenLanguage      String
-  status              String              @default("released")
-  tagline             String?
-  homePage            String?
-  budget              Int?
-  revenue             Int?
-  popularity          Int                 @default(0)
-  voteAverage         Int                 @default(0)
-  voteCount           Int                 @default(0)
-  posterId            String
-  poster              Media               @relation("MoviePosters", fields: [posterId], references: [id])
-  photos              Media[]             @relation("MoviePhotos")
-  videos              MovieVideo[]        @relation("MovieVideos")
-  genres              MovieGenre[]        @relation("MovieGenres")
-  casts               MovieCast[]         @relation("MovieCasts")
-  crews               MovieCrew[]         @relation("MovieCrews")
-  ProductionCompanies ProductionCompany[] @relation("MovieProductionCompanies")
-  createdAt           DateTime            @default(now())
-  updatedAt           DateTime            @updatedAt
-}
-
-model MovieGenre {
+model ArticleComment {
   id        String   @id @unique @default(uuid())
-  name      String
-  slug      String   @unique
-  movies    Movie    @relation("MovieGenres", fields: [movieId], references: [id])
+  content   String
+  article   Article  @relation(name: "ArticleComments", fields: [articleId], references: [id])
+  articleId String
+  author    User     @relation(name: "CommentAuthors", fields: [authorId], references: [id])
+  authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  movieId   String
-}
-
-model MovieVideo {
-  id        String         @id @unique @default(uuid())
-  title     String
-  URL       String
-  type      MovieVideoType @default(TEASER)
-  movies    Movie[]        @relation("MovieVideos")
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-}
-
-model MovieCast {
-  id         String   @id @unique @default(uuid())
-  popularity Int      @default(0)
-  character  String
-  people     People[] @relation("PeopleCasts")
-  movies     Movie[]  @relation("MovieCasts")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-model MovieCrew {
-  id          String   @id @unique @default(uuid())
-  popularity  Int      @default(0)
-  departement String
-  job         String
-  character   String
-  people      People[] @relation("PeopleCrews")
-  movies      Movie[]  @relation("MovieCrews")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model ProductionCompany {
-  id            String   @id @unique @default(uuid())
-  name          String
-  description   String?
-  originCountry String?
-  headquarters  String?
-  logoId        String?
-  logo          Media?   @relation("ProductionCompanyLogos", fields: [logoId], references: [id])
-  movies        Movie[]  @relation("MovieProductionCompanies")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-}
-
-model People {
-  id               String      @id @unique @default(uuid())
-  name             String
-  slug             String      @unique
-  biography        String?
-  birthday         String?
-  deathday         String?
-  placeOfBirth     String?
-  gender           GenderType  @default(MALE)
-  popularity       Int         @default(0)
-  profilePictureId String?
-  profilePicture   Media?      @relation("PeopleProfilePictures", fields: [profilePictureId], references: [id])
-  casts            MovieCast[] @relation("PeopleCasts")
-  crews            MovieCrew[] @relation("PeopleCrews")
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
 }
 
 model Media {
-  id                  String              @id @unique @default(uuid())
-  name                String              @unique
-  url                 String              @unique
-  type                String
-  description         String?
-  authorId            String
-  author              User                @relation("MediaAuthors", fields: [authorId], references: [id])
-  moviePosters        Movie[]             @relation("MoviePosters")
-  ProductionCompanies ProductionCompany[] @relation("ProductionCompanyLogos")
-  topics              Topic[]             @relation("TopicFeaturedImages")
-  users               User[]              @relation("UserProfilePictures")
-  people              People[]            @relation("PeopleProfilePictures")
-  moviePhotos         Movie[]             @relation("MoviePhotos")
-  createdAt           DateTime            @default(now())
-  updatedAt           DateTime            @updatedAt
+  id          String    @id @unique @default(uuid())
+  name        String    @unique
+  url         String    @unique
+  type        String
+  description String?
+  authorId    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  author      User      @relation("MediaAuthors", fields: [authorId], references: [id])
+  articles    Article[] @relation(name: "ArticleFeaturedImages")
+  topics      Topic[]   @relation("TopicFeaturedImages")
+  users       User[]    @relation("UserProfilePictures")
+}
+
+
+model Ad {
+  id        String     @id @unique @default(uuid())
+  title     String     @unique
+  content   String
+  position  AdPosition @default(HOME_BELOW_HEADER)
+  type      AdType     @default(PLAIN_AD)
+  active    Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Setting {
@@ -187,6 +136,13 @@ enum UserRole {
   ADMIN
 }
 
+enum ArticleStatus {
+  PUBLISHED
+  DRAFT
+  REJECTED
+  IN_REVIEW
+}
+
 enum TopicType {
   ALL
   ARTICLE
@@ -197,18 +153,19 @@ enum TopicType {
   GAME
 }
 
-enum GenderType {
-  MALE
-  FEMALE
+enum AdType {
+  ADSENSE
+  PLAIN_AD
 }
 
-enum MovieVideoType {
-  TRAILER
-  TEASER
-  CLIP
-  BEHIND_THE_SCENE
-  BLOOPER
-  FEATURE
+enum AdPosition {
+  HOME_BELOW_HEADER
+  ARTICLE_BELOW_HEADER
+  TOPIC_BELOW_HEADER
+  SINGLE_ARTICLE_ABOVE_CONTENT
+  SINGLE_ARTICLE_MIDDLE_CONTENT
+  SINGLE_ARTICLE_BELOW_CONTENT
+  SINGLE_ARTICLE_POP_UP
 }
 
 enum LanguageType {

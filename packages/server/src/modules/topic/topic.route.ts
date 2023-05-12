@@ -1,13 +1,9 @@
-//TODO: create getTopicArticlesBySlug Route
-//TODO: create getAllTopicsHandler Route
-
 import { FastifyInstance } from "fastify"
 import {
-  createTopicHandler,
-  deleteTopicHandler,
-  updateTopicTranslationHandler,
+  createTopicWithParentHandler,
+  deleteTopicWithParentHandler,
   getTopicsByLangHandler,
-  getTopicTranslationByIdHandler,
+  getTopicByIdHandler,
   getTopicBySlugHandler,
   getTotalTopicsHandler,
   searchTopicsByLangHandler,
@@ -16,12 +12,30 @@ import {
   getTopicsDashboardByLangHandler,
   searchTopicsDashboardHandler,
   updateTopicHandler,
-  createTopicTranslationHandler,
+  createTopicHandler,
+  getTopicParentByIdHandler,
+  getTotalTopicParentsHandler,
+  deleteTopicHandler,
+  getTopicArticlesBySlugHandler,
 } from "./topic.controller"
 
 import { $ref } from "./topic.schema"
 
 async function topicRoutes(server: FastifyInstance) {
+  server.post(
+    "/with-parent",
+    {
+      preHandler: [server.authenticate],
+      schema: {
+        body: $ref("createTopicSchema"),
+        response: {
+          201: $ref("topicResponseSchema"),
+        },
+      },
+    },
+    createTopicWithParentHandler,
+  )
+
   server.post(
     "/",
     {
@@ -36,18 +50,54 @@ async function topicRoutes(server: FastifyInstance) {
     createTopicHandler,
   )
 
-  server.post(
-    "/translation",
+  server.put(
+    "/:topicId",
     {
       preHandler: [server.authenticate],
       schema: {
-        body: $ref("createTopicTranslationSchema"),
+        body: $ref("updateTopicSchema"),
         response: {
-          201: $ref("topicTranslationResponseSchema"),
+          201: $ref("topicResponseSchema"),
         },
       },
     },
-    createTopicTranslationHandler,
+    updateTopicHandler,
+  )
+
+  server.delete(
+    "/with-parent/:topicId",
+    { preHandler: [server.authenticate] },
+    deleteTopicWithParentHandler,
+  )
+
+  server.delete(
+    "/:topicId",
+    { preHandler: [server.authenticate] },
+    deleteTopicHandler,
+  )
+
+  server.get(
+    "/parent/:topicParentId",
+    {
+      schema: {
+        response: {
+          200: $ref("topicsResponseSchema"),
+        },
+      },
+    },
+    getTopicParentByIdHandler,
+  )
+
+  server.get(
+    "/:topicId",
+    {
+      schema: {
+        response: {
+          200: $ref("topicsResponseSchema"),
+        },
+      },
+    },
+    getTopicByIdHandler,
   )
 
   server.get(
@@ -75,7 +125,7 @@ async function topicRoutes(server: FastifyInstance) {
   )
 
   server.get(
-    "/sitemap/page/:topicPage",
+    "/:topicLanguage/sitemap/page/:topicPage",
     {
       schema: {
         response: {
@@ -99,17 +149,33 @@ async function topicRoutes(server: FastifyInstance) {
     getTopicsByTypeAndLangHandler,
   )
 
-  // server.get(
-  //   "/all",
-  //   {
-  //     schema: {
-  //       response: {
-  //         200: $ref("topicsResponseSchema"),
-  //       },
-  //     },
-  //   },
-  //   getAllTopicsHandler,
-  // )
+  server.get(
+    "/slug/:topicSlug/articles/:topicPage",
+    {
+      schema: {
+        response: {
+          200: $ref("topicsResponseSchema"),
+        },
+      },
+    },
+    getTopicArticlesBySlugHandler,
+  )
+
+  server.get(
+    "/slug/:topicSlug",
+    {
+      schema: {
+        response: {
+          200: $ref("topicsResponseSchema"),
+        },
+      },
+    },
+    getTopicBySlugHandler,
+  )
+
+  server.get("/count", getTotalTopicsHandler)
+
+  server.get("/count/parent", getTotalTopicParentsHandler)
 
   server.get(
     "/:topicLanguage/search/:searchTopicQuery",
@@ -134,78 +200,6 @@ async function topicRoutes(server: FastifyInstance) {
     },
     searchTopicsDashboardHandler,
   )
-
-  server.get(
-    "/:topicId",
-    {
-      schema: {
-        response: {
-          200: $ref("topicsResponseSchema"),
-        },
-      },
-    },
-    getTopicTranslationByIdHandler,
-  )
-
-  server.get(
-    "/slug/:topicSlug",
-    {
-      schema: {
-        response: {
-          200: $ref("topicsResponseSchema"),
-        },
-      },
-    },
-    getTopicBySlugHandler,
-  )
-
-  // server.get(
-  //   "/slug/:topicSlug/articles/:topicPage",
-  //   {
-  //     schema: {
-  //       response: {
-  //         200: $ref("topicsResponseSchema"),
-  //       },
-  //     },
-  //   },
-  //   getTopicArticlesBySlugHandler,
-  // )
-
-  server.put(
-    "/:topicId",
-    {
-      preHandler: [server.authenticate],
-      schema: {
-        body: $ref("updateTopicSchema"),
-        response: {
-          201: $ref("topicResponseSchema"),
-        },
-      },
-    },
-    updateTopicHandler,
-  )
-
-  server.put(
-    "/translation/:topicTranslationId",
-    {
-      preHandler: [server.authenticate],
-      schema: {
-        body: $ref("updateTopicTranslationSchema"),
-        response: {
-          201: $ref("topicResponseSchema"),
-        },
-      },
-    },
-    updateTopicTranslationHandler,
-  )
-
-  server.delete(
-    "/:topicId",
-    { preHandler: [server.authenticate] },
-    deleteTopicHandler,
-  )
-
-  server.get("/count", getTotalTopicsHandler)
 }
 
 export default topicRoutes

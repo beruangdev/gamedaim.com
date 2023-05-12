@@ -1,60 +1,39 @@
 //TODO: handle move to trash
 
 import db from "../../utils/db"
-import {
-  CreateTopicInput,
-  CreateTopicTranslationInput,
-  UpdateTopicInput,
-  UpdateTopicTranslationInput,
-} from "./topic.schema"
+import { CreateTopicInput, UpdateTopicInput } from "./topic.schema"
 
-export async function createTopic({
+export async function createTopicWithParent({
   slug,
   type,
   featuredImageId,
   language,
   title,
   description,
-  meta_title,
-  meta_description,
-}: CreateTopicInput & { slug: string }) {
-  return await db.topic.create({
+  metaTitle,
+  metaDescription,
+}: Omit<CreateTopicInput, "topicParentId"> & { slug: string }) {
+  return await db.topicParent.create({
     data: {
-      type: type,
-      featuredImageId: featuredImageId,
-      translations: {
+      locales: {
         create: {
-          slug: slug,
-          language: language,
           title: title,
+          slug: slug,
           description: description,
-          meta_title: meta_title,
-          meta_description: meta_description,
+          metaTitle: metaTitle,
+          metaDescription: metaDescription,
+          type: type,
+          featuredImageId: featuredImageId,
+          language: language,
         },
       },
     },
   })
 }
 
-export async function createTopicTranslation({
-  topicId,
-  slug,
-  title,
-  description,
-  meta_title,
-  meta_description,
-  language,
-}: CreateTopicTranslationInput & { slug: string }) {
-  return await db.topicTranslation.create({
-    data: {
-      topicId: topicId,
-      slug: slug,
-      title: title,
-      description: description,
-      meta_title: meta_title,
-      meta_description: meta_description,
-      language: language,
-    },
+export async function createTopic(data: CreateTopicInput & { slug: string }) {
+  return await db.topic.create({
+    data: data,
   })
 }
 
@@ -63,26 +42,22 @@ export async function getTopicsByLang(
   topicPage: number,
   perPage: number,
 ) {
-  return await db.topicTranslation.findMany({
+  return await db.topic.findMany({
     orderBy: {
       createdAt: "desc",
     },
     where: { language: topicLanguage },
     select: {
-      slug: true,
+      id: true,
       title: true,
+      slug: true,
       description: true,
-      meta_title: true,
-      meta_description: true,
-      main: {
+      metaTitle: true,
+      metaDescription: true,
+      type: true,
+      featuredImage: {
         select: {
-          id: true,
-          type: true,
-          featuredImage: {
-            select: {
-              url: true,
-            },
-          },
+          url: true,
         },
       },
     },
@@ -97,7 +72,7 @@ export async function getTopicsDashboardByLang(
   perPage: number,
 ) {
   return await db.topic.findMany({
-    where: { translations: { some: { language: topicLanguage } } },
+    where: { language: topicLanguage },
     orderBy: {
       createdAt: "desc",
     },
@@ -105,14 +80,10 @@ export async function getTopicsDashboardByLang(
     take: perPage,
     select: {
       id: true,
+      title: true,
+      slug: true,
       type: true,
-      translations: {
-        where: { language: topicLanguage },
-        select: {
-          slug: true,
-          title: true,
-        },
-      },
+      language: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -120,11 +91,11 @@ export async function getTopicsDashboardByLang(
 }
 
 export async function getTopicsSitemapByLang(
-  topicLanguage: "id_ID" | "en_US",
   topicPage: number,
   perPage: number,
+  topicLanguage: "id_ID" | "en_US",
 ) {
-  return await db.topicTranslation.findMany({
+  return await db.topic.findMany({
     where: { language: topicLanguage },
     orderBy: {
       createdAt: "desc",
@@ -138,28 +109,27 @@ export async function getTopicsSitemapByLang(
   })
 }
 
-// TODO: create getAllTopics
+export async function getTopicParentById(topicParentId: string) {
+  return await db.topicParent.findUnique({
+    where: { id: topicParentId },
+  })
+}
 
-export async function getTopicTranslationById(topicTranslationId: string) {
-  return await db.topicTranslation.findUnique({
-    where: { id: topicTranslationId },
+export async function getTopicById(topicId: string) {
+  return await db.topic.findUnique({
+    where: { id: topicId },
     select: {
       id: true,
-      slug: true,
       title: true,
+      slug: true,
       description: true,
-      meta_title: true,
-      meta_description: true,
-      topic: {
+      metaTitle: true,
+      metaDescription: true,
+      type: true,
+      featuredImage: {
         select: {
           id: true,
-          type: true,
-          featuredImage: {
-            select: {
-              id: true,
-              url: true,
-            },
-          },
+          url: true,
         },
       },
       createdAt: true,
@@ -179,7 +149,7 @@ export async function getTopicsByTypeAndLang(
       AND: [
         {
           type: topicType,
-          translations: { some: { language: topicLanguage } },
+          language: topicLanguage,
         },
       ],
     },
@@ -190,19 +160,15 @@ export async function getTopicsByTypeAndLang(
     take: perPage,
     select: {
       id: true,
+      title: true,
+      slug: true,
+      description: true,
+      metaTitle: true,
+      metaDescription: true,
       type: true,
       featuredImage: {
         select: {
           url: true,
-        },
-      },
-      translations: {
-        select: {
-          slug: true,
-          title: true,
-          description: true,
-          meta_title: true,
-          meta_description: true,
         },
       },
       createdAt: true,
@@ -211,20 +177,87 @@ export async function getTopicsByTypeAndLang(
   })
 }
 
-//TODO: create getTopicArticles
-
-export async function getTopicTranslationBySlug(topicSlug: string) {
-  return await db.topicTranslation.findUnique({
+export async function getTopicArticlesHandler(
+  topicSlug: string,
+  topicPage: number,
+  perPage: number,
+) {
+  return await db.topic.findUnique({
     where: { slug: topicSlug },
     select: {
-      slug: true,
+      id: true,
       title: true,
+      slug: true,
       description: true,
-      meta_title: true,
-      meta_description: true,
-      topic: {
+      metaTitle: true,
+      metaDescription: true,
+      type: true,
+      articles: {
+        skip: (topicPage - 1) * perPage,
+        take: perPage,
+        orderBy: {
+          updatedAt: "desc",
+        },
         select: {
-          type: true,
+          id: true,
+          title: true,
+          slug: true,
+          metaTitle: true,
+          metaDescription: true,
+          excerpt: true,
+          status: true,
+          featuredImage: {
+            select: {
+              url: true,
+            },
+          },
+        },
+      },
+      featuredImage: {
+        select: {
+          url: true,
+        },
+      },
+      _count: {
+        select: {
+          articles: true,
+        },
+      },
+      createdAt: true,
+      updatedAt: true,
+    },
+  })
+}
+
+export async function getTopicBySlug(topicSlug: string) {
+  return await db.topic.findUnique({
+    where: {
+      slug: topicSlug,
+    },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      description: true,
+      metaTitle: true,
+      metaDescription: true,
+      type: true,
+      featuredImage: {
+        select: {
+          url: true,
+        },
+      },
+      articles: {
+        take: 6,
+        orderBy: {
+          updatedAt: "desc",
+        },
+        select: {
+          id: true,
+          excerpt: true,
+          title: true,
+          slug: true,
+          status: true,
           featuredImage: {
             select: {
               url: true,
@@ -238,38 +271,10 @@ export async function getTopicTranslationBySlug(topicSlug: string) {
   })
 }
 
-export async function updateTopic(
-  topicId: string,
-  { type, featuredImageId }: UpdateTopicInput,
-) {
+export async function updateTopic(topicId: string, data: UpdateTopicInput) {
   return await db.topic.update({
     where: { id: topicId },
-    data: {
-      type: type,
-      featuredImageId: featuredImageId,
-    },
-  })
-}
-
-export async function updateTopicTranslation(
-  topicTranslationId: string,
-  {
-    language,
-    title,
-    description,
-    meta_title,
-    meta_description,
-  }: UpdateTopicTranslationInput,
-) {
-  return await db.topicTranslation.update({
-    where: { id: topicTranslationId },
-    data: {
-      language: language,
-      title: title,
-      description: description,
-      meta_title: meta_title,
-      meta_description: meta_description,
-    },
+    data: data,
   })
 }
 
@@ -281,33 +286,24 @@ export async function searchTopicsByLang(
     where: {
       AND: [
         {
-          translations: { some: { language: topicLanguage } },
+          language: topicLanguage,
         },
       ],
       OR: [
         {
-          translations: { some: { slug: { contains: searchTopicQuery } } },
+          slug: { contains: searchTopicQuery },
         },
-        { translations: { some: { title: { contains: searchTopicQuery } } } },
-        {
-          translations: {
-            some: { description: { contains: searchTopicQuery } },
-          },
-        },
+        { title: { contains: searchTopicQuery } },
       ],
     },
     select: {
       id: true,
       type: true,
+      slug: true,
+      title: true,
       featuredImage: {
         select: {
           url: true,
-        },
-      },
-      translations: {
-        select: {
-          slug: true,
-          title: true,
         },
       },
     },
@@ -322,59 +318,54 @@ export async function searchTopicsDashboardByLang(
     where: {
       AND: [
         {
-          translations: { some: { language: topicLanguage } },
+          language: topicLanguage,
         },
       ],
       OR: [
         {
-          translations: { some: { slug: { contains: searchTopicQuery } } },
+          slug: { contains: searchTopicQuery },
         },
-        { translations: { some: { title: { contains: searchTopicQuery } } } },
-        {
-          translations: {
-            some: { description: { contains: searchTopicQuery } },
-          },
-        },
+        { title: { contains: searchTopicQuery } },
       ],
     },
     select: {
       id: true,
+      slug: true,
+      title: true,
       type: true,
-      translations: {
-        select: {
-          slug: true,
-          title: true,
-        },
-      },
       createdAt: true,
       updatedAt: true,
     },
   })
 }
 
-export async function deleteTopicById(topicId: string) {
+export async function deleteTopicWithParentById(topicParentId: string) {
   return await db.$transaction([
-    db.topicTranslation.deleteMany({
+    db.topic.deleteMany({
       where: {
-        topicId: topicId,
+        topicParentId: topicParentId,
       },
     }),
-    db.topic.delete({
+    db.topicParent.delete({
       where: {
-        id: topicId,
+        id: topicParentId,
       },
     }),
   ])
 }
 
-export async function deleteTopicTranslationById(topicTranslationId: string) {
-  return await db.topicTranslation.delete({
+export async function deleteTopicById(topicId: string) {
+  return await db.topic.delete({
     where: {
-      id: topicTranslationId,
+      id: topicId,
     },
   })
 }
 
 export async function getTotalTopics() {
   return await db.topic.count()
+}
+
+export async function getTotalTopicParents() {
+  return await db.topicParent.count()
 }

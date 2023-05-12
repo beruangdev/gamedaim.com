@@ -27,8 +27,8 @@ export async function registerUserHandler(
       username,
       name,
       password,
-      meta_title,
-      meta_description,
+      metaTitle,
+      metaDescription,
       phoneNumber,
       profilePictureId,
       about,
@@ -49,18 +49,16 @@ export async function registerUserHandler(
       })
     }
 
-    const generatedMetaTitle = !meta_title ? name : meta_title
-    const generatedMetaDescription = !meta_description
-      ? about
-      : meta_description
+    const generatedMetaTitle = !metaTitle ? name : metaTitle
+    const generatedMetaDescription = !metaDescription ? about : metaDescription
 
     const user = await createUser({
       email,
       username,
       name,
       password,
-      meta_title: generatedMetaTitle,
-      meta_description: generatedMetaDescription,
+      metaTitle: generatedMetaTitle,
+      metaDescription: generatedMetaDescription,
       phoneNumber,
       profilePictureId,
       about,
@@ -121,8 +119,8 @@ export async function updateUserHandler(
       email,
       username,
       name,
-      meta_title,
-      meta_description,
+      metaTitle,
+      metaDescription,
       phoneNumber,
       profilePictureId,
       about,
@@ -157,8 +155,8 @@ export async function updateUserHandler(
       email,
       username,
       name,
-      meta_title,
-      meta_description,
+      metaTitle,
+      metaDescription,
       phoneNumber,
       profilePictureId,
       about,
@@ -183,8 +181,8 @@ export async function updateUserByAdminHandler(
       email,
       username,
       name,
-      meta_title,
-      meta_description,
+      metaTitle,
+      metaDescription,
       phoneNumber,
       profilePictureId,
       role,
@@ -219,8 +217,8 @@ export async function updateUserByAdminHandler(
       email,
       username,
       name,
-      meta_title,
-      meta_description,
+      metaTitle,
+      metaDescription,
       phoneNumber,
       profilePictureId,
       role,
