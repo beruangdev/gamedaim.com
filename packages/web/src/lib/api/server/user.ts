@@ -1,6 +1,6 @@
-import { toast } from "ui"
 import { AxiosError } from "axios"
 
+import { toast } from "@/components/UI/Toast"
 import { http } from "@/lib/http"
 import { ErrorResponse, UserDataProps } from "@/lib/data-types"
 

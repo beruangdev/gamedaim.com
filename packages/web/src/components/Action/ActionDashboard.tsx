@@ -3,9 +3,10 @@
 import * as React from "react"
 import NextLink from "next/link"
 import { UrlObject } from "url"
-import { cn, Icon } from "ui"
 
-import { AlertDelete } from "@/components/Alert"
+import { AlertDelete } from "./AlertDelete"
+import { Icon } from "@/components/UI/Icon"
+import { cn } from "@/utils/classname"
 
 export interface ActionDashboardProps
   extends React.HTMLAttributes<HTMLDivElement> {

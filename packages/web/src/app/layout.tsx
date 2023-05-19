@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Inter } from "next/font/google"
-import { Toaster } from "ui"
 
+import { Toaster } from "@/components/UI/Toast"
 import { ThemeProvider } from "@/components/Theme"
 import "./globals.css"
 

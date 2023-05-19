@@ -2,7 +2,9 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { Icon, IconButton } from "ui"
+
+import { IconButton } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 
 export const ThemeSwitcher = () => {
   const [mounted, setMounted] = React.useState<boolean>(false)
