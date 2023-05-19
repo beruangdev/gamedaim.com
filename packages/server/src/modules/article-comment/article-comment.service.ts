@@ -154,7 +154,9 @@ export async function getTotalArticleComments() {
 export async function searchArticlecomments(searchArticleCommentQuery: string) {
   return await db.articleComment.findMany({
     where: {
-      content: { contains: searchArticleCommentQuery },
+      content: {
+        search: searchArticleCommentQuery.split(" ").join(" & "),
+      },
     },
     select: {
       id: true,

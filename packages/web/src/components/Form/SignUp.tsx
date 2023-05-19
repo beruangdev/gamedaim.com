@@ -2,19 +2,19 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
-import { HiEye, HiEyeOff } from "react-icons/hi"
 import {
+  toast,
   FormControl,
   FormLabel,
+  Icon,
   Input,
   Button,
   RequiredIndicator,
   FormErrorMessage,
 } from "ui"
 
-import { signUpUser } from "@/lib/user"
+import { signUpUserAction } from "@/lib/api/server/user"
 
 export const SignUpForm: React.FunctionComponent = () => {
   const router = useRouter()
@@ -38,9 +38,9 @@ export const SignUpForm: React.FunctionComponent = () => {
 
   const onSubmit = async (values: unknown) => {
     setLoading(true)
-    const data = await signUpUser(values)
+    const data = await signUpUserAction(values)
     if (data) {
-      toast.success("Successfully signed up")
+      toast({ variant: "success", description: "Successfully signed up" })
       setLoading(false)
       router.push("/auth/login")
     }
@@ -159,9 +159,9 @@ export const SignUpForm: React.FunctionComponent = () => {
                 className="absolute inset-y-0 right-0 mr-3 flex items-center rounded-lg p-1 focus:outline-none"
               >
                 {showPassword ? (
-                  <HiEyeOff className="text-theme-500 hover:text-theme-600 cursor-pointer text-xl" />
+                  <Icon.VisibilityOff className="text-foreground cursor-pointer text-xl" />
                 ) : (
-                  <HiEye className="text-theme-500 hover:text-theme-600 cursor-pointer text-xl" />
+                  <Icon.Visibility className="text-foreground cursor-pointer text-xl" />
                 )}
               </div>
             </Input.RightElement>
@@ -170,7 +170,7 @@ export const SignUpForm: React.FunctionComponent = () => {
             <FormErrorMessage>{errors.password.message}</FormErrorMessage>
           )}
         </FormControl>
-        <Button type="submit" variant="solid" loading={loading}>
+        <Button type="submit" loading={loading}>
           Sign Up
         </Button>
       </div>

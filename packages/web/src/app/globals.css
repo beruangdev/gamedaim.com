@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+    --foreground: 214 60% 16%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -19,8 +19,8 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 228 67% 36%;
+    --primary-foreground: 217 100% 97%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -28,8 +28,17 @@
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
+    --success: 141 76% 36%;
+    --success-foreground: 143 76% 97%;
+
+    --info: 199 89% 48%;
+    --info-foreground: 200 100% 97%;
+
+    --warning: 45 93% 47%;
+    --warning-foreground: 46 92% 95%;
+
+    --danger: 0 72% 51%;
+    --danger-foreground: 0 86% 97%;
 
     --ring: 215 20.2% 65.1%;
 
@@ -61,8 +70,17 @@
     --accent: 216 34% 17%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --success: 149 61% 20%;
+    --success-foreground: 143 76% 97%;
+
+    --info: 198 80% 24%;
+    --info-foreground: 200 100% 97%;
+
+    --warning: 28 74% 26%;
+    --warning-foreground: 46 92% 95%;
+
+    --danger: 0 63% 31%;
+    --danger-foreground: 210 40% 98%;
 
     --ring: 216 34% 17%;
 
@@ -79,7 +97,7 @@
   }
 
   ::selection {
-    @apply text-foreground bg-primary;
+    @apply text-foreground bg-primary/40;
   }
 
   h1 {
@@ -140,11 +158,11 @@
   }
 
   div.search-scroller::-webkit-scrollbar-track {
-    @apply dark:bg-theme-800 bg-white;
+    @apply bg-background;
   }
 
   div.search-scroller::-webkit-scrollbar-thumb {
-    @apply bg-theme-200 rounded;
+    @apply bg-background/60 rounded;
   }
 
   div.search-scroller {
@@ -164,11 +182,11 @@
 
   /* Editor */
   .ProseMirror {
-    @apply min-h-screen min-w-0 items-center space-y-2 px-3 py-2 text-base outline-none dark:text-white;
+    @apply text-foreground min-h-screen min-w-0 items-center space-y-2 px-3 py-2 text-base outline-none;
   }
 
   .ProseMirror p.is-editor-empty:first-child::before {
-    @apply text-theme-500 dark:text-theme-200 pointer-events-none float-left h-0;
+    @apply text-foreground/80 pointer-events-none float-left h-0;
     content: attr(data-placeholder);
   }
 
@@ -178,7 +196,7 @@
 
   .article-container a,
   .ProseMirror a {
-    @apply text-blue-500 no-underline duration-200 hover:text-blue-600 hover:underline dark:text-blue-300 dark:hover:text-blue-400;
+    @apply text-primary/90 hover:text-primary/80 no-underline duration-200 hover:underline;
   }
 
   .article-container ul li,
@@ -193,7 +211,7 @@
 
   .article-container blockquote,
   .ProseMirror blockquote {
-    @apply border-theme-300 bg-theme-50 dark:border-theme-500 dark:bg-theme-700 my-4 rounded-sm border-l-4 p-4 italic;
+    @apply border-border bg-background my-4 rounded-sm border-l-4 p-4 italic;
   }
 
   .article-container img,

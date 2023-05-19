@@ -5,14 +5,14 @@ import { CreateUserInput, LoginInput, UpdateUserInput } from "./user.schema"
 import {
   createUser,
   deleteUserById,
-  findUserByEmail,
-  findUserById,
-  findUserByUsername,
-  // findUserByUsernameAndGetArticles,
-  findUsers,
+  getUserByEmail,
+  getUserById,
+  getUserByUsername,
+  getUsers,
   updateUser,
   getTotalUsers,
   searchUsers,
+  getUserByUsernameAndGetArticles,
 } from "./user.service"
 
 export async function registerUserHandler(
@@ -35,14 +35,14 @@ export async function registerUserHandler(
       role,
     } = request.body
 
-    const emailExist = await findUserByEmail(email)
+    const emailExist = await getUserByEmail(email)
     if (emailExist) {
       return reply.code(401).send({
         message: "Email is taken",
       })
     }
 
-    const usernameExist = await findUserByUsername(username)
+    const usernameExist = await getUserByUsername(username)
     if (usernameExist) {
       return reply.code(401).send({
         message: "Username is already exist",
@@ -80,7 +80,7 @@ export async function loginHandler(
   try {
     const { email, password } = request.body
 
-    const user = await findUserByEmail(email)
+    const user = await getUserByEmail(email)
 
     if (!user) {
       return reply.code(401).send({
@@ -259,22 +259,7 @@ export async function getUsersHandler(
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    const users = await findUsers(userPage, perPage)
-    return reply.code(201).send(users)
-  } catch (e) {
-    console.log(e)
-    return reply.code(500).send(e)
-  }
-}
-
-export async function searchUsersHandler(
-  request: FastifyRequest<{ Params: { searchUserQuery: string } }>,
-  reply: FastifyReply,
-) {
-  try {
-    const searchQuery = request.params.searchUserQuery
-
-    const users = await searchUsers(searchQuery)
+    const users = await getUsers(userPage, perPage)
     return reply.code(201).send(users)
   } catch (e) {
     console.log(e)
@@ -291,7 +276,7 @@ export async function getUserByIdHandler(
   try {
     const { userId } = request.params
 
-    const user = await findUserById(userId)
+    const user = await getUserById(userId)
     return reply.code(201).send(user)
   } catch (e) {
     console.log(e)
@@ -308,7 +293,7 @@ export async function getUserByUsernameHandler(
   try {
     const { username } = request.params
 
-    const user = await findUserByUsername(username)
+    const user = await getUserByUsername(username)
     return reply.code(201).send(user)
   } catch (e) {
     console.log(e)
@@ -316,29 +301,29 @@ export async function getUserByUsernameHandler(
   }
 }
 
-// export async function getUserByUsernameAndGetArticlesHandler(
-//   request: FastifyRequest<{
-//     Params: { username: string; userPage: number }
-//   }>,
-//   reply: FastifyReply,
-// ) {
-//   try {
-//     const { username } = request.params
-//
-//     const perPage = 10
-//     const userPage = Number(request.params.userPage || 1)
-//
-//     const user = await findUserByUsernameAndGetArticles(
-//       username,
-//       userPage,
-//       perPage,
-//     )
-//     return reply.code(201).send(user)
-//   } catch (e) {
-//     console.log(e)
-//     return reply.code(500).send(e)
-//   }
-// }
+export async function getUserByUsernameAndGetArticlesHandler(
+  request: FastifyRequest<{
+    Params: { username: string; userPage: number }
+  }>,
+  reply: FastifyReply,
+) {
+  try {
+    const { username } = request.params
+
+    const perPage = 10
+    const userPage = Number(request.params.userPage || 1)
+
+    const user = await getUserByUsernameAndGetArticles(
+      username,
+      userPage,
+      perPage,
+    )
+    return reply.code(201).send(user)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
 
 export async function getTotalUsersHandler(
   request: FastifyRequest,
@@ -352,6 +337,21 @@ export async function getTotalUsersHandler(
     }
 
     const users = await getTotalUsers()
+    return reply.code(201).send(users)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function searchUsersHandler(
+  request: FastifyRequest<{ Params: { searchUserQuery: string } }>,
+  reply: FastifyReply,
+) {
+  try {
+    const searchQuery = request.params.searchUserQuery
+
+    const users = await searchUsers(searchQuery)
     return reply.code(201).send(users)
   } catch (e) {
     console.log(e)

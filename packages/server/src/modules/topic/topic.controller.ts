@@ -1,10 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 
 import { uniqueSlug, slugify } from "../../utils/slug"
-import { CreateTopicInput, UpdateTopicInput } from "./topic.schema"
 import {
-  createTopicWithParent,
-  deleteTopicWithParentById,
+  CreateTopicInput,
+  CreateTopicPrimaryInput,
+  UpdateTopicInput,
+} from "./topic.schema"
+import {
+  createTopicWithPrimary,
+  deleteTopicWithPrimaryById,
   getTopicById,
   getTopicBySlug,
   getTopicsByLang,
@@ -17,14 +21,14 @@ import {
   deleteTopicById,
   updateTopic,
   createTopic,
-  getTopicParentById,
-  getTotalTopicParents,
+  getTopicPrimaryById,
+  getTotalTopicPrimaries,
   getTopicArticlesHandler,
 } from "./topic.service"
 
-export async function createTopicWithParentHandler(
+export async function createTopicWithPrimaryHandler(
   request: FastifyRequest<{
-    Body: Omit<CreateTopicInput, "topicParentId">
+    Body: CreateTopicPrimaryInput
   }>,
   reply: FastifyReply,
 ) {
@@ -46,7 +50,7 @@ export async function createTopicWithParentHandler(
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    const topicWithParent = await createTopicWithParent({
+    const topicWithPrimary = await createTopicWithPrimary({
       title,
       slug,
       description,
@@ -56,7 +60,7 @@ export async function createTopicWithParentHandler(
       language,
       featuredImageId,
     })
-    return reply.code(201).send(topicWithParent)
+    return reply.code(201).send(topicWithPrimary)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
@@ -71,7 +75,7 @@ export async function createTopicHandler(
 ) {
   try {
     const {
-      topicParentId,
+      topicPrimaryId,
       title,
       description,
       metaTitle,
@@ -87,7 +91,7 @@ export async function createTopicHandler(
     const slug = slugify(title.toLowerCase()) + "_" + uniqueSlug()
 
     const topic = await createTopic({
-      topicParentId,
+      topicPrimaryId,
       slug,
       title,
       description,
@@ -111,7 +115,6 @@ export async function updateTopicHandler(
 ) {
   try {
     const {
-      topicParentId,
       language,
       title,
       slug,
@@ -129,7 +132,6 @@ export async function updateTopicHandler(
     }
 
     const updatedTopic = await updateTopic(topicId, {
-      topicParentId,
       language,
       title,
       slug,
@@ -146,22 +148,22 @@ export async function updateTopicHandler(
   }
 }
 
-export async function deleteTopicWithParentHandler(
-  request: FastifyRequest<{ Params: { topicParentId: string } }>,
+export async function deleteTopicWithPrimaryHandler(
+  request: FastifyRequest<{ Params: { topicPrimaryId: string } }>,
   reply: FastifyReply,
 ) {
   try {
-    const { topicParentId } = request.params
+    const { topicPrimaryId } = request.params
     const user = request.user
-    const deletedTopicWithParent = await deleteTopicWithParentById(
-      topicParentId,
+    const deletedTopicWithPrimary = await deleteTopicWithPrimaryById(
+      topicPrimaryId,
     )
 
     if (user.role !== "ADMIN") {
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    return reply.code(201).send(deletedTopicWithParent)
+    return reply.code(201).send(deletedTopicWithPrimary)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
@@ -188,16 +190,16 @@ export async function deleteTopicHandler(
   }
 }
 
-export async function getTopicParentByIdHandler(
+export async function getTopicPrimaryByIdHandler(
   request: FastifyRequest<{
-    Params: { topicParentId: string }
+    Params: { topicPrimaryId: string }
   }>,
   reply: FastifyReply,
 ) {
   try {
-    const { topicParentId } = request.params
-    const topicParent = await getTopicParentById(topicParentId)
-    return reply.code(201).send(topicParent)
+    const { topicPrimaryId } = request.params
+    const topicPrimary = await getTopicPrimaryById(topicPrimaryId)
+    return reply.code(201).send(topicPrimary)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
@@ -364,13 +366,13 @@ export async function getTotalTopicsHandler(
   }
 }
 
-export async function getTotalTopicParentsHandler(
+export async function getTotalTopicPrimariesHandler(
   _request: FastifyRequest,
   reply: FastifyReply,
 ) {
   try {
-    const topicParents = await getTotalTopicParents()
-    return reply.code(201).send(topicParents)
+    const topicPrimaries = await getTotalTopicPrimaries()
+    return reply.code(201).send(topicPrimaries)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)

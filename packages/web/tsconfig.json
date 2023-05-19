@@ -9,9 +9,10 @@
   ],
   "exclude": ["node_modules"],
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["./src/*"],
+      "env": ["./env.ts"]
     }
   }
 }

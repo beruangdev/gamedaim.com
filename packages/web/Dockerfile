@@ -7,7 +7,7 @@ RUN apk update
 WORKDIR /app
 RUN npm install --global pnpm turbo
 COPY . .
-RUN pnpm turbo prune --scope=nisomnia-web --docker
+RUN pnpm turbo prune --scope=gamedaim-web --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:18-alpine AS installer
@@ -29,7 +29,7 @@ COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 COPY .prettierrc .prettierrc
 
-RUN pnpm turbo run build --filter=nisomnia-web...
+RUN pnpm turbo run build --filter=gamedaim-web...
 
 FROM node:18-alpine AS runner
 WORKDIR /app

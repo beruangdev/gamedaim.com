@@ -1,12 +1,19 @@
 "use client"
 
 import * as React from "react"
-import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
-import { HiEye, HiEyeOff } from "react-icons/hi"
-import { Button, Input, Label } from "@dafunda-ui-test/react"
+import {
+  toast,
+  FormControl,
+  FormLabel,
+  Icon,
+  Input,
+  Button,
+  RequiredIndicator,
+  FormErrorMessage,
+} from "ui"
 
-import { loginUser } from "@/lib/user"
+import { loginUserAction } from "@/lib/api/server/user"
 import { useAuthStore } from "@/store/auth"
 
 export const LoginForm: React.FunctionComponent = () => {
@@ -29,10 +36,10 @@ export const LoginForm: React.FunctionComponent = () => {
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
-    const data = await loginUser(values)
+    const data = await loginUserAction(values)
     if (data) {
       login({ ...data })
-      toast.success("Successfully signed in")
+      toast({ variant: "success", description: "Successfully signed in" })
     }
 
     setLoading(false)
@@ -40,23 +47,27 @@ export const LoginForm: React.FunctionComponent = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-4">
-        <Label>Email</Label>
-        <Input
-          onInvalid={Boolean(errors.email)}
-          type="email"
-          {...register("email", {
-            required: "Email is Required",
-            pattern: {
-              value:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-              message: "Email is Invalid",
-            },
-          })}
-          placeholder="Enter your email"
-        />
-        {errors?.email && (
-          <FormErrorMessage>{errors.email.message}</FormErrorMessage>
-        )}
+        <FormControl invalid={Boolean(errors.email)}>
+          <FormLabel>
+            Email
+            <RequiredIndicator />
+          </FormLabel>
+          <Input
+            type="email"
+            {...register("email", {
+              required: "Email is Required",
+              pattern: {
+                value:
+                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                message: "Email is Invalid",
+              },
+            })}
+            placeholder="Enter your email"
+          />
+          {errors?.email && (
+            <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+          )}
+        </FormControl>
         <FormControl invalid={Boolean(errors.password)}>
           <FormLabel>
             Password
@@ -80,9 +91,9 @@ export const LoginForm: React.FunctionComponent = () => {
                 className="absolute inset-y-0 right-0 mr-3 flex items-center rounded-lg p-1 focus:outline-none"
               >
                 {showPassword ? (
-                  <HiEyeOff className="text-theme-500 hover:text-theme-600 cursor-pointer text-xl" />
+                  <Icon.VisibilityOff className="text-foreground cursor-pointer text-xl" />
                 ) : (
-                  <HiEye className="text-theme-500 hover:text-theme-600 cursor-pointer text-xl" />
+                  <Icon.Visibility className="text-foreground cursor-pointer text-xl" />
                 )}
               </div>
             </Input.RightElement>
@@ -91,7 +102,7 @@ export const LoginForm: React.FunctionComponent = () => {
             <FormErrorMessage>{errors.password.message}</FormErrorMessage>
           )}
         </FormControl>
-        <Button type="submit" variant="solid" loading={loading}>
+        <Button type="submit" loading={loading}>
           Login
         </Button>
       </div>

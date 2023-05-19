@@ -1,28 +1,32 @@
+"use client"
+
 import * as React from "react"
+import dynamic from "next/dynamic"
 import NextLink from "next/link"
-import { Divider } from "ui"
+import { Separator } from "ui"
 
-import { LoginForm } from "@/components/Form"
+import { withAuth } from "@/components/Auth"
 
-export default function Login() {
+const LoginForm = dynamic(() =>
+  import("@/components/Form").then((mod) => mod.LoginForm),
+)
+
+function Login() {
   return (
     <>
       <h1 className="text-center text-2xl">Login</h1>
       <LoginForm />
-      <Divider />
+      <Separator />
       <p className="mt-8 text-center">
         Need an account?&nbsp;
-        <NextLink
-          className="text-primary-500 hover:text-primary-700 dark:text-theme-400 dark:hover:text-theme-300 font-semibold"
-          href="/auth/signup"
-        >
+        <NextLink className="font-semibold" href="/auth/signup">
           Create an account
         </NextLink>
       </p>
       {/* <p className="mt-8 text-center"> */}
       {/*   Forgot Password?&nbsp; */}
       {/*   <NextLink */}
-      {/*     className="text-primary-500 hover:text-primary-700 font-semibold dark:text-theme-400 dark:hover:text-theme-300" */}
+      {/*     className="font-semibold" */}
       {/*     href="/auth/forgot-password" */}
       {/*   > */}
       {/*     Reset here */}
@@ -31,3 +35,5 @@ export default function Login() {
     </>
   )
 }
+
+export default withAuth(Login, "auth")

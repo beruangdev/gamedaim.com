@@ -1,12 +1,9 @@
+"use client"
+
 import * as React from "react"
 import NextLink from "next/link"
 import { UrlObject } from "url"
-import {
-  MdOutlineVisibility,
-  MdOutlineModeEdit,
-  MdOutlineDelete,
-} from "react-icons/md"
-import { cn } from "@dafunda-ui-test/react"
+import { cn, Icon } from "ui"
 
 import { AlertDelete } from "@/components/Alert"
 
@@ -37,64 +34,53 @@ export const ActionDashboard = React.forwardRef<
     content,
     ...rest
   } = props
+
   const [openModal, setOpenModal] = React.useState<boolean>(false)
 
   return (
     <div
       ref={ref}
       className={cn(
-        "flex content-center items-center justify-center text-center",
+        "flex content-center items-center justify-center",
         className,
       )}
       {...rest}
     >
       {viewLink && (
-        <NextLink aria-label="View" href={viewLink} target="_blank">
-          <MdOutlineVisibility
-            aria-label="View"
-            className="hover:text-primar/90 mr-2 w-4 transform cursor-pointer hover:scale-110"
-          />
+        <NextLink href={viewLink} target="_blank">
+          <Icon.Visibility className="hover:text-primary/90 mr-2 w-4  transform cursor-pointer hover:scale-110" />
         </NextLink>
       )}
 
       {onView && (
-        <MdOutlineVisibility
-          aria-label="View"
-          className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110"
+        <Icon.Visibility
+          className="hover:text-primary/90 mr-2 w-4  transform cursor-pointer hover:scale-110"
           onClick={onView}
         />
       )}
 
       {editLink && (
-        <NextLink aria-label="Edit" href={editLink}>
-          <MdOutlineModeEdit
-            aria-label="Edit"
-            className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110"
-          />
+        <NextLink href={editLink}>
+          <Icon.EditNote className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110" />
         </NextLink>
       )}
 
       {onEdit && (
-        <MdOutlineModeEdit
-          aria-label="Edit"
-          className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110"
+        <Icon.EditNote
+          className="hover:text-primary/90 mr-2 w-4  transform cursor-pointer hover:scale-110"
           onClick={onEdit}
         />
       )}
 
       {deleteLink && (
-        <NextLink aria-label="Delete" href={deleteLink}>
-          <MdOutlineDelete
-            aria-label="Delete"
-            className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110"
-          />
+        <NextLink href={deleteLink}>
+          <Icon.Trash className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110" />
         </NextLink>
       )}
 
       {onDelete && (
         <>
-          <MdOutlineDelete
-            aria-label="Delete"
+          <Icon.Trash
             className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110"
             onClick={() => setOpenModal(true)}
           />

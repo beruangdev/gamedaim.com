@@ -1,9 +1,13 @@
 import db from "../../utils/db"
-import { CreateArticleInput } from "./article.schema"
-
-type CreateArticleWithParentInputService = Omit<
+import {
   CreateArticleInput,
-  "articleParentId" | "topicIds" | "authorIds" | "editorIds"
+  CreateArticlePrimaryInput,
+  UpdateArticleInput,
+} from "./article.schema"
+
+type CreateArticlePrimaryInputService = Omit<
+  CreateArticlePrimaryInput,
+  "articlePrimaryId" | "topicIds" | "authorIds" | "editorIds"
 > & {
   slug: string
   excerpt: string
@@ -23,7 +27,17 @@ type CreateArticleInputService = Omit<
   editors: { connect: { id: string }[] }
 }
 
-export async function createArticleWithParent({
+type UpdateArticleInputService = Omit<
+  UpdateArticleInput,
+  "topicIds" | "authorIds" | "editorIds"
+> & {
+  excerpt: string
+  topics: { connect: { id: string }[] }
+  authors: { connect: { id: string }[] }
+  editors: { connect: { id: string }[] }
+}
+
+export async function createArticleWithPrimary({
   title,
   content,
   excerpt,
@@ -34,8 +48,8 @@ export async function createArticleWithParent({
   topics,
   authors,
   editors,
-}: CreateArticleWithParentInputService) {
-  return await db.articleParent.create({
+}: CreateArticlePrimaryInputService) {
+  return await db.articlePrimary.create({
     data: {
       locales: {
         create: {
@@ -58,6 +72,39 @@ export async function createArticleWithParent({
 export async function createArticle(data: CreateArticleInputService) {
   return await db.article.create({
     data: data,
+  })
+}
+
+export async function updateArticle(
+  articleId: string,
+  data: UpdateArticleInputService,
+) {
+  return await db.article.update({
+    where: { id: articleId },
+    data: data,
+  })
+}
+
+export async function deleteArticleWithPrimaryById(articleParetId: string) {
+  return await db.$transaction([
+    db.article.deleteMany({
+      where: {
+        articlePrimaryId: articleParetId,
+      },
+    }),
+    db.articlePrimary.delete({
+      where: {
+        id: articleParetId,
+      },
+    }),
+  ])
+}
+
+export async function deleteArticleById(articleId: string) {
+  return await db.article.delete({
+    where: {
+      id: articleId,
+    },
   })
 }
 
@@ -156,9 +203,9 @@ export async function getArticlesSitemapByLang(
   })
 }
 
-export async function getArticleParentById(articleParentId: string) {
-  return await db.articleParent.findUnique({
-    where: { id: articleParentId },
+export async function getArticlePrimaryById(articlePrimaryId: string) {
+  return await db.articlePrimary.findUnique({
+    where: { id: articlePrimaryId },
   })
 }
 
@@ -300,14 +347,12 @@ export async function getArticleBySlug(articleSlug: string) {
   })
 }
 
-export async function updateArticle(
-  articleId: string,
-  data: CreateArticleInputService,
-) {
-  return await db.article.update({
-    where: { id: articleId },
-    data: data,
-  })
+export async function getTotalArticles() {
+  return await db.article.count()
+}
+
+export async function getTotalArticlePrimaries() {
+  return await db.articlePrimary.count()
 }
 
 export async function searchArticlesByLang(
@@ -323,8 +368,14 @@ export async function searchArticlesByLang(
         },
       ],
       OR: [
-        { title: { contains: searchArticleQuery } },
-        { slug: { contains: searchArticleQuery } },
+        {
+          title: {
+            search: searchArticleQuery.split(" ").join(" & "),
+          },
+          slug: {
+            search: searchArticleQuery.split(" ").join(" & "),
+          },
+        },
       ],
     },
     select: {
@@ -349,8 +400,14 @@ export async function searchArticlesDashboardByLang(
     where: {
       language: articleLanguage,
       OR: [
-        { title: { contains: searchArticleQuery } },
-        { slug: { contains: searchArticleQuery } },
+        {
+          title: {
+            search: searchArticleQuery.split(" ").join(" & "),
+          },
+          slug: {
+            search: searchArticleQuery.split(" ").join(" & "),
+          },
+        },
       ],
     },
     select: {
@@ -367,35 +424,4 @@ export async function searchArticlesDashboardByLang(
       },
     },
   })
-}
-
-export async function deleteArticleWithParentById(articleParetId: string) {
-  return await db.$transaction([
-    db.article.deleteMany({
-      where: {
-        articleParentId: articleParetId,
-      },
-    }),
-    db.articleParent.delete({
-      where: {
-        id: articleParetId,
-      },
-    }),
-  ])
-}
-
-export async function deleteArticleById(articleId: string) {
-  return await db.article.delete({
-    where: {
-      id: articleId,
-    },
-  })
-}
-
-export async function getTotalArticles() {
-  return await db.article.count()
-}
-
-export async function getTotalArticleParents() {
-  return await db.articleParent.count()
 }

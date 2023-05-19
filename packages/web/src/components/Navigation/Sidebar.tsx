@@ -10,7 +10,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
 
     return (
       <aside
-        className="scrollbar dark:bg-theme-800 border-theme-200 dark:border-theme-700 flex h-screen flex-col flex-wrap overflow-y-auto rounded border-r bg-white px-3 pb-12 pt-4 transition-[width] duration-300"
+        className="scrollbar bg-background border-border text-foreground flex h-screen flex-col flex-wrap overflow-y-auto rounded border-r px-3 pb-12 pt-4 transition-[width] duration-300"
         aria-label="Sidebar"
         ref={ref}
         {...rest}

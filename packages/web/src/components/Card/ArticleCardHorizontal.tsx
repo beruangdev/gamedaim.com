@@ -39,10 +39,10 @@ export const ArticleCardHorizontal = React.forwardRef<
         </NextLink>
         <div className="order-1 mr-3 flex flex-col md:order-2 md:mr-[unset]">
           <NextLink href={`/article/${slug}/`}>
-            <h3 className="hover:text-primary/90 text-foreground line-clamp-3 text-lg font-semibold md:text-2xl md:font-bold">
+            <h3 className="hover:text-primary/90 line-clamp-3 text-lg font-semibold md:text-2xl md:font-bold">
               {title}
             </h3>
-            <div className="text-foreground/80 hidden text-sm md:my-2.5 md:line-clamp-4">
+            <div className="text-foreground/70 hidden text-sm md:my-2.5 md:line-clamp-4">
               {excerpt}
             </div>
           </NextLink>

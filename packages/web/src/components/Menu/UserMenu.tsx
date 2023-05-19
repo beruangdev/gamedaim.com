@@ -3,100 +3,61 @@
 import * as React from "react"
 import NextLink from "next/link"
 import {
-  HiOutlineViewGrid,
-  HiOutlineLogin,
-  HiOutlineLogout,
-  HiOutlineUser,
-  HiOutlineCog,
-} from "react-icons/hi"
-import { Button } from "ui"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  IconButton,
+  Icon,
+} from "ui"
 
 import { useAuthStore } from "@/store/auth"
 
 export const UserMenu = () => {
   const { isAuthenticated, logout, auth } = useAuthStore()
 
-  const [openUserMenu, setOpenUserMenu] = React.useState<boolean>(false)
-  const [isHydrated, setIsHydrated] = React.useState<boolean>(false)
-
-  React.useEffect(() => {
-    setIsHydrated(true)
-  }, [])
-
-  function toggleMenu() {
-    setOpenUserMenu((prev) => !prev)
-  }
-
   return (
-    <div className="dark:bg-inherit">
-      <div className="relative">
-        <Button
-          aria-label="User Menu"
-          onClick={toggleMenu}
-          variant="ghost"
-          className="flex items-center p-0 text-sm focus:outline-none"
-        >
-          <HiOutlineUser className="h-5 w-5" />
-        </Button>
-        {openUserMenu && (
-          <div className="dark:bg-theme-800 absolute right-0 z-10 mt-2 w-48 rounded-md bg-white shadow-lg">
-            {isHydrated && isAuthenticated ? (
-              <>
-                <NextLink
-                  className="text-theme-700 hover:bg-theme-100 dark:hover:bg-theme-700 block px-4 py-2 text-sm"
-                  href={`/user/${auth.user?.username}`}
-                >
-                  <Button aria-label="Profile" variant="ghost" className="p-0">
-                    <HiOutlineUser className="mr-2 h-5 w-5" /> Profile
-                  </Button>
-                </NextLink>
-                <NextLink
-                  className="text-theme-700 hover:bg-theme-100 dark:hover:bg-theme-700 block px-4 py-2 text-sm"
-                  href="/setting/user/profile"
-                >
-                  <Button aria-label="Setting" variant="ghost" className="p-0">
-                    <HiOutlineCog className="mr-2 h-5 w-5" /> Setting
-                  </Button>
-                </NextLink>
-                {auth.user?.role !== "USER" && (
-                  <NextLink
-                    className="text-theme-700 hover:bg-theme-100 dark:hover:bg-theme-700 block px-4 py-2 text-sm"
-                    href="/dashboard"
-                  >
-                    <Button
-                      aria-label="Dashboard"
-                      variant="ghost"
-                      className="p-0"
-                    >
-                      <HiOutlineViewGrid className="mr-2 h-5 w-5" />
-                      Dashboard
-                    </Button>
-                  </NextLink>
-                )}
-                <div className="text-theme-700 hover:bg-theme-100 dark:hover:bg-theme-700 block cursor-pointer px-4 py-2 text-sm">
-                  <Button
-                    aria-label="Log Out"
-                    className="p-0"
-                    variant="ghost"
-                    onClick={() => logout()}
-                  >
-                    <HiOutlineLogout className="mr-2 h-5 w-5" /> Log Out
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <NextLink
-                className="text-theme-700 hover:bg-theme-100 dark:hover:bg-theme-700 block px-4 py-2 text-sm"
-                href="/auth/login"
-              >
-                <Button aria-label="Log In" variant="ghost" className="p-0">
-                  <HiOutlineLogin className="mr-2 h-5 w-5" /> Log In
-                </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <IconButton aria-label="User Menu" variant="ghost">
+          <Icon.Person className="h-5 w-5" />
+        </IconButton>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="bg-background w-56">
+        {isAuthenticated ? (
+          <>
+            <DropdownMenuItem asChild>
+              <NextLink href={`/user/${auth.user?.username}`}>
+                <Icon.Person className="mr-2 h-5 w-5" /> Profile
               </NextLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <NextLink href="/setting/user/profile">
+                <Icon.Settings className="mr-2 h-5 w-5" /> Setting
+              </NextLink>
+            </DropdownMenuItem>
+            {auth.user?.role !== "USER" && (
+              <DropdownMenuItem asChild>
+                <NextLink href="/dashboard">
+                  <Icon.Dashboard className="mr-2 h-5 w-5" />
+                  Dashboard
+                </NextLink>
+              </DropdownMenuItem>
             )}
-          </div>
+            <DropdownMenuItem asChild>
+              <div aria-label="Log Out" onClick={() => logout()}>
+                <Icon.Logout className="mr-2 h-5 w-5" /> Log Out
+              </div>
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <DropdownMenuItem asChild>
+            <NextLink href="/auth/login">
+              <Icon.Login className="mr-2 h-5 w-5" /> Log In
+            </NextLink>
+          </DropdownMenuItem>
         )}
-      </div>
-    </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

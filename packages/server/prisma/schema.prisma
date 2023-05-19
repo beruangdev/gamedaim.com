@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["extendedWhereUnique"]
+  previewFeatures = ["extendedWhereUnique", "fullTextSearch"]
 }
 
 datasource db {
@@ -29,11 +29,11 @@ model User {
   updatedAt        DateTime         @updatedAt
 }
 
-model ArticleParent {
+model ArticlePrimary {
   id        String    @id @unique @default(uuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  locales   Article[] @relation("ArticleLocales")
+  articles   Article[] @relation("ArticleLocales")
 }
 
 model Article {
@@ -47,8 +47,8 @@ model Article {
   metaDescription String?
   featuredImageId String
   featuredImage   Media            @relation(name: "ArticleFeaturedImages", fields: [featuredImageId], references: [id])
-  articleParentId String
-  articleParent   ArticleParent    @relation("ArticleLocales", fields: [articleParentId], references: [id])
+  articlePrimaryId String
+  articlePrimary   ArticlePrimary    @relation("ArticleLocales", fields: [articlePrimaryId], references: [id])
   topics          Topic[]          @relation(name: "ArticleTopics")
   authors         User[]           @relation(name: "ArticleAuthors")
   editors         User[]           @relation(name: "ArticleEditors")
@@ -58,9 +58,9 @@ model Article {
   updatedAt       DateTime         @updatedAt
 }
 
-model TopicParent {
+model TopicPrimary {
   id        String   @id @unique @default(uuid())
-  locales   Topic[]  @relation("TopicLocales")
+  topics    Topic[]  @relation("TopicLocales")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -74,8 +74,8 @@ model Topic {
   metaTitle       String?
   metaDescription String?
   type            TopicType    @default(ALL)
-  topicParentId   String
-  topicParent     TopicParent  @relation("TopicLocales", fields: [topicParentId], references: [id])
+  topicPrimaryId  String
+  topicPrimary    TopicPrimary  @relation("TopicLocales", fields: [topicPrimaryId], references: [id])
   featuredImageId String?
   featuredImage   Media?       @relation("TopicFeaturedImages", fields: [featuredImageId], references: [id])
   articles        Article[]    @relation(name: "ArticleTopics")

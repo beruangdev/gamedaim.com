@@ -1,8 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { HiChevronDown } from "react-icons/hi"
-import { cn } from "ui"
+import { cn, Icon } from "ui"
 
 export interface SidebarToggleProps
   extends React.HTMLAttributes<HTMLLIElement> {
@@ -28,7 +27,7 @@ export const SidebarToggle = React.forwardRef<
       <button
         type="button"
         onClick={() => setToggle(!toggle)}
-        className="text-theme-800 hover:bg-theme-100 dark:hover:bg-theme-700 group flex w-full items-center rounded-lg p-2 text-base font-normal transition duration-75 dark:text-white"
+        className="text-foreground bg-background hover:bg-primary/10 group flex w-full items-center rounded-lg p-2 text-base font-normal transition duration-75"
         aria-controls="dropdown"
         data-collapse-toggle="dropdown"
       >
@@ -39,7 +38,7 @@ export const SidebarToggle = React.forwardRef<
         >
           {title}
         </span>
-        <HiChevronDown sidebar-toggle-item="true" className="h-6 w-6" />
+        <Icon.ChevronDown sidebar-toggle-item="true" className="h-6 w-6" />
       </button>
       <ul id="dropdown" className={dropdownClasses}>
         {children}

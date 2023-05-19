@@ -18,25 +18,25 @@ export const SidebarItem = React.forwardRef<HTMLLIElement, SidebarItemProps>(
         {href ? (
           <NextLink
             href={href}
-            className="text-theme-800 hover:bg-theme-100 dark:hover:bg-theme-700 flex items-center rounded-lg p-2 text-base font-normal dark:text-white"
+            className="bg-background text-foreground hover:bg-primary/10 flex items-center rounded-lg p-2 text-base font-normal"
           >
             {icon}
             <span className="ml-5 flex-1 whitespace-nowrap">{children}</span>
             {badge && (
-              <span className="bg-theme-200 text-theme-800 dark:bg-theme-700 dark:text-theme-300 ml-3 inline-flex items-center justify-center rounded-full px-2 text-sm font-medium">
+              <span className="text-foreground bg-background hover:bg-primary/10 ml-3 inline-flex items-center justify-center rounded-full px-2 text-sm font-medium">
                 {badge}
               </span>
             )}
           </NextLink>
         ) : (
           <div
-            className="text-theme-800 hover:bg-theme-100 dark:hover:bg-theme-700 flex cursor-pointer items-center rounded-lg p-2 text-base font-normal dark:text-white"
+            className="text-foreground bg-background hover:bg-primary/10 flex cursor-pointer items-center rounded-lg p-2 text-base font-normal"
             onClick={onClick}
           >
             {icon}
             <span className="ml-5 flex-1 whitespace-nowrap">{children}</span>
             {badge && (
-              <span className="bg-theme-200 text-theme-800 dark:bg-theme-700 dark:text-theme-300 ml-3 inline-flex items-center justify-center rounded-full px-2 text-sm font-medium">
+              <span className="text-foreground bg-background hover:bg-primary/10 ml-3 inline-flex items-center justify-center rounded-full px-2 text-sm font-medium">
                 {badge}
               </span>
             )}

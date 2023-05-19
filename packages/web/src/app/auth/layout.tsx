@@ -8,11 +8,11 @@ export const metadata = {
   description: "Auth",
 }
 
-interface RootLayoutProps {
+interface AuthLayoutProps {
   children: React.ReactNode
 }
 
-export default function AuthLayout(props: RootLayoutProps) {
+export default function AuthLayout(props: AuthLayoutProps) {
   const { children } = props
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">

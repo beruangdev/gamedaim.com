@@ -1,9 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 
 import { uniqueSlug, slugify } from "../../utils/slug"
-import { CreateArticleInput, UpdateArticleInput } from "./article.schema"
 import {
-  createArticleWithParent,
+  CreateArticleInput,
+  CreateArticlePrimaryInput,
+  UpdateArticleInput,
+} from "./article.schema"
+import {
+  createArticleWithPrimary,
   getArticlesByLang,
   deleteArticleById,
   updateArticle,
@@ -16,15 +20,15 @@ import {
   getArticlesDashboardByLang,
   searchArticlesDashboardByLang,
   createArticle,
-  getArticleParentById,
-  deleteArticleWithParentById,
-  getTotalArticleParents,
+  getArticlePrimaryById,
+  deleteArticleWithPrimaryById,
+  getTotalArticlePrimaries,
 } from "./article.service"
 import { trimText } from "../../utils/trim"
 
-export async function createArticleWithParentHandler(
+export async function createArticleWithPrimaryHandler(
   request: FastifyRequest<{
-    Body: Omit<CreateArticleInput, "articleParentId">
+    Body: CreateArticlePrimaryInput
   }>,
   reply: FastifyReply,
 ) {
@@ -53,7 +57,7 @@ export async function createArticleWithParentHandler(
       ? generatedExcerpt
       : metaDescription
 
-    const articleWithParent = await createArticleWithParent({
+    const articleWithPrimary = await createArticleWithPrimary({
       title,
       content,
       excerpt: generatedExcerpt,
@@ -72,7 +76,7 @@ export async function createArticleWithParentHandler(
       },
     })
 
-    return reply.code(201).send(articleWithParent)
+    return reply.code(201).send(articleWithPrimary)
   } catch (e) {
     return reply.code(500).send(e)
   }
@@ -86,7 +90,7 @@ export async function createArticleHandler(
 ) {
   try {
     const {
-      articleParentId,
+      articlePrimaryId,
       title,
       content,
       excerpt,
@@ -111,7 +115,7 @@ export async function createArticleHandler(
       : metaDescription
 
     const article = await createArticle({
-      articleParentId,
+      articlePrimaryId,
       title,
       content,
       excerpt: generatedExcerpt,
@@ -147,7 +151,6 @@ export async function updateArticleHandler(
 ) {
   try {
     const {
-      articleParentId,
       title,
       slug,
       content,
@@ -171,7 +174,6 @@ export async function updateArticleHandler(
     }
 
     const updatedArticle = await updateArticle(articleId, {
-      articleParentId,
       title,
       content,
       excerpt,
@@ -197,22 +199,22 @@ export async function updateArticleHandler(
   }
 }
 
-export async function deleteArticleWithParentHandler(
-  request: FastifyRequest<{ Params: { articleParentId: string } }>,
+export async function deleteArticleWithPrimaryHandler(
+  request: FastifyRequest<{ Params: { articlePrimaryId: string } }>,
   reply: FastifyReply,
 ) {
   try {
-    const { articleParentId } = request.params
+    const { articlePrimaryId } = request.params
     const user = request.user
-    const deletedArticleWithParent = await deleteArticleWithParentById(
-      articleParentId,
+    const deletedArticleWithPrimary = await deleteArticleWithPrimaryById(
+      articlePrimaryId,
     )
 
     if (user.role !== "ADMIN") {
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    return reply.code(201).send(deletedArticleWithParent)
+    return reply.code(201).send(deletedArticleWithPrimary)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
@@ -233,16 +235,16 @@ export async function deleteArticleHandler(
   }
 }
 
-export async function getArticleParentByIdHandler(
+export async function getArticlePrimaryByIdHandler(
   request: FastifyRequest<{
-    Params: { articleParentId: string }
+    Params: { articlePrimaryId: string }
   }>,
   reply: FastifyReply,
 ) {
   try {
-    const { articleParentId } = request.params
-    const articleParent = await getArticleParentById(articleParentId)
-    return reply.code(201).send(articleParent)
+    const { articlePrimaryId } = request.params
+    const articlePrimary = await getArticlePrimaryById(articlePrimaryId)
+    return reply.code(201).send(articlePrimary)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
@@ -377,13 +379,13 @@ export async function getArticleByAuthorUsernameAndLangHandler(
   }
 }
 
-export async function getTotalArticleParentsHandler(
+export async function getTotalArticlePrimariesHandler(
   _request: FastifyRequest,
   reply: FastifyReply,
 ) {
   try {
-    const articleParents = await getTotalArticleParents()
-    return reply.code(201).send(articleParents)
+    const articlePrimaries = await getTotalArticlePrimaries()
+    return reply.code(201).send(articlePrimaries)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)

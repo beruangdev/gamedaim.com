@@ -1,11 +1,11 @@
-//TODO: fix hydration error
+"use client"
 
 import * as React from "react"
 import { redirect } from "next/navigation"
 
 import { AdDataProps, SettingsSiteProps, UserDataProps } from "@/lib/data-types"
 import { useAuthStore } from "@/store/auth"
-import { getUserById } from "@/lib/user"
+import { getUserByIdAction } from "@/lib/api/server/user"
 import { axiosInstance } from "@/lib/http"
 
 export interface WithAuthProps {
@@ -54,7 +54,7 @@ export function withAuth<T extends WithAuthProps = WithAuthProps>(
       }
 
       const loadUser = async () => {
-        const data = await getUserById(userId)
+        const data = await getUserByIdAction(userId)
 
         if (data) {
           login({

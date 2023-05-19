@@ -1,4 +1,3 @@
-import colors from "tailwindcss/colors"
 import { fontFamily } from "tailwindcss/defaultTheme"
 import type { Config } from "tailwindcss"
 
@@ -21,7 +20,6 @@ export default {
     },
     extend: {
       colors: {
-        theme: colors.neutral,
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -34,6 +32,18 @@ export default {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
         },
         danger: {
           DEFAULT: "hsl(var(--danger))",

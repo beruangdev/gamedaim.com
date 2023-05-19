@@ -13,10 +13,6 @@ export const TOPIC_TYPE = [
 const TOPIC_LANGUAGE = ["id_ID", "en_US"] as const
 
 const topicInput = {
-  topicParentId: z.string({
-    required_error: "Topic Parent ID is required",
-    invalid_type_error: "Topic Parent ID must be a string",
-  }),
   title: z
     .string({
       required_error: "Title is required",
@@ -57,6 +53,14 @@ const topicInput = {
     .optional(),
 }
 
+const topicWithPrimaryInput = {
+  ...topicInput,
+  topicPrimaryId: z.string({
+    required_error: "Topic Primary ID is required",
+    invalid_type_error: "Topic Primary ID must be a string",
+  }),
+}
+
 const updateTopicInput = {
   ...topicInput,
   slug: z
@@ -70,6 +74,10 @@ const updateTopicInput = {
 }
 
 const createTopicSchema = z.object({
+  ...topicWithPrimaryInput,
+})
+
+const createTopicPrimarySchema = z.object({
   ...topicInput,
 })
 
@@ -86,13 +94,14 @@ const topicResponseSchema = z.object({
 const topicsResponseSchema = z.array(topicResponseSchema)
 
 export type CreateTopicInput = z.infer<typeof createTopicSchema>
+export type CreateTopicPrimaryInput = z.infer<typeof createTopicPrimarySchema>
 export type UpdateTopicInput = z.infer<typeof updateTopicSchema>
 
 const models = {
   topicResponseSchema,
-  topicLocaleResponseSchema: topicResponseSchema,
   topicsResponseSchema,
   createTopicSchema,
+  createTopicPrimarySchema,
   updateTopicSchema,
 }
 

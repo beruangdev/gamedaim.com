@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify"
 import {
-  createTopicWithParentHandler,
-  deleteTopicWithParentHandler,
+  createTopicWithPrimaryHandler,
+  deleteTopicWithPrimaryHandler,
   getTopicsByLangHandler,
   getTopicByIdHandler,
   getTopicBySlugHandler,
@@ -13,8 +13,8 @@ import {
   searchTopicsDashboardHandler,
   updateTopicHandler,
   createTopicHandler,
-  getTopicParentByIdHandler,
-  getTotalTopicParentsHandler,
+  getTopicPrimaryByIdHandler,
+  getTotalTopicPrimariesHandler,
   deleteTopicHandler,
   getTopicArticlesBySlugHandler,
 } from "./topic.controller"
@@ -23,17 +23,17 @@ import { $ref } from "./topic.schema"
 
 async function topicRoutes(server: FastifyInstance) {
   server.post(
-    "/with-parent",
+    "/with-primary",
     {
       preHandler: [server.authenticate],
       schema: {
-        body: $ref("createTopicSchema"),
+        body: $ref("createTopicPrimarySchema"),
         response: {
           201: $ref("topicResponseSchema"),
         },
       },
     },
-    createTopicWithParentHandler,
+    createTopicWithPrimaryHandler,
   )
 
   server.post(
@@ -65,9 +65,9 @@ async function topicRoutes(server: FastifyInstance) {
   )
 
   server.delete(
-    "/with-parent/:topicId",
+    "/with-primary/:topicPrimaryId",
     { preHandler: [server.authenticate] },
-    deleteTopicWithParentHandler,
+    deleteTopicWithPrimaryHandler,
   )
 
   server.delete(
@@ -77,7 +77,7 @@ async function topicRoutes(server: FastifyInstance) {
   )
 
   server.get(
-    "/parent/:topicParentId",
+    "/primary/:topicPrimaryId",
     {
       schema: {
         response: {
@@ -85,7 +85,7 @@ async function topicRoutes(server: FastifyInstance) {
         },
       },
     },
-    getTopicParentByIdHandler,
+    getTopicPrimaryByIdHandler,
   )
 
   server.get(
@@ -175,7 +175,7 @@ async function topicRoutes(server: FastifyInstance) {
 
   server.get("/count", getTotalTopicsHandler)
 
-  server.get("/count/parent", getTotalTopicParentsHandler)
+  server.get("/count/primary", getTotalTopicPrimariesHandler)
 
   server.get(
     "/:topicLanguage/search/:searchTopicQuery",

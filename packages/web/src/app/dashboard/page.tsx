@@ -1,26 +1,25 @@
 "use client"
 
 import * as React from "react"
-import {
-  HiOutlineCurrencyDollar,
-  HiOutlineDocument,
-  HiOutlineChatBubbleLeftEllipsis,
-  HiOutlineFolderOpen,
-  HiOutlineHashtag,
-  HiOutlineUsers,
-} from "react-icons/hi2"
+import dynamic from "next/dynamic"
+import { Icon } from "ui"
 
-import { BoxDashboard } from "@/components/Box"
-import { DashboardContainer } from "@/components/Navigation"
+import { withAuth } from "@/components/Auth"
+import { useGetArticlesCount } from "@/lib/api/client/article"
+import { useGetAdsCount } from "@/lib/api/client/ad"
+import { useGetTopicsCount } from "@/lib/api/client/topic"
+import { useGetMediasCount } from "@/lib/api/client/media"
+import { useGetCommentsCount } from "@/lib/api/client/comment"
+import { useGetUsersCount } from "@/lib/api/client/user"
 
-import { useGetArticlesCount } from "@/lib/article"
-import { useGetAdsCount } from "@/lib/ad"
-import { useGetTopicsCount } from "@/lib/topic"
-import { useGetMediasCount } from "@/lib/media"
-import { useGetCommentsCount } from "@/lib/comment"
-import { useGetUsersCount } from "@/lib/user"
+const BoxDashboard = dynamic(() =>
+  import("@/components/Box").then((mod) => mod.BoxDashboard),
+)
+const DashboardContainer = dynamic(() =>
+  import("@/components/Container").then((mod) => mod.DashboardContainer),
+)
 
-export default function Dashboard() {
+function Dashboard() {
   const { articlesCount } = useGetArticlesCount()
   const { adsCount } = useGetAdsCount()
   const { topicsCount } = useGetTopicsCount()
@@ -35,42 +34,42 @@ export default function Dashboard() {
         <div className="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
           {articlesCount !== undefined && (
             <BoxDashboard
-              icon={<HiOutlineDocument className="h-5 w-5" />}
+              icon={<Icon.Article className="h-5 w-5" />}
               count={articlesCount}
               text="article"
             />
           )}
           {topicsCount !== undefined && (
             <BoxDashboard
-              icon={<HiOutlineHashtag className="h-5 w-5" />}
+              icon={<Icon.Topic className="h-5 w-5" />}
               count={topicsCount}
               text="topic"
             />
           )}
           {adsCount !== undefined && (
             <BoxDashboard
-              icon={<HiOutlineCurrencyDollar className="h-5 w-5" />}
+              icon={<Icon.Currency className="h-5 w-5" />}
               count={adsCount}
               text="ad"
             />
           )}
           {mediasCount !== undefined && (
             <BoxDashboard
-              icon={<HiOutlineFolderOpen className="h-5 w-5" />}
+              icon={<Icon.Media className="h-5 w-5" />}
               count={mediasCount}
               text="media"
             />
           )}
           {commentsCount !== undefined && (
             <BoxDashboard
-              icon={<HiOutlineChatBubbleLeftEllipsis className="h-5 w-5" />}
+              icon={<Icon.Comment className="h-5 w-5" />}
               count={commentsCount}
               text="comment"
             />
           )}
           {usersCount !== undefined && (
             <BoxDashboard
-              icon={<HiOutlineUsers className="h-5 w-5" />}
+              icon={<Icon.Users className="h-5 w-5" />}
               count={usersCount}
               text="user"
             />
@@ -80,3 +79,5 @@ export default function Dashboard() {
     </DashboardContainer>
   )
 }
+
+export default withAuth(Dashboard, "adminOrAuthor")

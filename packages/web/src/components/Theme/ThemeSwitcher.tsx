@@ -2,11 +2,11 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { IconButton } from "@dafunda-ui-test/react"
-import { MdLightMode, MdDarkMode } from "react-icons/md"
+import { Icon, IconButton } from "ui"
 
 export const ThemeSwitcher = () => {
   const [mounted, setMounted] = React.useState<boolean>(false)
+
   const { resolvedTheme, setTheme } = useTheme()
 
   const switchTheme = () => {
@@ -25,9 +25,9 @@ export const ThemeSwitcher = () => {
     >
       {mounted &&
         (resolvedTheme === "light" ? (
-          <MdDarkMode aria-label="Toggle Dark Mode" className="h-5 w-5" />
+          <Icon.Moon aria-label="Toggle Dark Mode" className="h-5 w-5" />
         ) : (
-          <MdLightMode aria-label="Toggle Light Mode" className="h-5 w-5" />
+          <Icon.Sun aria-label="Toggle Light Mode" className="h-5 w-5" />
         ))}
     </IconButton>
   )

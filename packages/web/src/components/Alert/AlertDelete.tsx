@@ -8,9 +8,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@dafunda-ui-test/react"
+} from "ui"
 
 interface AlertDeleteProps {
+  title?: string
   desc?: React.ReactNode
   isOpen: boolean
   onClose: () => void
@@ -39,7 +40,7 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={handleDeleteAndClose}>
+            <AlertDialogAction variant="danger" onClick={handleDeleteAndClose}>
               Yes
             </AlertDialogAction>
             <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>

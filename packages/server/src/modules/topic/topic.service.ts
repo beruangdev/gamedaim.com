@@ -3,7 +3,7 @@
 import db from "../../utils/db"
 import { CreateTopicInput, UpdateTopicInput } from "./topic.schema"
 
-export async function createTopicWithParent({
+export async function createTopicWithPrimary({
   slug,
   type,
   featuredImageId,
@@ -12,8 +12,8 @@ export async function createTopicWithParent({
   description,
   metaTitle,
   metaDescription,
-}: Omit<CreateTopicInput, "topicParentId"> & { slug: string }) {
-  return await db.topicParent.create({
+}: Omit<CreateTopicInput, "topicPrimaryId"> & { slug: string }) {
+  return await db.topicPrimary.create({
     data: {
       locales: {
         create: {
@@ -48,6 +48,7 @@ export async function getTopicsByLang(
     },
     where: { language: topicLanguage },
     select: {
+      topicPrimaryId: true,
       id: true,
       title: true,
       slug: true,
@@ -79,6 +80,7 @@ export async function getTopicsDashboardByLang(
     skip: (topicPage - 1) * perPage,
     take: perPage,
     select: {
+      topicPrimaryId: true,
       id: true,
       title: true,
       slug: true,
@@ -109,9 +111,9 @@ export async function getTopicsSitemapByLang(
   })
 }
 
-export async function getTopicParentById(topicParentId: string) {
-  return await db.topicParent.findUnique({
-    where: { id: topicParentId },
+export async function getTopicPrimaryById(topicPrimaryId: string) {
+  return await db.topicPrimary.findUnique({
+    where: { id: topicPrimaryId },
   })
 }
 
@@ -159,6 +161,7 @@ export async function getTopicsByTypeAndLang(
     skip: (topicPage - 1) * perPage,
     take: perPage,
     select: {
+      topicPrimaryId: true,
       id: true,
       title: true,
       slug: true,
@@ -278,6 +281,37 @@ export async function updateTopic(topicId: string, data: UpdateTopicInput) {
   })
 }
 
+export async function deleteTopicWithPrimaryById(topicPrimaryId: string) {
+  return await db.$transaction([
+    db.topic.deleteMany({
+      where: {
+        topicPrimaryId: topicPrimaryId,
+      },
+    }),
+    db.topicPrimary.delete({
+      where: {
+        id: topicPrimaryId,
+      },
+    }),
+  ])
+}
+
+export async function deleteTopicById(topicId: string) {
+  return await db.topic.delete({
+    where: {
+      id: topicId,
+    },
+  })
+}
+
+export async function getTotalTopics() {
+  return await db.topic.count()
+}
+
+export async function getTotalTopicPrimaries() {
+  return await db.topicPrimary.count()
+}
+
 export async function searchTopicsByLang(
   topicLanguage: "id_ID" | "en_US",
   searchTopicQuery: string,
@@ -291,9 +325,13 @@ export async function searchTopicsByLang(
       ],
       OR: [
         {
-          slug: { contains: searchTopicQuery },
+          title: {
+            search: searchTopicQuery.split(" ").join(" & "),
+          },
+          slug: {
+            search: searchTopicQuery.split(" ").join(" & "),
+          },
         },
-        { title: { contains: searchTopicQuery } },
       ],
     },
     select: {
@@ -323,9 +361,13 @@ export async function searchTopicsDashboardByLang(
       ],
       OR: [
         {
-          slug: { contains: searchTopicQuery },
+          title: {
+            search: searchTopicQuery.split(" ").join(" & "),
+          },
+          slug: {
+            search: searchTopicQuery.split(" ").join(" & "),
+          },
         },
-        { title: { contains: searchTopicQuery } },
       ],
     },
     select: {
@@ -337,35 +379,4 @@ export async function searchTopicsDashboardByLang(
       updatedAt: true,
     },
   })
-}
-
-export async function deleteTopicWithParentById(topicParentId: string) {
-  return await db.$transaction([
-    db.topic.deleteMany({
-      where: {
-        topicParentId: topicParentId,
-      },
-    }),
-    db.topicParent.delete({
-      where: {
-        id: topicParentId,
-      },
-    }),
-  ])
-}
-
-export async function deleteTopicById(topicId: string) {
-  return await db.topic.delete({
-    where: {
-      id: topicId,
-    },
-  })
-}
-
-export async function getTotalTopics() {
-  return await db.topic.count()
-}
-
-export async function getTotalTopicParents() {
-  return await db.topicParent.count()
 }

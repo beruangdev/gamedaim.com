@@ -1,0 +1,36 @@
+interface EnvProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any
+}
+
+const env: EnvProps = {
+  NODE_ENV: process.env.NODE_ENV || "development",
+  API: process.env.NEXT_PUBLIC_API || "http://localhost:8000",
+  DOMAIN: process.env.NEXT_PUBLIC_DOMAIN || "localhost",
+  ADSENSE_CLIENT_ID: process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID,
+  SITE_TITLE: process.env.NEXT_PUBLIC_SITE_TITLE,
+  SITE_COLOR: process.env.NEXT_PUBLIC_SITE_COLOR,
+  SITE_LANGUAGE: process.env.NEXT_PUBLIC_SITE_LANGUAGE,
+  TWITTER_USERNAME: process.env.NEXT_PUBLIC_TWITTER_USERNAME,
+  FACEBOOK_USERNAME: process.env.NEXT_PUBLIC_FACEBOOK_USERNAME,
+  INSTAGRAM_USERNAME: process.env.NEXT_PUBLIC_INSTAGRAM_USERNAME,
+  LINKEDIN_USERNAME: process.env.NEXT_PUBLIC_LINKEDIN_USERNAME,
+  FACEBOOK_ID: process.env.NEXT_PUBLIC_FACEBOOK_ID,
+  YOUTUBE_CHANNEL: process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL,
+  LOGO_URL: process.env.NEXT_PUBLIC_LOGO_URL,
+  LOGO_WIDTH: process.env.NEXT_PUBLIC_LOGO_WIDTH,
+  LOGO_HEIGHT: process.env.NEXT_PUBLIC_LOGO_HEIGHT,
+  LOGO_OG_URL: process.env.NEXT_PUBLIC_LOGO_OG_URL,
+  LOGO_OG_WIDTH: process.env.NEXT_PUBLIC_LOGO_OG_WIDTH,
+  LOGO_OG_HEIGHT: process.env.NEXT_PUBLIC_LOGO_OG_HEIGHT,
+  ABOUT: process.env.NEXT_PUBLIC_ABOUT,
+  WP_API_URL: process.env.NEXT_PUBLIC_WP_API_URL,
+  MENU_PRIMARY: process.env.NEXT_PUBLIC_MENU_PRIMARY,
+  MENU_FOOTER: process.env.NEXT_PUBLIC_MENU_FOOTER,
+  WP_SEO_API_URL: process.env.NEXT_PUBLIC_WP_SEO_API_URL,
+  SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  STALE_FIVE_MINUTES: 5 * 60 * 1000,
+  STALE_ONE_DAY: 24 * 60 * 60 * 1000,
+}
+
+export default env

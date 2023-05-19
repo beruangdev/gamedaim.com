@@ -2,10 +2,6 @@ import { z } from "zod"
 import { buildJsonSchemas } from "fastify-zod"
 
 const articleInput = {
-  articleParentId: z.string({
-    required_error: "Article Parent ID is required",
-    invalid_type_error: "Article Parent ID must be a string",
-  }),
   title: z
     .string({
       required_error: "Title is required",
@@ -55,6 +51,14 @@ const articleInput = {
     .array(),
 }
 
+const articleWithPrimaryInput = {
+  ...articleInput,
+  articlePrimaryId: z.string({
+    required_error: "Article Primary ID is required",
+    invalid_type_error: "Article Primary ID must be a string",
+  }),
+}
+
 const updateArticleInput = {
   ...articleInput,
   slug: z
@@ -74,6 +78,10 @@ const articleGenerated = {
 }
 
 const createArticleSchema = z.object({
+  ...articleWithPrimaryInput,
+})
+
+const createArticlePrimarySchema = z.object({
   ...articleInput,
 })
 
@@ -89,12 +97,16 @@ const articleResponseSchema = z.object({
 const articlesResponseSchema = z.array(articleResponseSchema)
 
 export type CreateArticleInput = z.infer<typeof createArticleSchema>
+export type CreateArticlePrimaryInput = z.infer<
+  typeof createArticlePrimarySchema
+>
 export type UpdateArticleInput = z.infer<typeof updateArticleSchema>
 
 const models = {
   articleResponseSchema,
   articlesResponseSchema,
   createArticleSchema,
+  createArticlePrimarySchema,
   updateArticleSchema,
 }
 

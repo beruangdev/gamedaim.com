@@ -10,19 +10,19 @@ import {
   getArticlesSitemapByLangHandler,
   getArticlesDashboardByLangHandler,
   searchArticlesDasboardHandler,
-  createArticleWithParentHandler,
-  deleteArticleWithParentHandler,
-  getArticleParentByIdHandler,
+  createArticleWithPrimaryHandler,
+  deleteArticleWithPrimaryHandler,
+  getArticlePrimaryByIdHandler,
   getArticlesByLangHandler,
   getArticleByAuthorUsernameAndLangHandler,
-  getTotalArticleParentsHandler,
+  getTotalArticlePrimariesHandler,
   searchArticlesByLangHandler,
 } from "./article.controller"
 import { $ref } from "./article.schema"
 
 async function articleRoutes(server: FastifyInstance) {
   server.post(
-    "/with-parent",
+    "/with-primary",
     {
       preHandler: [server.authenticate],
       schema: {
@@ -32,7 +32,7 @@ async function articleRoutes(server: FastifyInstance) {
         },
       },
     },
-    createArticleWithParentHandler,
+    createArticleWithPrimaryHandler,
   )
 
   server.post(
@@ -64,9 +64,9 @@ async function articleRoutes(server: FastifyInstance) {
   )
 
   server.delete(
-    "/with-parent/:articleId",
+    "/with-primary/:articleId",
     { preHandler: [server.authenticate] },
-    deleteArticleWithParentHandler,
+    deleteArticleWithPrimaryHandler,
   )
 
   server.delete(
@@ -76,7 +76,7 @@ async function articleRoutes(server: FastifyInstance) {
   )
 
   server.get(
-    "/parent/:articleId",
+    "/primary/:articleId",
     {
       schema: {
         response: {
@@ -84,7 +84,7 @@ async function articleRoutes(server: FastifyInstance) {
         },
       },
     },
-    getArticleParentByIdHandler,
+    getArticlePrimaryByIdHandler,
   )
 
   server.get(
@@ -161,7 +161,7 @@ async function articleRoutes(server: FastifyInstance) {
 
   server.get("/count", getTotalArticlesHandler)
 
-  server.get("/count/parent", getTotalArticleParentsHandler)
+  server.get("/count/primary", getTotalArticlePrimariesHandler)
 
   server.get(
     "/:articleLanguage/search/:searchArticleQuery",
