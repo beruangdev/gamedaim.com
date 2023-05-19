@@ -9,7 +9,7 @@ export default function GlobalError({
   reset: () => void
 }) {
   return (
-    <html>
+    <html lang="en" suppressHydrationWarning>
       <body>
         <section className="bg-background flex h-screen items-center justify-center">
           <div className="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
