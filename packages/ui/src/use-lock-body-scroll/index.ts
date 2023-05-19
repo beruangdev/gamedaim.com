@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 
 // Source: https://usehooks.com/useLockBodyScroll
