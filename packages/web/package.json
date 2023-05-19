@@ -22,7 +22,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
-    "react-icons": "^4.8.0",
     "react-image-file-resizer": "^0.4.8",
     "swr": "^2.1.5",
     "ui": "workspace:*",
