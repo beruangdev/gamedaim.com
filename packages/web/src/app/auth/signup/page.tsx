@@ -7,9 +7,7 @@ import { Separator } from "ui"
 
 import { withAuth } from "@/components/Auth"
 
-const SignUpForm = dynamic(() =>
-  import("@/components/Form").then((mod) => mod.SignUpForm),
-)
+const SignUpForm = dynamic(() => import("./form").then((mod) => mod.SignUpForm))
 
 function SignUp() {
   return (
