@@ -15,9 +15,6 @@ import { useGetUsersCount } from "@/lib/api/client/user"
 const BoxDashboard = dynamic(() =>
   import("@/components/Box").then((mod) => mod.BoxDashboard),
 )
-const DashboardContainer = dynamic(() =>
-  import("@/components/Container").then((mod) => mod.DashboardContainer),
-)
 
 function Dashboard() {
   const { articlesCount } = useGetArticlesCount()
@@ -28,55 +25,53 @@ function Dashboard() {
   const { usersCount } = useGetUsersCount()
 
   return (
-    <DashboardContainer>
-      <div className="my-8">
-        <h2 className="text-3xl">Statistics</h2>
-        <div className="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
-          {articlesCount !== undefined && (
-            <BoxDashboard
-              icon={<Icon.Article className="h-5 w-5" />}
-              count={articlesCount}
-              text="article"
-            />
-          )}
-          {topicsCount !== undefined && (
-            <BoxDashboard
-              icon={<Icon.Topic className="h-5 w-5" />}
-              count={topicsCount}
-              text="topic"
-            />
-          )}
-          {adsCount !== undefined && (
-            <BoxDashboard
-              icon={<Icon.Currency className="h-5 w-5" />}
-              count={adsCount}
-              text="ad"
-            />
-          )}
-          {mediasCount !== undefined && (
-            <BoxDashboard
-              icon={<Icon.Media className="h-5 w-5" />}
-              count={mediasCount}
-              text="media"
-            />
-          )}
-          {commentsCount !== undefined && (
-            <BoxDashboard
-              icon={<Icon.Comment className="h-5 w-5" />}
-              count={commentsCount}
-              text="comment"
-            />
-          )}
-          {usersCount !== undefined && (
-            <BoxDashboard
-              icon={<Icon.Users className="h-5 w-5" />}
-              count={usersCount}
-              text="user"
-            />
-          )}
-        </div>
+    <div className="my-8">
+      <h2 className="text-3xl">Statistics</h2>
+      <div className="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
+        {articlesCount !== undefined && (
+          <BoxDashboard
+            icon={<Icon.Article className="h-5 w-5" />}
+            count={articlesCount}
+            text="article"
+          />
+        )}
+        {topicsCount !== undefined && (
+          <BoxDashboard
+            icon={<Icon.Topic className="h-5 w-5" />}
+            count={topicsCount}
+            text="topic"
+          />
+        )}
+        {adsCount !== undefined && (
+          <BoxDashboard
+            icon={<Icon.Currency className="h-5 w-5" />}
+            count={adsCount}
+            text="ad"
+          />
+        )}
+        {mediasCount !== undefined && (
+          <BoxDashboard
+            icon={<Icon.Media className="h-5 w-5" />}
+            count={mediasCount}
+            text="media"
+          />
+        )}
+        {commentsCount !== undefined && (
+          <BoxDashboard
+            icon={<Icon.Comment className="h-5 w-5" />}
+            count={commentsCount}
+            text="comment"
+          />
+        )}
+        {usersCount !== undefined && (
+          <BoxDashboard
+            icon={<Icon.Users className="h-5 w-5" />}
+            count={usersCount}
+            text="user"
+          />
+        )}
       </div>
-    </DashboardContainer>
+    </div>
   )
 }
 

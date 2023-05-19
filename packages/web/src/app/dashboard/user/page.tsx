@@ -26,10 +26,6 @@ const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
 )
 
-const DashboardContainer = dynamic(() =>
-  import("@/components/Container").then((mod) => mod.DashboardContainer),
-)
-
 function UsersDashboard() {
   const { users } = useGetUsers()
   const { usersCount } = useGetUsersCount()
@@ -39,7 +35,7 @@ function UsersDashboard() {
   const [page, setPage] = React.useState<number>(1)
 
   return (
-    <DashboardContainer>
+    <>
       <div className="mt-4 flex items-end justify-between">
         <div>
           <NextLink href="/dashboard/user/new">
@@ -139,7 +135,7 @@ function UsersDashboard() {
           </div>
         )}
       </div>
-    </DashboardContainer>
+    </>
   )
 }
 
