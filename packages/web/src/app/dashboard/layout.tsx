@@ -1,4 +1,5 @@
 import * as React from "react"
+import { DashboardContainer } from "./container"
 
 export const metadata = {
   title: "Dashboard",
@@ -12,5 +13,5 @@ interface DashboardLayoutProps {
 export default function DashboardLayout(props: DashboardLayoutProps) {
   const { children } = props
 
-  return children
+  return <DashboardContainer>{children}</DashboardContainer>
 }
