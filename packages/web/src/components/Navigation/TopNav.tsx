@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import NextLink from "next/link"
-import { Icon, IconButton } from "ui"
 
+import { IconButton } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 import { Logo } from "@/components/Brand"
 import { SearchNavbar } from "@/components/Search"
 import { UserMenu } from "@/components/Menu"

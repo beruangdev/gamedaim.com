@@ -1,5 +1,6 @@
 import * as React from "react"
-import { Skeleton } from "ui"
+
+import { Skeleton } from "@/components/UI/Skeleton"
 
 export default function Loading() {
   return (

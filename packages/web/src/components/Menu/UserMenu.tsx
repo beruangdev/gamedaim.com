@@ -2,14 +2,15 @@
 
 import * as React from "react"
 import NextLink from "next/link"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  IconButton,
-  Icon,
-} from "ui"
+} from "@/components/UI/DropdownMenu"
+import { IconButton } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 
 import { useAuthStore } from "@/store/auth"
 

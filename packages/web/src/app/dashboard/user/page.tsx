@@ -3,19 +3,11 @@
 import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
-import {
-  Badge,
-  Button,
-  IconButton,
-  Icon,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from "ui"
 
+import { Badge } from "@/components/UI/Badge"
+import { Button, IconButton } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { UserDataProps } from "@/lib/data-types"
 import { withAuth } from "@/components/Auth"
 import { useGetUsers, useGetUsersCount } from "@/lib/api/client/user"

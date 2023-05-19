@@ -1,7 +1,7 @@
 import * as React from "react"
 import NextLink from "next/link"
-import { Container } from "ui"
 
+import { Container } from "@/components/UI/Container"
 import { TopNav } from "@/components/Navigation"
 
 export default function IndexPage() {

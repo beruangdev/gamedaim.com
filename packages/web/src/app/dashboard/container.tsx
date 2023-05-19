@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import NextLink from "next/link"
-import { Button, Icon } from "ui"
 
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 import { Sidebar } from "@/components/Navigation"
 
 interface DashboardContainerProps extends React.HTMLAttributes<HTMLDivElement> {

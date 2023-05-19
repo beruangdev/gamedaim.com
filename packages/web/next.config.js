@@ -14,7 +14,6 @@ const nextConfig = {
       "caragame.id",
     ],
   },
-  transpilePackages: ["ui"],
   headers() {
     return [
       {

@@ -3,8 +3,8 @@
 import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
-import { Separator } from "ui"
 
+import { Separator } from "@/components/UI/Separator"
 import { withAuth } from "@/components/Auth"
 
 const SignUpForm = dynamic(() => import("./form").then((mod) => mod.SignUpForm))

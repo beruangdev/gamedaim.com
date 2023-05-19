@@ -1,7 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { cn, Icon } from "ui"
+
+import { Icon } from "@/components/UI/Icon"
+import { cn } from "@/utils/classname"
 
 export interface SidebarToggleProps
   extends React.HTMLAttributes<HTMLLIElement> {

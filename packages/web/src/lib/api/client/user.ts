@@ -1,6 +1,6 @@
 import useSWR from "swr"
-import { toast } from "ui"
 
+import { toast } from "@/components/UI/Toast"
 import { fetcher } from "@/lib/http"
 
 export const useGetUsersCount = () => {

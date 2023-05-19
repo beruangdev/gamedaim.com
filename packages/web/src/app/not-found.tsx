@@ -1,5 +1,6 @@
 import NextLink from "next/link"
-import { Button } from "ui"
+
+import { Button } from "@/components/UI/Button"
 
 export default function NotFound() {
   return (

@@ -1,8 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Container, Input } from "ui"
 
+import { Container } from "@/components/UI/Container"
+import { Input } from "@/components/UI/Form"
 import { ArticleCardVertical } from "@/components/Card"
 import { searchArticlesAction } from "@/lib/api/server/article"
 import { ArticleDataProps } from "@/lib/data-types"

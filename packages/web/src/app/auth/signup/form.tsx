@@ -3,16 +3,17 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
+
 import {
-  toast,
   FormControl,
   FormLabel,
-  Icon,
   Input,
-  Button,
   RequiredIndicator,
   FormErrorMessage,
-} from "ui"
+} from "@/components/UI/Form"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import { toast } from "@/components/UI/Toast"
 
 import { signUpUserAction } from "@/lib/api/server/user"
 

@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import dynamic from "next/dynamic"
-import { Icon } from "ui"
 
+import { Icon } from "@/components/UI/Icon"
 import { withAuth } from "@/components/Auth"
 import { useGetArticlesCount } from "@/lib/api/client/article"
 import { useGetAdsCount } from "@/lib/api/client/ad"

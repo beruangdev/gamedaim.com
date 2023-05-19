@@ -1,10 +1,10 @@
 import * as React from "react"
 import NextLink from "next/link"
-import { Icon } from "ui"
 
 import { Sidebar } from "."
 import { Logo } from "@/components/Brand"
 import { ThemeSwitcher } from "@/components/Theme"
+import { Icon } from "@/components/UI/Icon"
 import { useAuthStore } from "@/store/auth"
 
 export interface SidebarDashboardProps {}
