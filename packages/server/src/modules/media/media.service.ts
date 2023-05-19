@@ -99,8 +99,14 @@ export async function searchMedias(searchMediaQuery: string) {
   return await db.media.findMany({
     where: {
       OR: [
-        { name: { contains: searchMediaQuery } },
-        { description: { contains: searchMediaQuery } },
+        {
+          name: {
+            search: searchMediaQuery.split(" ").join(" & "),
+          },
+          description: {
+            search: searchMediaQuery.split(" ").join(" & "),
+          },
+        },
       ],
     },
     select: {

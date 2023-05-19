@@ -87,11 +87,14 @@ export const FormControl = React.forwardRef<HTMLDivElement, FormControlProps>(
       helpTextId,
     }
 
-    const classes = cn("relative w-full", className)
-
     return (
       <FormControlContext.Provider value={context}>
-        <div role="group" ref={ref} className={classes} {...rest}>
+        <div
+          role="group"
+          ref={ref}
+          className={cn("relative w-full", className)}
+          {...rest}
+        >
           {children}
         </div>
       </FormControlContext.Provider>

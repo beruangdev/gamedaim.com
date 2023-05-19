@@ -11,7 +11,22 @@ export async function createUser(input: CreateUserInput) {
   })
 }
 
-export async function findUserByEmail(email: string) {
+export async function updateUser(userId: string, data: UpdateUserInput) {
+  return await db.user.update({
+    where: { id: userId },
+    data,
+  })
+}
+
+export async function deleteUserById(userId: string) {
+  return await db.user.delete({
+    where: {
+      id: userId,
+    },
+  })
+}
+
+export async function getUserByEmail(email: string) {
   return await db.user.findUnique({
     where: {
       email,
@@ -19,7 +34,7 @@ export async function findUserByEmail(email: string) {
   })
 }
 
-export async function findUserByUsername(username: string) {
+export async function getUserByUsername(username: string) {
   return await db.user.findUnique({
     where: {
       username,
@@ -29,8 +44,8 @@ export async function findUserByUsername(username: string) {
       email: true,
       username: true,
       name: true,
-      meta_title: true,
-      meta_description: true,
+      metaTitle: true,
+      metaDescription: true,
       phoneNumber: true,
       about: true,
       role: true,
@@ -39,76 +54,59 @@ export async function findUserByUsername(username: string) {
           url: true,
         },
       },
-      // articles: {
-      //   take: 6,
-      //   orderBy: {
-      //     updatedAt: "desc",
-      //   },
-      //   select: {
-      //     id: true,
-      //     excerpt: true,
-      //     title: true,
-      //     slug: true,
-      //     featuredImage: {
-      //       select: {
-      //         url: true,
-      //       },
-      //     },
-      //   },
-      // },
       createdAt: true,
     },
   })
 }
 
-// export async function findUserByUsernameAndGetArticles(
-//   username: string,
-//   userPage: number,
-//   perPage: number,
-// ) {
-//   return await db.user.findUnique({
-//     where: {
-//       username,
-//     },
-//     select: {
-//       id: true,
-//       username: true,
-//       name: true,
-//       meta_title: true,
-//       meta_description: true,
-//       profilePicture: {
-//         select: {
-//           url: true,
-//         },
-//       },
-//       articles: {
-//         skip: (userPage - 1) * perPage,
-//         take: perPage,
-//         orderBy: {
-//           updatedAt: "desc",
-//         },
-//         select: {
-//           id: true,
-//           title: true,
-//           excerpt: true,
-//           slug: true,
-//           featuredImage: {
-//             select: {
-//               url: true,
-//             },
-//           },
-//         },
-//       },
-//       _count: {
-//         select: {
-//           articles: true,
-//         },
-//       },
-//     },
-//   })
-// }
+export async function getUserByUsernameAndGetArticles(
+  username: string,
+  userPage: number,
+  perPage: number,
+) {
+  return await db.user.findUnique({
+    where: {
+      username,
+    },
+    select: {
+      id: true,
+      username: true,
+      name: true,
+      metaTitle: true,
+      metaDescription: true,
+      profilePicture: {
+        select: {
+          url: true,
+        },
+      },
+      articleAuthors: {
+        skip: (userPage - 1) * perPage,
+        take: perPage,
+        orderBy: {
+          updatedAt: "desc",
+        },
+        select: {
+          id: true,
+          title: true,
+          excerpt: true,
+          slug: true,
+          featuredImage: {
+            select: {
+              url: true,
+            },
+          },
+        },
+      },
+      _count: {
+        select: {
+          articleAuthors: true,
+        },
+      },
+    },
+  })
+}
 
-export async function findUserById(userId: string) {
+export async function getUserById(userId: string) {
   return await db.user.findUnique({
     where: {
       id: userId,
@@ -118,8 +116,8 @@ export async function findUserById(userId: string) {
       email: true,
       username: true,
       name: true,
-      meta_title: true,
-      meta_description: true,
+      metaTitle: true,
+      metaDescription: true,
       phoneNumber: true,
       about: true,
       role: true,
@@ -133,7 +131,7 @@ export async function findUserById(userId: string) {
   })
 }
 
-export async function findUsers(userPage: number, perPage: number) {
+export async function getUsers(userPage: number, perPage: number) {
   return await db.user.findMany({
     orderBy: {
       createdAt: "desc",
@@ -151,20 +149,25 @@ export async function findUsers(userPage: number, perPage: number) {
   })
 }
 
-export async function updateUser(userId: string, data: UpdateUserInput) {
-  return await db.user.update({
-    where: { id: userId },
-    data,
-  })
+export async function getTotalUsers() {
+  return await db.user.count()
 }
 
 export async function searchUsers(searchUserQuery: string) {
   return await db.user.findMany({
     where: {
       OR: [
-        { email: { contains: searchUserQuery } },
-        { name: { contains: searchUserQuery } },
-        { username: { contains: searchUserQuery } },
+        {
+          email: {
+            search: searchUserQuery.split(" ").join(" & "),
+          },
+          name: {
+            search: searchUserQuery.split(" ").join(" & "),
+          },
+          username: {
+            search: searchUserQuery.split(" ").join(" & "),
+          },
+        },
       ],
     },
     select: {
@@ -176,16 +179,4 @@ export async function searchUsers(searchUserQuery: string) {
       createdAt: true,
     },
   })
-}
-
-export async function deleteUserById(userId: string) {
-  return await db.user.delete({
-    where: {
-      id: userId,
-    },
-  })
-}
-
-export async function getTotalUsers() {
-  return await db.user.count()
 }

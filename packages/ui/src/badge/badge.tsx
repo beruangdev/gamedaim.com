@@ -1,61 +1,46 @@
 import * as React from "react"
 
-import { cn } from "../classname-utils"
-import { SizesProps, VariantProps } from "../type-utils"
+import { cn, cva, VariantProps } from "../classname-utils"
 
-export type BadgeSizes = Exclude<
-  SizesProps,
-  "4xl" | "3xl" | "2xl" | "xl" | "lg" | "base" | "xs"
->
+const badgeVariants = cva(
+  "inline-flex items-center border rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-primary hover:bg-primary/80 border-transparent text-primary-foreground",
+        secondary:
+          "bg-secondary hover:bg-secondary/80 border-transparent text-secondary-foreground",
+        success:
+          "bg-success hover:bg-success/80 border-transparent text-success-foreground",
+        info: "bg-info hover:bg-info/80 border-transparent text-info-foreground",
+        warning:
+          "bg-warning hover:bg-warning/80 border-transparent text-warning-foreground",
+        danger:
+          "bg-danger hover:bg-danger/80 border-transparent text-danger-foreground",
+        outline: "text-foreground",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+)
 
-export type BadgeVariant = Exclude<VariantProps, "ghost">
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof badgeVariants> {}
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  as?: React.ElementType
-  variant?: BadgeVariant
-  size?: BadgeSizes
-  hasShadow?: boolean
-  // icon?: string | React.ReactNode
-}
-
-export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+export const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
   (props, ref) => {
-    const {
-      as: Comp = "span",
-      variant = "solid",
-      className,
-      size = "md",
-      hasShadow = false,
-      // icon,
-      children,
-      ...rest
-    } = props
-
-    const sizeClasses = {
-      sm: "text-xs font-medium px-2.5 py-0.5",
-      md: "text-sm font-semibold px-2.5 py-0.5",
-    }
-
-    const variantClasses = {
-      solid:
-        "bg-theme-100 text-theme-800 dark:bg-theme-700 dark:text-theme-300",
-      outline:
-        "bg-transparent text-theme-800 border border-theme-600 dark:border-theme-600 dark:text-theme-300",
-    }
-
-    const classes = cn(
-      "mr-2 inline-flex items-center rounded leading-4",
-      variantClasses[variant],
-      sizeClasses[size],
-      hasShadow && "ring-2 ring-white dark:ring-black",
-      className,
-    )
+    const { className, variant, ...rest } = props
 
     return (
-      <Comp ref={ref} className={classes} {...rest}>
-        {/* {icon ? icon : null} */}
-        {children}
-      </Comp>
+      <div
+        className={cn(badgeVariants({ variant }), className)}
+        {...rest}
+        ref={ref}
+      />
     )
   },
 )

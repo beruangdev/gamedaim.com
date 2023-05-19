@@ -1,21 +1,33 @@
 import * as React from "react"
-import { cn } from "../classname-utils"
+import { VariantProps, cn, cva } from "../classname-utils"
 
-export interface ThProps extends React.HTMLAttributes<HTMLTableCellElement> {
-  align?: "left" | "right" | "center"
-}
+const thVariants = cva("py-3 px-6", {
+  variants: {
+    align: {
+      left: "text-left",
+      right: "text-right",
+      center: "text-center",
+    },
+  },
+  defaultVariants: {
+    align: "left",
+  },
+})
+
+export interface ThProps
+  extends React.HTMLAttributes<HTMLTableCellElement>,
+    VariantProps<typeof thVariants> {}
 
 export const Th = React.forwardRef<HTMLTableCellElement, ThProps>(
   (props, ref) => {
     const { className, align = "left", ...rest } = props
 
-    const classes = cn(
-      "py-3 px-6",
-      align === "left" && "text-left",
-      align === "right" && "text-right",
-      align === "center" && "text-center",
-      className,
+    return (
+      <th
+        className={cn(thVariants({ align }), className)}
+        ref={ref}
+        {...rest}
+      />
     )
-    return <th className={classes} ref={ref} {...rest} />
   },
 )

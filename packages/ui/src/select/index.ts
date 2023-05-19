@@ -1,17 +1,49 @@
+"use client"
+
 import * as React from "react"
 
-import { Select as InternalSelect, SelectProps } from "./select"
-import { SelectOption, SelectOptionProps } from "./select-option"
+import {
+  Select as InternalSelect,
+  SelectProps,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+} from "./select"
 
 interface Select
   extends React.ForwardRefExoticComponent<
     SelectProps & React.RefAttributes<HTMLElement>
   > {
-  Option: typeof SelectOption
+  Group: typeof SelectGroup
+  Value: typeof SelectValue
+  Trigger: typeof SelectTrigger
+  Content: typeof SelectContent
+  Label: typeof SelectLabel
+  Item: typeof SelectItem
+  Separator: typeof SelectSeparator
 }
 
 const Select = InternalSelect as Select
-Select.Option = SelectOption
 
-export { Select, SelectOption }
-export type { SelectProps, SelectOptionProps }
+Select.Group = SelectGroup
+Select.Value = SelectValue
+Select.Trigger = SelectTrigger
+Select.Content = SelectContent
+Select.Label = SelectLabel
+Select.Item = SelectItem
+Select.Separator = SelectSeparator
+
+export {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+}

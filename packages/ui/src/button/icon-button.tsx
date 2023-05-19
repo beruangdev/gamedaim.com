@@ -1,12 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react"
 
 import { Button, ButtonProps } from "./button"
 
 type OmittedProps = "leftIcon" | "rightIcon" | "loadingText"
 
-export interface IconButtonProps
-  extends React.HTMLAttributes<HTMLButtonElement>,
-    Omit<ButtonProps, OmittedProps> {
+export type IconButtonProps = Omit<ButtonProps, OmittedProps> & {
   icon?: React.ReactElement
   "aria-label"?: string
 }

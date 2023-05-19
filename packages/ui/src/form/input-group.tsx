@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react"
 
 import { cn } from "../classname-utils"
@@ -11,7 +12,7 @@ export interface InputGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode
 }
 
-const inputSizes = {
+const inputSizes: any = {
   xl: "12",
   lg: "10",
   md: "8",

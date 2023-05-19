@@ -1,57 +1,48 @@
 import * as React from "react"
 
-import { cn } from "../classname-utils"
-import { SizesProps } from "../type-utils"
+import { VariantProps, cn, cva } from "../classname-utils"
 import { useFormControl } from "./form-control"
 
-export interface FormLabelProps extends React.HTMLAttributes<HTMLLabelElement> {
+export interface FormLabelProps
+  extends React.HTMLAttributes<HTMLLabelElement>,
+    VariantProps<typeof formLabelVariants> {
   disabled?: boolean
   children?: React.ReactNode
   htmlFor?: string
-  size?: SizesProps
-  bold?: boolean | string
-  semibold?: boolean | string
 }
 
-export const sizeClasses = {
-  "4xl": "text-4xl",
-  "3xl": "text-3xl",
-  "2xl": "text-2xl",
-  xl: "text-xl",
-  lg: "text-lg",
-  base: "text-base",
-  md: "text-base",
-  sm: "text-sm",
-  xs: "text-xs",
-}
+const formLabelVariants = cva(
+  "text-left align-middle block mb-1.5 disabled:opacity-60 font-medium",
+  {
+    variants: {
+      size: {
+        "4xl": "text-4xl",
+        "3xl": "text-3xl",
+        "2xl": "text-2xl",
+        xl: "text-xl",
+        lg: "text-lg",
+        md: "text-base",
+        sm: "text-sm",
+        xs: "text-xs",
+      },
+      bold: { true: "font-bold" },
+      semibold: { true: "font-semibold" },
+    },
+    defaultVariants: {
+      size: "md",
+    },
+  },
+)
 
 export const FormLabel = React.forwardRef<HTMLLabelElement, FormLabelProps>(
   (props, ref) => {
-    const {
-      children,
-      className,
-      size = "xs",
-      bold = false,
-      semibold = false,
-      htmlFor,
-      id,
-      ...rest
-    } = props
+    const { children, className, size, bold, semibold, htmlFor, id, ...rest } =
+      props
     const formControl = useFormControl(rest)
-
-    const classes = cn(
-      "text-left align-middle block mb-1.5",
-      formControl.disabled && "disabled:opacity-60",
-      sizeClasses[size],
-      bold ? "font-bold " : "font-medium",
-      semibold ? "font-semibold " : "font-medium",
-      className,
-    )
-
     return (
       <label
         ref={ref}
-        className={classes}
+        className={cn(formLabelVariants({ size, bold, semibold, className }))}
         htmlFor={htmlFor || formControl.id}
         id={id || formControl.labelId}
         {...rest}
@@ -68,7 +59,7 @@ export const RequiredIndicator = React.forwardRef<
   React.HTMLAttributes<HTMLSpanElement>
 >((props, ref) => {
   const { className, ...rest } = props
-  const classes = cn("ml-1 text-sm text-red-500 dark:text-red-600", className)
+  const classes = cn("ml-1 text-sm text-danger", className)
 
   return (
     <span ref={ref} className={classes} aria-hidden="true" {...rest}>

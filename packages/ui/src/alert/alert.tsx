@@ -1,57 +1,72 @@
 import * as React from "react"
 
-import { cn } from "../classname-utils"
-import { Icon, CrossIcon } from "../icons"
+import { cn, cva, VariantProps } from "../classname-utils"
 
-export interface AlertCloseButtonProps
-  extends React.HTMLAttributes<HTMLButtonElement> {}
+const alertVariants = cva(
+  "relative w-full rounded-lg border p-4 [&>svg]:absolute [&>svg]:text-foreground [&>svg]:left-4 [&>svg]:top-4 [&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
+  {
+    variants: {
+      variant: {
+        default: "bg-background text-foreground",
+        success:
+          "text-success border-success/50 dark:border-success [&>svg]:text-success text-success",
+        info: "text-info border-info/50 dark:border-info [&>svg]:text-info text-info",
+        warning:
+          "text-warning border-warning/50 dark:border-warning [&>svg]:text-warning text-warning",
+        danger:
+          "text-danger border-danger/50 dark:border-danger [&>svg]:text-danger text-danger",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+)
 
-export const AlertCloseButton = React.forwardRef<
-  HTMLButtonElement,
-  AlertCloseButtonProps
->(({ className }, ref) => {
-  const classes = cn(
-    "absolute right-4 cursor-pointer focus:outline-none text-theme-600 hover:text-theme-700 dark:text-theme-300 dark:hover:text-theme-400",
-    className,
-  )
-
-  return (
-    <button ref={ref} className={classes}>
-      <Icon
-        as={CrossIcon}
-        label="x"
-        className="inline-block h-4 w-4 fill-current align-text-bottom text-current"
-      />
-    </button>
-  )
-})
-
-export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
-  as?: React.ElementType
-  variant?: "solid" | "top-accent" | "left-accent"
-}
+export type AlertProps = React.HTMLAttributes<HTMLDivElement> &
+  VariantProps<typeof alertVariants>
 
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   (props, ref) => {
-    const { as: Comp = "div", variant = "subtle", className, ...rest } = props
+    const { className, variant, ...rest } = props
 
-    const variantClasses = {
-      subtle:
-        "rounded-md text-theme-900 bg-theme-500 dark:text-theme-300 dark:bg-theme-500/10",
-      solid:
-        "mb-4 rounded-lg p-4 text-sm text-theme-700 bg-theme-100 rounded-lg dark:bg-theme-200 dark:text-theme-800",
-      "left-accent":
-        "border-l-4 rounded-sm text-theme-700 bg-transparent border-theme-500 dark:bg-theme-200",
-      "top-accent":
-        "mb-4 p-4 flex border-t-4  border-theme-500 text-theme-700 bg-theme-100 dark:bg-theme-200",
-    }
-
-    const classes = cn(
-      "flex w-full items-center px-4 py-3 relative overflow-hidden",
-      variantClasses[variant],
-      className,
+    return (
+      <div
+        ref={ref}
+        role="alert"
+        className={cn(alertVariants({ variant }), className)}
+        {...rest}
+      />
     )
-
-    return <Comp role="alert" ref={ref} className={classes} {...rest} />
   },
 )
+
+export const AlertTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>((props, ref) => {
+  const { className, ...rest } = props
+
+  return (
+    <h5
+      ref={ref}
+      className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+      {...rest}
+    />
+  )
+})
+
+export const AlertDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>((props, ref) => {
+  const { className, ...rest } = props
+
+  return (
+    <div
+      ref={ref}
+      className={cn("text-sm [&_p]:leading-relaxed", className)}
+      {...rest}
+    />
+  )
+})

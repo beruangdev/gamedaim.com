@@ -14,16 +14,12 @@ export const FormHelperText = React.forwardRef<
 >((props, ref) => {
   const { as: Comp = "p", className, id, ...rest } = props
 
-  const classes = cn(
-    "mt-1.5 text-xs text-theme-500 dark:text-theme-600",
-    className,
-  )
   const formControl = useFormControl({})
 
   return (
     <Comp
       ref={ref}
-      className={classes}
+      className={cn("text-foreground/80 mt-1.5 text-xs", className)}
       id={id || formControl.helpTextId}
       {...rest}
     />

@@ -1,14 +1,22 @@
 import * as React from "react"
 
 import { cn } from "../classname-utils"
-import { SizesProps } from "../type-utils"
 import { useFormControl } from "./form-control"
 
-type InputSizes = Exclude<SizesProps, "base">
+export type InputSizes =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
 
 export type InputElementSizes = Exclude<
-  SizesProps,
-  "base" | "2xl" | "3xl" | "4xl"
+  InputSizes,
+  "md" | "2xl" | "3xl" | "4xl" | "5xl"
 >
 
 export interface IInputProps<T = HTMLInputElement> {
@@ -71,23 +79,17 @@ export const Input = React.forwardRef<HTMLElement, InputProps>((props, ref) => {
 
   const variantClasses = {
     plain: cn(
-      "relative w-full min-w-0 inline-flex px-3 items-center appearance-none outline-none focus:outline-none border-none focus:border-none hover:border-none focus:ring-0 text-theme-900 invalid:text-red-500 bg-white dark:bg-theme-900 text-theme-800 dark:text-theme-200",
+      "relative w-full min-w-0 inline-flex px-3 items-center appearance-none outline-none focus:outline-none border-none focus:border-none hover:border-none focus:ring-0 text-foreground invalid:text-danger bg-background text-foreground",
       disabled &&
-        "disabled:shadow-none disabled:cursor-not-allowed disabled:opacity-60 disabled:border-theme-200 disabled:bg-theme-200 dark:disabled:border-transparent dark:disabled:bg-theme-200",
+        "disabled:shadow-none disabled:cursor-not-allowed disabled:opacity-60 disabled:border-border/50 disabled:bg-background/50",
     ),
     solid: cn(
-      "relative rounded-md w-full min-w-0 inline-flex px-3 items-center appearance-none focus:outline-none transition-colors duration-75 ease-out border border-theme-300 text-theme-900 bg-theme-50 hover:bg-theme-50 focus:bg-white invalid:border-1 invalid:border-red-500 invalid:ring-red-600 focus:ring-2 dark:border-theme-600 dark:text-theme-200 dark:bg-theme-900 dark:hover:bg-theme-800 dark:focus:bg-theme-800 dark:invalid:border-1 dark:invalid:border-red-700 dark:invalid:ring-offset-2 dark:invalid:ring-red-700",
-      disabled &&
-        "disabled:shadow-none disabled:cursor-not-allowed disabled:opacity-60 disabled:border-theme-200 disabled:bg-theme-200 dark:disabled:border-transparent dark:disabled:bg-theme-200",
+      "relative rounded-md w-full min-w-0 inline-flex px-3 items-center appearance-none focus:outline-none transition-colors duration-75 ease-out border border-input text-foreground bg-background hover:bg-background/80 invalid:border-1 invalid:border-danger invalid:ring-danger focus:ring-2 placeholder:text-muted-foreground",
+      disabled && "disabled:cursor-not-allowed disabled:opacity-50",
     ),
   }
 
-  const classes = cn(
-    sizeClasses[size],
-    variantClasses[variant],
-    disabled &&
-      "disabled:shadow-none disabled:cursor-not-allowed disabled:opacity-60 disabled:border-theme-200 disabled:bg-theme-200 dark:disabled:border-transparent dark:disabled:bg-theme-200",
-  )
+  const classes = cn(sizeClasses[size], variantClasses[variant])
 
   return (
     <Comp

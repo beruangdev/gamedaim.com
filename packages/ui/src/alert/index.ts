@@ -3,20 +3,22 @@ import * as React from "react"
 import {
   Alert as InternalAlert,
   AlertProps,
-  AlertCloseButton,
-  AlertCloseButtonProps,
+  AlertTitle,
+  AlertDescription,
 } from "./alert"
 
 interface Alert
   extends React.ForwardRefExoticComponent<
     AlertProps & React.RefAttributes<HTMLDivElement>
   > {
-  CloseButton: typeof AlertCloseButton
+  Title: typeof AlertTitle
+  Description: typeof AlertDescription
 }
 
 const Alert = InternalAlert as Alert
 
-Alert.CloseButton = AlertCloseButton
+Alert.Title = AlertTitle
+Alert.Description = AlertDescription
 
-export { Alert, AlertCloseButton }
-export type { AlertProps, AlertCloseButtonProps }
+export { Alert, AlertTitle, AlertDescription }
+export type { AlertProps }

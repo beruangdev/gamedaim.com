@@ -13,16 +13,16 @@ export const FormErrorMessage = React.forwardRef<
   FormErrorMessageProps
 >((props, ref) => {
   const { className, id, ...rest } = props
-  const classes = cn(
-    "mt-1.5 leading-none flex items-center text-sm text-red-500 dark:text-red-700",
-    className,
-  )
+
   const formControl = useFormControl({})
 
   return (
     <div
       ref={ref}
-      className={classes}
+      className={cn(
+        "text-danger mt-1.5 flex items-center text-sm leading-none",
+        className,
+      )}
       id={id || formControl.errorId}
       {...rest}
     />

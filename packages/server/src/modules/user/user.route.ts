@@ -8,9 +8,9 @@ import {
   updateUserByAdminHandler,
   getUserByIdHandler,
   getUserByUsernameHandler,
-  // getUserByUsernameAndGetArticlesHandler,
   getTotalUsersHandler,
   searchUsersHandler,
+  getUserByUsernameAndGetArticlesHandler,
 } from "./user.controller"
 import { $ref } from "./user.schema"
 
@@ -40,66 +40,6 @@ async function userRoutes(server: FastifyInstance) {
     },
     loginHandler,
   )
-
-  server.get(
-    "/page/:userPage",
-    {
-      preHandler: [server.authenticate],
-    },
-    getUsersHandler,
-  )
-
-  server.get(
-    "/search/:searchUserQuery",
-    {
-      preHandler: [server.authenticate],
-    },
-    // {
-    // schema: {
-    //   response: {
-    //     200: $ref("usersResponseSchema"),
-    //   },
-    // },
-    // },
-
-    searchUsersHandler,
-  )
-
-  server.get(
-    "/:userId",
-    {
-      schema: {
-        response: {
-          200: $ref("userResponseSchema"),
-        },
-      },
-    },
-    getUserByIdHandler,
-  )
-
-  server.get(
-    "/username/:username",
-    {
-      schema: {
-        response: {
-          200: $ref("userResponseSchema"),
-        },
-      },
-    },
-    getUserByUsernameHandler,
-  )
-
-  // server.get(
-  //   "/username/:username/articles/:userPage",
-  //   {
-  //     schema: {
-  //       response: {
-  //         200: $ref("userResponseSchema"),
-  //       },
-  //     },
-  //   },
-  //   getUserByUsernameAndGetArticlesHandler,
-  // )
 
   server.put(
     "/:userId",
@@ -136,9 +76,66 @@ async function userRoutes(server: FastifyInstance) {
   )
 
   server.get(
+    "/page/:userPage",
+    {
+      preHandler: [server.authenticate],
+    },
+    getUsersHandler,
+  )
+
+  server.get(
+    "/:userId",
+    {
+      schema: {
+        response: {
+          200: $ref("userResponseSchema"),
+        },
+      },
+    },
+    getUserByIdHandler,
+  )
+
+  server.get(
+    "/username/:username",
+    {
+      schema: {
+        response: {
+          200: $ref("userResponseSchema"),
+        },
+      },
+    },
+    getUserByUsernameHandler,
+  )
+
+  server.get(
+    "/username/:username/articles/:userPage",
+    {
+      schema: {
+        response: {
+          200: $ref("userResponseSchema"),
+        },
+      },
+    },
+    getUserByUsernameAndGetArticlesHandler,
+  )
+
+  server.get(
     "/count",
     { preHandler: [server.authenticate] },
     getTotalUsersHandler,
+  )
+
+  server.get(
+    "/search/:searchUserQuery",
+    {
+      preHandler: [server.authenticate],
+      schema: {
+        response: {
+          200: $ref("userResponseSchema"),
+        },
+      },
+    },
+    searchUsersHandler,
   )
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react"
 import NextLink from "next/link"
 
@@ -18,7 +19,7 @@ export const BreadcrumbSeparator = React.forwardRef<
     <span
       ref={ref}
       role="presentation"
-      className={cn("text-theme-600 dark:text-theme-200 mx-2", className)}
+      className={cn("text-foreground/60 mx-2", className)}
       {...rest}
     />
   )
@@ -37,8 +38,8 @@ export const BreadcrumbLink = React.forwardRef<any, any>((props, ref) => {
       ref={ref}
       className={
         currentPage
-          ? "text-theme-500 dark:text-theme-300 max-w-[100px] truncate whitespace-nowrap md:max-w-[200px] lg:max-w-[400px]"
-          : "text-theme-600 dark:text-theme-200"
+          ? "text-foreground/50 max-w-[100px] truncate whitespace-nowrap md:max-w-[200px] lg:max-w-[400px]"
+          : "text-foreground/60"
       }
       aria-current={currentPage ? "page" : undefined}
       {...rest}

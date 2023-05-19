@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import * as React from "react"
@@ -13,10 +14,8 @@ export interface CheckboxGroupProps {
   children?: React.ReactNode
   defaultValue?: Array<CheckboxProps["value"]>
   value?: Array<CheckboxProps["value"]>
-  // eslint-disable-next-line no-unused-vars
   onChange?: (value: Array<CheckboxProps["value"]>) => void
   inline?: boolean
-  size?: CheckboxProps["size"]
 }
 
 export const CheckboxGroup = React.forwardRef<
@@ -27,7 +26,6 @@ export const CheckboxGroup = React.forwardRef<
     className,
     onChange,
     name,
-    size,
     defaultValue,
     inline,
     value: valueProp,
@@ -41,7 +39,6 @@ export const CheckboxGroup = React.forwardRef<
 
   const _onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let newValues: any
     if (checked) {
       newValues = [...(_values || []), value]
@@ -49,9 +46,7 @@ export const CheckboxGroup = React.forwardRef<
       newValues = (_values || []).filter((val) => val !== value)
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     !isControlled && setValues(newValues)
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     onChange && onChange(newValues)
   }
 
@@ -71,7 +66,6 @@ export const CheckboxGroup = React.forwardRef<
         )}
       >
         {React.cloneElement(child, {
-          size: size,
           name: `${_name}-${index}`,
           onChange: _onChange,
           checked: (_values || []).includes(child.props.value),

@@ -23,12 +23,12 @@ export const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
       >
         <label
           htmlFor="dropzone-file"
-          className="border-theme-300 bg-theme-50 hover:bg-theme-100 dark:border-theme-600 dark:bg-theme-700 dark:hover:border-theme-500 dark:hover:bg-theme-800 flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed"
+          className="border-border/30 bg-background/5 hover:bg-background/10 flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed"
         >
           <div className="flex flex-col items-center justify-center pb-6 pt-5">
             <svg
               aria-hidden="true"
-              className="text-theme-400 mb-3 h-10 w-10"
+              className="text-foreground/40 mb-3 h-10 w-10"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -41,12 +41,10 @@ export const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
               ></path>
             </svg>
-            <p className="text-theme-500 dark:text-theme-400 mb-2 text-sm">
+            <p className="text-foreground/50 mb-2 text-sm">
               <span className="font-semibold">{placeholder}</span>
             </p>
-            <p className="text-theme-500 dark:text-theme-400 text-xs">
-              {description}
-            </p>
+            <p className="text-foreground/50 text-xs">{description}</p>
           </div>
           <input id="dropzone-file" type="file" className="hidden" {...rest} />
         </label>

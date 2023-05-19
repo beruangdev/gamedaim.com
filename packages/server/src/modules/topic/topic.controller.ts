@@ -3,31 +3,32 @@ import { FastifyReply, FastifyRequest } from "fastify"
 import { uniqueSlug, slugify } from "../../utils/slug"
 import {
   CreateTopicInput,
-  CreateTopicTranslationInput,
+  CreateTopicPrimaryInput,
   UpdateTopicInput,
-  UpdateTopicTranslationInput,
 } from "./topic.schema"
 import {
-  createTopic,
-  deleteTopicById,
-  getTopicTranslationById,
-  getTopicTranslationBySlug,
+  createTopicWithPrimary,
+  deleteTopicWithPrimaryById,
+  getTopicById,
+  getTopicBySlug,
   getTopicsByLang,
   searchTopicsByLang,
-  updateTopic,
   getTotalTopics,
   getTopicsSitemapByLang,
   getTopicsByTypeAndLang,
   getTopicsDashboardByLang,
   searchTopicsDashboardByLang,
-  deleteTopicTranslationById,
-  updateTopicTranslation,
-  createTopicTranslation,
+  deleteTopicById,
+  updateTopic,
+  createTopic,
+  getTopicPrimaryById,
+  getTotalTopicPrimaries,
+  getTopicArticlesHandler,
 } from "./topic.service"
 
-export async function createTopicHandler(
+export async function createTopicWithPrimaryHandler(
   request: FastifyRequest<{
-    Body: CreateTopicInput
+    Body: CreateTopicPrimaryInput
   }>,
   reply: FastifyReply,
 ) {
@@ -35,8 +36,8 @@ export async function createTopicHandler(
     const {
       title,
       description,
-      meta_title,
-      meta_description,
+      metaTitle,
+      metaDescription,
       type,
       language,
       featuredImageId,
@@ -49,36 +50,36 @@ export async function createTopicHandler(
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    const topic = await createTopic({
+    const topicWithPrimary = await createTopicWithPrimary({
       title,
+      slug,
       description,
-      meta_title,
-      meta_description,
+      metaTitle,
+      metaDescription,
       type,
       language,
-      slug,
       featuredImageId,
     })
-    return reply.code(201).send(topic)
+    return reply.code(201).send(topicWithPrimary)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
   }
 }
 
-export async function createTopicTranslationHandler(
+export async function createTopicHandler(
   request: FastifyRequest<{
-    Body: CreateTopicTranslationInput
+    Body: CreateTopicInput
   }>,
   reply: FastifyReply,
 ) {
   try {
     const {
-      topicId,
+      topicPrimaryId,
       title,
       description,
-      meta_title,
-      meta_description,
+      metaTitle,
+      metaDescription,
       language,
     } = request.body
     const user = request.user
@@ -87,15 +88,18 @@ export async function createTopicTranslationHandler(
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    const topicTranslation = await createTopicTranslation({
-      topicId,
+    const slug = slugify(title.toLowerCase()) + "_" + uniqueSlug()
+
+    const topic = await createTopic({
+      topicPrimaryId,
+      slug,
       title,
       description,
-      meta_title,
-      meta_description,
+      metaTitle,
+      metaDescription,
       language,
     })
-    return reply.code(201).send(topicTranslation)
+    return reply.code(201).send(topic)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
@@ -110,7 +114,16 @@ export async function updateTopicHandler(
   reply: FastifyReply,
 ) {
   try {
-    const { slug, type, featuredImageId } = request.body
+    const {
+      language,
+      title,
+      slug,
+      description,
+      metaTitle,
+      metaDescription,
+      type,
+      featuredImageId,
+    } = request.body
     const user = request.user
     const topicId = request.params.topicId
 
@@ -118,84 +131,44 @@ export async function updateTopicHandler(
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    const topic = await updateTopic(topicId, {
+    const updatedTopic = await updateTopic(topicId, {
+      language,
+      title,
       slug,
+      description,
+      metaTitle,
+      metaDescription,
       type,
       featuredImageId,
     })
-    return reply.code(201).send(topic)
+    return reply.code(201).send(updatedTopic)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
   }
 }
 
-export async function updateTopicTranslationHandler(
-  request: FastifyRequest<{
-    Params: { topicId: string }
-    Body: UpdateTopicTranslationInput & { slug: string }
-  }>,
+export async function deleteTopicWithPrimaryHandler(
+  request: FastifyRequest<{ Params: { topicPrimaryId: string } }>,
   reply: FastifyReply,
 ) {
   try {
-    const { title, description, meta_title, meta_description, language } =
-      request.body
+    const { topicPrimaryId } = request.params
     const user = request.user
-    const topicId = request.params.topicId
+    const deletedTopicWithPrimary = await deleteTopicWithPrimaryById(
+      topicPrimaryId,
+    )
 
-    if (user.role !== "ADMIN" && user.role !== "AUTHOR") {
+    if (user.role !== "ADMIN") {
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    const topic = await updateTopicTranslation(topicId, {
-      title,
-      description,
-      meta_title,
-      meta_description,
-      language,
-    })
-
-    return reply.code(201).send(topic)
+    return reply.code(201).send(deletedTopicWithPrimary)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
   }
 }
-
-export async function getTopicTranslationByIdHandler(
-  request: FastifyRequest<{
-    Params: { topicId: string }
-  }>,
-  reply: FastifyReply,
-) {
-  try {
-    const { topicId } = request.params
-    const topic = await getTopicTranslationById(topicId)
-    return reply.code(201).send(topic)
-  } catch (e) {
-    console.log(e)
-    return reply.code(500).send(e)
-  }
-}
-
-export async function getTopicBySlugHandler(
-  request: FastifyRequest<{
-    Params: { topicSlug: string }
-  }>,
-  reply: FastifyReply,
-) {
-  try {
-    const { topicSlug } = request.params
-
-    const topic = await getTopicTranslationBySlug(topicSlug)
-    return reply.code(201).send(topic)
-  } catch (e) {
-    console.log(e)
-    return reply.code(500).send(e)
-  }
-}
-
-//TODO: create getTopicArticlesBySlugHandler
 
 export async function deleteTopicHandler(
   request: FastifyRequest<{ Params: { topicId: string } }>,
@@ -204,33 +177,45 @@ export async function deleteTopicHandler(
   try {
     const { topicId } = request.params
     const user = request.user
-    const deleteTopic = await deleteTopicById(topicId)
+    const deletedTopic = await deleteTopicById(topicId)
 
     if (user.role !== "ADMIN") {
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    return reply.code(201).send(deleteTopic)
+    return reply.code(201).send(deletedTopic)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
   }
 }
 
-export async function deleteTopicTranslationHandler(
-  request: FastifyRequest<{ Params: { topicTranslationId: string } }>,
+export async function getTopicPrimaryByIdHandler(
+  request: FastifyRequest<{
+    Params: { topicPrimaryId: string }
+  }>,
   reply: FastifyReply,
 ) {
   try {
-    const { topicTranslationId } = request.params
-    const user = request.user
-    const deleteTopic = await deleteTopicTranslationById(topicTranslationId)
+    const { topicPrimaryId } = request.params
+    const topicPrimary = await getTopicPrimaryById(topicPrimaryId)
+    return reply.code(201).send(topicPrimary)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
 
-    if (user.role !== "ADMIN") {
-      return reply.code(403).send({ message: "Unauthorized" })
-    }
-
-    return reply.code(201).send(deleteTopic)
+export async function getTopicByIdHandler(
+  request: FastifyRequest<{
+    Params: { topicId: string }
+  }>,
+  reply: FastifyReply,
+) {
+  try {
+    const { topicId } = request.params
+    const topic = await getTopicById(topicId)
+    return reply.code(201).send(topic)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
@@ -247,6 +232,7 @@ export async function getTopicsByLangHandler(
     const perPage = 10
     const topicLanguage = request.params.topicLanguage
     const topicPage = Number(request.params.topicPage || 1)
+
     const topics = await getTopicsByLang(topicLanguage, topicPage, perPage)
     return reply.code(201).send(topics)
   } catch (e) {
@@ -265,6 +251,7 @@ export async function getTopicsDashboardByLangHandler(
     const perPage = 10
     const topicLanguage = request.params.topicLanguage
     const topicPage = Number(request.params.topicPage || 1)
+
     const topics = await getTopicsDashboardByLang(
       topicLanguage,
       topicPage,
@@ -279,14 +266,20 @@ export async function getTopicsDashboardByLangHandler(
 
 export async function getTopicsSitemapByLangHandler(
   request: FastifyRequest<{
-    Params: { topicPage: number }
+    Params: { topicPage: number; topicLanguage: "id_ID" | "en_US" }
   }>,
   reply: FastifyReply,
 ) {
   try {
     const perPage = 100
     const topicPage = Number(request.params.topicPage || 1)
-    const topics = await getTopicsSitemapByLang(topicPage, perPage)
+    const topicLanguage = request.params.topicLanguage
+
+    const topics = await getTopicsSitemapByLang(
+      topicPage,
+      perPage,
+      topicLanguage,
+    )
     return reply.code(201).send(topics)
   } catch (e) {
     console.log(e)
@@ -309,6 +302,7 @@ export async function getTopicsByTypeAndLangHandler(
     const topicType = request.params.topicType
     const perPage = 10
     const topicPage = Number(request.params.topicPage || 1)
+
     const topics = await getTopicsByTypeAndLang(
       topicLanguage,
       topicType,
@@ -322,7 +316,68 @@ export async function getTopicsByTypeAndLangHandler(
   }
 }
 
-//TODO: create getalltopics
+export async function getTopicArticlesBySlugHandler(
+  request: FastifyRequest<{
+    Params: { topicSlug: string; topicPage: number }
+  }>,
+  reply: FastifyReply,
+) {
+  try {
+    const { topicSlug } = request.params
+
+    const perPage = 10
+    const topicPage = Number(request.params.topicPage || 1)
+
+    const topic = await getTopicArticlesHandler(topicSlug, topicPage, perPage)
+    return reply.code(201).send(topic)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function getTopicBySlugHandler(
+  request: FastifyRequest<{
+    Params: { topicSlug: string }
+  }>,
+  reply: FastifyReply,
+) {
+  try {
+    const { topicSlug } = request.params
+
+    const topic = await getTopicBySlug(topicSlug)
+    return reply.code(201).send(topic)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function getTotalTopicsHandler(
+  _request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  try {
+    const topics = await getTotalTopics()
+    return reply.code(201).send(topics)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function getTotalTopicPrimariesHandler(
+  _request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  try {
+    const topicPrimaries = await getTotalTopicPrimaries()
+    return reply.code(201).send(topicPrimaries)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
 
 export async function searchTopicsByLangHandler(
   request: FastifyRequest<{
@@ -334,8 +389,8 @@ export async function searchTopicsByLangHandler(
     const topicLanguage = request.params.topicLanguage
     const searchQuery = request.params.searchTopicQuery
 
-    const topics = await searchTopicsByLang(topicLanguage, searchQuery)
-    return reply.code(201).send(topics)
+    const searchedTopics = await searchTopicsByLang(topicLanguage, searchQuery)
+    return reply.code(201).send(searchedTopics)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)
@@ -353,19 +408,6 @@ export async function searchTopicsDashboardHandler(
     const searchQuery = request.params.searchTopicQuery
 
     const topics = await searchTopicsDashboardByLang(topicLanguage, searchQuery)
-    return reply.code(201).send(topics)
-  } catch (e) {
-    console.log(e)
-    return reply.code(500).send(e)
-  }
-}
-
-export async function getTotalTopicsHandler(
-  _request: FastifyRequest,
-  reply: FastifyReply,
-) {
-  try {
-    const topics = await getTotalTopics()
     return reply.code(201).send(topics)
   } catch (e) {
     console.log(e)
