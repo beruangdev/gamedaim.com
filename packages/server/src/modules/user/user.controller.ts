@@ -1,18 +1,20 @@
 import { FastifyReply, FastifyRequest } from "fastify"
+import { UserRole } from "@prisma/client"
 
-import { comparePassword } from "../../utils/password"
+import { comparePassword } from "@/utils/password"
 import { CreateUserInput, LoginInput, UpdateUserInput } from "./user.schema"
 import {
   createUser,
   deleteUserById,
+  getTotalUsers,
   getUserByEmail,
   getUserById,
   getUserByUsername,
-  getUsers,
-  updateUser,
-  getTotalUsers,
-  searchUsers,
   getUserByUsernameAndGetArticles,
+  getUsers,
+  getUsersByRole,
+  searchUsers,
+  updateUser,
 } from "./user.service"
 
 export async function registerUserHandler(
@@ -260,6 +262,28 @@ export async function getUsersHandler(
     }
 
     const users = await getUsers(userPage, perPage)
+    return reply.code(201).send(users)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function getUsersByRoleHandler(
+  request: FastifyRequest<{ Params: { userRole: UserRole; userPage: number } }>,
+  reply: FastifyReply,
+) {
+  try {
+    const user = request.user
+    const perPage = 10
+    const userRole = request.params.userRole
+    const userPage = Number(request.params.userPage || 1)
+
+    if (user.role !== "ADMIN") {
+      return reply.code(403).send({ message: "Unauthorized" })
+    }
+
+    const users = await getUsersByRole(userRole, userPage, perPage)
     return reply.code(201).send(users)
   } catch (e) {
     console.log(e)

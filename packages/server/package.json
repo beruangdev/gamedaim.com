@@ -2,10 +2,10 @@
   "name": "gamedaim-server",
   "version": "0.0.1",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only --exit-child --respawn src/app.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register --exit-child --respawn src/app.ts",
     "start": "node dist/src/app.js",
     "prebuild": "npm run lint",
-    "build": "rimraf ./dist && tsc",
+    "build": "rimraf ./dist && tsc && tsc-alias",
     "clean": "rimraf node_modules build dist",
     "clean:build": "rimraf build dist .nyc_output",
     "lint": "eslint .",
@@ -47,6 +47,8 @@
     "eslint-config-node-custom": "workspace:*",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.6",
+    "tsconfig-paths": "^4.2.0",
     "tslib": "^2.5.2",
     "typescript": "^5.0.4",
     "typescript-config": "workspace:*"

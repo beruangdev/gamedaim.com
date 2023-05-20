@@ -1,29 +1,30 @@
 import { FastifyReply, FastifyRequest } from "fastify"
+import { LanguageType, TopicType } from "@prisma/client"
 
-import { uniqueSlug, slugify } from "../../utils/slug"
+import { slugify, uniqueSlug } from "@/utils/slug"
 import {
   CreateTopicInput,
   CreateTopicPrimaryInput,
   UpdateTopicInput,
 } from "./topic.schema"
 import {
+  createTopic,
   createTopicWithPrimary,
+  deleteTopicById,
   deleteTopicWithPrimaryById,
+  getTopicArticlesHandler,
   getTopicById,
   getTopicBySlug,
+  getTopicPrimaryById,
   getTopicsByLang,
-  searchTopicsByLang,
-  getTotalTopics,
-  getTopicsSitemapByLang,
   getTopicsByTypeAndLang,
   getTopicsDashboardByLang,
-  searchTopicsDashboardByLang,
-  deleteTopicById,
-  updateTopic,
-  createTopic,
-  getTopicPrimaryById,
+  getTopicsSitemapByLang,
   getTotalTopicPrimaries,
-  getTopicArticlesHandler,
+  getTotalTopics,
+  searchTopicsByLang,
+  searchTopicsDashboardByLang,
+  updateTopic,
 } from "./topic.service"
 
 export async function createTopicWithPrimaryHandler(
@@ -224,7 +225,7 @@ export async function getTopicByIdHandler(
 
 export async function getTopicsByLangHandler(
   request: FastifyRequest<{
-    Params: { topicLanguage: "id_ID" | "en_US"; topicPage: number }
+    Params: { topicLanguage: LanguageType; topicPage: number }
   }>,
   reply: FastifyReply,
 ) {
@@ -243,7 +244,7 @@ export async function getTopicsByLangHandler(
 
 export async function getTopicsDashboardByLangHandler(
   request: FastifyRequest<{
-    Params: { topicLanguage: "id_ID" | "en_US"; topicPage: number }
+    Params: { topicLanguage: LanguageType; topicPage: number }
   }>,
   reply: FastifyReply,
 ) {
@@ -266,7 +267,7 @@ export async function getTopicsDashboardByLangHandler(
 
 export async function getTopicsSitemapByLangHandler(
   request: FastifyRequest<{
-    Params: { topicPage: number; topicLanguage: "id_ID" | "en_US" }
+    Params: { topicPage: number; topicLanguage: LanguageType }
   }>,
   reply: FastifyReply,
 ) {
@@ -290,8 +291,8 @@ export async function getTopicsSitemapByLangHandler(
 export async function getTopicsByTypeAndLangHandler(
   request: FastifyRequest<{
     Params: {
-      topicLanguage: "id_ID" | "en_US"
-      topicType: "ALL" | "ARTICLE" | "MOVIE" | "TV" | "REVIEW" | "TUTORIAL"
+      topicLanguage: LanguageType
+      topicType: TopicType
       topicPage: number
     }
   }>,
@@ -381,7 +382,7 @@ export async function getTotalTopicPrimariesHandler(
 
 export async function searchTopicsByLangHandler(
   request: FastifyRequest<{
-    Params: { topicLanguage: "id_ID" | "en_US"; searchTopicQuery: string }
+    Params: { topicLanguage: LanguageType; searchTopicQuery: string }
   }>,
   reply: FastifyReply,
 ) {
@@ -399,7 +400,7 @@ export async function searchTopicsByLangHandler(
 
 export async function searchTopicsDashboardHandler(
   request: FastifyRequest<{
-    Params: { topicLanguage: "id_ID" | "en_US"; searchTopicQuery: string }
+    Params: { topicLanguage: LanguageType; searchTopicQuery: string }
   }>,
   reply: FastifyReply,
 ) {

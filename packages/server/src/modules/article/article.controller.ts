@@ -1,30 +1,31 @@
 import { FastifyReply, FastifyRequest } from "fastify"
+import { LanguageType } from "@prisma/client"
 
-import { uniqueSlug, slugify } from "../../utils/slug"
+import { slugify, uniqueSlug } from "@/utils/slug"
+import { trimText } from "@/utils/trim"
 import {
   CreateArticleInput,
   CreateArticlePrimaryInput,
   UpdateArticleInput,
 } from "./article.schema"
 import {
+  createArticle,
   createArticleWithPrimary,
-  getArticlesByLang,
   deleteArticleById,
-  updateArticle,
+  deleteArticleWithPrimaryById,
   getArticleById,
-  getArticlesByAuthorUsernameAndLang,
   getArticleBySlug,
+  getArticlePrimaryById,
+  getArticlesByAuthorUsernameAndLang,
+  getArticlesByLang,
+  getArticlesDashboardByLang,
+  getArticlesSitemapByLang,
+  getTotalArticlePrimaries,
   getTotalArticles,
   searchArticlesByLang,
-  getArticlesSitemapByLang,
-  getArticlesDashboardByLang,
   searchArticlesDashboardByLang,
-  createArticle,
-  getArticlePrimaryById,
-  deleteArticleWithPrimaryById,
-  getTotalArticlePrimaries,
+  updateArticle,
 } from "./article.service"
-import { trimText } from "../../utils/trim"
 
 export async function createArticleWithPrimaryHandler(
   request: FastifyRequest<{
@@ -269,7 +270,7 @@ export async function getArticleByIdHandler(
 
 export async function getArticlesByLangHandler(
   request: FastifyRequest<{
-    Params: { articleLanguage: "id_ID" | "en_US"; articlePage: number }
+    Params: { articleLanguage: LanguageType; articlePage: number }
   }>,
   reply: FastifyReply,
 ) {
@@ -291,7 +292,7 @@ export async function getArticlesByLangHandler(
 
 export async function getArticlesDashboardByLangHandler(
   request: FastifyRequest<{
-    Params: { articleLanguage: "id_ID" | "en_US"; articlePage: number }
+    Params: { articleLanguage: LanguageType; articlePage: number }
   }>,
   reply: FastifyReply,
 ) {
@@ -313,7 +314,7 @@ export async function getArticlesDashboardByLangHandler(
 
 export async function getArticlesSitemapByLangHandler(
   request: FastifyRequest<{
-    Params: { articleLanguage: "id_ID" | "en_US"; articlePage: number }
+    Params: { articleLanguage: LanguageType; articlePage: number }
   }>,
   reply: FastifyReply,
 ) {
@@ -352,7 +353,7 @@ export async function getArticleBySlugHandler(
 export async function getArticleByAuthorUsernameAndLangHandler(
   request: FastifyRequest<{
     Params: {
-      articleLanguage: "id_ID" | "en_US"
+      articleLanguage: LanguageType
       authorUsername: string
       articlePage: number
     }
@@ -407,7 +408,7 @@ export async function getTotalArticlesHandler(
 
 export async function searchArticlesByLangHandler(
   request: FastifyRequest<{
-    Params: { articleLanguage: "id_ID" | "en_US"; searchArticleQuery: string }
+    Params: { articleLanguage: LanguageType; searchArticleQuery: string }
   }>,
   reply: FastifyReply,
 ) {
@@ -428,7 +429,7 @@ export async function searchArticlesByLangHandler(
 
 export async function searchArticlesDasboardHandler(
   request: FastifyRequest<{
-    Params: { articleLanguage: "id_ID" | "en_US"; searchArticleQuery: string }
+    Params: { articleLanguage: LanguageType; searchArticleQuery: string }
   }>,
   reply: FastifyReply,
 ) {
