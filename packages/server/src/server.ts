@@ -15,10 +15,12 @@ import articleRoutes from "@/modules/article/article.route"
 import { articleSchemas } from "@/modules/article/article.schema"
 import articleCommentRoutes from "@/modules/article-comment/article-comment.route"
 import { articleCommentSchemas } from "@/modules/article-comment/article-comment.schema"
-import downloadRoutes from "./modules/download/download.route"
-import { downloadSchemas } from "./modules/download/download.schema"
-import downloadFileRoutes from "./modules/download-file/download-file.route"
-import { downloadFileSchemas } from "./modules/download-file/download-file.schema"
+import downloadRoutes from "@/modules/download/download.route"
+import { downloadSchemas } from "@/modules/download/download.schema"
+import downloadCommentRoutes from "@/modules/download-comment/download-comment.route"
+import { downloadCommentSchemas } from "@/modules/download-comment/download-comment.schema"
+import downloadFileRoutes from "@/modules/download-file/download-file.route"
+import { downloadFileSchemas } from "@/modules/download-file/download-file.schema"
 import mediaRoutes from "@/modules/media/media.route"
 import { mediaSchemas } from "@/modules/media/media.schema"
 import settingRoutes from "@/modules/setting/setting.route"
@@ -86,6 +88,7 @@ function buildServer() {
     ...articleSchemas,
     ...articleCommentSchemas,
     ...downloadSchemas,
+    ...downloadCommentSchemas,
     ...downloadFileSchemas,
     ...mediaSchemas,
     ...topicSchemas,
@@ -116,6 +119,7 @@ function buildServer() {
   server.register(articleRoutes, { prefix: "api/article" })
   server.register(articleCommentRoutes, { prefix: "api/article-comment" })
   server.register(downloadRoutes, { prefix: "api/download" })
+  server.register(downloadCommentRoutes, { prefix: "api/download-comment" })
   server.register(downloadFileRoutes, { prefix: "api/download-file" })
   server.register(topicRoutes, { prefix: "api/topic" })
   server.register(mediaRoutes, { prefix: "api/media" })
