@@ -1,11 +1,10 @@
-import db from "../../utils/db"
+import db from "@/utils/db"
 import { UpdateMediaInput, UploadMediaInput } from "./media.schema"
 
 export async function uploadMedia(
   data: UploadMediaInput & { authorId: string },
 ) {
   return await db.media.create({
-    //@ts-ignore FIX: LATER
     data,
   })
 }

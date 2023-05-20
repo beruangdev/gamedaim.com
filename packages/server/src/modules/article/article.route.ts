@@ -2,21 +2,21 @@ import { FastifyInstance } from "fastify"
 
 import {
   createArticleHandler,
+  createArticleWithPrimaryHandler,
   deleteArticleHandler,
-  updateArticleHandler,
+  deleteArticleWithPrimaryHandler,
+  getArticleByAuthorUsernameAndLangHandler,
   getArticleByIdHandler,
   getArticleBySlugHandler,
-  getTotalArticlesHandler,
-  getArticlesSitemapByLangHandler,
-  getArticlesDashboardByLangHandler,
-  searchArticlesDasboardHandler,
-  createArticleWithPrimaryHandler,
-  deleteArticleWithPrimaryHandler,
   getArticlePrimaryByIdHandler,
   getArticlesByLangHandler,
-  getArticleByAuthorUsernameAndLangHandler,
+  getArticlesDashboardByLangHandler,
+  getArticlesSitemapByLangHandler,
   getTotalArticlePrimariesHandler,
+  getTotalArticlesHandler,
   searchArticlesByLangHandler,
+  searchArticlesDasboardHandler,
+  updateArticleHandler,
 } from "./article.controller"
 import { $ref } from "./article.schema"
 

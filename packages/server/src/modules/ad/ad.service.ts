@@ -1,4 +1,4 @@
-import db from "../../utils/db"
+import db from "@/utils/db"
 import { CreateAdInput } from "./ad.schema"
 
 export type AdPosition =

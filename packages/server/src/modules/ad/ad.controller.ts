@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
+import { AdPosition } from "@prisma/client"
 
 import { CreateAdInput, UpdateAdInput } from "./ad.schema"
 import {
@@ -6,11 +7,10 @@ import {
   deleteAdById,
   getAdById,
   getAds,
-  updateAd,
-  getTotalAds,
   getAdsByPosition,
+  getTotalAds,
+  updateAd,
 } from "./ad.service"
-import { AdPosition } from "@prisma/client"
 
 export async function createAdHandler(
   request: FastifyRequest<{

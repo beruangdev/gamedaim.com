@@ -1,24 +1,24 @@
 import { FastifyInstance } from "fastify"
+
 import {
+  createTopicHandler,
   createTopicWithPrimaryHandler,
+  deleteTopicHandler,
   deleteTopicWithPrimaryHandler,
-  getTopicsByLangHandler,
+  getTopicArticlesBySlugHandler,
   getTopicByIdHandler,
   getTopicBySlugHandler,
-  getTotalTopicsHandler,
-  searchTopicsByLangHandler,
-  getTopicsSitemapByLangHandler,
+  getTopicPrimaryByIdHandler,
+  getTopicsByLangHandler,
   getTopicsByTypeAndLangHandler,
   getTopicsDashboardByLangHandler,
+  getTopicsSitemapByLangHandler,
+  getTotalTopicPrimariesHandler,
+  getTotalTopicsHandler,
+  searchTopicsByLangHandler,
   searchTopicsDashboardHandler,
   updateTopicHandler,
-  createTopicHandler,
-  getTopicPrimaryByIdHandler,
-  getTotalTopicPrimariesHandler,
-  deleteTopicHandler,
-  getTopicArticlesBySlugHandler,
 } from "./topic.controller"
-
 import { $ref } from "./topic.schema"
 
 async function topicRoutes(server: FastifyInstance) {

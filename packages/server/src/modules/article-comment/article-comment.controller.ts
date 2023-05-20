@@ -9,12 +9,12 @@ import {
   deleteArticleCommentById,
   getArticleCommentById,
   getArticleComments,
+  getArticleCommentsByArticleId,
+  getArticleCommentsDashboard,
+  getTotalArticleCommentByArticle,
   getTotalArticleComments,
   searchArticlecomments,
   updateArticleComment,
-  getArticleCommentsByArticleId,
-  getTotalArticleCommentByArticle,
-  getArticleCommentsDashboard,
 } from "./article-comment.service"
 
 export async function createArticleCommentHandler(

@@ -1,4 +1,4 @@
-import db from "../../utils/db"
+import db from "@/utils/db"
 import { CreateArticleCommentInput } from "./article-comment.schema"
 
 export async function createArticleComment(
