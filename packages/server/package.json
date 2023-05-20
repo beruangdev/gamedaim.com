@@ -2,7 +2,7 @@
   "name": "gamedaim-server",
   "version": "0.0.1",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register --exit-child --respawn src/app.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register --exit-child --transpile-only --respawn src/app.ts",
     "start": "node dist/src/app.js",
     "prebuild": "npm run lint",
     "build": "rimraf ./dist && tsc && tsc-alias",
