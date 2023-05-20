@@ -71,6 +71,7 @@ export const useAuthStore = create<AuthStoreType>()(
             state.isAdmin = false
             state.isAuthor = false
             state.isUser = false
+            state.isLoading = true
           }),
         )
       },

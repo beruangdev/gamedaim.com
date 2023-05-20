@@ -1,5 +1,6 @@
 import * as React from "react"
 import { DashboardContainer } from "./container"
+import { AdminOrAuthorRole } from "@/components/Auth"
 
 export const metadata = {
   title: "Dashboard",
@@ -13,5 +14,9 @@ interface DashboardLayoutProps {
 export default function DashboardLayout(props: DashboardLayoutProps) {
   const { children } = props
 
-  return <DashboardContainer>{children}</DashboardContainer>
+  return (
+    <AdminOrAuthorRole>
+      <DashboardContainer>{children}</DashboardContainer>
+    </AdminOrAuthorRole>
+  )
 }

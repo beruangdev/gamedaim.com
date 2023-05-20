@@ -1,8 +1,8 @@
+"use client"
 import * as React from "react"
 import dynamic from "next/dynamic"
 
 import { Icon } from "@/components/UI/Icon"
-import { WithAuth } from "@/components/Auth"
 import { useGetArticlesCount } from "@/lib/api/client/article"
 import { useGetAdsCount } from "@/lib/api/client/ad"
 import { useGetTopicsCount } from "@/lib/api/client/topic"
@@ -23,7 +23,7 @@ export default function Dashboard() {
   const { usersCount } = useGetUsersCount()
 
   return (
-    <WithAuth routeRole="adminOrAuthor">
+    <>
       <div className="my-8">
         <h2 className="text-3xl">Statistics</h2>
         <div className="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
@@ -71,6 +71,6 @@ export default function Dashboard() {
           )}
         </div>
       </div>
-    </WithAuth>
+    </>
   )
 }

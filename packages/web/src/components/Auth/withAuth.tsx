@@ -114,8 +114,12 @@ export const WithAuth = (props: withAuthProps) => {
 
   if (isLoading) {
     return <>....</>
-  } else if (!isLoading) {
-    if (!isAuthenticated && routeRole !== "auth" && routeRole !== "optional") {
+  } else if (isLoading === false) {
+    if (
+      isAuthenticated === false &&
+      routeRole !== "auth" &&
+      routeRole !== "optional"
+    ) {
       return <>....</>
     } else if (
       isAuthor &&

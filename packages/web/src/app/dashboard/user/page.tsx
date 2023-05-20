@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
@@ -7,7 +8,6 @@ import { Button, IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { UserDataProps } from "@/lib/data-types"
-import { WithAuth } from "@/components/Auth"
 import { useGetUsers, useGetUsersCount } from "@/lib/api/client/user"
 import { formatDate } from "@/lib/date"
 import { handleDeleteUser } from "./actions"
@@ -17,15 +17,20 @@ const ActionDashboard = dynamic(() =>
 )
 
 export default function UsersDashboard() {
-  const { users } = useGetUsers()
   const { usersCount } = useGetUsersCount()
 
   const lastPage = usersCount && Math.ceil(usersCount / 10)
+  console.log(usersCount)
 
   const [page, setPage] = React.useState<number>(1)
-
+  const { users, updatedUsers } = useGetUsers(page)
+  React.useEffect(() => {
+    if (page > lastPage) {
+      setPage((old) => Math.max(old - 1, 0))
+    }
+  }, [lastPage, page])
   return (
-    <WithAuth routeRole="admin">
+    <>
       <div className="mt-4 flex items-end justify-between">
         <div>
           <NextLink href="/dashboard/user/new">
@@ -82,7 +87,7 @@ export default function UsersDashboard() {
                       <ActionDashboard
                         viewLink={`/user/${user.username}`}
                         onDelete={() => {
-                          handleDeleteUser(user.id)
+                          handleDeleteUser(user.id, updatedUsers)
                         }}
                         editLink={`/dashboard/user/${user.id}`}
                       />
@@ -104,7 +109,7 @@ export default function UsersDashboard() {
                       <Icon.ChevronLeft />
                     </IconButton>
                   )}
-                  {usersCount === false && page !== lastPage && (
+                  {page !== lastPage && (
                     <IconButton
                       variant="ghost"
                       onClick={() => {
@@ -125,6 +130,6 @@ export default function UsersDashboard() {
           </div>
         )}
       </div>
-    </WithAuth>
+    </>
   )
 }
