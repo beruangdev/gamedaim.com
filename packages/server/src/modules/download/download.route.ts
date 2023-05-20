@@ -8,15 +8,15 @@ import {
   getDownloadByAuthorUsernameAndLangHandler,
   getDownloadByIdHandler,
   getDownloadBySlugHandler,
-  getDownloadsByTypeAndLangHandler,
   getDownloadsByLangHandler,
+  getDownloadsByTypeAndLangHandler,
   getDownloadsDashboardByLangHandler,
   getDownloadsSitemapByLangHandler,
+  getTotalDownloadPrimariesHandler,
   getTotalDownloadsHandler,
   searchDownloadsByLangHandler,
-  updateDownloadHandler,
-  getTotalDownloadPrimariesHandler,
   searchDownloadsDashboardByLangHandler,
+  updateDownloadHandler,
 } from "./download.controller"
 import { $ref } from "./download.schema"
 
