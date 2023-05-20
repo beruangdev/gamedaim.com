@@ -15,7 +15,7 @@ import {
   getTotalArticlePrimariesHandler,
   getTotalArticlesHandler,
   searchArticlesByLangHandler,
-  searchArticlesDasboardHandler,
+  searchArticlesDashboardByLangHandler,
   updateArticleHandler,
 } from "./article.controller"
 import { $ref } from "./article.schema"
@@ -148,7 +148,7 @@ async function articleRoutes(server: FastifyInstance) {
   )
 
   server.get(
-    "/author/:authorUsername/:articlePage",
+    "/:articleLanguage/author/:authorUsername/:articlePage",
     {
       schema: {
         response: {
@@ -184,7 +184,7 @@ async function articleRoutes(server: FastifyInstance) {
         },
       },
     },
-    searchArticlesDasboardHandler,
+    searchArticlesDashboardByLangHandler,
   )
 }
 

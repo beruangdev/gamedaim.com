@@ -1,37 +1,40 @@
 import db from "@/utils/db"
-import { CreateArticleCommentInput } from "./article-comment.schema"
+import { CreateDownloadCommentInput } from "./download-comment.schema"
 
-export async function createArticleComment(
-  data: CreateArticleCommentInput & {
+export async function createDownloadComment(
+  data: CreateDownloadCommentInput & {
     authorId: string
-    articleId: string
+    downloadId: string
   },
 ) {
-  return await db.articleComment.create({
+  return await db.downloadComment.create({
     data,
   })
 }
 
-export async function updateArticleComment(
-  articleCommentId: string,
-  data: Omit<CreateArticleCommentInput, "articleId">,
+export async function updateDownloadComment(
+  downloadCommentId: string,
+  data: Omit<CreateDownloadCommentInput, "downloadId">,
 ) {
-  return await db.articleComment.update({
-    where: { id: articleCommentId },
+  return await db.downloadComment.update({
+    where: { id: downloadCommentId },
     data,
   })
 }
 
-export async function deleteArticleCommentById(articleCommentId: string) {
-  return await db.articleComment.delete({
+export async function deleteDownloadCommentById(downloadCommentId: string) {
+  return await db.downloadComment.delete({
     where: {
-      id: articleCommentId,
+      id: downloadCommentId,
     },
   })
 }
 
-export async function getArticleComments(commentPage: number, perPage: number) {
-  return await db.articleComment.findMany({
+export async function getDownloadComments(
+  commentPage: number,
+  perPage: number,
+) {
+  return await db.downloadComment.findMany({
     orderBy: {
       createdAt: "desc",
     },
@@ -56,11 +59,11 @@ export async function getArticleComments(commentPage: number, perPage: number) {
   })
 }
 
-export async function getArticleCommentsDashboard(
+export async function getDownloadCommentsDashboard(
   commentPage: number,
   perPage: number,
 ) {
-  return await db.articleComment.findMany({
+  return await db.downloadComment.findMany({
     orderBy: {
       createdAt: "desc",
     },
@@ -74,7 +77,7 @@ export async function getArticleCommentsDashboard(
           name: true,
         },
       },
-      article: {
+      download: {
         select: {
           slug: true,
         },
@@ -85,14 +88,14 @@ export async function getArticleCommentsDashboard(
   })
 }
 
-export async function getArticleCommentsByArticleId(
-  articleId: string,
+export async function getDownloadCommentsByDownloadId(
+  downloadId: string,
   commentPage: number,
   perPage: number,
 ) {
-  return await db.articleComment.findMany({
+  return await db.downloadComment.findMany({
     where: {
-      articleId: articleId,
+      downloadId: downloadId,
     },
     orderBy: {
       createdAt: "desc",
@@ -117,9 +120,9 @@ export async function getArticleCommentsByArticleId(
   })
 }
 
-export async function getArticleCommentById(articleCommentId: string) {
-  return await db.articleComment.findUnique({
-    where: { id: articleCommentId },
+export async function getDownloadCommentById(downloadCommentId: string) {
+  return await db.downloadComment.findUnique({
+    where: { id: downloadCommentId },
     select: {
       id: true,
       content: true,
@@ -139,23 +142,25 @@ export async function getArticleCommentById(articleCommentId: string) {
   })
 }
 
-export async function getTotalArticleCommentByArticle(articleId: string) {
-  return await db.articleComment.count({
+export async function getTotalDownloadCommentByDownload(downloadId: string) {
+  return await db.downloadComment.count({
     where: {
-      articleId: articleId,
+      downloadId: downloadId,
     },
   })
 }
 
-export async function getTotalArticleComments() {
-  return await db.articleComment.count()
+export async function getTotalDownloadComments() {
+  return await db.downloadComment.count()
 }
 
-export async function searchArticleComments(searchArticleCommentQuery: string) {
-  return await db.articleComment.findMany({
+export async function searchDownloadComments(
+  searchDownloadCommentQuery: string,
+) {
+  return await db.downloadComment.findMany({
     where: {
       content: {
-        search: searchArticleCommentQuery.split(" ").join(" & "),
+        search: searchDownloadCommentQuery.split(" ").join(" & "),
       },
     },
     select: {
@@ -166,7 +171,7 @@ export async function searchArticleComments(searchArticleCommentQuery: string) {
           name: true,
         },
       },
-      article: {
+      download: {
         select: {
           slug: true,
         },
