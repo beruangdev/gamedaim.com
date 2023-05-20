@@ -1,4 +1,4 @@
-import db from "../../utils/db"
+import db from "@/utils/db"
 import { CreateSettingInput } from "./setting.schema"
 
 export async function createSetting(data: CreateSettingInput) {

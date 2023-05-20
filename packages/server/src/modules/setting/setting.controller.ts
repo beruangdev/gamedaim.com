@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { CreateSettingInput } from "./setting.schema"
 
+import { CreateSettingInput } from "./setting.schema"
 import { createSetting, findSettingByKey, getSettings } from "./setting.service"
 
 export async function createSettingHandler(

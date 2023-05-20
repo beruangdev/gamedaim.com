@@ -1,4 +1,6 @@
-import db from "../../utils/db"
+import { LanguageType } from "@prisma/client"
+
+import db from "@/utils/db"
 import {
   CreateArticleInput,
   CreateArticlePrimaryInput,
@@ -51,7 +53,7 @@ export async function createArticleWithPrimary({
 }: CreateArticlePrimaryInputService) {
   return await db.articlePrimary.create({
     data: {
-      locales: {
+      articles: {
         create: {
           title: title,
           content: content,
@@ -109,7 +111,7 @@ export async function deleteArticleById(articleId: string) {
 }
 
 export async function getArticlesByLang(
-  articleLanguage: "id_ID" | "en_US",
+  articleLanguage: LanguageType,
   articlePage: number,
   perPage: number,
 ) {
@@ -143,7 +145,7 @@ export async function getArticlesByLang(
 }
 
 export async function getArticlesDashboardByLang(
-  articleLanguage: "id_ID" | "en_US",
+  articleLanguage: LanguageType,
   articlePage: number,
   perPage: number,
 ) {
@@ -178,7 +180,7 @@ export async function getArticlesDashboardByLang(
 }
 
 export async function getArticlesSitemapByLang(
-  articleLanguage: "id_ID" | "en_US",
+  articleLanguage: LanguageType,
   articlePage: number,
   perPage: number,
 ) {
@@ -259,7 +261,7 @@ export async function getArticleById(articleId: string) {
 
 export async function getArticlesByAuthorUsernameAndLang(
   authorUsername: string,
-  articleLanguage: "id_ID" | "en_US",
+  articleLanguage: LanguageType,
   articlePage: number,
   perPage: number,
 ) {
@@ -356,7 +358,7 @@ export async function getTotalArticlePrimaries() {
 }
 
 export async function searchArticlesByLang(
-  articleLanguage: "id_ID" | "en_US",
+  articleLanguage: LanguageType,
   searchArticleQuery: string,
 ) {
   return await db.article.findMany({
@@ -393,7 +395,7 @@ export async function searchArticlesByLang(
 }
 
 export async function searchArticlesDashboardByLang(
-  articleLanguage: "id_ID" | "en_US",
+  articleLanguage: LanguageType,
   searchArticleQuery: string,
 ) {
   return await db.article.findMany({

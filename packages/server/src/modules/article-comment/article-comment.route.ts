@@ -1,16 +1,16 @@
 import { FastifyInstance } from "fastify"
+
 import {
   createArticleCommentHandler,
   deleteArticleCommentHandler,
+  getArticleCommentByArticleIdHandler,
   getArticleCommentByIdHandler,
+  getArticleCommentsDashboardHandler,
   getArticleCommentsHandler,
   getTotalArticleCommentsHandler,
   searchArticleCommentsHandler,
   updateArticleCommentHandler,
-  getArticleCommentByArticleIdHandler,
-  getArticleCommentsDashboardHandler,
 } from "./article-comment.controller"
-
 import { $ref } from "./article-comment.schema"
 
 async function articleCommentRoutes(server: FastifyInstance) {

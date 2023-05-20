@@ -1,6 +1,6 @@
-//TODO: handle move to trash
+import { LanguageType, TopicType } from "@prisma/client"
 
-import db from "../../utils/db"
+import db from "@/utils/db"
 import { CreateTopicInput, UpdateTopicInput } from "./topic.schema"
 
 export async function createTopicWithPrimary({
@@ -15,7 +15,7 @@ export async function createTopicWithPrimary({
 }: Omit<CreateTopicInput, "topicPrimaryId"> & { slug: string }) {
   return await db.topicPrimary.create({
     data: {
-      locales: {
+      topics: {
         create: {
           title: title,
           slug: slug,
@@ -38,7 +38,7 @@ export async function createTopic(data: CreateTopicInput & { slug: string }) {
 }
 
 export async function getTopicsByLang(
-  topicLanguage: "id_ID" | "en_US",
+  topicLanguage: LanguageType,
   topicPage: number,
   perPage: number,
 ) {
@@ -68,7 +68,7 @@ export async function getTopicsByLang(
 }
 
 export async function getTopicsDashboardByLang(
-  topicLanguage: "id_ID" | "en_US",
+  topicLanguage: LanguageType,
   topicPage: number,
   perPage: number,
 ) {
@@ -95,7 +95,7 @@ export async function getTopicsDashboardByLang(
 export async function getTopicsSitemapByLang(
   topicPage: number,
   perPage: number,
-  topicLanguage: "id_ID" | "en_US",
+  topicLanguage: LanguageType,
 ) {
   return await db.topic.findMany({
     where: { language: topicLanguage },
@@ -141,8 +141,8 @@ export async function getTopicById(topicId: string) {
 }
 
 export async function getTopicsByTypeAndLang(
-  topicLanguage: "id_ID" | "en_US",
-  topicType: "ALL" | "ARTICLE" | "MOVIE" | "TV" | "REVIEW" | "TUTORIAL",
+  topicLanguage: LanguageType,
+  topicType: TopicType,
   topicPage: number,
   perPage: number,
 ) {
@@ -313,7 +313,7 @@ export async function getTotalTopicPrimaries() {
 }
 
 export async function searchTopicsByLang(
-  topicLanguage: "id_ID" | "en_US",
+  topicLanguage: LanguageType,
   searchTopicQuery: string,
 ) {
   return await db.topic.findMany({
@@ -349,7 +349,7 @@ export async function searchTopicsByLang(
 }
 
 export async function searchTopicsDashboardByLang(
-  topicLanguage: "id_ID" | "en_US",
+  topicLanguage: LanguageType,
   searchTopicQuery: string,
 ) {
   return await db.topic.findMany({

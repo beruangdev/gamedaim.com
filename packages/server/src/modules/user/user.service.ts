@@ -1,5 +1,7 @@
-import { hashPassword } from "../../utils/password"
-import db from "../../utils/db"
+import { UserRole } from "@prisma/client"
+
+import db from "@/utils/db"
+import { hashPassword } from "@/utils/password"
 import { CreateUserInput, UpdateUserInput } from "./user.schema"
 
 export async function createUser(input: CreateUserInput) {
@@ -133,6 +135,31 @@ export async function getUserById(userId: string) {
 
 export async function getUsers(userPage: number, perPage: number) {
   return await db.user.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    skip: (userPage - 1) * perPage,
+    take: perPage,
+    select: {
+      id: true,
+      email: true,
+      username: true,
+      name: true,
+      role: true,
+      createdAt: true,
+    },
+  })
+}
+
+export async function getUsersByRole(
+  userRole: UserRole,
+  userPage: number,
+  perPage: number,
+) {
+  return await db.user.findMany({
+    where: {
+      role: userRole,
+    },
     orderBy: {
       createdAt: "desc",
     },

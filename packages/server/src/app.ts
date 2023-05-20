@@ -1,4 +1,4 @@
-import env from "./env"
+import env from "env"
 import buildServer from "./server"
 
 const server = buildServer()
