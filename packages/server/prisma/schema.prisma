@@ -9,53 +9,56 @@ datasource db {
 }
 
 model User {
-  id               String           @id @unique @default(uuid())
-  email            String           @unique
-  username         String           @unique
-  name             String?
-  phoneNumber      String?
-  profilePictureId String?
-  about            String?
-  password         String
-  metaTitle        String?
-  metaDescription  String?
-  role             UserRole         @default(USER)
-  articleAuthors   Article[]        @relation("ArticleAuthors")
-  articleEditors   Article[]        @relation("ArticleEditors")
-  articleComments  ArticleComment[] @relation("CommentAuthors")
-  medias           Media[]          @relation("MediaAuthors")
-  profilePicture   Media?           @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  id                  String            @id @unique @default(uuid())
+  email               String            @unique
+  username            String            @unique
+  name                String?
+  phoneNumber         String?
+  profilePictureId    String?
+  about               String?
+  password            String
+  metaTitle           String?
+  metaDescription     String?
+  role                UserRole          @default(USER)
+  articleAuthors      Article[]         @relation("ArticleAuthors")
+  articleEditors      Article[]         @relation("ArticleEditors")
+  articleComments     ArticleComment[]  @relation("CommentAuthors")
+  downloadAuthors     Download[]        @relation("DownloadAuthors")
+  downloadFileAuthors DownloadFile[]    @relation("DownloadFileAuthors")
+  downloadComments    DownloadComment[] @relation("DownloadCommentAuthors")
+  medias              Media[]           @relation("MediaAuthors")
+  profilePicture      Media?            @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
 }
 
 model ArticlePrimary {
   id        String    @id @unique @default(uuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  articles   Article[] @relation("ArticleLocales")
+  articles  Article[] @relation("ArticleLocales")
 }
 
 model Article {
-  id              String           @id @unique @default(uuid())
-  language        LanguageType     @default(id_ID)
-  title           String
-  slug            String           @unique
-  content         String
-  excerpt         String
-  metaTitle       String?
-  metaDescription String?
-  featuredImageId String
-  featuredImage   Media            @relation(name: "ArticleFeaturedImages", fields: [featuredImageId], references: [id])
+  id               String           @id @unique @default(uuid())
+  language         LanguageType     @default(id_ID)
+  title            String
+  slug             String           @unique
+  content          String
+  excerpt          String
+  metaTitle        String?
+  metaDescription  String?
+  featuredImageId  String
+  featuredImage    Media            @relation(name: "ArticleFeaturedImages", fields: [featuredImageId], references: [id])
   articlePrimaryId String
-  articlePrimary   ArticlePrimary    @relation("ArticleLocales", fields: [articlePrimaryId], references: [id])
-  topics          Topic[]          @relation(name: "ArticleTopics")
-  authors         User[]           @relation(name: "ArticleAuthors")
-  editors         User[]           @relation(name: "ArticleEditors")
-  comments        ArticleComment[] @relation(name: "ArticleComments")
-  status          ArticleStatus    @default(PUBLISHED)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  articlePrimary   ArticlePrimary   @relation("ArticleLocales", fields: [articlePrimaryId], references: [id])
+  topics           Topic[]          @relation(name: "ArticleTopics")
+  authors          User[]           @relation(name: "ArticleAuthors")
+  editors          User[]           @relation(name: "ArticleEditors")
+  comments         ArticleComment[] @relation(name: "ArticleComments")
+  status           PostStatus       @default(PUBLISHED)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
 }
 
 model TopicPrimary {
@@ -75,10 +78,11 @@ model Topic {
   metaDescription String?
   type            TopicType    @default(ALL)
   topicPrimaryId  String
-  topicPrimary    TopicPrimary  @relation("TopicLocales", fields: [topicPrimaryId], references: [id])
+  topicPrimary    TopicPrimary @relation("TopicLocales", fields: [topicPrimaryId], references: [id])
   featuredImageId String?
   featuredImage   Media?       @relation("TopicFeaturedImages", fields: [featuredImageId], references: [id])
   articles        Article[]    @relation(name: "ArticleTopics")
+  downloads       Download[]   @relation("DownloadTopics")
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 }
@@ -86,8 +90,8 @@ model Topic {
 model ArticleComment {
   id        String   @id @unique @default(uuid())
   content   String
-  article   Article  @relation(name: "ArticleComments", fields: [articleId], references: [id])
   articleId String
+  article   Article  @relation(name: "ArticleComments", fields: [articleId], references: [id])
   author    User     @relation(name: "CommentAuthors", fields: [authorId], references: [id])
   authorId  String
   createdAt DateTime @default(now())
@@ -95,20 +99,21 @@ model ArticleComment {
 }
 
 model Media {
-  id          String    @id @unique @default(uuid())
-  name        String    @unique
-  url         String    @unique
-  type        String
-  description String?
-  authorId    String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  author      User      @relation("MediaAuthors", fields: [authorId], references: [id])
-  articles    Article[] @relation(name: "ArticleFeaturedImages")
-  topics      Topic[]   @relation("TopicFeaturedImages")
-  users       User[]    @relation("UserProfilePictures")
+  id            String         @id @unique @default(uuid())
+  name          String         @unique
+  url           String         @unique
+  type          String
+  description   String?
+  authorId      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  author        User           @relation("MediaAuthors", fields: [authorId], references: [id])
+  articles      Article[]      @relation(name: "ArticleFeaturedImages")
+  downloads     Download[]     @relation("DownloadFeaturedImages")
+  downloadFiles DownloadFile[] @relation("DownloadFileFeaturedImages")
+  topics        Topic[]        @relation("TopicFeaturedImages")
+  users         User[]         @relation("UserProfilePictures")
 }
-
 
 model Ad {
   id        String     @id @unique @default(uuid())
@@ -129,6 +134,80 @@ model Setting {
   updatedAt DateTime @updatedAt
 }
 
+model DownloadPrimary {
+  id        String     @id @unique @default(uuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  downloads Download[] @relation("DownloadLocales")
+}
+
+model Download {
+  id                String            @id @unique @default(uuid())
+  language          LanguageType      @default(id_ID)
+  title             String
+  content           String
+  excerpt           String
+  slug              String            @unique
+  metaTitle         String?
+  metaDescription   String?
+  featuredImageId   String
+  developer         String
+  operationSystem   String
+  license           String
+  officialWeb       String
+  schemaType        DownloadSchema    @default(DownloadApp)
+  type              DownloadType      @default(app)
+  status            PostStatus        @default(PUBLISHED)
+  downloadPrimaryId String
+  downloadPrimary   DownloadPrimary   @relation("DownloadLocales", fields: [downloadPrimaryId], references: [id])
+  downloadComments  DownloadComment[] @relation("DownloadComments")
+  authors           User[]            @relation("DownloadAuthors")
+  featuredImage     Media             @relation("DownloadFeaturedImages", fields: [featuredImageId], references: [id])
+  downloadFiles     DownloadFile[]    @relation("DownloadFilesToDownload")
+  topics            Topic[]           @relation("DownloadTopics")
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model DownloadFile {
+  id              String     @id @unique @default(uuid())
+  title           String
+  slug            String     @unique
+  metaTitle       String?
+  metaDescription String?
+  featuredImageId String
+  version         String
+  downloadLink    String
+  fileSize        String
+  currency        String
+  price           String
+  status          PostStatus @default(PUBLISHED)
+  authors         User[]     @relation("DownloadFileAuthors")
+  featuredImage   Media      @relation("DownloadFileFeaturedImages", fields: [featuredImageId], references: [id])
+  downloads       Download[] @relation("DownloadFilesToDownload")
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model DownloadComment {
+  id         String   @id @unique @default(uuid())
+  content    String
+  downloadId String
+  download   Download @relation("DownloadComments", fields: [downloadId], references: [id])
+  authorId   String
+  author     User     @relation("DownloadCommentAuthors", fields: [authorId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model ViewCounter {
+  id        String   @id @unique @default(uuid())
+  slug      String   @unique
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum UserRole {
   USER
   PRO_USER
@@ -136,7 +215,7 @@ enum UserRole {
   ADMIN
 }
 
-enum ArticleStatus {
+enum PostStatus {
   PUBLISHED
   DRAFT
   REJECTED
@@ -166,6 +245,37 @@ enum AdPosition {
   SINGLE_ARTICLE_MIDDLE_CONTENT
   SINGLE_ARTICLE_BELOW_CONTENT
   SINGLE_ARTICLE_POP_UP
+}
+
+enum DownloadType {
+  app
+  game
+}
+
+enum DownloadSchema {
+  DownloadApp
+  BusinessApp
+  MultimediaApp
+  MobileApp
+  WebApp
+  SocialNetworkingApp
+  TravelApp
+  ShoppingApp
+  SportsApp
+  LifeStyleApp
+  DesignApp
+  DeveloperApp
+  DriverApp
+  EducationalApp
+  HealthApp
+  FinanceApp
+  SecurityApp
+  BrowserApp
+  CommunicationApp
+  HomeApp
+  UtilitiesApp
+  RefereceApp
+  GameApp
 }
 
 enum LanguageType {

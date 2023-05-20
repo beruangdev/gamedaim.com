@@ -2,7 +2,7 @@
 CREATE TYPE "UserRole" AS ENUM ('USER', 'PRO_USER', 'AUTHOR', 'ADMIN');
 
 -- CreateEnum
-CREATE TYPE "ArticleStatus" AS ENUM ('PUBLISHED', 'DRAFT', 'REJECTED', 'IN_REVIEW');
+CREATE TYPE "PostStatus" AS ENUM ('PUBLISHED', 'DRAFT', 'REJECTED', 'IN_REVIEW');
 
 -- CreateEnum
 CREATE TYPE "TopicType" AS ENUM ('ALL', 'ARTICLE', 'REVIEW', 'TUTORIAL', 'MOVIE', 'TV', 'GAME');
@@ -12,6 +12,12 @@ CREATE TYPE "AdType" AS ENUM ('ADSENSE', 'PLAIN_AD');
 
 -- CreateEnum
 CREATE TYPE "AdPosition" AS ENUM ('HOME_BELOW_HEADER', 'ARTICLE_BELOW_HEADER', 'TOPIC_BELOW_HEADER', 'SINGLE_ARTICLE_ABOVE_CONTENT', 'SINGLE_ARTICLE_MIDDLE_CONTENT', 'SINGLE_ARTICLE_BELOW_CONTENT', 'SINGLE_ARTICLE_POP_UP');
+
+-- CreateEnum
+CREATE TYPE "DownloadType" AS ENUM ('app', 'game');
+
+-- CreateEnum
+CREATE TYPE "DownloadSchema" AS ENUM ('DownloadApp', 'BusinessApp', 'MultimediaApp', 'MobileApp', 'WebApp', 'SocialNetworkingApp', 'TravelApp', 'ShoppingApp', 'SportsApp', 'LifeStyleApp', 'DesignApp', 'DeveloperApp', 'DriverApp', 'EducationalApp', 'HealthApp', 'FinanceApp', 'SecurityApp', 'BrowserApp', 'CommunicationApp', 'HomeApp', 'UtilitiesApp', 'RefereceApp', 'GameApp');
 
 -- CreateEnum
 CREATE TYPE "LanguageType" AS ENUM ('id_ID', 'en_US');
@@ -56,7 +62,7 @@ CREATE TABLE "Article" (
     "metaDescription" TEXT,
     "featuredImageId" TEXT NOT NULL,
     "articlePrimaryId" TEXT NOT NULL,
-    "status" "ArticleStatus" NOT NULL DEFAULT 'PUBLISHED',
+    "status" "PostStatus" NOT NULL DEFAULT 'PUBLISHED',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -142,6 +148,83 @@ CREATE TABLE "Setting" (
 );
 
 -- CreateTable
+CREATE TABLE "DownloadPrimary" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "DownloadPrimary_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Download" (
+    "id" TEXT NOT NULL,
+    "language" "LanguageType" NOT NULL DEFAULT 'id_ID',
+    "title" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "excerpt" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "metaTitle" TEXT,
+    "metaDescription" TEXT,
+    "featuredImageId" TEXT NOT NULL,
+    "developer" TEXT NOT NULL,
+    "operationSystem" TEXT NOT NULL,
+    "license" TEXT NOT NULL,
+    "officialWeb" TEXT NOT NULL,
+    "schemaType" "DownloadSchema" NOT NULL DEFAULT 'DownloadApp',
+    "type" "DownloadType" NOT NULL DEFAULT 'app',
+    "status" "PostStatus" NOT NULL DEFAULT 'PUBLISHED',
+    "downloadPrimaryId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Download_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "DownloadFile" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "metaTitle" TEXT,
+    "metaDescription" TEXT,
+    "featuredImageId" TEXT NOT NULL,
+    "version" TEXT NOT NULL,
+    "downloadLink" TEXT NOT NULL,
+    "fileSize" TEXT NOT NULL,
+    "currency" TEXT NOT NULL,
+    "price" TEXT NOT NULL,
+    "status" "PostStatus" NOT NULL DEFAULT 'PUBLISHED',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "DownloadFile_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "DownloadComment" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "downloadId" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "DownloadComment_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ViewCounter" (
+    "id" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "views" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ViewCounter_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_ArticleTopics" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
@@ -155,6 +238,30 @@ CREATE TABLE "_ArticleAuthors" (
 
 -- CreateTable
 CREATE TABLE "_ArticleEditors" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_DownloadAuthors" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_DownloadFilesToDownload" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_DownloadTopics" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_DownloadFileAuthors" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
 );
@@ -211,6 +318,30 @@ CREATE UNIQUE INDEX "Setting_id_key" ON "Setting"("id");
 CREATE UNIQUE INDEX "Setting_key_key" ON "Setting"("key");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "DownloadPrimary_id_key" ON "DownloadPrimary"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Download_id_key" ON "Download"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Download_slug_key" ON "Download"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DownloadFile_id_key" ON "DownloadFile"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DownloadFile_slug_key" ON "DownloadFile"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DownloadComment_id_key" ON "DownloadComment"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ViewCounter_id_key" ON "ViewCounter"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ViewCounter_slug_key" ON "ViewCounter"("slug");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_ArticleTopics_AB_unique" ON "_ArticleTopics"("A", "B");
 
 -- CreateIndex
@@ -227,6 +358,30 @@ CREATE UNIQUE INDEX "_ArticleEditors_AB_unique" ON "_ArticleEditors"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_ArticleEditors_B_index" ON "_ArticleEditors"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_DownloadAuthors_AB_unique" ON "_DownloadAuthors"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_DownloadAuthors_B_index" ON "_DownloadAuthors"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_DownloadFilesToDownload_AB_unique" ON "_DownloadFilesToDownload"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_DownloadFilesToDownload_B_index" ON "_DownloadFilesToDownload"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_DownloadTopics_AB_unique" ON "_DownloadTopics"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_DownloadTopics_B_index" ON "_DownloadTopics"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_DownloadFileAuthors_AB_unique" ON "_DownloadFileAuthors"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_DownloadFileAuthors_B_index" ON "_DownloadFileAuthors"("B");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_profilePictureId_fkey" FOREIGN KEY ("profilePictureId") REFERENCES "Media"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -253,6 +408,21 @@ ALTER TABLE "ArticleComment" ADD CONSTRAINT "ArticleComment_authorId_fkey" FOREI
 ALTER TABLE "Media" ADD CONSTRAINT "Media_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Download" ADD CONSTRAINT "Download_downloadPrimaryId_fkey" FOREIGN KEY ("downloadPrimaryId") REFERENCES "DownloadPrimary"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Download" ADD CONSTRAINT "Download_featuredImageId_fkey" FOREIGN KEY ("featuredImageId") REFERENCES "Media"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DownloadFile" ADD CONSTRAINT "DownloadFile_featuredImageId_fkey" FOREIGN KEY ("featuredImageId") REFERENCES "Media"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DownloadComment" ADD CONSTRAINT "DownloadComment_downloadId_fkey" FOREIGN KEY ("downloadId") REFERENCES "Download"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DownloadComment" ADD CONSTRAINT "DownloadComment_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "_ArticleTopics" ADD CONSTRAINT "_ArticleTopics_A_fkey" FOREIGN KEY ("A") REFERENCES "Article"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -269,3 +439,27 @@ ALTER TABLE "_ArticleEditors" ADD CONSTRAINT "_ArticleEditors_A_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "_ArticleEditors" ADD CONSTRAINT "_ArticleEditors_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DownloadAuthors" ADD CONSTRAINT "_DownloadAuthors_A_fkey" FOREIGN KEY ("A") REFERENCES "Download"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DownloadAuthors" ADD CONSTRAINT "_DownloadAuthors_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DownloadFilesToDownload" ADD CONSTRAINT "_DownloadFilesToDownload_A_fkey" FOREIGN KEY ("A") REFERENCES "Download"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DownloadFilesToDownload" ADD CONSTRAINT "_DownloadFilesToDownload_B_fkey" FOREIGN KEY ("B") REFERENCES "DownloadFile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DownloadTopics" ADD CONSTRAINT "_DownloadTopics_A_fkey" FOREIGN KEY ("A") REFERENCES "Download"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DownloadTopics" ADD CONSTRAINT "_DownloadTopics_B_fkey" FOREIGN KEY ("B") REFERENCES "Topic"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DownloadFileAuthors" ADD CONSTRAINT "_DownloadFileAuthors_A_fkey" FOREIGN KEY ("A") REFERENCES "DownloadFile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DownloadFileAuthors" ADD CONSTRAINT "_DownloadFileAuthors_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
