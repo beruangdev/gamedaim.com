@@ -52,14 +52,14 @@ export async function createTopicWithPrimaryHandler(
     }
 
     const topicWithPrimary = await createTopicWithPrimary({
-      title,
-      slug,
-      description,
-      metaTitle,
-      metaDescription,
-      type,
-      language,
-      featuredImageId,
+      title: title,
+      slug: slug,
+      description: description,
+      metaTitle: metaTitle,
+      metaDescription: metaDescription,
+      type: type,
+      language: language,
+      featuredImageId: featuredImageId,
     })
     return reply.code(201).send(topicWithPrimary)
   } catch (e) {
@@ -82,6 +82,8 @@ export async function createTopicHandler(
       metaTitle,
       metaDescription,
       language,
+      type,
+      featuredImageId,
     } = request.body
     const user = request.user
 
@@ -92,13 +94,15 @@ export async function createTopicHandler(
     const slug = slugify(title.toLowerCase()) + "_" + uniqueSlug()
 
     const topic = await createTopic({
-      topicPrimaryId,
-      slug,
-      title,
-      description,
-      metaTitle,
-      metaDescription,
-      language,
+      topicPrimaryId: topicPrimaryId,
+      title: title,
+      slug: slug,
+      description: description,
+      metaTitle: metaTitle,
+      metaDescription: metaDescription,
+      type: type,
+      language: language,
+      featuredImageId: featuredImageId,
     })
     return reply.code(201).send(topic)
   } catch (e) {
@@ -133,14 +137,14 @@ export async function updateTopicHandler(
     }
 
     const updatedTopic = await updateTopic(topicId, {
-      language,
-      title,
-      slug,
-      description,
-      metaTitle,
-      metaDescription,
-      type,
-      featuredImageId,
+      title: title,
+      slug: slug,
+      description: description,
+      metaTitle: metaTitle,
+      metaDescription: metaDescription,
+      type: type,
+      language: language,
+      featuredImageId: featuredImageId,
     })
     return reply.code(201).send(updatedTopic)
   } catch (e) {
