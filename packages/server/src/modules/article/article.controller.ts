@@ -60,14 +60,14 @@ export async function createArticleWithPrimaryHandler(
       : metaDescription
 
     const articleWithPrimary = await createArticleWithPrimary({
-      title,
+      title: title,
       language: language,
-      content,
+      content: content,
       excerpt: generatedExcerpt,
       metaTitle: generatedMetaTitle,
       metaDescription: generatedMetaDescription,
       slug: articleSlug,
-      featuredImageId,
+      featuredImageId: featuredImageId,
       topics: {
         connect: topicIds.map((id) => ({ id })),
       },
@@ -119,15 +119,15 @@ export async function createArticleHandler(
       : metaDescription
 
     const article = await createArticle({
-      articlePrimaryId,
-      title,
-      language,
-      content,
+      articlePrimaryId: articlePrimaryId,
+      title: title,
+      language: language,
+      content: content,
       excerpt: generatedExcerpt,
       metaTitle: generatedMetaTitle,
       metaDescription: generatedMetaDescription,
       slug: articleSlug,
-      featuredImageId,
+      featuredImageId: featuredImageId,
       topics: {
         connect: topicIds.map((id) => ({ id })),
       },
@@ -180,13 +180,13 @@ export async function updateArticleHandler(
     }
 
     const updatedArticle = await updateArticle(articleId, {
-      title,
-      content,
-      excerpt,
-      metaTitle,
-      metaDescription,
-      slug,
-      language,
+      title: title,
+      content: content,
+      excerpt: excerpt,
+      metaTitle: metaTitle,
+      metaDescription: metaDescription,
+      slug: slug,
+      language: language,
       topics: {
         connect: topicIds.map((id) => ({ id })),
       },
@@ -196,7 +196,7 @@ export async function updateArticleHandler(
       editors: {
         connect: editorIds.map((id) => ({ id })),
       },
-      featuredImageId,
+      featuredImageId: featuredImageId,
     })
 
     return reply.code(201).send(updatedArticle)

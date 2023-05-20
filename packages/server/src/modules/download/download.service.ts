@@ -85,18 +85,18 @@ export async function createDownloadWithPrimary({
   })
 }
 
+export async function createDownload(data: CreateDownloadInputService) {
+  return await db.download.create({
+    data,
+  })
+}
+
 export async function updateDownload(
   downloadId: string,
   data: UpdateDownloadInputService,
 ) {
   return await db.download.update({
     where: { id: downloadId },
-    data,
-  })
-}
-
-export async function createDownload(data: CreateDownloadInputService) {
-  return await db.download.create({
     data,
   })
 }
