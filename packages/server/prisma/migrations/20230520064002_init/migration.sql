@@ -168,7 +168,7 @@ CREATE TABLE "Download" (
     "metaDescription" TEXT,
     "featuredImageId" TEXT NOT NULL,
     "developer" TEXT NOT NULL,
-    "operationSystem" TEXT NOT NULL,
+    "operatingSystem" TEXT NOT NULL,
     "license" TEXT NOT NULL,
     "officialWeb" TEXT NOT NULL,
     "schemaType" "DownloadSchema" NOT NULL DEFAULT 'DownloadApp',

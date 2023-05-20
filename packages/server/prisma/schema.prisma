@@ -152,7 +152,7 @@ model Download {
   metaDescription   String?
   featuredImageId   String
   developer         String
-  operationSystem   String
+  operatingSystem   String
   license           String
   officialWeb       String
   schemaType        DownloadSchema    @default(DownloadApp)

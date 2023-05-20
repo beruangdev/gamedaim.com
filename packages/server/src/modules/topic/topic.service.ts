@@ -50,6 +50,7 @@ export async function getTopicsByLang(
     select: {
       topicPrimaryId: true,
       id: true,
+      language: true,
       title: true,
       slug: true,
       description: true,
@@ -82,10 +83,10 @@ export async function getTopicsDashboardByLang(
     select: {
       topicPrimaryId: true,
       id: true,
+      language: true,
       title: true,
       slug: true,
       type: true,
-      language: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -164,6 +165,7 @@ export async function getTopicsByTypeAndLang(
       topicPrimaryId: true,
       id: true,
       title: true,
+      language: true,
       slug: true,
       description: true,
       metaTitle: true,
@@ -190,6 +192,7 @@ export async function getTopicArticlesHandler(
     select: {
       id: true,
       title: true,
+      language: true,
       slug: true,
       description: true,
       metaTitle: true,
@@ -240,6 +243,7 @@ export async function getTopicBySlug(topicSlug: string) {
     select: {
       id: true,
       title: true,
+      language: true,
       slug: true,
       description: true,
       metaTitle: true,

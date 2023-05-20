@@ -36,6 +36,7 @@ export async function createArticleWithPrimaryHandler(
   try {
     const {
       title,
+      language,
       content,
       excerpt,
       metaTitle,
@@ -60,6 +61,7 @@ export async function createArticleWithPrimaryHandler(
 
     const articleWithPrimary = await createArticleWithPrimary({
       title,
+      language: language,
       content,
       excerpt: generatedExcerpt,
       metaTitle: generatedMetaTitle,
@@ -93,6 +95,7 @@ export async function createArticleHandler(
     const {
       articlePrimaryId,
       title,
+      language,
       content,
       excerpt,
       metaTitle,
@@ -118,6 +121,7 @@ export async function createArticleHandler(
     const article = await createArticle({
       articlePrimaryId,
       title,
+      language,
       content,
       excerpt: generatedExcerpt,
       metaTitle: generatedMetaTitle,
@@ -154,6 +158,7 @@ export async function updateArticleHandler(
     const {
       title,
       slug,
+      language,
       content,
       excerpt,
       metaTitle,
@@ -181,6 +186,7 @@ export async function updateArticleHandler(
       metaTitle,
       metaDescription,
       slug,
+      language,
       topics: {
         connect: topicIds.map((id) => ({ id })),
       },
@@ -427,7 +433,7 @@ export async function searchArticlesByLangHandler(
   }
 }
 
-export async function searchArticlesDasboardHandler(
+export async function searchArticlesDashboardByLangHandler(
   request: FastifyRequest<{
     Params: { articleLanguage: LanguageType; searchArticleQuery: string }
   }>,
