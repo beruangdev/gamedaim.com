@@ -1,6 +1,8 @@
 import { z } from "zod"
 import { buildJsonSchemas } from "fastify-zod"
 
+const ARTICLE_LANGUAGE = ["id_ID", "en_US"] as const
+
 const articleInput = {
   title: z
     .string({
@@ -8,6 +10,11 @@ const articleInput = {
       invalid_type_error: "Title must be a string",
     })
     .min(3),
+  language: z
+    .enum(ARTICLE_LANGUAGE, {
+      invalid_type_error: "only id_ID and en_US are accepted",
+    })
+    .optional(),
   content: z
     .string({
       invalid_type_error: "Content must be a string",
@@ -73,6 +80,7 @@ const updateArticleInput = {
 
 const articleGenerated = {
   id: z.string(),
+  slug: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 }

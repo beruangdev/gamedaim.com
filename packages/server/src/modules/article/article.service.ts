@@ -41,6 +41,7 @@ type UpdateArticleInputService = Omit<
 
 export async function createArticleWithPrimary({
   title,
+  language,
   content,
   excerpt,
   metaTitle,
@@ -56,6 +57,7 @@ export async function createArticleWithPrimary({
       articles: {
         create: {
           title: title,
+          language: language,
           content: content,
           excerpt: excerpt,
           metaTitle: metaTitle,
@@ -87,16 +89,16 @@ export async function updateArticle(
   })
 }
 
-export async function deleteArticleWithPrimaryById(articleParetId: string) {
+export async function deleteArticleWithPrimaryById(articlePrimaryId: string) {
   return await db.$transaction([
     db.article.deleteMany({
       where: {
-        articlePrimaryId: articleParetId,
+        articlePrimaryId: articlePrimaryId,
       },
     }),
     db.articlePrimary.delete({
       where: {
-        id: articleParetId,
+        id: articlePrimaryId,
       },
     }),
   ])
@@ -131,8 +133,9 @@ export async function getArticlesByLang(
     take: perPage,
     select: {
       id: true,
-      excerpt: true,
       title: true,
+      language: true,
+      excerpt: true,
       slug: true,
       status: true,
       featuredImage: {
@@ -161,6 +164,7 @@ export async function getArticlesDashboardByLang(
     select: {
       id: true,
       title: true,
+      language: true,
       slug: true,
       status: true,
       createdAt: true,
@@ -215,6 +219,7 @@ export async function getArticleById(articleId: string) {
   return await db.article.findUnique({
     where: { id: articleId },
     select: {
+      language: true,
       content: true,
       excerpt: true,
       title: true,
@@ -280,9 +285,10 @@ export async function getArticlesByAuthorUsernameAndLang(
     skip: (articlePage - 1) * perPage,
     take: perPage,
     select: {
+      title: true,
+      language: true,
       content: true,
       excerpt: true,
-      title: true,
       metaTitle: true,
       metaDescription: true,
       slug: true,
@@ -313,9 +319,10 @@ export async function getArticleBySlug(articleSlug: string) {
     where: { slug: articleSlug },
     select: {
       id: true,
+      language: true,
+      title: true,
       content: true,
       excerpt: true,
-      title: true,
       metaTitle: true,
       metaDescription: true,
       slug: true,

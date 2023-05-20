@@ -15,6 +15,8 @@ import articleRoutes from "@/modules/article/article.route"
 import { articleSchemas } from "@/modules/article/article.schema"
 import articleCommentRoutes from "@/modules/article-comment/article-comment.route"
 import { articleCommentSchemas } from "@/modules/article-comment/article-comment.schema"
+import downloadRoutes from "./modules/download/download.route"
+import { downloadSchemas } from "./modules/download/download.schema"
 import mediaRoutes from "@/modules/media/media.route"
 import { mediaSchemas } from "@/modules/media/media.schema"
 import settingRoutes from "@/modules/setting/setting.route"
@@ -79,12 +81,13 @@ function buildServer() {
 
   for (const schema of [
     ...adSchemas,
-    ...userSchemas,
     ...articleSchemas,
     ...articleCommentSchemas,
+    ...downloadSchemas,
     ...mediaSchemas,
     ...topicSchemas,
     ...settingSchemas,
+    ...userSchemas,
   ]) {
     server.addSchema(schema)
   }
@@ -107,12 +110,13 @@ function buildServer() {
   })
 
   server.register(adRoutes, { prefix: "api/ad" })
-  server.register(userRoutes, { prefix: "api/user" })
   server.register(articleRoutes, { prefix: "api/article" })
   server.register(articleCommentRoutes, { prefix: "api/article-comment" })
+  server.register(downloadRoutes, { prefix: "api/download" })
   server.register(topicRoutes, { prefix: "api/topic" })
   server.register(mediaRoutes, { prefix: "api/media" })
   server.register(settingRoutes, { prefix: "api/setting" })
+  server.register(userRoutes, { prefix: "api/user" })
 
   return server
 }
