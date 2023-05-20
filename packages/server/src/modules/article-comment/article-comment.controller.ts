@@ -13,7 +13,7 @@ import {
   getArticleCommentsDashboard,
   getTotalArticleCommentByArticle,
   getTotalArticleComments,
-  searchArticlecomments,
+  searchArticleComments,
   updateArticleComment,
 } from "./article-comment.service"
 
@@ -198,7 +198,7 @@ export async function searchArticleCommentsHandler(
   try {
     const searchQuery = request.params.searchArticleCommentQuery
 
-    const articleComments = await searchArticlecomments(searchQuery)
+    const articleComments = await searchArticleComments(searchQuery)
     return reply.code(201).send(articleComments)
   } catch (e) {
     console.log(e)
