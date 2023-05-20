@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
@@ -9,7 +7,7 @@ import { Button, IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { UserDataProps } from "@/lib/data-types"
-import { withAuth } from "@/components/Auth"
+import { WithAuth } from "@/components/Auth"
 import { useGetUsers, useGetUsersCount } from "@/lib/api/client/user"
 import { formatDate } from "@/lib/date"
 import { handleDeleteUser } from "./actions"
@@ -18,7 +16,7 @@ const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
 )
 
-function UsersDashboard() {
+export default function UsersDashboard() {
   const { users } = useGetUsers()
   const { usersCount } = useGetUsersCount()
 
@@ -27,7 +25,7 @@ function UsersDashboard() {
   const [page, setPage] = React.useState<number>(1)
 
   return (
-    <>
+    <WithAuth routeRole="admin">
       <div className="mt-4 flex items-end justify-between">
         <div>
           <NextLink href="/dashboard/user/new">
@@ -127,8 +125,6 @@ function UsersDashboard() {
           </div>
         )}
       </div>
-    </>
+    </WithAuth>
   )
 }
-
-export default withAuth(UsersDashboard, "admin")
