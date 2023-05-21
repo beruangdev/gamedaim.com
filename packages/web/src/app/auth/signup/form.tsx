@@ -56,6 +56,7 @@ export const SignUpForm: React.FunctionComponent = () => {
             <RequiredIndicator />
           </FormLabel>
           <Input
+            id="email-auth"
             type="email"
             {...register("email", {
               required: "Email is Required",
@@ -77,6 +78,7 @@ export const SignUpForm: React.FunctionComponent = () => {
             <RequiredIndicator />
           </FormLabel>
           <Input
+            id="name-auth"
             type="name"
             {...register("name", {
               required: "Name is required",
@@ -101,6 +103,7 @@ export const SignUpForm: React.FunctionComponent = () => {
             <RequiredIndicator />
           </FormLabel>
           <Input
+            id="username-auth"
             {...register("username", {
               required: "Username is Required",
               pattern: {
@@ -130,6 +133,7 @@ export const SignUpForm: React.FunctionComponent = () => {
           </FormLabel>
           <Input.Group>
             <Input
+              id="password-auth"
               className="pr-20"
               type={showPassword ? "text" : "password"}
               placeholder="Enter password"

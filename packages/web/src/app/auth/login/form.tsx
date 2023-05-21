@@ -16,9 +16,10 @@ import { toast } from "@/components/UI/Toast"
 
 import { loginUserAction } from "@/lib/api/server/user"
 import { useAuthStore } from "@/store/auth"
+import { useStore } from "zustand"
 
 export const LoginForm: React.FunctionComponent = () => {
-  const { login } = useAuthStore()
+  const login = useStore(useAuthStore, (state) => state.login)
 
   const [showPassword, setShowPassword] = React.useState(false)
   const handleToggleShowPassword = () => setShowPassword(!showPassword)
@@ -54,6 +55,7 @@ export const LoginForm: React.FunctionComponent = () => {
             <RequiredIndicator />
           </FormLabel>
           <Input
+            id="email-auth"
             type="email"
             {...register("email", {
               required: "Email is Required",
@@ -76,6 +78,7 @@ export const LoginForm: React.FunctionComponent = () => {
           </FormLabel>
           <Input.Group>
             <Input
+              id="password-auth"
               className="pr-20"
               type={showPassword ? "text" : "password"}
               placeholder="Enter password"
