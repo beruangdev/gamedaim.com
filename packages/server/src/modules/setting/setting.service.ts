@@ -1,7 +1,7 @@
 import db from "@/utils/db"
 import { CreateSettingInput } from "./setting.schema"
 
-export async function createSetting(data: CreateSettingInput) {
+export async function createOrUpdateSetting(data: CreateSettingInput) {
   const { key, value } = data
   return await db.setting.upsert({
     where: { key: key },
