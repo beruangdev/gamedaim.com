@@ -1,9 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 
 import { CreateSettingInput } from "./setting.schema"
-import { createSetting, findSettingByKey, getSettings } from "./setting.service"
+import {
+  createOrUpdateSetting,
+  findSettingByKey,
+  getSettings,
+} from "./setting.service"
 
-export async function createSettingHandler(
+export async function createOrUpdateSettingHandler(
   request: FastifyRequest<{ Body: CreateSettingInput }>,
   reply: FastifyReply,
 ) {
@@ -15,7 +19,7 @@ export async function createSettingHandler(
       return reply.code(403).send({ message: "Unauthorized" })
     }
 
-    const setting = await createSetting({
+    const setting = await createOrUpdateSetting({
       key,
       value,
     })

@@ -29,6 +29,8 @@ import topicRoutes from "@/modules/topic/topic.route"
 import { topicSchemas } from "@/modules/topic/topic.schema"
 import userRoutes from "@/modules/user/user.route"
 import { userSchemas } from "@/modules/user/user.schema"
+import viewCounterRoutes from "@/modules/view-counter/view-counter.route"
+import { viewCounterSchemas } from "@/modules/view-counter/view-counter.schema"
 
 function buildServer() {
   const server = fastify({
@@ -94,6 +96,7 @@ function buildServer() {
     ...topicSchemas,
     ...settingSchemas,
     ...userSchemas,
+    ...viewCounterSchemas,
   ]) {
     server.addSchema(schema)
   }
@@ -125,6 +128,7 @@ function buildServer() {
   server.register(mediaRoutes, { prefix: "api/media" })
   server.register(settingRoutes, { prefix: "api/setting" })
   server.register(userRoutes, { prefix: "api/user" })
+  server.register(viewCounterRoutes, { prefix: "api/view-counter" })
 
   return server
 }

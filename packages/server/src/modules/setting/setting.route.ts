@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify"
 
 import {
-  createSettingHandler,
+  createOrUpdateSettingHandler,
   getSettingByKeyHandler,
   getSettingsHandler,
 } from "./setting.controller"
@@ -20,7 +20,7 @@ async function settingRoutes(server: FastifyInstance) {
         },
       },
     },
-    createSettingHandler,
+    createOrUpdateSettingHandler,
   )
 
   server.get(
