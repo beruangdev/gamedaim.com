@@ -8,17 +8,12 @@ const viewCounterInput = {
       invalid_type_error: "Slug must be a string",
     })
     .min(1),
-  views: z
-    .number({
-      required_error: "Value is required",
-      invalid_type_error: "Value must be a number",
-    })
-    .min(1),
 }
 
 const viewCounterGenerated = {
   id: z.string(),
   slug: z.string(),
+  views: z.number(),
   createdAt: z.string(),
   updatedAt: z.string(),
 }

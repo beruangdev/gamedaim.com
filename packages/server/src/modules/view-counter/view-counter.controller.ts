@@ -12,11 +12,10 @@ export async function createOrUpdateViewCounterHandler(
   reply: FastifyReply,
 ) {
   try {
-    const { slug, views } = request.body
+    const { slug } = request.body
 
     const viewCounter = await createOrUpdateViewCounter({
       slug,
-      views,
     })
 
     return reply.code(201).send(viewCounter)
