@@ -2,13 +2,15 @@ import db from "@/utils/db"
 import { CreateViewCounterInput } from "./view-counter.schema"
 
 export async function createOrUpdateViewCounter(data: CreateViewCounterInput) {
-  const { slug, views } = data
+  const { slug } = data
   return await db.viewCounter.upsert({
     where: { slug: slug },
-    update: { views: views },
+    update: {
+      views: { increment: 1 },
+    },
     create: {
       slug: slug,
-      views: views,
+      views: 1,
     },
   })
 }
