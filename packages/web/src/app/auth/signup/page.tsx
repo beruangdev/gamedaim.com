@@ -1,15 +1,10 @@
-"use client"
-
 import * as React from "react"
-import dynamic from "next/dynamic"
 import NextLink from "next/link"
 
 import { Separator } from "@/components/UI/Separator"
-import { withAuth } from "@/components/Auth"
+import { SignUpForm } from "./form"
 
-const SignUpForm = dynamic(() => import("./form").then((mod) => mod.SignUpForm))
-
-function SignUp() {
+export default function SignUp() {
   return (
     <>
       <h1 className="text-center text-2xl">Sign Up</h1>
@@ -24,5 +19,3 @@ function SignUp() {
     </>
   )
 }
-
-export default withAuth(SignUp, "auth")

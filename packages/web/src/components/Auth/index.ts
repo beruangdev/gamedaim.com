@@ -1,3 +1,7 @@
 "use client"
 
-export * from "./withAuth"
+export * from "./Admin"
+export * from "./AdminOrAuthor"
+export * from "./User"
+export * from "./Author"
+export * from "./AuthPage"

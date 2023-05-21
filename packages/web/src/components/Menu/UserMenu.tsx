@@ -12,10 +12,17 @@ import {
 import { IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 
-import { useAuthStore } from "@/store/auth"
+import useStore, { useAuthStore } from "@/store/auth"
 
 export const UserMenu = () => {
-  const { isAuthenticated, logout, auth } = useAuthStore()
+  const isAuthenticated = useStore(
+    useAuthStore,
+    (state) => state.isAuthenticated,
+  )
+
+  const logout = useStore(useAuthStore, (state) => state.logout)
+
+  const auth = useStore(useAuthStore, (state) => state.auth)
 
   return (
     <DropdownMenu>
@@ -28,7 +35,7 @@ export const UserMenu = () => {
         {isAuthenticated ? (
           <>
             <DropdownMenuItem asChild>
-              <NextLink href={`/user/${auth.user?.username}`}>
+              <NextLink href={`/user/${auth?.user?.username}`}>
                 <Icon.Person className="mr-2 h-5 w-5" /> Profile
               </NextLink>
             </DropdownMenuItem>
@@ -37,7 +44,7 @@ export const UserMenu = () => {
                 <Icon.Settings className="mr-2 h-5 w-5" /> Setting
               </NextLink>
             </DropdownMenuItem>
-            {auth.user?.role !== "USER" && (
+            {auth?.user?.role !== "USER" && (
               <DropdownMenuItem asChild>
                 <NextLink href="/dashboard">
                   <Icon.Dashboard className="mr-2 h-5 w-5" />
@@ -46,7 +53,7 @@ export const UserMenu = () => {
               </DropdownMenuItem>
             )}
             <DropdownMenuItem asChild>
-              <div aria-label="Log Out" onClick={() => logout()}>
+              <div aria-label="Log Out" onClick={() => logout && logout()}>
                 <Icon.Logout className="mr-2 h-5 w-5" /> Log Out
               </div>
             </DropdownMenuItem>

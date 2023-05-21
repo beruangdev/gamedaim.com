@@ -3,6 +3,7 @@ import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
 import { UserDataProps } from "@/lib/data-types"
+import React from "react"
 
 interface AuthProps {
   user: UserDataProps | null
@@ -35,11 +36,11 @@ export const useAuthStore = create<AuthStoreType>()(
         set(
           produce<AuthStoreType>((state) => {
             state.isAuthenticated = true
-            state.auth.user = auth.user
-            state.auth.accessToken = auth.accessToken
-            if (auth.user?.role.includes("ADMIN")) {
+            state.auth.user = auth?.user
+            state.auth.accessToken = auth?.accessToken
+            if (auth?.user?.role.includes("ADMIN")) {
               state.isAdmin = true
-            } else if (auth.user?.role.includes("AUTHOR")) {
+            } else if (auth?.user?.role.includes("AUTHOR")) {
               state.isAuthor = true
             } else {
               state.isUser = true
@@ -62,7 +63,6 @@ export const useAuthStore = create<AuthStoreType>()(
         )
       },
       logout: () => {
-        localStorage.removeItem("authStore")
         set(
           produce<AuthStoreType>((state) => {
             state.isAuthenticated = false
@@ -71,6 +71,7 @@ export const useAuthStore = create<AuthStoreType>()(
             state.isAdmin = false
             state.isAuthor = false
             state.isUser = false
+            state.isLoading = true
           }),
         )
       },
@@ -88,3 +89,19 @@ export const useAuthStore = create<AuthStoreType>()(
     },
   ),
 )
+
+const useStore = <T, F>(
+  store: (callback: (state: T) => unknown) => unknown,
+  callback: (state: T) => F,
+) => {
+  const result = store(callback) as F
+  const [data, setData] = React.useState<F>()
+
+  React.useEffect(() => {
+    setData(result)
+  }, [result])
+
+  return data
+}
+
+export default useStore
