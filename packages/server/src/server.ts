@@ -27,6 +27,8 @@ import settingRoutes from "@/modules/setting/setting.route"
 import { settingSchemas } from "@/modules/setting/setting.schema"
 import topicRoutes from "@/modules/topic/topic.route"
 import { topicSchemas } from "@/modules/topic/topic.schema"
+import transactionCounterRoutes from "@/modules/transaction-counter/transaction-counter.route"
+import { transactionCounterSchemas } from "@/modules/transaction-counter/transaction-counter.schema"
 import userRoutes from "@/modules/user/user.route"
 import { userSchemas } from "@/modules/user/user.schema"
 import viewCounterRoutes from "@/modules/view-counter/view-counter.route"
@@ -93,8 +95,9 @@ function buildServer() {
     ...downloadCommentSchemas,
     ...downloadFileSchemas,
     ...mediaSchemas,
-    ...topicSchemas,
     ...settingSchemas,
+    ...topicSchemas,
+    ...transactionCounterSchemas,
     ...userSchemas,
     ...viewCounterSchemas,
   ]) {
@@ -124,10 +127,13 @@ function buildServer() {
   server.register(downloadRoutes, { prefix: "api/download" })
   server.register(downloadCommentRoutes, { prefix: "api/download-comment" })
   server.register(downloadFileRoutes, { prefix: "api/download-file" })
-  server.register(topicRoutes, { prefix: "api/topic" })
   server.register(mediaRoutes, { prefix: "api/media" })
   server.register(settingRoutes, { prefix: "api/setting" })
   server.register(userRoutes, { prefix: "api/user" })
+  server.register(transactionCounterRoutes, {
+    prefix: "api/transaction-counter",
+  })
+  server.register(topicRoutes, { prefix: "api/topic" })
   server.register(viewCounterRoutes, { prefix: "api/view-counter" })
 
   return server
