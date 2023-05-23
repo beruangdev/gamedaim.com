@@ -206,11 +206,11 @@ model DownloadComment {
 model Voucher {
   id                  String    @id @unique @default(uuid())
   name                String
-  voucher_code        String    @unique
-  discount_percentage Int
-  discount_max        Int
-  voucher_amount      Int
-  description         String
+  voucherCode        String    @unique
+  discountPercentage Int
+  discountMax        Int
+  voucherAmount      Int
+  description         String?
   expiration          DateTime?
   active              Boolean   @default(false)
   createdAt           DateTime  @default(now())

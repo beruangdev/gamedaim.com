@@ -223,11 +223,11 @@ CREATE TABLE "DownloadComment" (
 CREATE TABLE "Voucher" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "voucher_code" TEXT NOT NULL,
-    "discount_percentage" INTEGER NOT NULL,
-    "discount_max" INTEGER NOT NULL,
-    "voucher_amount" INTEGER NOT NULL,
-    "description" TEXT NOT NULL,
+    "voucherCode" TEXT NOT NULL,
+    "discountPercentage" INTEGER NOT NULL,
+    "discountMax" INTEGER NOT NULL,
+    "voucherAmount" INTEGER NOT NULL,
+    "description" TEXT,
     "expiration" TIMESTAMP(3),
     "active" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -446,7 +446,7 @@ CREATE UNIQUE INDEX "DownloadComment_id_key" ON "DownloadComment"("id");
 CREATE UNIQUE INDEX "Voucher_id_key" ON "Voucher"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Voucher_voucher_code_key" ON "Voucher"("voucher_code");
+CREATE UNIQUE INDEX "Voucher_voucherCode_key" ON "Voucher"("voucherCode");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ViewCounter_id_key" ON "ViewCounter"("id");
