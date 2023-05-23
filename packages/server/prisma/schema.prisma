@@ -31,6 +31,7 @@ model User {
   topUpRatings        TopUpRating[]      @relation("TopUpRatingAuthors")
   medias              Media[]            @relation("MediaAuthors")
   profilePicture      Media?             @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
+  wpComments          WpComment[]        @relation("WpCommentAuthors")
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
 }
@@ -204,17 +205,17 @@ model DownloadComment {
 }
 
 model Voucher {
-  id                  String    @id @unique @default(uuid())
-  name                String
+  id                 String    @id @unique @default(uuid())
+  name               String
   voucherCode        String    @unique
   discountPercentage Int
   discountMax        Int
   voucherAmount      Int
-  description         String?
-  expiration          DateTime?
-  active              Boolean   @default(false)
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  description        String?
+  expiration         DateTime?
+  active             Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 }
 
 model ViewCounter {
@@ -296,6 +297,16 @@ model TransactionCounter {
   transactions Int      @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model WpComment {
+  id         String   @id @unique @default(uuid())
+  content    String
+  wpPostSlug String
+  authorId   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  author     User     @relation("WpCommentAuthors", fields: [authorId], references: [id])
 }
 
 enum UserRole {

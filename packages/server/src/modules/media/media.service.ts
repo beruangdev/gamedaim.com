@@ -47,7 +47,7 @@ export async function getMediasDashboard(mediaPage: number, perPage: number) {
   })
 }
 
-export async function findMediaById(mediaId: string) {
+export async function getMediaById(mediaId: string) {
   return await db.media.findUnique({
     where: { id: mediaId },
     select: {
@@ -67,7 +67,7 @@ export async function findMediaById(mediaId: string) {
   })
 }
 
-export async function findMediaByAuthorId(
+export async function getMediaByAuthorId(
   authorId: string,
   mediaPage: number,
   perPage: number,

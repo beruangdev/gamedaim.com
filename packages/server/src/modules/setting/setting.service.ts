@@ -21,7 +21,7 @@ export async function getSettings() {
   })
 }
 
-export async function findSettingByKey(settingKey: string) {
+export async function getSettingByKey(settingKey: string) {
   return await db.setting.findUnique({
     where: { key: settingKey },
   })
