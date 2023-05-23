@@ -31,7 +31,7 @@ export async function getVouchers(voucherPage: number, perPage: number) {
   })
 }
 
-export async function findVoucherById(voucherId: string) {
+export async function getVoucherById(voucherId: string) {
   return await db.voucher.findUnique({
     where: { id: voucherId },
     select: {
@@ -50,7 +50,7 @@ export async function findVoucherById(voucherId: string) {
   })
 }
 
-export async function findVoucherByVoucherCode(voucherCode: string) {
+export async function getVoucherByVoucherCode(voucherCode: string) {
   return await db.voucher.findMany({
     where: { voucherCode: voucherCode },
     select: {

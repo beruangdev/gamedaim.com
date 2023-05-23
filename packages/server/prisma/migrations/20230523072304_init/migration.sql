@@ -332,6 +332,18 @@ CREATE TABLE "TransactionCounter" (
 );
 
 -- CreateTable
+CREATE TABLE "WpComment" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "wpPostSlug" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "WpComment_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_ArticleTopics" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
@@ -482,6 +494,9 @@ CREATE UNIQUE INDEX "TransactionCounter_id_key" ON "TransactionCounter"("id");
 CREATE UNIQUE INDEX "TransactionCounter_brand_key" ON "TransactionCounter"("brand");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "WpComment_id_key" ON "WpComment"("id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_ArticleTopics_AB_unique" ON "_ArticleTopics"("A", "B");
 
 -- CreateIndex
@@ -576,6 +591,9 @@ ALTER TABLE "TopUpRating" ADD CONSTRAINT "TopUpRating_authorId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "TopUpRating" ADD CONSTRAINT "TopUpRating_reviewId_fkey" FOREIGN KEY ("reviewId") REFERENCES "TopUpReview"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "WpComment" ADD CONSTRAINT "WpComment_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ArticleTopics" ADD CONSTRAINT "_ArticleTopics_A_fkey" FOREIGN KEY ("A") REFERENCES "Article"("id") ON DELETE CASCADE ON UPDATE CASCADE;

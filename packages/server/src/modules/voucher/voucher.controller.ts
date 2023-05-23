@@ -5,12 +5,12 @@ import { CreateVoucherInput, UpdateVoucherInput } from "./voucher.schema"
 import {
   createVoucher,
   deleteVoucherById,
-  findVoucherById,
+  getVoucherById,
   getVouchers,
   getTotalVouchers,
   searchVouchers,
   updateVoucher,
-  findVoucherByVoucherCode,
+  getVoucherByVoucherCode,
 } from "./voucher.service"
 
 export async function createVoucherHandler(
@@ -95,7 +95,7 @@ export async function getVoucherByIdHandler(
 ) {
   try {
     const { voucherId } = request.params
-    const voucher = await findVoucherById(voucherId)
+    const voucher = await getVoucherById(voucherId)
     return reply.code(201).send(voucher)
   } catch (e) {
     console.log(e)
@@ -111,7 +111,7 @@ export async function getVoucherByVoucherCodeHandler(
 ) {
   try {
     const { voucherCode } = request.params
-    const voucher = await findVoucherByVoucherCode(voucherCode)
+    const voucher = await getVoucherByVoucherCode(voucherCode)
     return reply.code(201).send(voucher)
   } catch (e) {
     console.log(e)

@@ -33,6 +33,8 @@ import userRoutes from "@/modules/user/user.route"
 import { userSchemas } from "@/modules/user/user.schema"
 import viewCounterRoutes from "@/modules/view-counter/view-counter.route"
 import { viewCounterSchemas } from "@/modules/view-counter/view-counter.schema"
+import wpCommentRoutes from "@/modules/wp-comment/wp-comment.route"
+import { wpCommentSchemas } from "@/modules/wp-comment/wp-comment.schema"
 
 function buildServer() {
   const server = fastify({
@@ -100,6 +102,7 @@ function buildServer() {
     ...transactionCounterSchemas,
     ...userSchemas,
     ...viewCounterSchemas,
+    ...wpCommentSchemas,
   ]) {
     server.addSchema(schema)
   }
@@ -135,6 +138,7 @@ function buildServer() {
   })
   server.register(topicRoutes, { prefix: "api/topic" })
   server.register(viewCounterRoutes, { prefix: "api/view-counter" })
+  server.register(wpCommentRoutes, { prefix: "api/wp-comment" })
 
   return server
 }

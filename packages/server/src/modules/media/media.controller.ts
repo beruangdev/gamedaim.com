@@ -9,8 +9,8 @@ import { UpdateMediaInput } from "./media.schema"
 import {
   deleteMediaById,
   deleteMediaByName,
-  findMediaByAuthorId,
-  findMediaById,
+  getMediaByAuthorId,
+  getMediaById,
   getMedias,
   getMediasDashboard,
   getTotalMedias,
@@ -93,7 +93,7 @@ export async function getMediaByIdHandler(
 ) {
   try {
     const { mediaId } = request.params
-    const media = await findMediaById(mediaId)
+    const media = await getMediaById(mediaId)
     return reply.code(201).send(media)
   } catch (e) {
     console.log(e)
@@ -113,7 +113,7 @@ export async function getMediaByAuthorIdHandler(
     const perPage = 10
     const mediaPage = Number(request.params.mediaPage || 1)
 
-    const media = await findMediaByAuthorId(authorId, mediaPage, perPage)
+    const media = await getMediaByAuthorId(authorId, mediaPage, perPage)
     return reply.code(201).send(media)
   } catch (e) {
     console.log(e)

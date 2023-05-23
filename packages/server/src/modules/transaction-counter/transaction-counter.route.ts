@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify"
-import { $ref } from "./transaction-counter.schema"
 
+import { $ref } from "./transaction-counter.schema"
 import {
   createTransactionCounterHandler,
   getTransactionCounterByBrandHandler,
