@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 
-import { slugify, uniqueSlug } from "@/utils/slug"
 import { tripay } from "@/utils/tripay"
 import {
   PaymentTripayCreateClosedTransactionInput,
@@ -115,7 +114,7 @@ export async function paymentTripayCreateClosedTransactionHandler(
     const {
       payment_method,
       amount,
-      sku,
+      merchant_ref,
       customer_name,
       customer_email,
       customer_phone,
@@ -125,11 +124,9 @@ export async function paymentTripayCreateClosedTransactionHandler(
       expired_time,
     } = request.body
 
-    const uniqureInvoice = slugify(sku.toLowerCase() + "_" + uniqueSlug())
-
     const transaction = await tripay.createClosedTransaction({
       method: payment_method,
-      merchant_ref: uniqureInvoice,
+      merchant_ref: merchant_ref,
       amount,
       customer_name,
       customer_email,
@@ -152,11 +149,11 @@ export async function paymentTripayCreateOpenTransactionHandler(
   reply: FastifyReply,
 ) {
   try {
-    const { method, customer_name } = request.body
+    const { method, customer_name, merchant_ref } = request.body
 
     const transaction = await tripay.createOpenTransaction({
       method,
-      merchant_ref: uniqueSlug(),
+      merchant_ref,
       customer_name,
     })
 
