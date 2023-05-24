@@ -3,6 +3,7 @@ import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
 
+import { WithAuth } from "@/components/Auth/withAuth"
 import { Badge } from "@/components/UI/Badge"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
@@ -30,7 +31,7 @@ export default function UsersDashboard() {
     }
   }, [lastPage, page])
   return (
-    <>
+    <WithAuth routeRole="admin">
       <div className="mt-4 flex items-end justify-between">
         <div>
           <NextLink href="/dashboard/user/new">
@@ -130,6 +131,6 @@ export default function UsersDashboard() {
           </div>
         )}
       </div>
-    </>
+    </WithAuth>
   )
 }

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useForm } from "react-hook-form"
+import Cookies from "js-cookie"
 
 import {
   FormControl,
@@ -40,7 +41,7 @@ export const LoginForm: React.FunctionComponent = () => {
     setLoading(true)
     const data = await loginUserAction(values)
     if (data) {
-      login({ ...data })
+      Cookies.set("currentUser", JSON.stringify(data))
       toast({ variant: "success", description: "Successfully signed in" })
     }
 

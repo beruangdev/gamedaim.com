@@ -5,19 +5,10 @@ import { Skeleton } from "@/components/UI/Skeleton"
 
 import useStore, { useAuthStore } from "@/store/auth"
 import { axiosInstance } from "@/lib/http"
-import { getUserByIdAction } from "@/lib/api/server/user"
 
 export function AdminOrAuthorRole({ children }: { children: React.ReactNode }) {
-  const isAdmin = useStore(useAuthStore, (state) => state.isAdmin)
-  const isAuthor = useStore(useAuthStore, (state) => state.isAuthor)
-  // const isAuthenticated = useStore(
-  //   useAuthStore,
-  //   (state) => state.isAuthenticated,
-  // )
-
-  // const login = useStore(useAuthStore, (state) => state.login)
-  // const logout = useStore(useAuthStore, (state) => state.logout)
   const auth = useStore(useAuthStore, (state) => state.auth)
+  console.log(auth)
 
   React.useEffect(() => {
     if (auth && auth?.user?.role === "USER") {
@@ -25,6 +16,9 @@ export function AdminOrAuthorRole({ children }: { children: React.ReactNode }) {
 
       redirect("/")
     }
+    axiosInstance.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${auth?.accessToken}`
   }, [auth])
 
   if (auth && auth?.user?.role !== "USER") {
