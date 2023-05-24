@@ -22,6 +22,18 @@ CREATE TYPE "DownloadSchema" AS ENUM ('DownloadApp', 'BusinessApp', 'MultimediaA
 -- CreateEnum
 CREATE TYPE "LanguageType" AS ENUM ('id_ID', 'en_US');
 
+-- CreateEnum
+CREATE TYPE "PaymentStatus" AS ENUM ('UNPAID', 'PAID', 'FAILED', 'EXPIRED', 'ERROR', 'REFUNDED');
+
+-- CreateEnum
+CREATE TYPE "TopUpStatus" AS ENUM ('PROCESSING', 'SUCCESS', 'FAILED', 'ERROR');
+
+-- CreateEnum
+CREATE TYPE "TopUpProvider" AS ENUM ('DIGIFLAZZ', 'APIGAMES');
+
+-- CreateEnum
+CREATE TYPE "PaymentProvider" AS ENUM ('DUITKU', 'MIDTRANS', 'TRIPAY');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -214,6 +226,23 @@ CREATE TABLE "DownloadComment" (
 );
 
 -- CreateTable
+CREATE TABLE "Voucher" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "voucherCode" TEXT NOT NULL,
+    "discountPercentage" INTEGER NOT NULL,
+    "discountMax" INTEGER NOT NULL,
+    "voucherAmount" INTEGER NOT NULL,
+    "description" TEXT,
+    "expiration" TIMESTAMP(3),
+    "active" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Voucher_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "ViewCounter" (
     "id" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
@@ -222,6 +251,103 @@ CREATE TABLE "ViewCounter" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "ViewCounter_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TopUpReview" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "brand" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "TopUpReview_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TopUpReviewReply" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "reviewId" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "TopUpReviewReply_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TopUpRating" (
+    "id" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "rating" INTEGER NOT NULL,
+    "brand" TEXT NOT NULL,
+    "reviewId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "TopUpRating_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TopUpTransaction" (
+    "id" TEXT NOT NULL,
+    "invoiceId" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "sku" TEXT NOT NULL,
+    "accountId" TEXT NOT NULL,
+    "customerName" TEXT,
+    "customerEmail" TEXT,
+    "customerPhone" TEXT NOT NULL,
+    "voucherCode" TEXT,
+    "discountAmount" INTEGER,
+    "feeAmount" INTEGER NOT NULL,
+    "totalAmount" INTEGER NOT NULL,
+    "note" TEXT,
+    "paymentMethod" TEXT NOT NULL,
+    "paymentStatus" "PaymentStatus" NOT NULL DEFAULT 'UNPAID',
+    "status" "TopUpStatus" NOT NULL DEFAULT 'PROCESSING',
+    "topUpProvider" "TopUpProvider" NOT NULL DEFAULT 'DIGIFLAZZ',
+    "paymentProvider" "PaymentProvider" NOT NULL DEFAULT 'TRIPAY',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "TopUpTransaction_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TopUpPriceList" (
+    "id" TEXT NOT NULL,
+    "key" TEXT NOT NULL,
+    "value" JSONB NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "TopUpPriceList_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TransactionCounter" (
+    "id" TEXT NOT NULL,
+    "brand" TEXT NOT NULL,
+    "transactions" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "TransactionCounter_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "WpComment" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "wpPostSlug" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "WpComment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -336,10 +462,46 @@ CREATE UNIQUE INDEX "DownloadFile_slug_key" ON "DownloadFile"("slug");
 CREATE UNIQUE INDEX "DownloadComment_id_key" ON "DownloadComment"("id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Voucher_id_key" ON "Voucher"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Voucher_voucherCode_key" ON "Voucher"("voucherCode");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "ViewCounter_id_key" ON "ViewCounter"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ViewCounter_slug_key" ON "ViewCounter"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TopUpReview_id_key" ON "TopUpReview"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TopUpReviewReply_id_key" ON "TopUpReviewReply"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TopUpRating_id_key" ON "TopUpRating"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TopUpTransaction_id_key" ON "TopUpTransaction"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TopUpTransaction_invoiceId_key" ON "TopUpTransaction"("invoiceId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TopUpPriceList_id_key" ON "TopUpPriceList"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TopUpPriceList_key_key" ON "TopUpPriceList"("key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TransactionCounter_id_key" ON "TransactionCounter"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TransactionCounter_brand_key" ON "TransactionCounter"("brand");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "WpComment_id_key" ON "WpComment"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_ArticleTopics_AB_unique" ON "_ArticleTopics"("A", "B");
@@ -421,6 +583,24 @@ ALTER TABLE "DownloadComment" ADD CONSTRAINT "DownloadComment_downloadId_fkey" F
 
 -- AddForeignKey
 ALTER TABLE "DownloadComment" ADD CONSTRAINT "DownloadComment_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TopUpReview" ADD CONSTRAINT "TopUpReview_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TopUpReviewReply" ADD CONSTRAINT "TopUpReviewReply_reviewId_fkey" FOREIGN KEY ("reviewId") REFERENCES "TopUpReview"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TopUpReviewReply" ADD CONSTRAINT "TopUpReviewReply_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TopUpRating" ADD CONSTRAINT "TopUpRating_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TopUpRating" ADD CONSTRAINT "TopUpRating_reviewId_fkey" FOREIGN KEY ("reviewId") REFERENCES "TopUpReview"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "WpComment" ADD CONSTRAINT "WpComment_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ArticleTopics" ADD CONSTRAINT "_ArticleTopics_A_fkey" FOREIGN KEY ("A") REFERENCES "Article"("id") ON DELETE CASCADE ON UPDATE CASCADE;

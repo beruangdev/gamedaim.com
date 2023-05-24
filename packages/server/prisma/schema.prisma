@@ -9,9 +9,9 @@ datasource db {
 }
 
 model User {
-  id                  String            @id @unique @default(uuid())
-  email               String            @unique
-  username            String            @unique
+  id                  String             @id @unique @default(uuid())
+  email               String             @unique
+  username            String             @unique
   name                String?
   phoneNumber         String?
   profilePictureId    String?
@@ -19,17 +19,21 @@ model User {
   password            String
   metaTitle           String?
   metaDescription     String?
-  role                UserRole          @default(USER)
-  articleAuthors      Article[]         @relation("ArticleAuthors")
-  articleEditors      Article[]         @relation("ArticleEditors")
-  articleComments     ArticleComment[]  @relation("CommentAuthors")
-  downloadAuthors     Download[]        @relation("DownloadAuthors")
-  downloadFileAuthors DownloadFile[]    @relation("DownloadFileAuthors")
-  downloadComments    DownloadComment[] @relation("DownloadCommentAuthors")
-  medias              Media[]           @relation("MediaAuthors")
-  profilePicture      Media?            @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
+  role                UserRole           @default(USER)
+  articleAuthors      Article[]          @relation("ArticleAuthors")
+  articleEditors      Article[]          @relation("ArticleEditors")
+  articleComments     ArticleComment[]   @relation("CommentAuthors")
+  downloadAuthors     Download[]         @relation("DownloadAuthors")
+  downloadFileAuthors DownloadFile[]     @relation("DownloadFileAuthors")
+  downloadComments    DownloadComment[]  @relation("DownloadCommentAuthors")
+  topUpReviews        TopUpReview[]      @relation("TopUpReviewAuthors")
+  topUpComments       TopUpReviewReply[] @relation("TopUpReviewReplyAuthors")
+  topUpRatings        TopUpRating[]      @relation("TopUpRatingAuthors")
+  medias              Media[]            @relation("MediaAuthors")
+  profilePicture      Media?             @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
+  wpComments          WpComment[]        @relation("WpCommentAuthors")
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
 }
 
 model ArticlePrimary {
@@ -200,12 +204,110 @@ model DownloadComment {
   updatedAt  DateTime @updatedAt
 }
 
+model Voucher {
+  id                 String    @id @unique @default(uuid())
+  name               String
+  voucherCode        String    @unique
+  discountPercentage Int
+  discountMax        Int
+  voucherAmount      Int
+  description        String?
+  expiration         DateTime?
+  active             Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
+
 model ViewCounter {
   id        String   @id @unique @default(uuid())
   slug      String   @unique
   views     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model TopUpReview {
+  id        String             @id @unique @default(uuid())
+  content   String
+  brand     String
+  authorId  String
+  author    User               @relation("TopUpReviewAuthors", fields: [authorId], references: [id])
+  ratings   TopUpRating[]      @relation("TopUpReviewRatings")
+  replies   TopUpReviewReply[] @relation("TopUpReviewReplies")
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+model TopUpReviewReply {
+  id        String      @id @unique @default(uuid())
+  content   String
+  reviewId  String
+  review    TopUpReview @relation(name: "TopUpReviewReplies", fields: [reviewId], references: [id])
+  author    User        @relation(name: "TopUpReviewReplyAuthors", fields: [authorId], references: [id])
+  authorId  String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model TopUpRating {
+  id        String      @id @unique @default(uuid())
+  authorId  String
+  author    User        @relation(name: "TopUpRatingAuthors", fields: [authorId], references: [id])
+  rating    Int
+  brand     String
+  reviewId  String
+  reviews   TopUpReview @relation(name: "TopUpReviewRatings", fields: [reviewId], references: [id])
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model TopUpTransaction {
+  id              String          @id @unique @default(uuid())
+  invoiceId       String          @unique
+  amount          Int
+  sku             String
+  accountId       String
+  customerName    String?
+  customerEmail   String?
+  customerPhone   String
+  voucherCode     String?
+  discountAmount  Int?
+  feeAmount       Int
+  totalAmount     Int
+  note            String?
+  paymentMethod   String
+  paymentStatus   PaymentStatus   @default(UNPAID)
+  status          TopUpStatus     @default(PROCESSING)
+  topUpProvider   TopUpProvider   @default(DIGIFLAZZ)
+  paymentProvider PaymentProvider @default(TRIPAY)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model TopUpPriceList {
+  id        String   @id @unique @default(uuid())
+  key       String   @unique
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TransactionCounter {
+  id           String   @id @unique @default(uuid())
+  brand        String   @unique
+  transactions Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model WpComment {
+  id         String   @id @unique @default(uuid())
+  content    String
+  wpPostSlug String
+  authorId   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  author     User     @relation("WpCommentAuthors", fields: [authorId], references: [id])
 }
 
 enum UserRole {
@@ -281,4 +383,31 @@ enum DownloadSchema {
 enum LanguageType {
   id_ID
   en_US
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  FAILED
+  EXPIRED
+  ERROR
+  REFUNDED
+}
+
+enum TopUpStatus {
+  PROCESSING
+  SUCCESS
+  FAILED
+  ERROR
+}
+
+enum TopUpProvider {
+  DIGIFLAZZ
+  APIGAMES
+}
+
+enum PaymentProvider {
+  DUITKU
+  MIDTRANS
+  TRIPAY
 }
