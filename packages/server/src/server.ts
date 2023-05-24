@@ -29,8 +29,10 @@ import settingRoutes from "@/modules/setting/setting.route"
 import { settingSchemas } from "@/modules/setting/setting.schema"
 import topicRoutes from "@/modules/topic/topic.route"
 import { topicSchemas } from "@/modules/topic/topic.schema"
-import { transactionCounterSchemas } from "@/modules/transaction-counter/transaction-counter.schema"
 import transactionCounterRoutes from "@/modules/transaction-counter/transaction-counter.route"
+import { transactionCounterSchemas } from "@/modules/transaction-counter/transaction-counter.schema"
+import topUpRoutes from "@/modules/top-up/top-up.route"
+import { topUpSchemas } from "@/modules/top-up/top-up.schema"
 import topUpTransactionRoutes from "@/modules/top-up-transaction/top-up-transaction.route"
 import { topUpTransactionSchemas } from "@/modules/top-up-transaction/top-up-transaction.schema"
 import userRoutes from "@/modules/user/user.route"
@@ -104,6 +106,7 @@ function buildServer() {
     ...paymentSchemas,
     ...settingSchemas,
     ...topicSchemas,
+    ...topUpSchemas,
     ...topUpTransactionSchemas,
     ...transactionCounterSchemas,
     ...userSchemas,
@@ -141,6 +144,7 @@ function buildServer() {
   server.register(settingRoutes, { prefix: "api/setting" })
   server.register(userRoutes, { prefix: "api/user" })
   server.register(topicRoutes, { prefix: "api/topic" })
+  server.register(topUpRoutes, { prefix: "api/top-up" })
   server.register(topUpTransactionRoutes, { prefix: "api/top-up-transaction" })
   server.register(transactionCounterRoutes, {
     prefix: "api/transaction-counter",

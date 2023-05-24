@@ -18,6 +18,10 @@ const topUpTransactionInput = {
     required_error: "Amount is required",
     invalid_type_error: "Amount must be a number",
   }),
+  invoiceId: z.string({
+    required_error: "Invoice Id is required",
+    invalid_type_error: "Invoice Id must be a string",
+  }),
   sku: z.string({
     required_error: "Sku is required",
     invalid_type_error: "Sku must be a string",

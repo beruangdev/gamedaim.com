@@ -16,7 +16,7 @@ export async function createTopUpTransaction(
 
 export async function updateTopUpTransaction(
   invoiceId: string,
-  data: UpdateTopUpTransactionInput,
+  data: Omit<UpdateTopUpTransactionInput, "invoiceId">,
 ) {
   return await db.topUpTransaction.update({
     where: { invoiceId: invoiceId },
