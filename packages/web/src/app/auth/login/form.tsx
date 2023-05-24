@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 import Cookies from "js-cookie"
+import { useRouter } from "next/navigation"
 
 import {
   FormControl,
@@ -18,6 +19,7 @@ import { toast } from "@/components/UI/Toast"
 import { loginUserAction } from "@/lib/api/server/user"
 
 export const LoginForm: React.FunctionComponent = () => {
+  const router = useRouter()
   const [showPassword, setShowPassword] = React.useState(false)
   const handleToggleShowPassword = () => setShowPassword(!showPassword)
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -37,8 +39,24 @@ export const LoginForm: React.FunctionComponent = () => {
     setLoading(true)
     const data = await loginUserAction(values)
     if (data) {
-      Cookies.set("currentUser", JSON.stringify(data))
+      // Mendapatkan tanggal saat ini
+      const currentDate = new Date()
+
+      // Mendapatkan tanggal pada hari ketiga mendatang
+      const thirdDayDate = new Date(
+        currentDate.getTime() + 2 * 24 * 60 * 60 * 1000,
+      )
+
+      // Mengonversi tanggal ke dalam format ISO
+      const isoDate = thirdDayDate.toISOString()
+      const dataCookies = { ...data, expiration: isoDate }
+      Cookies.set("currentUser", JSON.stringify(dataCookies))
       toast({ variant: "success", description: "Successfully signed in" })
+      if (data.user.role.includes("USER")) {
+        router.push("/")
+      } else {
+        router.push("/dashboard")
+      }
     }
 
     setLoading(false)

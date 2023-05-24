@@ -5,10 +5,13 @@ import { authRoutes, protectedRoutes } from "@/route/routes"
 export function middleware(request: NextRequest) {
   const currentUser = request.cookies.get("currentUser")?.value
   const dataUser = currentUser && JSON.parse(currentUser)
+  const currentTime = new Date().getTime()
 
   if (
     protectedRoutes.includes(request.nextUrl.pathname) &&
-    (!dataUser || dataUser.user.role.includes("USER"))
+    (!dataUser ||
+      currentTime < new Date(dataUser.expiration).getTime() ||
+      dataUser.user.role.includes("USER"))
   ) {
     request.cookies.delete("currentUser")
     const response = NextResponse.redirect(new URL("/auth/login", request.url))

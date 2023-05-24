@@ -1,6 +1,6 @@
 import * as React from "react"
 import NextLink from "next/link"
-
+import { redirect } from "next/navigation"
 import { Sidebar } from "."
 import { Logo } from "@/components/Brand"
 import { ThemeSwitcher } from "@/components/Theme"
@@ -84,7 +84,13 @@ export const SidebarDashboard = React.forwardRef<
         <Sidebar.Item icon={<Icon.Person />} href="/setting/user/profile">
           Profile
         </Sidebar.Item>
-        <Sidebar.Item icon={<Icon.Logout />} onClick={() => logout && logout()}>
+        <Sidebar.Item
+          icon={<Icon.Logout />}
+          onClick={() => {
+            logout && logout()
+            redirect("/")
+          }}
+        >
           Log Out
         </Sidebar.Item>
         <div className="absolute bottom-0 left-0 m-5">

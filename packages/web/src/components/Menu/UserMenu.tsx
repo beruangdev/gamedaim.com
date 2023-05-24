@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import NextLink from "next/link"
-
+import { useRouter } from "next/navigation"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +15,7 @@ import { useCurrentUser } from "@/hooks/use-current-user"
 import { useLogout } from "@/hooks/use-logout"
 
 export const UserMenu = () => {
+  const router = useRouter()
   const { user: currentUser } = useCurrentUser()
   const { logout } = useLogout()
 
@@ -47,7 +48,14 @@ export const UserMenu = () => {
               </DropdownMenuItem>
             )}
             <DropdownMenuItem asChild>
-              <div aria-label="Log Out" onClick={() => logout && logout()}>
+              <div
+                aria-label="Log Out"
+                onClick={() => {
+                  logout()
+
+                  router.push("/auth/login")
+                }}
+              >
                 <Icon.Logout className="mr-2 h-5 w-5" /> Log Out
               </div>
             </DropdownMenuItem>
