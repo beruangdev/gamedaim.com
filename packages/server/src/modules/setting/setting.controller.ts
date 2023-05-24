@@ -3,7 +3,7 @@ import { FastifyReply, FastifyRequest } from "fastify"
 import { CreateSettingInput } from "./setting.schema"
 import {
   createOrUpdateSetting,
-  findSettingByKey,
+  getSettingByKey,
   getSettings,
 } from "./setting.service"
 
@@ -37,7 +37,7 @@ export async function getSettingByKeyHandler(
 ) {
   try {
     const { settingKey } = request.params
-    const setting = await findSettingByKey(settingKey)
+    const setting = await getSettingByKey(settingKey)
     return reply.code(201).send(setting)
   } catch (e) {
     console.log(e)
