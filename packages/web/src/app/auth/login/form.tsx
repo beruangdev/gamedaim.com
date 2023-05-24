@@ -16,12 +16,8 @@ import { Icon } from "@/components/UI/Icon"
 import { toast } from "@/components/UI/Toast"
 
 import { loginUserAction } from "@/lib/api/server/user"
-import { useAuthStore } from "@/store/auth"
-import { useStore } from "zustand"
 
 export const LoginForm: React.FunctionComponent = () => {
-  const login = useStore(useAuthStore, (state) => state.login)
-
   const [showPassword, setShowPassword] = React.useState(false)
   const handleToggleShowPassword = () => setShowPassword(!showPassword)
   const [loading, setLoading] = React.useState<boolean>(false)

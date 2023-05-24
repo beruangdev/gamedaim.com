@@ -11,18 +11,12 @@ import {
 } from "@/components/UI/DropdownMenu"
 import { IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
-
-import useStore, { useAuthStore } from "@/store/auth"
+import { useCurrentUser } from "@/hooks/use-current-user"
+import { useLogout } from "@/hooks/use-logout"
 
 export const UserMenu = () => {
-  const isAuthenticated = useStore(
-    useAuthStore,
-    (state) => state.isAuthenticated,
-  )
-
-  const logout = useStore(useAuthStore, (state) => state.logout)
-
-  const auth = useStore(useAuthStore, (state) => state.auth)
+  const { user: currentUser } = useCurrentUser()
+  const { logout } = useLogout()
 
   return (
     <DropdownMenu>
@@ -32,10 +26,10 @@ export const UserMenu = () => {
         </IconButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-background w-56">
-        {isAuthenticated ? (
+        {currentUser ? (
           <>
             <DropdownMenuItem asChild>
-              <NextLink href={`/user/${auth?.user?.username}`}>
+              <NextLink href={`/user/${currentUser.user?.username}`}>
                 <Icon.Person className="mr-2 h-5 w-5" /> Profile
               </NextLink>
             </DropdownMenuItem>
@@ -44,7 +38,7 @@ export const UserMenu = () => {
                 <Icon.Settings className="mr-2 h-5 w-5" /> Setting
               </NextLink>
             </DropdownMenuItem>
-            {auth?.user?.role !== "USER" && (
+            {currentUser.user?.role !== "USER" && (
               <DropdownMenuItem asChild>
                 <NextLink href="/dashboard">
                   <Icon.Dashboard className="mr-2 h-5 w-5" />

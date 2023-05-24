@@ -9,7 +9,6 @@ import { useGetTopicsCount } from "@/lib/api/client/topic"
 import { useGetMediasCount } from "@/lib/api/client/media"
 import { useGetCommentsCount } from "@/lib/api/client/comment"
 import { useGetUsersCount } from "@/lib/api/client/user"
-import { AdminOrAuthorRole } from "@/components/Auth"
 
 const BoxDashboard = dynamic(() =>
   import("@/components/Box").then((mod) => mod.BoxDashboard),
