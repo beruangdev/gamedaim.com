@@ -23,6 +23,8 @@ import downloadFileRoutes from "@/modules/download-file/download-file.route"
 import { downloadFileSchemas } from "@/modules/download-file/download-file.schema"
 import mediaRoutes from "@/modules/media/media.route"
 import { mediaSchemas } from "@/modules/media/media.schema"
+import paymentRoutes from "@/modules/payment/payment.route"
+import { paymentSchemas } from "@/modules/payment/payment.schema"
 import settingRoutes from "@/modules/setting/setting.route"
 import { settingSchemas } from "@/modules/setting/setting.schema"
 import topicRoutes from "@/modules/topic/topic.route"
@@ -99,6 +101,7 @@ function buildServer() {
     ...downloadCommentSchemas,
     ...downloadFileSchemas,
     ...mediaSchemas,
+    ...paymentSchemas,
     ...settingSchemas,
     ...topicSchemas,
     ...topUpTransactionSchemas,
@@ -134,6 +137,7 @@ function buildServer() {
   server.register(downloadCommentRoutes, { prefix: "api/download-comment" })
   server.register(downloadFileRoutes, { prefix: "api/download-file" })
   server.register(mediaRoutes, { prefix: "api/media" })
+  server.register(paymentRoutes, { prefix: "api/payment" })
   server.register(settingRoutes, { prefix: "api/setting" })
   server.register(userRoutes, { prefix: "api/user" })
   server.register(topicRoutes, { prefix: "api/topic" })
