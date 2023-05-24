@@ -1,11 +1,12 @@
 import * as React from "react"
 import NextLink from "next/link"
-
+import { redirect } from "next/navigation"
 import { Sidebar } from "."
 import { Logo } from "@/components/Brand"
 import { ThemeSwitcher } from "@/components/Theme"
 import { Icon } from "@/components/UI/Icon"
-import useStore, { useAuthStore } from "@/store/auth"
+import { useLogout } from "@/hooks/use-logout"
+import { useCurrentUser } from "@/hooks/use-current-user"
 
 export interface SidebarDashboardProps {}
 
@@ -15,8 +16,8 @@ export const SidebarDashboard = React.forwardRef<
 >((props, ref) => {
   const { ...rest } = props
 
-  const auth = useStore(useAuthStore, (state) => state.auth)
-  const logout = useStore(useAuthStore, (state) => state.logout)
+  const { user: currentUser } = useCurrentUser()
+  const { logout } = useLogout()
 
   return (
     <Sidebar ref={ref} {...rest}>
@@ -37,7 +38,7 @@ export const SidebarDashboard = React.forwardRef<
           Add new article
         </Sidebar.ToggleItem>
       </Sidebar.Toggle>
-      {auth?.user?.role === "ADMIN" && (
+      {currentUser?.user?.role === "ADMIN" && (
         <Sidebar.Toggle icon={<Icon.Topic />} title="Topics">
           <Sidebar.ToggleItem href="/dashboard/topic">
             All Topics
@@ -47,7 +48,7 @@ export const SidebarDashboard = React.forwardRef<
           </Sidebar.ToggleItem>
         </Sidebar.Toggle>
       )}
-      {auth?.user?.role === "ADMIN" && (
+      {currentUser?.user?.role === "ADMIN" && (
         <Sidebar.Toggle icon={<Icon.Currency />} title="Ads">
           <Sidebar.ToggleItem href="/dashboard/ad">All Ads</Sidebar.ToggleItem>
           <Sidebar.ToggleItem href="/dashboard/ad/new">
@@ -61,7 +62,7 @@ export const SidebarDashboard = React.forwardRef<
           Add new
         </Sidebar.ToggleItem>
       </Sidebar.Toggle>
-      {auth?.user?.role === "ADMIN" && (
+      {currentUser?.user?.role === "ADMIN" && (
         <>
           <Sidebar.Item icon={<Icon.Comment />} href="/dashboard/comment">
             Comments
@@ -83,7 +84,13 @@ export const SidebarDashboard = React.forwardRef<
         <Sidebar.Item icon={<Icon.Person />} href="/setting/user/profile">
           Profile
         </Sidebar.Item>
-        <Sidebar.Item icon={<Icon.Logout />} onClick={() => logout && logout()}>
+        <Sidebar.Item
+          icon={<Icon.Logout />}
+          onClick={() => {
+            logout && logout()
+            redirect("/")
+          }}
+        >
           Log Out
         </Sidebar.Item>
         <div className="absolute bottom-0 left-0 m-5">

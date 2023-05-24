@@ -1,6 +1,5 @@
 import * as React from "react"
 import { DashboardContainer } from "../container"
-import { AdminRole } from "@/components/Auth"
 
 export const metadata = {
   title: "Dashboard Users",
@@ -15,8 +14,8 @@ export default function DashboardUserLayout(props: DashboardUserLayoutProps) {
   const { children } = props
 
   return (
-    <AdminRole>
+    <>
       <DashboardContainer>{children}</DashboardContainer>
-    </AdminRole>
+    </>
   )
 }
