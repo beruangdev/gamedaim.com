@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { PaymentStatus, TopUpStatus } from "@prisma/client"
 
-import { slugify, uniqueSlug } from "@/utils/slug"
 import {
   CreateTopUpTransactionInput,
   UpdateTopUpTransactionInput,
@@ -30,6 +29,7 @@ export async function createTopUpTransactionHandler(
       sku,
       accountId,
       customerName,
+      invoiceId,
       customerEmail,
       customerPhone,
       voucherCode,
@@ -41,15 +41,11 @@ export async function createTopUpTransactionHandler(
       status,
     } = request.body
 
-    const uniqueInvoice = slugify(
-      sku.toLowerCase() + "_" + uniqueSlug(),
-    ).toUpperCase()
-
     const topUpTransaction = await createTopUpTransaction({
       paymentProvider: paymentProvider,
       paymentMethod: paymentMethod,
       topUpProvider: topUpProvider,
-      invoiceId: uniqueInvoice,
+      invoiceId: invoiceId,
       amount: amount,
       sku: sku,
       accountId: accountId,
