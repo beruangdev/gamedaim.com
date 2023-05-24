@@ -28,6 +28,12 @@ CREATE TYPE "PaymentStatus" AS ENUM ('UNPAID', 'PAID', 'FAILED', 'EXPIRED', 'ERR
 -- CreateEnum
 CREATE TYPE "TopUpStatus" AS ENUM ('PROCESSING', 'SUCCESS', 'FAILED', 'ERROR');
 
+-- CreateEnum
+CREATE TYPE "TopUpProvider" AS ENUM ('DIGIFLAZZ', 'APIGAMES');
+
+-- CreateEnum
+CREATE TYPE "PaymentProvider" AS ENUM ('DUITKU', 'MIDTRANS', 'TRIPAY');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -289,20 +295,21 @@ CREATE TABLE "TopUpTransaction" (
     "id" TEXT NOT NULL,
     "invoiceId" TEXT NOT NULL,
     "amount" INTEGER NOT NULL,
-    "paymentProvider" TEXT NOT NULL,
-    "paymentMethod" TEXT NOT NULL,
     "sku" TEXT NOT NULL,
     "accountId" TEXT NOT NULL,
     "customerName" TEXT,
     "customerEmail" TEXT,
     "customerPhone" TEXT NOT NULL,
     "voucherCode" TEXT,
-    "discountAmount" INTEGER NOT NULL,
+    "discountAmount" INTEGER,
     "feeAmount" INTEGER NOT NULL,
     "totalAmount" INTEGER NOT NULL,
     "note" TEXT,
+    "paymentMethod" TEXT NOT NULL,
     "paymentStatus" "PaymentStatus" NOT NULL DEFAULT 'UNPAID',
     "status" "TopUpStatus" NOT NULL DEFAULT 'PROCESSING',
+    "topUpProvider" "TopUpProvider" NOT NULL DEFAULT 'DIGIFLAZZ',
+    "paymentProvider" "PaymentProvider" NOT NULL DEFAULT 'TRIPAY',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

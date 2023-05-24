@@ -262,25 +262,26 @@ model TopUpRating {
 }
 
 model TopUpTransaction {
-  id              String        @id @unique @default(uuid())
-  invoiceId       String        @unique
+  id              String          @id @unique @default(uuid())
+  invoiceId       String          @unique
   amount          Int
-  paymentProvider String
-  paymentMethod   String
   sku             String
   accountId       String
   customerName    String?
   customerEmail   String?
   customerPhone   String
   voucherCode     String?
-  discountAmount  Int
+  discountAmount  Int?
   feeAmount       Int
   totalAmount     Int
   note            String?
-  paymentStatus   PaymentStatus @default(UNPAID)
-  status          TopUpStatus   @default(PROCESSING)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  paymentMethod   String
+  paymentStatus   PaymentStatus   @default(UNPAID)
+  status          TopUpStatus     @default(PROCESSING)
+  topUpProvider   TopUpProvider   @default(DIGIFLAZZ)
+  paymentProvider PaymentProvider @default(TRIPAY)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 }
 
 model TopUpPriceList {
@@ -398,4 +399,15 @@ enum TopUpStatus {
   SUCCESS
   FAILED
   ERROR
+}
+
+enum TopUpProvider {
+  DIGIFLAZZ
+  APIGAMES
+}
+
+enum PaymentProvider {
+  DUITKU
+  MIDTRANS
+  TRIPAY
 }
