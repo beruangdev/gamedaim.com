@@ -10,8 +10,9 @@ export function middleware(request: NextRequest) {
   if (
     protectedRoutes.includes(request.nextUrl.pathname) &&
     (!dataUser ||
-      currentTime < new Date(dataUser.expiration).getTime() ||
-      dataUser.user.role.includes("USER"))
+      currentTime > new Date(dataUser.expiration).getTime() ||
+      dataUser.user.role.includes("USER") ||
+      dataUser.user.role.includes("PRO_USER"))
   ) {
     request.cookies.delete("currentUser")
     const response = NextResponse.redirect(new URL("/auth/login", request.url))

@@ -1,6 +1,6 @@
 import * as React from "react"
 import NextLink from "next/link"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Sidebar } from "."
 import { Logo } from "@/components/Brand"
 import { ThemeSwitcher } from "@/components/Theme"
@@ -18,7 +18,7 @@ export const SidebarDashboard = React.forwardRef<
 
   const { user: currentUser } = useCurrentUser()
   const { logout } = useLogout()
-
+  const router = useRouter()
   return (
     <Sidebar ref={ref} {...rest}>
       <NextLink
@@ -88,7 +88,7 @@ export const SidebarDashboard = React.forwardRef<
           icon={<Icon.Logout />}
           onClick={() => {
             logout && logout()
-            redirect("/")
+            router.push("/")
           }}
         >
           Log Out

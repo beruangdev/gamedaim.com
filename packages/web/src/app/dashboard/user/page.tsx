@@ -20,7 +20,6 @@ export default function UsersDashboard() {
   const { usersCount } = useGetUsersCount()
 
   const lastPage = usersCount && Math.ceil(usersCount / 10)
-  console.log(usersCount)
 
   const [page, setPage] = React.useState<number>(1)
   const { users, updatedUsers } = useGetUsers(page)
