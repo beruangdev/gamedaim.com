@@ -5,8 +5,7 @@ export const handleDeleteUser = async (
   userId: string,
   updateUser: () => void,
 ) => {
-  const { data, error } = await deleteUserAction(userId)
-  console.log(data)
+  const { error } = await deleteUserAction(userId)
   if (error) {
     toast({
       variant: "danger",

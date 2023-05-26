@@ -17,6 +17,7 @@ import { Icon } from "@/components/UI/Icon"
 import { toast } from "@/components/UI/Toast"
 
 import { loginUserAction } from "@/lib/api/server/user"
+import { axiosInstance } from "@/lib/http"
 
 export const LoginForm: React.FunctionComponent = () => {
   const router = useRouter()
@@ -52,6 +53,9 @@ export const LoginForm: React.FunctionComponent = () => {
       const dataCookies = { ...data, expiration: isoDate }
       Cookies.set("currentUser", JSON.stringify(dataCookies))
       toast({ variant: "success", description: "Successfully signed in" })
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${data.accessToken}`
       if (data.user.role.includes("USER")) {
         router.push("/")
       } else {
