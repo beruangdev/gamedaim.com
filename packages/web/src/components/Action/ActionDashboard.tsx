@@ -62,12 +62,12 @@ export const ActionDashboard = React.forwardRef<
 
       {editLink && (
         <NextLink href={editLink}>
-          <Icon.EditNote className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110" />
+          <Icon.Edit className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110" />
         </NextLink>
       )}
 
       {onEdit && (
-        <Icon.EditNote
+        <Icon.Edit
           className="hover:text-primary/90 mr-2 w-4  transform cursor-pointer hover:scale-110"
           onClick={onEdit}
         />
@@ -75,13 +75,13 @@ export const ActionDashboard = React.forwardRef<
 
       {deleteLink && (
         <NextLink href={deleteLink}>
-          <Icon.Trash className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110" />
+          <Icon.Delete className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110" />
         </NextLink>
       )}
 
       {onDelete && (
         <>
-          <Icon.Trash
+          <Icon.Delete
             className="hover:text-primary/90 mr-2 w-4 transform cursor-pointer hover:scale-110"
             onClick={() => setOpenModal(true)}
           />
