@@ -15,7 +15,6 @@ export const useCurrentUser = () => {
   React.useEffect(() => {
     const currentUser = Cookies.get("currentUser")
     const userData = currentUser && JSON.parse(currentUser)
-    console.log(userData)
 
     if (currentUser) {
       setUser(userData)
