@@ -18,9 +18,8 @@ const ActionDashboard = dynamic(() =>
 
 export default function UsersDashboard() {
   const { usersCount } = useGetUsersCount()
-
   const lastPage = usersCount && Math.ceil(usersCount / 10)
-
+  const [isLoading, setIsLoading] = React.useState(true)
   const [page, setPage] = React.useState<number>(1)
   const { users, updatedUsers } = useGetUsers(page)
   React.useEffect(() => {
@@ -28,6 +27,9 @@ export default function UsersDashboard() {
       setPage((old) => Math.max(old - 1, 0))
     }
   }, [lastPage, page])
+  React.useEffect(() => {
+    setIsLoading(false)
+  }, [])
   return (
     <>
       <div className="mt-4 flex items-end justify-between">
@@ -41,93 +43,96 @@ export default function UsersDashboard() {
         </div>
       </div>
       <div className="mb-[80px] mt-6 rounded">
-        {users !== undefined && users.length > 0 ? (
-          <>
-            <Table className="table-fixed border-collapse border-spacing-0">
-              <Thead>
-                <Tr isTitle>
-                  <Th>Username</Th>
-                  <Th>Name</Th>
-                  <Th className="hidden md:table-cell">Email</Th>
-                  <Th>Role</Th>
-                  <Th className="hidden md:table-cell">Date Joined</Th>
-                  <Th align="center">Actions</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {users.map((user: UserDataProps) => (
-                  <Tr key={user.id}>
-                    <Td className="line-clamp-3 max-w-[120px]">
-                      <div className="flex">
-                        <span className="font-medium">{user.username}</span>
-                      </div>
-                    </Td>
-                    <Td className="white-space-nowrap">
-                      <div className="flex">
-                        <span className="font-medium">{user.name}</span>
-                      </div>
-                    </Td>
-                    <Td className="hidden whitespace-nowrap md:table-cell">
-                      <div className="flex">
-                        <span className="font-medium">{user.email}</span>
-                      </div>
-                    </Td>
-                    <Td className="whitespace-nowrap">
-                      <div className="flex">
-                        <span className="font-medium">
-                          <Badge>{user.role}</Badge>
-                        </span>
-                      </div>
-                    </Td>
-                    <Td className="hidden md:table-cell">
-                      {formatDate(user.createdAt, "LL")}
-                    </Td>
-                    <Td align="right">
-                      <ActionDashboard
-                        viewLink={`/user/${user.username}`}
-                        onDelete={() => {
-                          handleDeleteUser(user.id, updatedUsers)
-                        }}
-                        editLink={`/dashboard/user/${user.id}`}
-                      />
-                    </Td>
+        {!isLoading &&
+          (users !== undefined && users.length > 0 ? (
+            <>
+              <Table className="table-fixed border-collapse border-spacing-0">
+                <Thead>
+                  <Tr isTitle>
+                    <Th>Username</Th>
+                    <Th>Name</Th>
+                    <Th className="hidden md:table-cell">Email</Th>
+                    <Th>Role</Th>
+                    <Th className="hidden md:table-cell">Date Joined</Th>
+                    <Th align="center">Actions</Th>
                   </Tr>
-                ))}
-              </Tbody>
-            </Table>
-            {page && (
-              <div className="align-center mt-2 flex items-center justify-center space-x-2">
-                <>
-                  {page !== 1 && (
-                    <IconButton
-                      variant="ghost"
-                      onClick={() => setPage((old) => Math.max(old - 1, 0))}
-                      disabled={page === 1}
-                      className="rounded-full px-0"
-                    >
-                      <Icon.ChevronLeft />
-                    </IconButton>
-                  )}
-                  {page !== lastPage && (
-                    <IconButton
-                      variant="ghost"
-                      onClick={() => {
-                        setPage((old) => old + 1)
-                      }}
-                      className="rounded-full px-0"
-                    >
-                      <Icon.ChevronRight />
-                    </IconButton>
-                  )}
-                </>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="my-48 flex items-center justify-center">
-            <h3 className="text-center text-4xl font-bold">Users Not found</h3>
-          </div>
-        )}
+                </Thead>
+                <Tbody>
+                  {users.map((user: UserDataProps) => (
+                    <Tr key={user.id}>
+                      <Td className="line-clamp-3 max-w-[120px]">
+                        <div className="flex">
+                          <span className="font-medium">{user.username}</span>
+                        </div>
+                      </Td>
+                      <Td className="white-space-nowrap">
+                        <div className="flex">
+                          <span className="font-medium">{user.name}</span>
+                        </div>
+                      </Td>
+                      <Td className="hidden whitespace-nowrap md:table-cell">
+                        <div className="flex">
+                          <span className="font-medium">{user.email}</span>
+                        </div>
+                      </Td>
+                      <Td className="whitespace-nowrap">
+                        <div className="flex">
+                          <span className="font-medium">
+                            <Badge>{user.role}</Badge>
+                          </span>
+                        </div>
+                      </Td>
+                      <Td className="hidden md:table-cell">
+                        {formatDate(user.createdAt, "LL")}
+                      </Td>
+                      <Td align="right">
+                        <ActionDashboard
+                          viewLink={`/user/${user.username}`}
+                          onDelete={() => {
+                            handleDeleteUser(user.id, updatedUsers)
+                          }}
+                          editLink={`/dashboard/user/${user.id}`}
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+              {page && (
+                <div className="align-center mt-2 flex items-center justify-center space-x-2">
+                  <>
+                    {page !== 1 && (
+                      <IconButton
+                        variant="ghost"
+                        onClick={() => setPage((old) => Math.max(old - 1, 0))}
+                        disabled={page === 1}
+                        className="rounded-full px-0"
+                      >
+                        <Icon.ChevronLeft />
+                      </IconButton>
+                    )}
+                    {page !== lastPage && (
+                      <IconButton
+                        variant="ghost"
+                        onClick={() => {
+                          setPage((old) => old + 1)
+                        }}
+                        className="rounded-full px-0"
+                      >
+                        <Icon.ChevronRight />
+                      </IconButton>
+                    )}
+                  </>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="my-48 flex items-center justify-center">
+              <h3 className="text-center text-4xl font-bold">
+                Users Not found
+              </h3>
+            </div>
+          ))}
       </div>
     </>
   )

@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import env from "env"
-
+import Cookies from "js-cookie"
 export const axiosInstance = axios.create({
   baseURL: env.API,
 })
@@ -8,8 +8,17 @@ export const axiosInstanceWP = axios.create({
   baseURL: env.WP_API_URL,
 })
 
-export const fetcher = (url: string) =>
-  axiosInstance.get(url).then((res) => res.data)
+export const fetcher = (url: string) => {
+  const currentUser = Cookies.get("currentUser")
+  const userData = currentUser && JSON.parse(currentUser)
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userData?.accessToken}`,
+    },
+  }
+
+  return axiosInstance.get(url, config).then((res) => res.data)
+}
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 
