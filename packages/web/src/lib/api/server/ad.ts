@@ -1,6 +1,5 @@
 import { AxiosError } from "axios"
 
-import { toast } from "@/components/UI/Toast"
 import { http } from "@/lib/http"
 import { AdDataProps, ErrorResponse } from "@/lib/data-types"
 
@@ -10,16 +9,15 @@ export const getAdsCountAction = async () => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getAdsAction = async (adPage: number) => {
@@ -28,16 +26,15 @@ export const getAdsAction = async (adPage: number) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getAdsByPositionAction = async (adPosition: string) => {
@@ -46,16 +43,15 @@ export const getAdsByPositionAction = async (adPosition: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getAdByIdAction = async (adId: string) => {
@@ -64,16 +60,15 @@ export const getAdByIdAction = async (adId: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const putAdAction = async (adId: string, values: unknown) => {
@@ -83,16 +78,15 @@ export const putAdAction = async (adId: string, values: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const postAdAction = async (value: unknown) => {
@@ -102,16 +96,15 @@ export const postAdAction = async (value: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const deleteAdAction = async (adId: string) => {
@@ -120,14 +113,13 @@ export const deleteAdAction = async (adId: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }

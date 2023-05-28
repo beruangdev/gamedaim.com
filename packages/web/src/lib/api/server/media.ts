@@ -1,6 +1,5 @@
 import { AxiosError } from "axios"
 
-import { toast } from "@/components/UI/Toast"
 import { http } from "@/lib/http"
 import { ErrorResponse, MediaDataProps } from "@/lib/data-types"
 
@@ -10,16 +9,15 @@ export const getMediasCountAction = async () => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getMediasAction = async (mediaPage = 1) => {
@@ -28,16 +26,15 @@ export const getMediasAction = async (mediaPage = 1) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getMediaByIdAction = async (mediaId: string) => {
@@ -46,16 +43,15 @@ export const getMediaByIdAction = async (mediaId: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getMediaBySlugAction = async (mediaSlug: string) => {
@@ -64,16 +60,15 @@ export const getMediaBySlugAction = async (mediaSlug: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const searchMediaAction = async (mediaQuery: string) => {
@@ -82,16 +77,15 @@ export const searchMediaAction = async (mediaQuery: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const postMediaAction = async (mediaImage: unknown) => {
@@ -102,16 +96,15 @@ export const postMediaAction = async (mediaImage: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const putMediaAction = async (mediaId: string, values: unknown) => {
@@ -121,16 +114,15 @@ export const putMediaAction = async (mediaId: string, values: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const deleteMediaAction = async (mediaName: string) => {
@@ -139,16 +131,15 @@ export const deleteMediaAction = async (mediaName: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getKeyMediasAction = (

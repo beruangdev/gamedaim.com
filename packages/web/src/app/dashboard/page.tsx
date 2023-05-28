@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react"
 import dynamic from "next/dynamic"
 
@@ -7,7 +8,6 @@ import { useGetArticlesCount } from "@/lib/api/client/article"
 import { useGetAdsCount } from "@/lib/api/client/ad"
 import { useGetTopicsCount } from "@/lib/api/client/topic"
 import { useGetMediasCount } from "@/lib/api/client/media"
-import { useGetCommentsCount } from "@/lib/api/client/comment"
 import { useGetUsersCount } from "@/lib/api/client/user"
 
 const BoxDashboard = dynamic(() =>
@@ -19,7 +19,6 @@ export default function Dashboard() {
   const { adsCount } = useGetAdsCount()
   const { topicsCount } = useGetTopicsCount()
   const { mediasCount } = useGetMediasCount()
-  const { commentsCount } = useGetCommentsCount()
   const { usersCount } = useGetUsersCount()
 
   return (
@@ -53,13 +52,6 @@ export default function Dashboard() {
               icon={<Icon.Media className="h-5 w-5" />}
               count={mediasCount}
               text="media"
-            />
-          )}
-          {commentsCount !== undefined && (
-            <BoxDashboard
-              icon={<Icon.Comment className="h-5 w-5" />}
-              count={commentsCount}
-              text="comment"
             />
           )}
           {usersCount !== undefined && (

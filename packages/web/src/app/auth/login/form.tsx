@@ -38,7 +38,9 @@ export const LoginForm: React.FunctionComponent = () => {
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
-    const data = await loginUserAction(values)
+
+    const { data, error } = await loginUserAction(values)
+
     if (data) {
       // Mendapatkan tanggal saat ini
       const currentDate = new Date()
@@ -51,8 +53,11 @@ export const LoginForm: React.FunctionComponent = () => {
       // Mengonversi tanggal ke dalam format ISO
       const isoDate = thirdDayDate.toISOString()
       const dataCookies = { ...data, expiration: isoDate }
+
       Cookies.set("currentUser", JSON.stringify(dataCookies))
+
       toast({ variant: "success", description: "Successfully signed in" })
+
       axiosInstance.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${data.accessToken}`
@@ -61,6 +66,8 @@ export const LoginForm: React.FunctionComponent = () => {
       } else {
         router.push("/dashboard")
       }
+    } else {
+      toast({ variant: "danger", description: error })
     }
 
     setLoading(false)

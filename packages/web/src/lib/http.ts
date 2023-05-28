@@ -1,14 +1,16 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import env from "env"
 import Cookies from "js-cookie"
+
 export const axiosInstance = axios.create({
   baseURL: env.API,
 })
+
 export const axiosInstanceWP = axios.create({
   baseURL: env.WP_API_URL,
 })
 
-export const fetcher = (url: string) => {
+export const fetcher = async (url: string) => {
   const currentUser = Cookies.get("currentUser")
   const userData = currentUser && JSON.parse(currentUser)
   const config = {
@@ -37,7 +39,7 @@ export const http = async <T, E = unknown>(
   }
 }
 
-export const apiCallWP = async <T, E = unknown>(
+export const wpHttp = async <T, E = unknown>(
   method: Method,
   query: string,
   variables?: string | number | object | undefined,
@@ -52,6 +54,7 @@ export const apiCallWP = async <T, E = unknown>(
     },
     responseType: "json",
   }
+
   try {
     const res = await axiosInstanceWP.request<T>({
       ...defaultConfig,

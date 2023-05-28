@@ -5,6 +5,7 @@ import * as React from "react"
 import { Container } from "@/components/UI/Container"
 import { Input } from "@/components/UI/Form"
 import { ArticleCardVertical } from "@/components/Card"
+import { toast } from "@/components/UI/Toast"
 import { searchArticlesAction } from "@/lib/api/server/article"
 import { ArticleDataProps } from "@/lib/data-types"
 
@@ -30,9 +31,13 @@ export const SearchNavbar = React.forwardRef<HTMLDivElement, SearchNavbarProps>(
 
       if (e.target.value.length > 1) {
         setSearched(true)
-        const data = await searchArticlesAction(e.target.value)
+        const { data, error } = await searchArticlesAction(e.target.value)
 
-        setSearchResults(data as ArticleDataProps[])
+        if (data) {
+          setSearchResults(data as ArticleDataProps[])
+        } else {
+          toast({ variant: "danger", description: error })
+        }
       } else if (e.target.value.length < 1) {
         setSearched(false)
         setSearchResults([])

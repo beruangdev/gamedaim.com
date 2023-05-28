@@ -1,6 +1,5 @@
 import { AxiosError } from "axios"
 
-import { toast } from "@/components/UI/Toast"
 import { ErrorResponse, SettingDataProps } from "@/lib/data-types"
 import { http } from "@/lib/http"
 
@@ -10,16 +9,15 @@ export const getSettingByKeyAction = async (settingKey: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const postSettingAction = async (values: unknown) => {
@@ -29,16 +27,15 @@ export const postSettingAction = async (values: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getSettingsSiteAction = async () => {

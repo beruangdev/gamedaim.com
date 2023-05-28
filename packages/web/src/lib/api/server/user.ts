@@ -1,6 +1,5 @@
 import { AxiosError } from "axios"
 
-import { toast } from "@/components/UI/Toast"
 import { http } from "@/lib/http"
 import { ErrorResponse, UserDataProps } from "@/lib/data-types"
 
@@ -17,16 +16,15 @@ export const signUpUserAction = async (values: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const loginUserAction = async (values: unknown) => {
@@ -36,16 +34,15 @@ export const loginUserAction = async (values: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const putUserByAdminAction = async (userId: string, values: unknown) => {
@@ -55,16 +52,15 @@ export const putUserByAdminAction = async (userId: string, values: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const deleteUserAction = async (userId: unknown) => {
@@ -90,16 +86,15 @@ export const getUsersAction = async (userPage = 1) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getUsersCountAction = async () => {
@@ -108,16 +103,15 @@ export const getUsersCountAction = async () => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getUserByIdAction = async (userId: string) => {
@@ -126,16 +120,15 @@ export const getUserByIdAction = async (userId: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getUserByUsernameAction = async (userUsername: string) => {
@@ -144,16 +137,15 @@ export const getUserByUsernameAction = async (userUsername: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getUserArticlesByUsernameAction = async (
@@ -165,16 +157,15 @@ export const getUserArticlesByUsernameAction = async (
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const putUserAction = async (userId: string, values: unknown) => {
@@ -184,14 +175,13 @@ export const putUserAction = async (userId: string, values: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }

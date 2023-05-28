@@ -1,6 +1,5 @@
 import { AxiosError } from "axios"
 
-import { toast } from "@/components/UI/Toast"
 import { http } from "@/lib/http"
 import {
   ArticleDataProps,
@@ -14,16 +13,15 @@ export const getArticlesCountAction = async () => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getArticlesAction = async (articlePage = 1) => {
@@ -32,16 +30,15 @@ export const getArticlesAction = async (articlePage = 1) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getARticlesDashboardAction = async (articlePage = 1) => {
@@ -50,16 +47,15 @@ export const getARticlesDashboardAction = async (articlePage = 1) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getArticlesSitemapAction = async (articlePage = 1) => {
@@ -68,16 +64,15 @@ export const getArticlesSitemapAction = async (articlePage = 1) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const searchArticlesAction = async (articleQuery: string) => {
@@ -86,16 +81,15 @@ export const searchArticlesAction = async (articleQuery: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getArticleByIdAction = async (articleId: string) => {
@@ -104,16 +98,15 @@ export const getArticleByIdAction = async (articleId: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getArticlesBySlugAction = async (articleSlug: string) => {
@@ -122,16 +115,15 @@ export const getArticlesBySlugAction = async (articleSlug: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const postArticleAction = async (values: unknown) => {
@@ -141,16 +133,15 @@ export const postArticleAction = async (values: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const putArticle = async (articleId: string, values: unknown) => {
@@ -160,16 +151,15 @@ export const putArticle = async (articleId: string, values: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const deleteArticleAction = async (articleId: string) => {
@@ -178,14 +168,13 @@ export const deleteArticleAction = async (articleId: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }

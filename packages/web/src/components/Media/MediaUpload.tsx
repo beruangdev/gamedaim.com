@@ -1,11 +1,14 @@
 "use client"
-import { postMediaAction } from "@/lib/api/server/media"
-import { resizeImage } from "@/utils/resize-image"
+
 import * as React from "react"
 import { useForm } from "react-hook-form"
+
 import { Button } from "@/components/UI/Button"
 import { FormControl, FormErrorMessage } from "@/components/UI/Form"
 import { DropZone } from "@/components/UI/DropZone"
+import { toast } from "@/components/UI/Toast"
+import { postMediaAction } from "@/lib/api/server/media"
+import { resizeImage } from "@/utils/resize-image"
 
 interface FormValues {
   file: FileList
@@ -31,10 +34,12 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
     const onSubmit = async (values: FormValues) => {
       setLoading(true)
       const image = await resizeImage(values.file[0])
-      const data = await postMediaAction({ image })
+      const { data, error } = await postMediaAction({ image })
       if (data) {
         addLoadMedias()
         reset()
+      } else {
+        toast({ variant: "danger", description: error })
       }
       setLoading(false)
     }
