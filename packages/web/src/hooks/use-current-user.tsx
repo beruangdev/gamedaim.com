@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react"
 
 import Cookies from "js-cookie"
@@ -25,7 +26,7 @@ export const useCurrentUser = () => {
   }, [])
 
   const refetchUser = async (userId: string) => {
-    const userInfo = await getUserByIdAction(userId)
+    const { data: userInfo, error } = await getUserByIdAction(userId)
     const currentUser = Cookies.get("currentUser")
 
     if (userInfo && currentUser) {
@@ -36,6 +37,8 @@ export const useCurrentUser = () => {
       }
       Cookies.set("currentUser", JSON.stringify(newUser))
       setUser(newUser)
+    } else {
+      console.log(error)
     }
   }
 

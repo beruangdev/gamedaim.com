@@ -19,70 +19,58 @@ import {
   WpTagsDataProps,
   WpMapPostDataProps,
   WpResAllPostsProps,
-  WPPageInfoProps,
   WpResPostProps,
   WpResPostsByTagProps,
 } from "@/lib/wp-data-types"
-import { apiCallWP } from "@/lib/http"
-import { toast } from "@/components/UI/Toast"
+import { wpHttp } from "@/lib/http"
 import { ErrorResponse } from "@/lib/data-types"
 
 export function wpPostPathBySlug(slug: string) {
   return `/${slug}`
 }
 
-interface WpGetAllPostsProps {
-  posts: WpSinglePostDataProps[] | null
-  pageInfo?: WPPageInfoProps | null
-}
-export async function wpGetAllPosts(
-  config?: AxiosRequestConfig,
-): Promise<WpGetAllPostsProps> {
-  const [res, err] = await apiCallWP<WpResAllPostsProps>(
+export async function wpGetAllPosts(config?: AxiosRequestConfig) {
+  const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     QUERY_WP_ALL_POSTS,
     config,
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       posts: null,
       pageInfo: null,
     }
   }
+
   const posts = res?.data.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
 
   return {
+    error: null,
     posts: posts.map(wpMapPostData),
     pageInfo: res?.data.posts.pageInfo,
   }
 }
 
-export async function wpGetAllPostsLoadMore(
-  after = "",
-): Promise<WpGetAllPostsProps> {
-  const [res, err] = await apiCallWP<WpResAllPostsProps>(
+export async function wpGetAllPostsLoadMore(after = "") {
+  const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     QUERY_WP_ALL_POSTS_LOAD_MORE,
     {
       after,
     },
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       posts: null,
       pageInfo: null,
     }
@@ -92,98 +80,96 @@ export async function wpGetAllPostsLoadMore(
   ) as WpMapPostDataProps[]
 
   return {
+    error: null,
     posts: posts.map(wpMapPostData),
     pageInfo: res?.data.posts.pageInfo,
   }
 }
 
-interface WpGetAllSlugProps {
-  posts: WpSinglePostDataProps[] | null
-}
-export async function wpGetAllSlug(): Promise<WpGetAllSlugProps> {
+export async function wpGetAllSlug(): Promise<unknown> {
   const after = ""
-  const [res, err] = await apiCallWP<WpResAllPostsProps>(
+
+  const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     QUERY_WP_ALL_SLUG,
     {
       after,
     },
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
+    return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
         ?.message as string,
-    })
-    return { posts: null }
+      posts: null,
+    }
   }
+
   const posts = res?.data.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
 
   return {
+    error: null,
     posts: posts.map(wpMapPostData),
   }
 }
 
-export async function wpGetPostsBySearch(
-  search: string | string[],
-): Promise<WpGetAllPostsProps> {
-  const [res, err] = await apiCallWP<WpResAllPostsProps>(
+export async function wpGetPostsBySearch(search: string | string[]) {
+  const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     QUERY_WP_SEARCH_POSTS,
     {
       search,
     },
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       posts: null,
     }
   }
+
   const posts = res?.data.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
 
   return {
+    error: null,
     posts: posts.map(wpMapPostData),
   }
 }
 
 export async function wpGetPostBySlug(slug: string) {
-  const [res, err] = await apiCallWP<WpResPostProps>(
+  const [res, err] = await wpHttp<WpResPostProps>(
     "GET",
     QUERY_WP_POST_BY_SLUG,
     { slug },
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
-      post: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+      posts: null,
     }
   }
+
   const post = wpMapPostData((res as WpResPostProps).data.post)
 
-  return { post: post }
+  return { error: null, post: post }
 }
 
 export async function wpGetPostsByAuthorSlug(
   slug: string | string[],
   after = "",
 ) {
-  const [res, err] = await apiCallWP<WpResAllPostsProps>(
+  const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     QUERY_WP_POSTS_BY_AUTHOR_SLUG,
     {
@@ -191,30 +177,30 @@ export async function wpGetPostsByAuthorSlug(
       after,
     },
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       posts: null,
       pageInfo: null,
     }
   }
+
   const posts = res?.data.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
 
   return {
+    error: null,
     posts: Array.isArray(posts) && posts.map(wpMapPostData),
     pageInfo: res?.data.posts.pageInfo,
   }
 }
 
 export async function wpGetPostsByCategorySlug(categoryId: string, after = "") {
-  const [res, err] = await apiCallWP<WpResAllPostsProps>(
+  const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     QUERY_WP_POSTS_BY_CATEGORY_SLUG,
     {
@@ -222,74 +208,61 @@ export async function wpGetPostsByCategorySlug(categoryId: string, after = "") {
       after,
     },
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       posts: null,
       pageInfo: null,
     }
   }
+
   const posts = res?.data.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
 
   return {
+    error: null,
     posts: Array.isArray(posts) && posts.map(wpMapPostData),
     pageInfo: res?.data.posts.pageInfo,
   }
 }
 
 export async function wpGetPostsByTagSlug(id: string, after = "") {
-  const [res, err] = await apiCallWP<WpResPostsByTagProps>(
+  const [res, err] = await wpHttp<WpResPostsByTagProps>(
     "GET",
     QUERY_WP_POSTS_BY_TAG_SLUG,
     { id, after },
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       posts: null,
       pageInfo: null,
     }
   }
+
   const posts = res?.data.tag.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
 
   return {
+    error: null,
     posts: Array.isArray(posts) && posts.map(wpMapPostData),
     pageInfo: res?.data.tag.posts.pageInfo,
   }
-}
-
-export function wpSanitizeExcerpt(excerpt: string) {
-  let sanitized = excerpt
-
-  sanitized = sanitized.replace(/\s?\[&hellip;\]/, "&hellip;")
-  sanitized = sanitized.replace("....", ".")
-  sanitized = sanitized.replace(".&hellip;", ".")
-  sanitized = sanitized.replace(/<p>/gi, "")
-  sanitized = sanitized.replace(/<\/p>/gi, "")
-  sanitized = sanitized.replace(/\w*<a class="more-link".*<\/a>/, "")
-
-  return sanitized
 }
 
 export async function wpGetInfiniteScollArticles(
   categoryIn: string,
   after: string,
 ) {
-  const [res, err] = await apiCallWP<WpResAllPostsProps>(
+  const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     GET_INFINITE_SCROLL_POSTS,
     {
@@ -297,23 +270,23 @@ export async function wpGetInfiniteScollArticles(
       after,
     },
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       posts: null,
       pageInfo: null,
     }
   }
+
   const posts = res?.data.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
 
   return {
+    error: null,
     posts: Array.isArray(posts) && posts.map(wpMapPostData),
     pageInfo: res?.data.posts.pageInfo,
   }
@@ -358,10 +331,6 @@ export function wpMapPostData(post: WpMapPostDataProps) {
         /href="https:\/\/gamedaim/gm,
         'href="https://beta.gamedaim',
       )
-      // content = content.replace(
-      //   /https:\/\/media.wowkia.com\/wp-content/gm,
-      //   "https://cdn.wowkia.com/wp-content",
-      // )
     }
     contentNode = post.content
   }
@@ -375,6 +344,7 @@ export function wpMapPostData(post: WpMapPostDataProps) {
       featuredImageNode.sourceUrl = imageUrl
     }
   }
+
   const data: WpSinglePostDataProps = {
     ...post,
     author: (authorNode as WpAuthorsDataProps) || {},
@@ -383,5 +353,6 @@ export function wpMapPostData(post: WpMapPostDataProps) {
     featuredImage: (featuredImageNode as WpFeaturedImageDataProps) || {},
     content: (contentNode as string) || "",
   }
+
   return data
 }

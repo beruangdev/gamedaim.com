@@ -1,12 +1,11 @@
 import { AxiosError } from "axios"
-import { toast } from "@/components/UI/Toast"
 
 import {
   QUERY_WP_ALL_USERS,
   QUERY_WP_USERS_BY_ID,
   QUERY_WP_USERS_BY_SLUG,
 } from "@/data/wp-users"
-import { apiCallWP } from "@/lib/http"
+import { wpHttp } from "@/lib/http"
 import { WpAuthorsDataProps } from "@/lib/wp-data-types"
 import { ErrorResponse } from "@/lib/data-types"
 
@@ -15,7 +14,7 @@ export function wpAuthorPathBySlug(slug: string) {
 }
 
 export async function wpGetUserBySlug(slug: string) {
-  const [res, err] = await apiCallWP<{ data: { user: WpAuthorsDataProps } }>(
+  const [res, err] = await wpHttp<{ data: { user: WpAuthorsDataProps } }>(
     "GET",
     QUERY_WP_USERS_BY_SLUG,
     {
@@ -25,18 +24,16 @@ export async function wpGetUserBySlug(slug: string) {
 
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       user: null,
     }
   }
 
   const user = res?.data?.user
   return {
+    error: null,
     user: user,
   }
 }
@@ -46,17 +43,21 @@ export function wpAuthorPathByName(slug: string) {
 }
 
 export async function wpGetUserByNameSlug(slug: string) {
-  const { users } = await wpGetAllUsers()
+  const { users, error } = await wpGetAllUsers()
 
   const user = users?.find((user: { slug: string }) => user.slug === slug)
-  if (!user) {
-    let user: { error: string } = {
-      error: "",
+
+  if (error) {
+    console.log(error)
+    return {
+      error,
+      posts: null,
+      pageInfo: null,
     }
-    user.error = "Ada yang salah"
-    return { user }
   }
+
   return {
+    error: null,
     user,
   }
 }
@@ -66,26 +67,25 @@ export function wpUserSlugByName(slug: string) {
 }
 
 export async function wpGetUserbyId(id: string) {
-  const [res, err] = await apiCallWP<{ data: { user: WpAuthorsDataProps } }>(
+  const [res, err] = await wpHttp<{ data: { user: WpAuthorsDataProps } }>(
     "GET",
     QUERY_WP_USERS_BY_ID,
     {
       id,
     },
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       user: null,
     }
   }
 
   return {
+    error: null,
     user: res?.data.user,
   }
 }
@@ -95,34 +95,44 @@ export interface WpResAuthorProps {
 }
 
 export async function wpGetAllUsers() {
-  const [res, err] = await apiCallWP<{ data: WpResAuthorProps }>(
+  const [res, err] = await wpHttp<{ data: WpResAuthorProps }>(
     "GET",
     QUERY_WP_ALL_USERS,
   )
+
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     return {
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
       users: null,
     }
   }
+
   const usersNode = res?.data.users.edges.map(
     ({ node = {} }) => node,
   ) as WpAuthorsDataProps[]
+
   const users = usersNode?.map(wpMapUserData)
+
   return {
+    error: null,
     users: users,
   }
 }
 
 export async function wpGetAllAuthors() {
-  const { users } = await wpGetAllUsers()
+  const { users, error } = await wpGetAllUsers()
+
+  if (error) {
+    return {
+      error,
+      users: null,
+    }
+  }
 
   return {
+    error: null,
     user: users,
   }
 }
@@ -132,6 +142,7 @@ export function wpMapUserData(user: WpAuthorsDataProps) {
     ...user,
     avatar: user.avatar && wpUpdateUserAvatar(user.avatar),
   }
+
   return {
     ...data,
   }

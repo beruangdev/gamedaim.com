@@ -1,6 +1,5 @@
 import { AxiosError } from "axios"
 
-import { toast } from "@/components/UI/Toast"
 import { http } from "@/lib/http"
 import { ErrorResponse, TopicDataProps } from "@/lib/data-types"
 
@@ -12,16 +11,14 @@ export const postTopicWithParentAction = async (value: unknown) => {
 
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
         ?.message as string,
-    })
-    console.log(err)
-    return
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const postTopicAction = async (value: unknown) => {
@@ -32,16 +29,14 @@ export const postTopicAction = async (value: unknown) => {
 
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
         ?.message as string,
-    })
-    console.log(err)
-    return
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const putTopicAction = async (topicId: string, value: unknown) => {
@@ -52,16 +47,14 @@ export const putTopicAction = async (topicId: string, value: unknown) => {
 
   if (err !== null) {
     console.log(err)
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
         ?.message as string,
-    })
-    console.log(err)
-    return
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const deleteTopicWithParentAction = async (topicId: unknown) => {
@@ -70,16 +63,15 @@ export const deleteTopicWithParentAction = async (topicId: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const deleteTopicAction = async (topicId: unknown) => {
@@ -88,16 +80,15 @@ export const deleteTopicAction = async (topicId: unknown) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicParentByIdAction = async (topicParentId: string) => {
@@ -106,16 +97,15 @@ export const getTopicParentByIdAction = async (topicParentId: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicByIdAction = async (topicId: string) => {
@@ -124,16 +114,15 @@ export const getTopicByIdAction = async (topicId: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicsAction = async (
@@ -145,16 +134,15 @@ export const getTopicsAction = async (
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicsDashboardAction = async (
@@ -166,16 +154,15 @@ export const getTopicsDashboardAction = async (
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicsSitemapAction = async (
@@ -187,16 +174,15 @@ export const getTopicsSitemapAction = async (
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicByTypeAction = async (
@@ -208,16 +194,15 @@ export const getTopicByTypeAction = async (
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicArticlesBySlugAction = async (
@@ -229,16 +214,15 @@ export const getTopicArticlesBySlugAction = async (
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicBySlugAction = async (topicSlug: string) => {
@@ -247,16 +231,15 @@ export const getTopicBySlugAction = async (topicSlug: string) => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicsCountAction = async () => {
@@ -265,16 +248,15 @@ export const getTopicsCountAction = async () => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getTopicParentsCountAction = async () => {
@@ -283,16 +265,15 @@ export const getTopicParentsCountAction = async () => {
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const searchTopicAction = async (
@@ -304,14 +285,13 @@ export const searchTopicAction = async (
   })
 
   if (err !== null) {
-    toast({
-      variant: "danger",
-      description: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    })
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }

@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react"
 import NextImage from "next/image"
 
@@ -12,6 +13,7 @@ import {
   RequiredIndicator,
 } from "@/components/UI/Form"
 import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast"
 import { Button } from "@/components/UI/Button"
 import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
 import { signUpUserAction } from "@/lib/api/server/user"
@@ -50,11 +52,14 @@ export default function CreateUsersDashboard() {
       ...values,
       profilePictureId: selectedProfilePictureId,
     }
-    const data = await signUpUserAction(
+    const { data, error } = await signUpUserAction(
       selectedProfilePictureId ? mergedValues : values,
     )
     if (data) {
       reset()
+      toast({ variant: "success", description: "Create user successfully" })
+    } else {
+      toast({ variant: "danger", description: error })
     }
     setLoading(false)
   }

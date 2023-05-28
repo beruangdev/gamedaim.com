@@ -1,9 +1,12 @@
 "use client"
+
 import * as React from "react"
 import NextImage from "next/image"
 import NextLink from "next/link"
+
 import { Button } from "@/components/UI/Button"
 import { DeleteMediaButton } from "@/components/Media"
+import { toast } from "@/components/UI/Toast"
 import { MediaDataProps } from "@/lib/data-types"
 import { deleteMediaAction } from "@/lib/api/server/media"
 
@@ -50,27 +53,22 @@ export const InfiniteScrollMedia = React.forwardRef<
   React.useEffect(() => {
     const lmRef: HTMLDivElement | null = loadMoreRef.current
     const observer = new IntersectionObserver(handleObserver)
-    // const handleRouteChange = () => {
-    //   setPage(1)
-    // }
-
-    // router.events.on("routeChangeComplete", handleRouteChange)
 
     if (loadMoreRef.current) observer.observe(loadMoreRef.current)
     return () => {
       if (lmRef) {
         observer.unobserve(lmRef)
       }
-
-      // router.events.off("routeChangeComplete", handleRouteChange)
     }
   }, [handleObserver, index, isLibrary, medias, setPage])
 
   const handleDelete = async (media: MediaDataProps) => {
-    const data = await deleteMediaAction(media.name)
+    const { data, error } = await deleteMediaAction(media.name)
 
     if (data) {
       updateMedia()
+    } else {
+      toast({ variant: "danger", description: error })
     }
   }
 

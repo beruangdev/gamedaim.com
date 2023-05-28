@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
@@ -9,7 +10,7 @@ import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { UserDataProps } from "@/lib/data-types"
 import { useGetUsers, useGetUsersCount } from "@/lib/api/client/user"
-import { formatDate } from "@/lib/date"
+import { formatDate } from "@/utils/date"
 import { handleDeleteUser } from "./actions"
 
 const ActionDashboard = dynamic(() =>
@@ -22,6 +23,7 @@ export default function UsersDashboard() {
   const [isLoading, setIsLoading] = React.useState(true)
   const [page, setPage] = React.useState<number>(1)
   const { users, updatedUsers } = useGetUsers(page)
+
   React.useEffect(() => {
     if (page > lastPage) {
       setPage((old) => Math.max(old - 1, 0))
@@ -30,6 +32,7 @@ export default function UsersDashboard() {
   React.useEffect(() => {
     setIsLoading(false)
   }, [])
+
   return (
     <>
       <div className="mt-4 flex items-end justify-between">

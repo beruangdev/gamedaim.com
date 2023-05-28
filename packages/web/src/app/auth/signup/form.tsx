@@ -39,11 +39,14 @@ export const SignUpForm: React.FunctionComponent = () => {
 
   const onSubmit = async (values: unknown) => {
     setLoading(true)
-    const data = await signUpUserAction(values)
+
+    const { data, error } = await signUpUserAction(values)
     if (data) {
       toast({ variant: "success", description: "Successfully signed up" })
       setLoading(false)
       router.push("/auth/login")
+    } else {
+      toast({ variant: "danger", description: error })
     }
   }
 

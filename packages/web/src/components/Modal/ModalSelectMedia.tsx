@@ -1,17 +1,19 @@
 "use client"
+
 import * as React from "react"
-import useSWR from "swr"
 import NextImage from "next/image"
+import useSWR from "swr"
 import { MdOutlineSearch } from "react-icons/md"
 
+import { InfiniteScrollMedia } from "@/components/InfiniteScroll"
 import { MediaUpload } from "@/components/Media"
 import { Modal } from "@/components/Modal"
-import { MediaDataProps } from "@/lib/data-types"
-import { fetcher } from "@/lib/http"
 import { Input } from "@/components/UI/Form"
+import { toast } from "@/components/UI/Toast"
 import { useInfiniteMedias } from "@/lib/api/client/media"
 import { searchMediaAction } from "@/lib/api/server/media"
-import { InfiniteScrollMedia } from "../InfiniteScroll"
+import { MediaDataProps } from "@/lib/data-types"
+import { fetcher } from "@/lib/http"
 
 interface ModalSelectMediaProps {
   handleSelectUpdateMedia: (media: MediaDataProps) => void
@@ -42,9 +44,11 @@ export const ModalSelectMedia: React.FunctionComponent<
     setSearched(true)
 
     if (e.target.value.length > 1) {
-      const data = await searchMediaAction(e.target.value)
+      const { data, error } = await searchMediaAction(e.target.value)
       if (data) {
         setResultMedias(data)
+      } else {
+        toast({ variant: "danger", description: error })
       }
     } else if (e.target.value.length < 1) {
       setResultMedias([])
