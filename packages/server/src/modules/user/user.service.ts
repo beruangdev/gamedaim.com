@@ -108,6 +108,54 @@ export async function getUserByUsernameAndGetArticles(
   })
 }
 
+export async function getUserByUsernameAndGetDownloads(
+  username: string,
+  userPage: number,
+  perPage: number,
+) {
+  return await db.user.findUnique({
+    where: {
+      username,
+    },
+    select: {
+      id: true,
+      username: true,
+      name: true,
+      metaTitle: true,
+      metaDescription: true,
+      profilePicture: {
+        select: {
+          url: true,
+        },
+      },
+      downloadAuthors: {
+        skip: (userPage - 1) * perPage,
+        take: perPage,
+        orderBy: {
+          updatedAt: "desc",
+        },
+        select: {
+          id: true,
+          title: true,
+          excerpt: true,
+          slug: true,
+          featuredImage: {
+            select: {
+              url: true,
+            },
+          },
+        },
+      },
+      _count: {
+        select: {
+          articleAuthors: true,
+        },
+      },
+    },
+  })
+}
+
+
 export async function getUserById(userId: string) {
   return await db.user.findUnique({
     where: {
