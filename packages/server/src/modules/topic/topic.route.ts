@@ -150,7 +150,7 @@ async function topicRoutes(server: FastifyInstance) {
   )
 
   server.get(
-    "/slug/:topicSlug/articles/:topicPage",
+    "/slug/:topicSlug/articles/page/:topicPage",
     {
       schema: {
         response: {

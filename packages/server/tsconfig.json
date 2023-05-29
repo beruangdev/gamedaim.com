@@ -9,6 +9,6 @@
       "package.json": ["./package.json"]
     }
   },
-  "include": ["global.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["global.d.ts", "**/*.ts"],
   "exclude": ["node_modules"]
 }

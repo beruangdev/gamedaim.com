@@ -11,6 +11,7 @@ import {
   getUserById,
   getUserByUsername,
   getUserByUsernameAndGetArticles,
+  getUserByUsernameAndGetDownloads,
   getUsers,
   getUsersByRole,
   searchUsers,
@@ -348,6 +349,31 @@ export async function getUserByUsernameAndGetArticlesHandler(
     return reply.code(500).send(e)
   }
 }
+
+export async function getUserByUsernameAndGetDownloadsHandler(
+  request: FastifyRequest<{
+    Params: { username: string; userPage: number }
+  }>,
+  reply: FastifyReply,
+) {
+  try {
+    const { username } = request.params
+
+    const perPage = 10
+    const userPage = Number(request.params.userPage || 1)
+
+    const user = await getUserByUsernameAndGetDownloads(
+      username,
+      userPage,
+      perPage,
+    )
+    return reply.code(201).send(user)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
 
 export async function getTotalUsersHandler(
   request: FastifyRequest,
