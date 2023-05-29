@@ -148,7 +148,7 @@ async function articleRoutes(server: FastifyInstance) {
   )
 
   server.get(
-    "/:articleLanguage/author/:authorUsername/:articlePage",
+    "/:articleLanguage/author/:authorUsername/page/:articlePage",
     {
       schema: {
         response: {

@@ -213,7 +213,7 @@ export const getArticlesByAuthorUsernameAndLangAction = async (
   articlePage = 1,
 ) => {
   const [res, err] = await http<ArticleDataProps>("GET", {
-    url: `/article/${articleLanguage}/author/${authorUsername}/${articlePage}`,
+    url: `/article/${articleLanguage}/author/${authorUsername}/page/${articlePage}`,
   })
 
   if (err !== null) {
