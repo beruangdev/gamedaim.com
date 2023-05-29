@@ -1,12 +1,18 @@
 import { AxiosError } from "axios"
 
 import { http } from "@/lib/http"
-import { ErrorResponse, TopicDataProps } from "@/lib/data-types"
+import {
+  TopicDataProps,
+  TopicSitemapDataProps,
+  ErrorResponse,
+  LanguageTypeData,
+  TopicTypeData,
+} from "@/lib/data-types"
 
-export const postTopicWithParentAction = async (value: unknown) => {
+export const postTopicWithPrimaryAction = async (values: unknown) => {
   const [res, err] = await http<TopicDataProps>("POST", {
-    url: "/topic/with-paret",
-    data: value,
+    url: `/topic/with-primary`,
+    data: values,
   })
 
   if (err !== null) {
@@ -21,10 +27,10 @@ export const postTopicWithParentAction = async (value: unknown) => {
   return { data: res, error: null }
 }
 
-export const postTopicAction = async (value: unknown) => {
+export const postTopicAction = async (values: unknown) => {
   const [res, err] = await http<TopicDataProps>("POST", {
-    url: "/topic",
-    data: value,
+    url: `/topic`,
+    data: values,
   })
 
   if (err !== null) {
@@ -39,10 +45,10 @@ export const postTopicAction = async (value: unknown) => {
   return { data: res, error: null }
 }
 
-export const putTopicAction = async (topicId: string, value: unknown) => {
+export const putTopic = async (topicId: string, values: unknown) => {
   const [res, err] = await http<TopicDataProps>("PUT", {
     url: `/topic/${topicId}`,
-    data: value,
+    data: values,
   })
 
   if (err !== null) {
@@ -57,43 +63,26 @@ export const putTopicAction = async (topicId: string, value: unknown) => {
   return { data: res, error: null }
 }
 
-export const deleteTopicWithParentAction = async (topicId: unknown) => {
+export const deleteTopicWithPrimaryAction = async (topicId: string) => {
+  const [res, err] = await http<TopicDataProps>("DELETE", {
+    url: `/topic/with-primary/${topicId}`,
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
+
+export const deleteTopicAction = async (topicId: string) => {
   const [res, err] = await http<TopicDataProps>("DELETE", {
     url: `/topic/${topicId}`,
-  })
-
-  if (err !== null) {
-    console.log(err)
-    return {
-      data: null,
-      error: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    }
-  }
-
-  return { data: res, error: null }
-}
-
-export const deleteTopicAction = async (topicId: unknown) => {
-  const [res, err] = await http<TopicDataProps>("DELETE", {
-    url: `/topic/${topicId}`,
-  })
-
-  if (err !== null) {
-    console.log(err)
-    return {
-      data: null,
-      error: (err as AxiosError<ErrorResponse>)?.response?.data
-        ?.message as string,
-    }
-  }
-
-  return { data: res, error: null }
-}
-
-export const getTopicParentByIdAction = async (topicParentId: string) => {
-  const [res, err] = await http<TopicDataProps>("GET", {
-    url: `/topic/parent/${topicParentId}`,
   })
 
   if (err !== null) {
@@ -125,8 +114,25 @@ export const getTopicByIdAction = async (topicId: string) => {
   return { data: res, error: null }
 }
 
-export const getTopicsAction = async (
-  topicLanguage: "id_ID" | "en_US",
+export const getTopicPrimaryByIdAction = async (topicId: string) => {
+  const [res, err] = await http<TopicDataProps>("GET", {
+    url: `/topic/primary/${topicId}`,
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
+
+export const getTopicsByLangAction = async (
+  topicLanguage: LanguageTypeData,
   topicPage = 1,
 ) => {
   const [res, err] = await http<TopicDataProps[]>("GET", {
@@ -145,8 +151,8 @@ export const getTopicsAction = async (
   return { data: res, error: null }
 }
 
-export const getTopicsDashboardAction = async (
-  topicLanguage: "id_ID" | "en_US",
+export const getTopicsDashboardByLangAction = async (
+  topicLanguage: LanguageTypeData,
   topicPage = 1,
 ) => {
   const [res, err] = await http<TopicDataProps[]>("GET", {
@@ -165,11 +171,11 @@ export const getTopicsDashboardAction = async (
   return { data: res, error: null }
 }
 
-export const getTopicsSitemapAction = async (
-  topicLanguage: "id_ID" | "en_US",
+export const getTopicsSitemapByLangAction = async (
+  topicLanguage: LanguageTypeData,
   topicPage = 1,
 ) => {
-  const [res, err] = await http<TopicDataProps[]>("GET", {
+  const [res, err] = await http<TopicSitemapDataProps[]>("GET", {
     url: `/topic/${topicLanguage}/sitemap/page/${topicPage}`,
   })
 
@@ -185,12 +191,13 @@ export const getTopicsSitemapAction = async (
   return { data: res, error: null }
 }
 
-export const getTopicByTypeAction = async (
-  topicLanguage: "id_ID" | "en_US",
-  topicSlug: string,
+export const getTopicsByTypeAndLangAction = async (
+  topicLanguage: LanguageTypeData,
+  topicType: TopicTypeData,
+  topicPage = 1,
 ) => {
-  const [res, err] = await http<TopicDataProps>("GET", {
-    url: `/topic/${topicLanguage}/type/${topicSlug}`,
+  const [res, err] = await http<TopicSitemapDataProps[]>("GET", {
+    url: `/topic/${topicLanguage}/type/${topicType}/page/${topicPage}`,
   })
 
   if (err !== null) {
@@ -207,10 +214,10 @@ export const getTopicByTypeAction = async (
 
 export const getTopicArticlesBySlugAction = async (
   topicSlug: string,
-  topicPage: number,
+  topicPage = 1,
 ) => {
-  const [res, err] = await http<TopicDataProps>("GET", {
-    url: `/topic/slug/${topicSlug}/articles/${topicPage}`,
+  const [res, err] = await http<TopicSitemapDataProps[]>("GET", {
+    url: `/topic/slug/${topicSlug}/articles/page/${topicPage}`,
   })
 
   if (err !== null) {
@@ -225,7 +232,7 @@ export const getTopicArticlesBySlugAction = async (
   return { data: res, error: null }
 }
 
-export const getTopicBySlugAction = async (topicSlug: string) => {
+export const getTopicsBySlugAction = async (topicSlug: string) => {
   const [res, err] = await http<TopicDataProps>("GET", {
     url: `/topic/slug/${topicSlug}`,
   })
@@ -259,9 +266,9 @@ export const getTopicsCountAction = async () => {
   return { data: res, error: null }
 }
 
-export const getTopicParentsCountAction = async () => {
+export const getTopicPrimariesCountAction = async () => {
   const [res, err] = await http<number>("GET", {
-    url: "/topic/count/parent",
+    url: "/topic/count/primary",
   })
 
   if (err !== null) {
@@ -276,12 +283,32 @@ export const getTopicParentsCountAction = async () => {
   return { data: res, error: null }
 }
 
-export const searchTopicAction = async (
-  topicLanguage: "id_ID" | "en_US",
-  searchTopicQuery: string,
+export const searchTopicsByLangAction = async (
+  topicLanguage: LanguageTypeData,
+  topicQuery: string,
 ) => {
   const [res, err] = await http<TopicDataProps[]>("GET", {
-    url: `/topic/${topicLanguage}/search/${searchTopicQuery}`,
+    url: `/topic/${topicLanguage}/search/${topicQuery}`,
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
+
+export const searchTopicsDashboardByLangAction = async (
+  topicLanguage: LanguageTypeData,
+  topicQuery: string,
+) => {
+  const [res, err] = await http<TopicDataProps[]>("GET", {
+    url: `/topic/${topicLanguage}/search/dashboard/${topicQuery}`,
   })
 
   if (err !== null) {
