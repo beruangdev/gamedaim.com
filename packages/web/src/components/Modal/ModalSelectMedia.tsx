@@ -19,12 +19,13 @@ interface ModalSelectMediaProps {
   handleSelectUpdateMedia: (media: MediaDataProps) => void
   open: boolean
   setOpen: (open: boolean) => void
+  triggerContent: React.ReactNode
 }
 
 export const ModalSelectMedia: React.FunctionComponent<
   ModalSelectMediaProps
 > = (props) => {
-  const { handleSelectUpdateMedia } = props
+  const { handleSelectUpdateMedia, triggerContent } = props
   const [resultMedias, setResultMedias] = React.useState<MediaDataProps[]>([])
 
   const [searched, setSearched] = React.useState<boolean>(false)
@@ -51,14 +52,14 @@ export const ModalSelectMedia: React.FunctionComponent<
         toast({ variant: "danger", description: error })
       }
     } else if (e.target.value.length < 1) {
-      setResultMedias([])
+      setResultMedias(listMedias as MediaDataProps[])
     }
   }
 
   return (
     <>
       <Modal
-        trigger={"Selecet"}
+        trigger={triggerContent}
         title="Select Featured Image"
         content={
           <>
