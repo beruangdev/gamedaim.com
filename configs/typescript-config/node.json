@@ -4,7 +4,7 @@
   "extends": "./base.json",
   "compilerOptions": {
     "target": "ES6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -21,14 +21,6 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "incremental": true,
     "forceConsistentCasingInFileNames": true
-  },
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS",
-      "resolveJsonModule": true,
-      "noImplicitAny": false
-    }
   }
 }
