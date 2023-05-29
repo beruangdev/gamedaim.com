@@ -5,6 +5,7 @@ import {
   getTotalUsersHandler,
   getUserByIdHandler,
   getUserByUsernameAndGetArticlesHandler,
+  getUserByUsernameAndGetDownloadsHandler,
   getUserByUsernameHandler,
   getUsersByRoleHandler,
   getUsersHandler,
@@ -127,6 +128,19 @@ async function userRoutes(server: FastifyInstance) {
       },
     },
     getUserByUsernameAndGetArticlesHandler,
+  )
+
+
+  server.get(
+    "/username/:username/downloads/:userPage",
+    {
+      schema: {
+        response: {
+          200: $ref("userResponseSchema"),
+        },
+      },
+    },
+    getUserByUsernameAndGetDownloadsHandler,
   )
 
   server.get(
