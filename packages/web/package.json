@@ -103,7 +103,7 @@
     "eslint-config-next-custom": "workspace:*",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
-    "postcss": "8.4.23",
+    "postcss": "8.4.24",
     "tailwindcss": "3.3.2",
     "tailwindcss-animate": "^1.0.5",
     "typescript": "5.0.4",
