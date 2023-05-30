@@ -67,6 +67,7 @@
     "@tiptap/extension-underline": "2.0.3",
     "@tiptap/extension-youtube": "2.0.3",
     "@tiptap/react": "2.0.3",
+    "@types/negotiator": "^0.6.1",
     "axios": "^1.4.0",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",

@@ -14,11 +14,18 @@ export const metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode
+  params: { lang: string }
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export function generateStaticParams() {
+  return [{ lang: "en" }, { lang: "id" }]
+}
+export default function RootLayout({
+  children,
+  params: { lang },
+}: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body className={inter.className} suppressHydrationWarning={true}>
         <Toaster />
         <ThemeProvider>{children}</ThemeProvider>
