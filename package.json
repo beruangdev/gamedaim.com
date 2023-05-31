@@ -24,8 +24,8 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.6.3",
-    "@commitlint/config-conventional": "^17.6.3",
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
     "@commitlint/cz-commitlint": "^17.5.0",
     "commitizen": "^4.3.0",
     "husky": "^8.0.3",
@@ -33,7 +33,7 @@
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "rimraf": "^5.0.1",
-    "turbo": "^1.9.9"
+    "turbo": "^1.10.0"
   },
   "packageManager": "pnpm@8.6.0",
   "config": {
