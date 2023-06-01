@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 importers:
 
@@ -382,8 +386,8 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
       lucide-react:
-        specifier: ^0.229.0
-        version: 0.229.0(react@18.2.0)
+        specifier: ^0.230.0
+        version: 0.230.0(react@18.2.0)
       negotiator:
         specifier: ^0.6.3
         version: 0.6.3
@@ -8936,8 +8940,8 @@ packages:
     engines: {node: 14 || >=16.14}
     dev: true
 
-  /lucide-react@0.229.0(react@18.2.0):
-    resolution: {integrity: sha512-b0/KSFXhPi++vUbnYEDUgP8Z8Rw9MQpRfBr+dRZNPMT3FD1HrVgMHXhSpkm9ZrrEtuqIfHf/O+tAGmw4WOmIog==}
+  /lucide-react@0.230.0(react@18.2.0):
+    resolution: {integrity: sha512-/Cbul7Jfq6aZ2RIsYZXH1jWkUVEP3lK8d5uBcggxf0u1oSkPcfKo/PIXhya5HEpmuA/RO6NmuNp3moOVloQEdA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
@@ -11984,7 +11988,3 @@ packages:
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
