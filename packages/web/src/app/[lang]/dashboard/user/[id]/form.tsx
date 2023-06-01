@@ -14,7 +14,6 @@ import {
 import { Textarea } from "@/components/UI/Textarea"
 import { Button } from "@/components/UI/Button"
 import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
-import { getUserByIdAction, putUserByAdminAction } from "@/lib/api/server/user"
 import {
   Select,
   SelectContent,
@@ -24,12 +23,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/Select"
+import { toast } from "@/components/UI/Toast"
+import { getUserByIdAction, putUserByAdminAction } from "@/lib/api/server/user"
 
 interface FormValues {
   username: string
   name: string
   email: string
-
   phoneNumber?: string
   about?: string
   meta_title?: string
@@ -99,19 +99,26 @@ export const EditUserForm = (props: { id: string }) => {
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
+    if (roleValue) {
+      const mergedValues = {
+        ...values,
+        profilePictureId: selectedProfilePictureId,
+        role: roleValue,
+      }
+      const data = await putUserByAdminAction(
+        user.id,
+        selectedProfilePictureId ? mergedValues : values,
+      )
+      if (data) {
+        router.push("/dashboard/user")
+      }
+    } else {
+      toast({
+        variant: "warning",
+        description: "Mohon masukkan Role",
+      })
+    }
 
-    const mergedValues = {
-      ...values,
-      profilePictureId: selectedProfilePictureId,
-      role: roleValue,
-    }
-    const data = await putUserByAdminAction(
-      user.id,
-      selectedProfilePictureId ? mergedValues : values,
-    )
-    if (data) {
-      router.push("/dashboard/user")
-    }
     setLoading(false)
   }
 
