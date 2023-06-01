@@ -1,25 +1,7 @@
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
-import { i18n } from "./i18n-config"
-
-import { match as matchLocale } from "@formatjs/intl-localematcher"
-import Negotiator from "negotiator"
-
+import createIntlMiddleware from "next-intl/middleware"
+import { NextRequest, NextResponse } from "next/server"
 import { adminOrAuthorRoutes, authRoutes, adminRoutes } from "@/route/routes"
 import { findAuthPage } from "./utils/helper"
-
-function getLocale(request: NextRequest): string | undefined {
-  // Negotiator expects plain object so we need to transform headers
-  const negotiatorHeaders: Record<string, string> = {}
-  request.headers.forEach((value, key) => (negotiatorHeaders[key] = value))
-
-  // Use negotiator and intl-localematcher to get best locale
-  let languages = new Negotiator({ headers: negotiatorHeaders }).languages()
-  // @ts-ignore locales are readonly
-  const locales: string[] = i18n.locales
-  return matchLocale(languages, locales, i18n.defaultLocale)
-}
-
 export default async function middleware(request: NextRequest) {
   const currentUser = request.cookies.get("currentUser")?.value
   const dataUser = currentUser && JSON.parse(currentUser)
@@ -55,22 +37,32 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url))
   }
 
-  const pathnameIsMissingLocale = i18n.locales.every(
-    (locale) =>
-      !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
-  )
+  const defaultLocale = "id"
 
-  // Redirect if there is no locale
-  if (pathnameIsMissingLocale) {
-    const locale = getLocale(request)
+  // Step 2: Create and call the next-intl middleware
+  const handleI18nRouting = createIntlMiddleware({
+    locales: ["id", "en"],
+    defaultLocale,
+    domains: [
+      {
+        domain: "global.localhost",
+        defaultLocale: "en",
+        // Optionally restrict the locales managed by this domain. If this
+        // domain receives requests for another locale (e.g. us.example.com/fr),
+        // then the middleware will redirect to a domain that supports it.
+        locales: ["en"],
+      },
+    ],
+  })
+  const response = handleI18nRouting(request)
 
-    // e.g. incoming request is /products
-    // The new URL is now /en-US/products
-    return NextResponse.redirect(new URL(`/${locale}/${pathname}`, request.url))
-  }
+  // Step 3: Alter the response
+  response.headers.set("x-default-locale", defaultLocale)
+
+  return response
 }
 
 export const config = {
-  // Matcher ignoring `/_next/` and `/api/`
+  // Skip all paths that should not be internationalized
   matcher: ["/((?!_next|.*\\..*).*)"],
 }
