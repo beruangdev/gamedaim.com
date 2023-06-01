@@ -1,5 +1,6 @@
 import createIntlMiddleware from "next-intl/middleware"
 import { NextRequest, NextResponse } from "next/server"
+import env from "env"
 import { adminOrAuthorRoutes, authRoutes, adminRoutes } from "@/route/routes"
 import { findAuthPage } from "./utils/helper"
 export default async function middleware(request: NextRequest) {
@@ -45,7 +46,10 @@ export default async function middleware(request: NextRequest) {
     defaultLocale,
     domains: [
       {
-        domain: "global.localhost",
+        domain:
+          env.NODE_ENV !== "development"
+            ? `global.${env.DOMAIN}`
+            : `global.localhost`,
         defaultLocale: "en_US",
         // Optionally restrict the locales managed by this domain. If this
         // domain receives requests for another locale (e.g. us.example.com/fr),

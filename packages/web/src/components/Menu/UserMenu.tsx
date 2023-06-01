@@ -3,6 +3,8 @@
 import * as React from "react"
 import NextLink from "next/link"
 import { useRouter, useParams } from "next/navigation"
+import env from "env"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,13 +33,27 @@ export const UserMenu = () => {
       <DropdownMenuContent className="bg-background w-56">
         {params?.lang && params.lang === "id_ID" ? (
           <DropdownMenuItem asChild>
-            <NextLink href="/" locale="en_US">
+            <NextLink
+              href={
+                env.NODE_ENV !== "development"
+                  ? `https://global.${env.DOMAIN}`
+                  : `http://global.localhost:3000`
+              }
+              locale="en_US"
+            >
               Switch to English
             </NextLink>
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem asChild>
-            <NextLink href="/" locale="id_ID">
+            <NextLink
+              href={
+                env.NODE_ENV !== "development"
+                  ? `https://${env.DOMAIN}`
+                  : `http://localhost:3000`
+              }
+              locale="id_ID"
+            >
               Switch to Bahasa
             </NextLink>
           </DropdownMenuItem>

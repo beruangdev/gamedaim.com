@@ -172,8 +172,8 @@ export const FormNewUser = () => {
                 },
               })}
             />
-            {/*FIX: not appear on mobile*/}
-            <Input.RightElement className="w-2">
+
+            <Input.RightElement>
               <div
                 onClick={(e) => {
                   e.preventDefault()
@@ -217,7 +217,7 @@ export const FormNewUser = () => {
           )}
         </FormControl>
 
-        {selectedProfilePictureId ? (
+        {selectedProfilePictureUrl ? (
           <>
             <FormLabel>Featured Image</FormLabel>
             <ModalSelectMedia
@@ -229,7 +229,7 @@ export const FormNewUser = () => {
                   <div className="relative">
                     <NextImage
                       src={selectedProfilePictureUrl}
-                      className="border-theme-300 !relative mt-2 max-h-[200px] max-w-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                      className="border-theme-300 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
                       fill
                       alt="Featured Image"
                       onClick={() => setOpenModal(true)}
@@ -249,7 +249,14 @@ export const FormNewUser = () => {
               handleSelectUpdateMedia={handleUpdateMedia}
               open={openModal}
               setOpen={setOpenModal}
-              triggerContent={<>Select Featured Image</>}
+              triggerContent={
+                <>
+                  <FormLabel>Featured Image</FormLabel>
+                  <div className="bg-theme/90 relative m-auto flex aspect-video h-[150px] items-center justify-center text-green-500">
+                    <p>Select Featured Image</p>
+                  </div>
+                </>
+              }
             />
           </>
         )}
