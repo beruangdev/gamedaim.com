@@ -36,7 +36,7 @@ interface FormValues {
   meta_description?: string
   role: string
 }
-export const FormLoadUser = (props: { id: string }) => {
+export const EditUserForm = (props: { id: string }) => {
   const { id } = props
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)

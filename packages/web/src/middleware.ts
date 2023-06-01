@@ -37,20 +37,20 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url))
   }
 
-  const defaultLocale = "id"
+  const defaultLocale = "id_ID"
 
   // Step 2: Create and call the next-intl middleware
   const handleI18nRouting = createIntlMiddleware({
-    locales: ["id", "en"],
+    locales: ["id_ID", "en_US"],
     defaultLocale,
     domains: [
       {
         domain: "global.localhost",
-        defaultLocale: "en",
+        defaultLocale: "en_US",
         // Optionally restrict the locales managed by this domain. If this
         // domain receives requests for another locale (e.g. us.example.com/fr),
         // then the middleware will redirect to a domain that supports it.
-        locales: ["en"],
+        locales: ["en_US"],
       },
     ],
   })
