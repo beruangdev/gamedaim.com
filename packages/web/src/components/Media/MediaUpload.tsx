@@ -31,7 +31,7 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
       reset,
     } = useForm<FormValues>()
 
-    const onSubmit = async (values: FormValues) => {
+    const onSubmitMedia = async (values: FormValues) => {
       setLoading(true)
       const image = await resizeImage(values.file[0])
       const { data, error } = await postMediaAction({ image })
@@ -48,13 +48,22 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
       <div className="my-2 space-y-2" {...rest} ref={ref}>
         <Button
           aria-label="Add New Media"
-          onClick={() => setShowUploadForm(!showUploadForm)}
+          onClick={(e) => {
+            e.preventDefault()
+            setShowUploadForm(!showUploadForm)
+          }}
         >
           Add New
         </Button>
         <div className={showUploadForm ? "flex" : "hidden"}>
           <div className="flex-1 space-y-4">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                handleSubmit(onSubmitMedia)
+              }}
+              className="space-y-4"
+            >
               <FormControl invalid={Boolean(errors.file)}>
                 <DropZone {...register("file")} />
                 {errors?.file && (
@@ -62,7 +71,11 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
                 )}
               </FormControl>
               <div className="align-center flex justify-center">
-                <Button aria-label="Submit" loading={loading}>
+                <Button
+                  onSubmit={(e) => e.preventDefault()}
+                  aria-label="Submit"
+                  loading={loading}
+                >
                   Submit
                 </Button>
               </div>

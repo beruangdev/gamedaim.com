@@ -14,18 +14,18 @@ export const metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode
-  params: { lang: string }
+  params: { locale: string }
 }
 
 export function generateStaticParams() {
-  return [{ lang: "en" }, { lang: "id" }]
+  return [{ locale: "en_US" }, { locale: "id_ID" }]
 }
 export default function RootLayout({
   children,
-  params: { lang },
+  params: { locale },
 }: RootLayoutProps) {
   return (
-    <html lang={lang}>
+    <html lang={locale}>
       <body className={inter.className} suppressHydrationWarning={true}>
         <Toaster />
         <ThemeProvider>{children}</ThemeProvider>

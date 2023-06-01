@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import NextLink from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +16,8 @@ import { useLogout } from "@/hooks/use-logout"
 
 export const UserMenu = () => {
   const router = useRouter()
+  const params = useParams()
+
   const { user: currentUser } = useCurrentUser()
   const { logout } = useLogout()
 
@@ -27,6 +29,19 @@ export const UserMenu = () => {
         </IconButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-background w-56">
+        {params?.lang && params.lang === "id_ID" ? (
+          <DropdownMenuItem asChild>
+            <NextLink href="/" locale="en_US">
+              Switch to English
+            </NextLink>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem asChild>
+            <NextLink href="/" locale="id_ID">
+              Switch to Bahasa
+            </NextLink>
+          </DropdownMenuItem>
+        )}
         {currentUser ? (
           <>
             <DropdownMenuItem asChild>
