@@ -14,7 +14,6 @@ import {
 import { Textarea } from "@/components/UI/Textarea"
 import { Button } from "@/components/UI/Button"
 import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
-import { getUserByIdAction, putUserByAdminAction } from "@/lib/api/server/user"
 import {
   Select,
   SelectContent,
@@ -24,17 +23,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/Select"
+import { toast } from "@/components/UI/Toast"
+import { getUserByIdAction, putUserByAdminAction } from "@/lib/api/server/user"
 
 interface FormValues {
   username: string
   name: string
   email: string
-
   phoneNumber?: string
   about?: string
   meta_title?: string
   meta_description?: string
-  role: string
 }
 export const EditUserForm = (props: { id: string }) => {
   const { id } = props
@@ -51,9 +50,8 @@ export const EditUserForm = (props: { id: string }) => {
     email: "",
     about: "",
     phoneNumber: "",
-    role: "",
   })
-
+  const [roleValue, setRoleValue] = React.useState("")
   const router = useRouter()
 
   const loadUser = React.useCallback(async () => {
@@ -66,8 +64,8 @@ export const EditUserForm = (props: { id: string }) => {
         email: data.email,
         about: data.about,
         phoneNumber: data.phoneNumber,
-        role: data.role,
       })
+      setRoleValue(data.role)
       console.log(data)
 
       setSelectedProfilePictureId(data.profilePicture?.id)
@@ -101,17 +99,26 @@ export const EditUserForm = (props: { id: string }) => {
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
-    const mergedValues = {
-      ...values,
-      profilePictureId: selectedProfilePictureId,
+    if (roleValue) {
+      const mergedValues = {
+        ...values,
+        profilePictureId: selectedProfilePictureId,
+        role: roleValue,
+      }
+      const data = await putUserByAdminAction(
+        user.id,
+        selectedProfilePictureId ? mergedValues : values,
+      )
+      if (data) {
+        router.push("/dashboard/user")
+      }
+    } else {
+      toast({
+        variant: "warning",
+        description: "Mohon masukkan Role",
+      })
     }
-    const data = await putUserByAdminAction(
-      user.id,
-      selectedProfilePictureId ? mergedValues : values,
-    )
-    if (data) {
-      router.push("/dashboard/user")
-    }
+
     setLoading(false)
   }
 
@@ -216,7 +223,7 @@ export const EditUserForm = (props: { id: string }) => {
                   <div className="relative">
                     <NextImage
                       src={selectedProfilePictureUrl}
-                      className="border-theme-300 !relative mt-2 max-h-[200px] max-w-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                      className="border-theme-300 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
                       fill
                       alt="Featured Image"
                       onClick={() => setOpenModal(true)}
@@ -236,16 +243,26 @@ export const EditUserForm = (props: { id: string }) => {
               handleSelectUpdateMedia={handleUpdateMedia}
               open={openModal}
               setOpen={setOpenModal}
-              triggerContent={<>Select Featured Image</>}
+              triggerContent={
+                <>
+                  <FormLabel>Featured Image</FormLabel>
+                  <div className="bg-theme/90 relative m-auto flex aspect-video h-[150px] items-center justify-center text-green-500">
+                    <p>Select Featured Image</p>
+                  </div>
+                </>
+              }
             />
           </>
         )}
-        <FormControl invalid={Boolean(errors.role)}>
+        <FormControl>
           <FormLabel>
             Role
             <RequiredIndicator />
           </FormLabel>
-          <Select {...register("role")}>
+          <Select
+            value={roleValue}
+            onValueChange={(value) => setRoleValue(value)}
+          >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select a role" />
             </SelectTrigger>
@@ -259,9 +276,6 @@ export const EditUserForm = (props: { id: string }) => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {errors?.role && (
-            <FormErrorMessage>{errors.role.message}</FormErrorMessage>
-          )}
         </FormControl>
         <FormControl invalid={Boolean(errors.about)}>
           <FormLabel>About</FormLabel>
