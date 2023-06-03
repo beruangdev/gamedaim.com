@@ -94,7 +94,7 @@ export default function UsersDashboard() {
                           onDelete={() => {
                             handleDeleteUser(user.id, updatedUsers)
                           }}
-                          editLink={`/dashboard/user/${user.id}`}
+                          editLink={`/dashboard/user/edit/${user.id}`}
                         />
                       </Td>
                     </Tr>
