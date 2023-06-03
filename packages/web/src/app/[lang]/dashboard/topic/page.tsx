@@ -95,7 +95,7 @@ export default function TopicDashboard() {
                           onDelete={() => {
                             handleDeleteTopic(topic.id, updatedTopics)
                           }}
-                          editLink={`/dashboard/topic/${topic.id}`}
+                          editLink={`/dashboard/topic/edit/${topic.id}`}
                         />
                       </Td>
                     </Tr>
