@@ -6,7 +6,7 @@ import { Container } from "@/components/UI/Container"
 import { Input } from "@/components/UI/Form"
 import { ArticleCardVertical } from "@/components/Card"
 import { toast } from "@/components/UI/Toast"
-import { searchArticlesAction } from "@/lib/api/server/article"
+import { searchArticlesByLangAction } from "@/lib/api/server/article"
 import { ArticleDataProps } from "@/lib/data-types"
 
 interface SearchNavbarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,7 +31,10 @@ export const SearchNavbar = React.forwardRef<HTMLDivElement, SearchNavbarProps>(
 
       if (e.target.value.length > 1) {
         setSearched(true)
-        const { data, error } = await searchArticlesAction(e.target.value)
+        const { data, error } = await searchArticlesByLangAction(
+          "id_ID",
+          e.target.value,
+        )
 
         if (data) {
           setSearchResults(data as ArticleDataProps[])

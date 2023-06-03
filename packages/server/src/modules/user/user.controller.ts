@@ -374,7 +374,6 @@ export async function getUserByUsernameAndGetDownloadsHandler(
   }
 }
 
-
 export async function getTotalUsersHandler(
   request: FastifyRequest,
   reply: FastifyReply,
