@@ -76,7 +76,6 @@
     "immer": "^10.0.2",
     "js-cookie": "^3.0.5",
     "lowlight": "^2.9.0",
-    "lucide-react": "^0.233.0",
     "next": "^13.4.4",
     "next-intl": "^2.14.6",
     "next-themes": "^0.2.1",
