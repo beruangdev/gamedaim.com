@@ -125,6 +125,7 @@ export async function getTopicById(topicId: string) {
       id: true,
       title: true,
       slug: true,
+      language: true,
       description: true,
       metaTitle: true,
       metaDescription: true,

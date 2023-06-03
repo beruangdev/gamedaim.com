@@ -45,7 +45,7 @@ export const postTopicAction = async (values: unknown) => {
   return { data: res, error: null }
 }
 
-export const putTopic = async (topicId: string, values: unknown) => {
+export const putTopicAction = async (topicId: string, values: unknown) => {
   const [res, err] = await http<TopicDataProps>("PUT", {
     url: `/topic/${topicId}`,
     data: values,
