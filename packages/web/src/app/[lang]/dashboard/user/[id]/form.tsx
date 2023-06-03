@@ -1,9 +1,9 @@
 "use client"
 
 import * as React from "react"
-import NextImage from "next/image"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
+
 import {
   FormControl,
   FormErrorMessage,
@@ -11,6 +11,7 @@ import {
   Input,
   RequiredIndicator,
 } from "@/components/UI/Form"
+import { Image } from "@/components/Image"
 import { Textarea } from "@/components/UI/Textarea"
 import { Button } from "@/components/UI/Button"
 import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
@@ -216,15 +217,13 @@ export const EditUserForm = (props: { id: string }) => {
               triggerContent={
                 <>
                   <div className="relative">
-                    <NextImage
+                    <Image
                       src={selectedProfilePictureUrl}
                       className="border-theme-300 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
                       fill
                       alt="Featured Image"
                       onClick={() => setOpenModal(true)}
-                      sizes="(max-width: 768px) 30vw,
-            (max-width: 1200px) 20vw,
-            33vw"
+                      sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
                       quality={60}
                     />
                   </div>
@@ -241,7 +240,7 @@ export const EditUserForm = (props: { id: string }) => {
               triggerContent={
                 <>
                   <FormLabel>Featured Image</FormLabel>
-                  <div className="bg-theme/90 relative m-auto flex aspect-video h-[150px] items-center justify-center text-green-500">
+                  <div className="bg-theme/90 text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
                     <p>Select Featured Image</p>
                   </div>
                 </>
