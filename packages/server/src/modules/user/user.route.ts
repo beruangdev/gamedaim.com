@@ -130,7 +130,6 @@ async function userRoutes(server: FastifyInstance) {
     getUserByUsernameAndGetArticlesHandler,
   )
 
-
   server.get(
     "/username/:username/downloads/:userPage",
     {
