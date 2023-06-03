@@ -99,27 +99,22 @@ export const EditUserForm = (props: { id: string }) => {
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
-    if (roleValue) {
-      const mergedValues = {
-        ...values,
-        profilePictureId: selectedProfilePictureId,
-        role: roleValue,
-      }
-      const data = await putUserByAdminAction(
-        user.id,
-        selectedProfilePictureId ? mergedValues : values,
-      )
-      if (data) {
-        router.push("/dashboard/user")
-      }
-    } else {
-      toast({
-        variant: "warning",
-        description: "Mohon masukkan Role",
-      })
+    const mergedValues = {
+      ...values,
+      profilePictureId: selectedProfilePictureId,
+      role: roleValue,
     }
-
+    const { data, error } = await putUserByAdminAction(
+      user.id,
+      selectedProfilePictureId ? mergedValues : values,
+    )
+    if (data) {
+      router.push("/dashboard/user")
+    } else {
+      toast({ variant: "danger", description: error })
+    }
     setLoading(false)
+    console.log(values)
   }
 
   return (
