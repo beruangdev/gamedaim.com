@@ -49,7 +49,6 @@ export const AddTopicsAction = React.forwardRef<
 
   const [searchResults, setSearchResults] = React.useState<TopicDataProps[]>([])
   const [inputValue, setInputValue] = React.useState<string>("")
-  console.log(selectedTopics)
 
   const {
     register,

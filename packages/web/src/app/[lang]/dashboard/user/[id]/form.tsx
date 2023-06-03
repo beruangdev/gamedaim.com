@@ -3,7 +3,7 @@
 import * as React from "react"
 import NextImage from "next/image"
 import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import {
   FormControl,
   FormErrorMessage,
@@ -34,6 +34,7 @@ interface FormValues {
   about?: string
   meta_title?: string
   meta_description?: string
+  role: string
 }
 export const EditUserForm = (props: { id: string }) => {
   const { id } = props
@@ -50,8 +51,8 @@ export const EditUserForm = (props: { id: string }) => {
     email: "",
     about: "",
     phoneNumber: "",
+    role: "",
   })
-  const [roleValue, setRoleValue] = React.useState("")
   const router = useRouter()
 
   const loadUser = React.useCallback(async () => {
@@ -64,9 +65,8 @@ export const EditUserForm = (props: { id: string }) => {
         email: data.email,
         about: data.about,
         phoneNumber: data.phoneNumber,
+        role: data.role,
       })
-      setRoleValue(data.role)
-      console.log(data)
 
       setSelectedProfilePictureId(data.profilePicture?.id)
       setSelectedProfilePictureUrl(data.profilePicture?.url)
@@ -86,6 +86,7 @@ export const EditUserForm = (props: { id: string }) => {
     register,
     formState: { errors },
     reset,
+    control,
     handleSubmit,
   } = useForm<FormValues>()
 
@@ -102,19 +103,18 @@ export const EditUserForm = (props: { id: string }) => {
     const mergedValues = {
       ...values,
       profilePictureId: selectedProfilePictureId,
-      role: roleValue,
     }
     const { data, error } = await putUserByAdminAction(
       user.id,
       selectedProfilePictureId ? mergedValues : values,
     )
+
     if (data) {
       router.push("/dashboard/user")
     } else {
       toast({ variant: "danger", description: error })
     }
     setLoading(false)
-    console.log(values)
   }
 
   return (
@@ -249,28 +249,40 @@ export const EditUserForm = (props: { id: string }) => {
             />
           </>
         )}
-        <FormControl>
-          <FormLabel>
-            Role
-            <RequiredIndicator />
-          </FormLabel>
-          <Select
-            value={roleValue}
-            onValueChange={(value) => setRoleValue(value)}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a role" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Role</SelectLabel>
-                <SelectItem value="ADMIN">ADMIN</SelectItem>
-                <SelectItem value="AUTHOR">AUTHOR</SelectItem>
-                <SelectItem value="PRO_USER">PRO USER</SelectItem>
-                <SelectItem value="USER">USER</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+        <FormControl invalid={Boolean(errors.role)}>
+          <Controller
+            control={control}
+            name="role"
+            render={({ field }) => (
+              <>
+                <FormLabel>
+                  Role
+                  <RequiredIndicator />
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  value={field.value}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Role</SelectLabel>
+                      <SelectItem value="ADMIN">ADMIN</SelectItem>
+                      <SelectItem value="AUTHOR">AUTHOR</SelectItem>
+                      <SelectItem value="PRO_USER">PRO USER</SelectItem>
+                      <SelectItem value="USER">USER</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {errors?.role && (
+                  <FormErrorMessage>{errors.role.message}</FormErrorMessage>
+                )}
+              </>
+            )}
+          />
         </FormControl>
         <FormControl invalid={Boolean(errors.about)}>
           <FormLabel>About</FormLabel>
