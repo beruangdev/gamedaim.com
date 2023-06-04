@@ -14,6 +14,7 @@ import {
   getTopicsDashboardByLangHandler,
   getTopicsSitemapByLangHandler,
   getTotalTopicPrimariesHandler,
+  getTotalTopicsByLangHandler,
   getTotalTopicsHandler,
   searchTopicsByLangHandler,
   searchTopicsDashboardHandler,
@@ -174,6 +175,8 @@ async function topicRoutes(server: FastifyInstance) {
   )
 
   server.get("/count", getTotalTopicsHandler)
+
+  server.get("/:topicLanguage/count", getTotalTopicsByLangHandler)
 
   server.get("/count/primary", getTotalTopicPrimariesHandler)
 

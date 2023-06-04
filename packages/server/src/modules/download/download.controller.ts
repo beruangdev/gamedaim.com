@@ -23,6 +23,7 @@ import {
   getDownloadsSitemapByLang,
   getTotalDownloadPrimaries,
   getTotalDownloads,
+  getTotalDownloadsByLang,
   searchDownloads,
   searchDownloadsDashboardByLang,
   updateDownload,
@@ -478,6 +479,21 @@ export async function getTotalDownloadsHandler(
 ) {
   try {
     const downloads = await getTotalDownloads()
+    return reply.code(201).send(downloads)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function getTotalDownloadsByLangHandler(
+  request: FastifyRequest<{ Params: { downloadLanguage: LanguageType } }>,
+  reply: FastifyReply,
+) {
+  try {
+    const downloadLanguage = request.params.downloadLanguage
+
+    const downloads = await getTotalDownloadsByLang(downloadLanguage)
     return reply.code(201).send(downloads)
   } catch (e) {
     console.log(e)
