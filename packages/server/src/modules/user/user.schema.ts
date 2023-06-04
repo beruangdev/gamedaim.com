@@ -1,7 +1,7 @@
 import { buildJsonSchemas } from "fastify-zod"
 import { z } from "zod"
 
-const USER_ROLE = ["USER", "AUTHOR", "ADMIN"] as const
+const USER_ROLE = ["USER", "PRO_USER", "AUTHOR", "ADMIN"] as const
 
 const userCore = {
   email: z

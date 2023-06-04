@@ -4,34 +4,31 @@ import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
 
-import { Badge } from "@/components/UI/Badge"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
-import { UserDataProps } from "@/lib/data-types"
-import { useGetUsers, useGetUsersCount } from "@/lib/api/client/user"
+import { TopicDataProps } from "@/lib/data-types"
 import { formatDate } from "@/utils/date"
-import { handleDeleteUser } from "./actions"
+import { handleDeleteTopic } from "./actions"
+import { useGetTopics, useGetTopicsCount } from "@/lib/api/client/topic"
 
 const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
 )
 
-export default function UsersDashboard() {
-  const { usersCount } = useGetUsersCount()
-  const lastPage = usersCount && Math.ceil(usersCount / 10)
-  const [isLoading, setIsLoading] = React.useState(true)
+export default function TopicDashboard() {
+  const { topicsCount } = useGetTopicsCount()
+  const lastPage = topicsCount && Math.ceil(topicsCount / 10)
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [page, setPage] = React.useState<number>(1)
-  const { users, updatedUsers } = useGetUsers(page)
+  const { topics, updatedTopics } = useGetTopics("id_ID", page)
 
   React.useEffect(() => {
+    setIsLoading(false)
     if (page > lastPage) {
       setPage((old) => Math.max(old - 1, 0))
     }
   }, [lastPage, page])
-  React.useEffect(() => {
-    setIsLoading(false)
-  }, [])
 
   return (
     <>
@@ -47,54 +44,58 @@ export default function UsersDashboard() {
       </div>
       <div className="mb-[80px] mt-6 rounded">
         {!isLoading &&
-          (users !== undefined && users.length > 0 ? (
+          (topics !== undefined && topics.length > 0 ? (
             <>
               <Table className="table-fixed border-collapse border-spacing-0">
                 <Thead>
                   <Tr isTitle>
-                    <Th>Username</Th>
-                    <Th>Name</Th>
-                    <Th className="hidden md:table-cell">Email</Th>
-                    <Th>Role</Th>
-                    <Th className="hidden md:table-cell">Date Joined</Th>
+                    <Th>Title</Th>
+                    <Th>Type</Th>
+                    <Th>Slug</Th>
+                    <Th className="hidden md:table-cell">Published Date</Th>
+                    <Th className="hidden md:table-cell">Last Modified</Th>
                     <Th align="center">Actions</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {users.map((user: UserDataProps) => (
-                    <Tr key={user.id}>
+                  {topics.map((topic: TopicDataProps) => (
+                    <Tr key={topic.id}>
                       <Td className="line-clamp-3 max-w-[120px]">
                         <div className="flex">
-                          <span className="font-medium">{user.username}</span>
+                          <span className="font-medium">{topic.title}</span>
                         </div>
                       </Td>
                       <Td className="white-space-nowrap">
                         <div className="flex">
-                          <span className="font-medium">{user.name}</span>
-                        </div>
-                      </Td>
-                      <Td className="hidden whitespace-nowrap md:table-cell">
-                        <div className="flex">
-                          <span className="font-medium">{user.email}</span>
+                          <span className="font-medium">{topic.type}</span>
                         </div>
                       </Td>
                       <Td className="whitespace-nowrap">
                         <div className="flex">
+                          <span className="font-medium">{topic.slug}</span>
+                        </div>
+                      </Td>
+                      <Td className="hidden whitespace-nowrap md:table-cell">
+                        <div className="flex">
                           <span className="font-medium">
-                            <Badge>{user.role}</Badge>
+                            {formatDate(topic.createdAt, "LL")}
                           </span>
                         </div>
                       </Td>
-                      <Td className="hidden md:table-cell">
-                        {formatDate(user.createdAt, "LL")}
+                      <Td className="hidden whitespace-nowrap md:table-cell">
+                        <div className="flex">
+                          <span className="font-medium">
+                            {formatDate(topic.createdAt, "LL")}
+                          </span>
+                        </div>
                       </Td>
                       <Td align="right">
                         <ActionDashboard
-                          viewLink={`/user/${user.username}`}
+                          viewLink={`/topic/${topic.slug}`}
                           onDelete={() => {
-                            handleDeleteUser(user.id, updatedUsers)
+                            handleDeleteTopic(topic.id, updatedTopics)
                           }}
-                          editLink={`/dashboard/user/edit/${user.id}`}
+                          editLink={`/dashboard/topic/edit/${topic.id}`}
                         />
                       </Td>
                     </Tr>
@@ -132,7 +133,7 @@ export default function UsersDashboard() {
           ) : (
             <div className="my-48 flex items-center justify-center">
               <h3 className="text-center text-4xl font-bold">
-                Users Not found
+                Topics Not found
               </h3>
             </div>
           ))}

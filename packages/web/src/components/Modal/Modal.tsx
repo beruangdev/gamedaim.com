@@ -11,13 +11,15 @@ interface ModalProps {
   content: React.ReactNode
   trigger: React.ReactNode
   title: string
+  onOpenChange: (open: boolean) => void
+  open: boolean
 }
 
 export const Modal = (props: ModalProps) => {
-  const { content, trigger, title } = props
+  const { content, trigger, title, open, onOpenChange } = props
   return (
     <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
           <button className="Button violet">{trigger}</button>
         </DialogTrigger>

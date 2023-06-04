@@ -25,7 +25,7 @@ interface ModalSelectMediaProps {
 export const ModalSelectMedia: React.FunctionComponent<
   ModalSelectMediaProps
 > = (props) => {
-  const { handleSelectUpdateMedia, triggerContent } = props
+  const { handleSelectUpdateMedia, triggerContent, open, setOpen } = props
   const [resultMedias, setResultMedias] = React.useState<MediaDataProps[]>([])
 
   const [searched, setSearched] = React.useState<boolean>(false)
@@ -59,6 +59,8 @@ export const ModalSelectMedia: React.FunctionComponent<
   return (
     <>
       <Modal
+        open={open}
+        onOpenChange={setOpen}
         trigger={triggerContent}
         title="Select Featured Image"
         content={

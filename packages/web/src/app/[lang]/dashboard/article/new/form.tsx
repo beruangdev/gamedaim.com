@@ -2,11 +2,9 @@
 import * as React from "react"
 import NextLink from "next/link"
 import NextImage from "next/image"
-import { useForm } from "react-hook-form"
-import { EditorContent, useEditor } from "@tiptap/react"
-import { EditorKitExtension, EditorMenu } from "@/components/Editor"
+import { Controller, useForm } from "react-hook-form"
 import { useDisclosure } from "@/hooks/use-disclosure"
-import { postArticleAction } from "@/lib/api/server/article"
+import { postArticleWithPrimaryAction } from "@/lib/api/server/article"
 import { Button } from "@/components/UI/Button"
 import {
   FormControl,
@@ -20,7 +18,23 @@ import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
 import { ArticleDashboardLayout } from "@/layouts/ArticleDashboard"
-import { AddTopicsAction } from "@/components/Action"
+import {
+  AddAuthorsAction,
+  AddEditorsAction,
+  AddTopicsAction,
+} from "@/components/Action"
+import { useCurrentUser } from "@/hooks/use-current-user"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/UI/Select"
+import { EditorContent, useEditor } from "@tiptap/react"
+import { EditorKitBasicExtension, EditorMenu } from "@/components/Editor"
 
 interface FormValues {
   title: string
@@ -32,10 +46,13 @@ interface FormValues {
 }
 export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
   const { lang } = props
+  const { user } = useCurrentUser()
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [editorContent, setEditorContent] = React.useState<string>("")
   const [topics, setTopics] = React.useState<string[]>([])
+  const [authors, setAuthors] = React.useState<string[]>([])
+  const [editorIds, setEditorIds] = React.useState<string[]>([])
   const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
     React.useState<string>("")
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
@@ -43,10 +60,16 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
   const [selectedTopics, setSelectedTopics] = React.useState<
     { id: string; title: string }[] | []
   >([])
+  const [selectedAuthors, setSelectedAuthors] = React.useState<
+    { id: string; name: string }[] | []
+  >([])
+  const [selectedEditors, setSelectedEditors] = React.useState<
+    { id: string; name: string }[] | []
+  >([])
   const { isOpen, onToggle } = useDisclosure()
 
   const editor = useEditor({
-    extensions: [EditorKitExtension],
+    extensions: [EditorKitBasicExtension],
     content: "<p></p>",
     onUpdate({ editor }) {
       setEditorContent(editor.getHTML())
@@ -57,8 +80,24 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
     reset,
   } = useForm<FormValues>({ mode: "onBlur" })
+
+  React.useEffect(() => {
+    if (user) {
+      setAuthors((prevAuthors) => [...prevAuthors, user.user.id])
+      setSelectedAuthors((prevSelectedAuthors) => [
+        ...prevSelectedAuthors,
+        { id: user.user.id, name: user.user.name },
+      ])
+      setEditorIds((prevEditorIds) => [...prevEditorIds, user.user.id])
+      setSelectedEditors((prevSelectedEditors) => [
+        ...prevSelectedEditors,
+        { id: user.user.id, name: user.user.name },
+      ])
+    }
+  }, [user])
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
@@ -67,8 +106,10 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
       content: editorContent,
       topicIds: topics,
       featuredImageId: selectedFeaturedImageId,
+      authorIds: authors,
+      editorIds: editorIds,
     }
-    const data = await postArticleAction(mergedValues)
+    const { data } = await postArticleWithPrimaryAction(mergedValues)
     if (data) {
       reset()
       editor?.commands.clearContent()
@@ -76,7 +117,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
       setSelectedFeaturedImageUrl("")
       toast({
         variant: "success",
-        description: "Article ",
+        description: "Article successfully created ",
       })
     }
     setLoading(false)
@@ -178,31 +219,53 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
                 </>
               )}
               <div className="my-2 flex flex-col px-4">
-                <FormLabel>Excerpt</FormLabel>
-                <FormControl invalid={Boolean(errors.excerpt)}>
-                  <Textarea
-                    {...register("excerpt")}
-                    placeholder="Enter Meta Title (Optional)"
-                  />
-                  {errors?.excerpt && (
-                    <FormErrorMessage>
-                      {errors.excerpt.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
+                <AddAuthorsAction
+                  authors={authors}
+                  addAuthors={setAuthors}
+                  selectedAuthors={selectedAuthors}
+                  addSelectedAuthors={setSelectedAuthors}
+                />
               </div>
               <div className="my-2 flex flex-col px-4">
-                <FormLabel>Language</FormLabel>
+                <AddEditorsAction
+                  editors={editorIds}
+                  addEditors={setEditorIds}
+                  selectedEditors={selectedEditors}
+                  addSelectedEditors={setSelectedEditors}
+                />
+              </div>
+              <div className="my-2 flex flex-col px-4">
                 <FormControl invalid={Boolean(errors.language)}>
-                  <select {...register("language")} placeholder="Enter Bahasa">
-                    <option value="id_ID">Indonesia</option>
-                    <option value="en_US">English</option>
-                  </select>
-                  {errors?.language && (
-                    <FormErrorMessage>
-                      {errors.language.message}
-                    </FormErrorMessage>
-                  )}
+                  <Controller
+                    control={control}
+                    name="language"
+                    render={({ field }) => (
+                      <>
+                        <FormLabel>Language</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          value={field.value}
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Select a language" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Language</SelectLabel>
+                              <SelectItem value="id_ID">Indonesia</SelectItem>
+                              <SelectItem value="en_US">English</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        {errors?.language && (
+                          <FormErrorMessage>
+                            {errors.language.message}
+                          </FormErrorMessage>
+                        )}
+                      </>
+                    )}
+                  />
                 </FormControl>
               </div>
               <div className="my-2 flex flex-col px-4">

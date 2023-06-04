@@ -155,7 +155,6 @@ export async function getUserByUsernameAndGetDownloads(
   })
 }
 
-
 export async function getUserById(userId: string) {
   return await db.user.findUnique({
     where: {

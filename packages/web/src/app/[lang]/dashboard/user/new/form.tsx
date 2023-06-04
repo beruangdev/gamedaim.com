@@ -1,10 +1,9 @@
 "use client"
 
 import * as React from "react"
-import NextImage from "next/image"
 
 import { useForm } from "react-hook-form"
-import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md"
+
 import {
   FormControl,
   FormErrorMessage,
@@ -12,6 +11,8 @@ import {
   Input,
   RequiredIndicator,
 } from "@/components/UI/Form"
+import { Icon } from "@/components/UI/Icon"
+import { Image } from "@/components/Image"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { Button } from "@/components/UI/Button"
@@ -28,7 +29,7 @@ interface FormValues {
   meta_title?: string
   meta_description?: string
 }
-export const FormNewUser = () => {
+export const AddNewUserForm = () => {
   const [loading, setLoading] = React.useState<boolean>(false)
   const [showPassword, setShowPassword] = React.useState(false)
   const handleToggleShowPassword = () => setShowPassword(!showPassword)
@@ -182,12 +183,12 @@ export const FormNewUser = () => {
                 className="inset-y-0 mr-3 flex items-center rounded-lg p-1 focus:outline-none"
               >
                 {showPassword ? (
-                  <MdOutlineVisibilityOff
+                  <Icon.VisibilityOff
                     aria-label="Hide Password"
                     className="text-theme-500 hover:text-theme-600 cursor-pointer text-xl"
                   />
                 ) : (
-                  <MdOutlineVisibility
+                  <Icon.Visibility
                     aria-label="Show Password"
                     className="text-theme-500 hover:text-theme-600 cursor-pointer text-xl"
                   />
@@ -219,7 +220,7 @@ export const FormNewUser = () => {
 
         {selectedProfilePictureUrl ? (
           <>
-            <FormLabel>Featured Image</FormLabel>
+            <FormLabel>Profile Picture</FormLabel>
             <ModalSelectMedia
               handleSelectUpdateMedia={handleUpdateMedia}
               open={openModal}
@@ -227,16 +228,13 @@ export const FormNewUser = () => {
               triggerContent={
                 <>
                   <div className="relative">
-                    <NextImage
+                    <Image
                       src={selectedProfilePictureUrl}
                       className="border-theme-300 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
                       fill
-                      alt="Featured Image"
+                      alt="Profile Picture"
                       onClick={() => setOpenModal(true)}
-                      sizes="(max-width: 768px) 30vw,
-            (max-width: 1200px) 20vw,
-            33vw"
-                      quality={60}
+                      sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
                     />
                   </div>
                 </>
@@ -252,7 +250,7 @@ export const FormNewUser = () => {
               triggerContent={
                 <>
                   <FormLabel>Featured Image</FormLabel>
-                  <div className="bg-theme/90 relative m-auto flex aspect-video h-[150px] items-center justify-center text-green-500">
+                  <div className="bg-theme/90 text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
                     <p>Select Featured Image</p>
                   </div>
                 </>
