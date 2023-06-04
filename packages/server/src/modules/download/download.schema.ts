@@ -139,7 +139,6 @@ const updateDownloadInput = {
 
 const downloadGenerated = {
   id: z.string(),
-  slug: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 }
