@@ -1,8 +1,10 @@
 import createIntlMiddleware from "next-intl/middleware"
 import { NextRequest, NextResponse } from "next/server"
+
 import env from "env"
 import { adminOrAuthorRoutes, authRoutes, adminRoutes } from "@/route/routes"
 import { findAuthPage } from "./utils/helper"
+
 export default async function middleware(request: NextRequest) {
   const currentUser = request.cookies.get("currentUser")?.value
   const dataUser = currentUser && JSON.parse(currentUser)

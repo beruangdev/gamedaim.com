@@ -1,6 +1,12 @@
 import * as React from "react"
+import { Metadata } from "next"
 
 import { AddNewTopicForm } from "./form"
+
+export const metadata: Metadata = {
+  title: "Add New Topic Dashboard",
+  description: "Add New Topic Dashboard",
+}
 
 export default function CreateTopicDashbaord() {
   return (

@@ -1,8 +1,15 @@
 import * as React from "react"
 import NextLink from "next/link"
+import { Metadata } from "next"
+
 import { Separator } from "@/components/UI/Separator"
 
 import { LoginForm } from "./form"
+
+export const metadata: Metadata = {
+  title: "Login",
+  description: "Login",
+}
 
 export default function Login() {
   return (
