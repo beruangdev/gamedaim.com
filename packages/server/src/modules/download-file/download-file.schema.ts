@@ -80,7 +80,6 @@ const updateDownloadFileInput = {
 
 const downloadFileGenerated = {
   id: z.string(),
-  slug: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 }
