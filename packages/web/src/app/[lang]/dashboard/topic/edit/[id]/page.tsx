@@ -1,16 +1,22 @@
 import * as React from "react"
 import { notFound } from "next/navigation"
+import { Metadata } from "next"
 
 import { EditTopicForm } from "./form"
 import { getTopicByIdAction } from "@/lib/api/server/topic"
 
-export default async function EditUserDashboard({
-  params,
-}: {
+export const metadata: Metadata = {
+  title: "Edit Topic Dashboard",
+  description: "Edit Topic Dashboard",
+}
+
+interface EditUesrDashboardProps {
   params: { id: string }
-}) {
-  const { id } = params
-  const { data } = await getTopicByIdAction(id as string)
+}
+
+export default async function EditUserDashboard(props: EditUesrDashboardProps) {
+  const { params } = props
+  const { data } = await getTopicByIdAction(params.id as string)
 
   if (!data) {
     notFound()

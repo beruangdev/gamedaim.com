@@ -1,8 +1,14 @@
 import * as React from "react"
 import { notFound } from "next/navigation"
+import { Metadata } from "next"
 
 import { EditUserForm } from "./form"
 import { getUserByIdAction } from "@/lib/api/server/user"
+
+export const metadata: Metadata = {
+  title: "Edit User Dashboard",
+  description: "Edit User Dashboard",
+}
 
 export default async function EditUserDashboard({
   params,
