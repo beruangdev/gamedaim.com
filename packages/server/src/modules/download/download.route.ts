@@ -13,6 +13,7 @@ import {
   getDownloadsDashboardByLangHandler,
   getDownloadsSitemapByLangHandler,
   getTotalDownloadPrimariesHandler,
+  getTotalDownloadsByLangHandler,
   getTotalDownloadsHandler,
   searchDownloadsByLangHandler,
   searchDownloadsDashboardByLangHandler,
@@ -165,6 +166,8 @@ async function downloadRoutes(server: FastifyInstance) {
   server.get("/count/primary", getTotalDownloadPrimariesHandler)
 
   server.get("/count", getTotalDownloadsHandler)
+
+  server.get("/:downloadLanguage/count", getTotalDownloadsByLangHandler)
 
   server.get(
     "/:downloadLanguage/search/:searchDownloadQuery",

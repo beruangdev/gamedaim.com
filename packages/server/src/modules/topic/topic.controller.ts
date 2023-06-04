@@ -22,6 +22,7 @@ import {
   getTopicsSitemapByLang,
   getTotalTopicPrimaries,
   getTotalTopics,
+  getTotalTopicsByLang,
   searchTopicsByLang,
   searchTopicsDashboardByLang,
   updateTopic,
@@ -364,6 +365,21 @@ export async function getTotalTopicsHandler(
 ) {
   try {
     const topics = await getTotalTopics()
+    return reply.code(201).send(topics)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function getTotalTopicsByLangHandler(
+  request: FastifyRequest<{ Params: { topicLanguage: LanguageType } }>,
+  reply: FastifyReply,
+) {
+  try {
+    const topicLanguage = request.params.topicLanguage
+
+    const topics = await getTotalTopicsByLang(topicLanguage)
     return reply.code(201).send(topics)
   } catch (e) {
     console.log(e)

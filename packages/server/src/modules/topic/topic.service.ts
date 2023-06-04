@@ -313,6 +313,12 @@ export async function getTotalTopics() {
   return await db.topic.count()
 }
 
+export async function getTotalTopicsByLang(topicLanguage: LanguageType) {
+  return await db.topic.count({
+    where: { language: topicLanguage },
+  })
+}
+
 export async function getTotalTopicPrimaries() {
   return await db.topicPrimary.count()
 }

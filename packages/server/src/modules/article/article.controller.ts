@@ -22,6 +22,7 @@ import {
   getArticlesSitemapByLang,
   getTotalArticlePrimaries,
   getTotalArticles,
+  getTotalArticlesByLang,
   searchArticlesByLang,
   searchArticlesDashboardByLang,
   updateArticle,
@@ -405,6 +406,21 @@ export async function getTotalArticlesHandler(
 ) {
   try {
     const articles = await getTotalArticles()
+    return reply.code(201).send(articles)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function getTotalArticlesByLangHandler(
+  request: FastifyRequest<{ Params: { articleLanguage: LanguageType } }>,
+  reply: FastifyReply,
+) {
+  try {
+    const articleLanguage = request.params.articleLanguage
+
+    const articles = await getTotalArticlesByLang(articleLanguage)
     return reply.code(201).send(articles)
   } catch (e) {
     console.log(e)

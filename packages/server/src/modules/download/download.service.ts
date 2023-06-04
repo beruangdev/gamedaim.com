@@ -543,6 +543,14 @@ export async function getTotalDownloads() {
   return await db.download.count()
 }
 
+export async function getTotalDownloadsByLang(downloadLanguage: LanguageType) {
+  return await db.download.count({
+    where: {
+      language: downloadLanguage,
+    },
+  })
+}
+
 export async function getTotalDownloadPrimaries() {
   return await db.downloadPrimary.count()
 }
