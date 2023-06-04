@@ -80,7 +80,6 @@ const updateArticleInput = {
 
 const articleGenerated = {
   id: z.string(),
-  slug: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 }
@@ -98,7 +97,6 @@ const updateArticleSchema = z.object({
 })
 
 const articleResponseSchema = z.object({
-  ...articleInput,
   ...articleGenerated,
 })
 

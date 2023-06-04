@@ -26,7 +26,7 @@ async function articleRoutes(server: FastifyInstance) {
     {
       preHandler: [server.authenticate],
       schema: {
-        body: $ref("createArticleSchema"),
+        body: $ref("createArticlePrimarySchema"),
         response: {
           201: $ref("articleResponseSchema"),
         },
