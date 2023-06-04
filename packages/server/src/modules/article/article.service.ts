@@ -360,6 +360,14 @@ export async function getTotalArticles() {
   return await db.article.count()
 }
 
+export async function getTotalArticlesByLang(articleLanguage: LanguageType) {
+  return await db.article.count({
+    where: {
+      language: articleLanguage
+    }
+  })
+}
+
 export async function getTotalArticlePrimaries() {
   return await db.articlePrimary.count()
 }
