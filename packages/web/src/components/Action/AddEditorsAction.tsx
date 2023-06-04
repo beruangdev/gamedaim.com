@@ -2,12 +2,14 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
+import { toast } from "@/components/UI/Toast"
+import { Button } from "@/components/UI/Button"
+import { FormErrorMessage, Input } from "@/components/UI/Form"
+import { ScrollArea } from "@/components/UI/ScrollArea"
+import { Icon } from "@/components/UI/Icon"
+
 import { UserDataProps } from "@/lib/data-types"
 import { searchUsersAction } from "@/lib/api/server/user"
-import { toast } from "../UI/Toast"
-import { Button } from "../UI/Button"
-import { FormErrorMessage, Input } from "../UI/Form"
-import { ScrollArea } from "../UI/ScrollArea"
 
 interface FormValues {
   name: string
@@ -176,19 +178,7 @@ export function AddEditorsAction(props: AddEditorsProps) {
                     onClick={() => handleRemoveValue(editor)}
                     className="h-auto min-w-0 bg-transparent p-0 text-inherit"
                   >
-                    <div>
-                      <svg
-                        height="1em"
-                        width="1em"
-                        fill="currentColor"
-                        stroke="currentColor"
-                        strokeWidth="0"
-                        viewBox="0 0 1024 1024"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z" />
-                      </svg>
-                    </div>
+                    <Icon.Delete />
                   </Button>
                 </div>
               )

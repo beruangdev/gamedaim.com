@@ -34,7 +34,8 @@ import {
   SelectValue,
 } from "@/components/UI/Select"
 import { EditorContent, useEditor } from "@tiptap/react"
-import { EditorKitBasicExtension, EditorMenu } from "@/components/Editor"
+import { EditorKitExtension, EditorMenu } from "@/components/Editor"
+import { Icon } from "@/components/UI/Icon"
 
 interface FormValues {
   title: string
@@ -69,7 +70,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
   const { isOpen, onToggle } = useDisclosure()
 
   const editor = useEditor({
-    extensions: [EditorKitBasicExtension],
+    extensions: [EditorKitExtension],
     content: "<p></p>",
     onUpdate({ editor }) {
       setEditorContent(editor.getHTML())
@@ -160,7 +161,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
               variant="ghost"
               onClick={onToggle}
             >
-              View Sidebar
+              <Icon.Menu />
             </Button>
           </div>
         </div>
