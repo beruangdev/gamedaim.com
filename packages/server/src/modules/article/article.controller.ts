@@ -181,12 +181,13 @@ export async function updateArticleHandler(
 
     const updatedArticle = await updateArticle(articleId, {
       title: title,
+      language: language,
       content: content,
       excerpt: excerpt,
       metaTitle: metaTitle,
       metaDescription: metaDescription,
       slug: slug,
-      language: language,
+      featuredImageId: featuredImageId,
       topics: {
         connect: topicIds.map((id) => ({ id })),
       },
@@ -196,7 +197,6 @@ export async function updateArticleHandler(
       editors: {
         connect: editorIds.map((id) => ({ id })),
       },
-      featuredImageId: featuredImageId,
     })
 
     return reply.code(201).send(updatedArticle)
