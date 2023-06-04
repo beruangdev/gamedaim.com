@@ -225,3 +225,19 @@ export const putUserAction = async (userId: string, values: unknown) => {
 
   return { data: res, error: null }
 }
+export const searchUsersAction = async (query: string) => {
+  const [res, err] = await http<UserDataProps[]>("GET", {
+    url: `/user/search/${query}`,
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}

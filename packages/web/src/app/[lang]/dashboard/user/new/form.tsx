@@ -185,12 +185,12 @@ export const AddNewUserForm = () => {
                 {showPassword ? (
                   <Icon.VisibilityOff
                     aria-label="Hide Password"
-                    className="text-theme-500 hover:text-theme-600 cursor-pointer text-xl"
+                    className="text-muted/50 hover:text-muted/60 cursor-pointer text-xl"
                   />
                 ) : (
                   <Icon.Visibility
                     aria-label="Show Password"
-                    className="text-theme-500 hover:text-theme-600 cursor-pointer text-xl"
+                    className="text-muted/50 hover:text-muted/60 cursor-pointer text-xl"
                   />
                 )}
               </div>
@@ -230,7 +230,7 @@ export const AddNewUserForm = () => {
                   <div className="relative">
                     <Image
                       src={selectedProfilePictureUrl}
-                      className="border-theme-300 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                      className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
                       fill
                       alt="Profile Picture"
                       onClick={() => setOpenModal(true)}
@@ -250,7 +250,7 @@ export const AddNewUserForm = () => {
               triggerContent={
                 <>
                   <FormLabel>Featured Image</FormLabel>
-                  <div className="bg-theme/90 text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
+                  <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
                     <p>Select Featured Image</p>
                   </div>
                 </>

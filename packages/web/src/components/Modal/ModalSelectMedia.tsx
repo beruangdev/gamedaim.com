@@ -25,7 +25,7 @@ interface ModalSelectMediaProps {
 export const ModalSelectMedia: React.FunctionComponent<
   ModalSelectMediaProps
 > = (props) => {
-  const { handleSelectUpdateMedia, triggerContent } = props
+  const { handleSelectUpdateMedia, triggerContent, open, setOpen } = props
   const [resultMedias, setResultMedias] = React.useState<MediaDataProps[]>([])
 
   const [searched, setSearched] = React.useState<boolean>(false)
@@ -59,6 +59,8 @@ export const ModalSelectMedia: React.FunctionComponent<
   return (
     <>
       <Modal
+        open={open}
+        onOpenChange={setOpen}
         trigger={triggerContent}
         title="Select Featured Image"
         content={
@@ -105,7 +107,7 @@ export const ModalSelectMedia: React.FunctionComponent<
                         sizes="(max-width: 768px) 30vw,
                         (max-width: 1200px) 20vw,
                         33vw"
-                        className="loading-image border-theme-300 bg-theme-300 !relative aspect-[1/1] h-[500px] max-w-[unset] cursor-pointer rounded-sm border-2 object-cover"
+                        className="loading-image border-muted/30 bg-muted/30 !relative aspect-[1/1] h-[500px] max-w-[unset] cursor-pointer rounded-sm border-2 object-cover"
                         onLoadingComplete={(e) => {
                           e.classList.remove("loading-image")
                         }}

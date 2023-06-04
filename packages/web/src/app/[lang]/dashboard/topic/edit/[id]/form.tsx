@@ -220,7 +220,7 @@ export const EditTopicForm = (props: { id: string }) => {
                 <div className="relative">
                   <Image
                     src={selectedFeaturedImageUrl}
-                    className="border-theme-300 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                    className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
                     fill
                     alt="Featured Image"
                     onClick={() => setOpenModal(true)}
@@ -240,7 +240,7 @@ export const EditTopicForm = (props: { id: string }) => {
             triggerContent={
               <>
                 <FormLabel>Featured Image</FormLabel>
-                <div className="bg-theme/90 text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
+                <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
                   <p>Select Featured Image</p>
                 </div>
               </>
