@@ -17,7 +17,7 @@ import { LanguageTypeData } from "@/lib/data-types"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
-import { ArticleDashboardLayout } from "@/app/[lang]/dashboard/article/ArticleDashboard"
+import { ArticleDashboardContainer } from "@/app/[lang]/dashboard/article/container"
 import {
   AddAuthorsAction,
   AddEditorsAction,
@@ -165,7 +165,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
             </Button>
           </div>
         </div>
-        <ArticleDashboardLayout
+        <ArticleDashboardContainer
           isOpen={isOpen}
           sidebar={
             <div className="scollbarhide scrollbar bg-background fixed bottom-0 right-0 top-0 mt-[70px] flex min-w-[300px] max-w-[300px] flex-col space-y-4 overflow-auto p-4 max-sm:min-w-full max-sm:max-w-full">
@@ -326,7 +326,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
               </FormControl>
             </div>
           </div>
-        </ArticleDashboardLayout>
+        </ArticleDashboardContainer>
       </form>
     </>
   )
