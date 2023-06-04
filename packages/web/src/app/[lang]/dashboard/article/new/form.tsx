@@ -17,7 +17,7 @@ import { LanguageTypeData } from "@/lib/data-types"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
-import { ArticleDashboardLayout } from "@/layouts/ArticleDashboard"
+import { ArticleDashboardLayout } from "@/app/[lang]/dashboard/article/ArticleDashboard"
 import {
   AddAuthorsAction,
   AddEditorsAction,
@@ -140,7 +140,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
         }}
         className="space-y-4"
       >
-        <div className="dark:bg-theme-800 sticky top-[0px] z-[90] flex items-center justify-between bg-white px-3 py-5">
+        <div className="bg-background sticky top-[0px] z-[90] flex items-center justify-between px-3 py-5">
           <Button aria-label="Back To Articles" variant="ghost">
             <NextLink aria-label="Back To Articles" href="/dashboard/articles">
               Articles
@@ -168,7 +168,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
         <ArticleDashboardLayout
           isOpen={isOpen}
           sidebar={
-            <div className="scollbarhide scrollbar fixed bottom-0 right-0 top-0 mt-[70px] flex min-w-[300px] max-w-[300px] flex-col space-y-4 overflow-auto bg-white p-4 dark:bg-[inherit] max-sm:min-w-full max-sm:max-w-full">
+            <div className="scollbarhide scrollbar bg-background fixed bottom-0 right-0 top-0 mt-[70px] flex min-w-[300px] max-w-[300px] flex-col space-y-4 overflow-auto p-4 max-sm:min-w-full max-sm:max-w-full">
               <AddTopicsAction
                 lang={lang}
                 topics={topics}
@@ -188,7 +188,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
                         <div className="relative">
                           <NextImage
                             src={selectedFeaturedImageUrl}
-                            className="border-theme-300 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                            className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
                             fill
                             alt="Featured Image"
                             onClick={() => setOpenModal(true)}
@@ -211,7 +211,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
                     triggerContent={
                       <>
                         <FormLabel>Featured Image</FormLabel>
-                        <div className="bg-theme/90 relative m-auto flex aspect-video h-[150px] items-center justify-center text-green-500">
+                        <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
                           <p>Select Featured Image</p>
                         </div>
                       </>

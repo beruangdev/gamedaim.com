@@ -11,7 +11,7 @@ import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { ArticleDataProps } from "@/lib/data-types"
 import {
   useGetArticles,
-  useGetArticlesCount,
+  useGetArticlesCountByLang,
   useSearchDashboardArticles,
 } from "@/lib/api/client/article"
 import { formatDate } from "@/utils/date"
@@ -23,23 +23,26 @@ const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
 )
 export function ArticleDashboardContent() {
-  const { articlesCount } = useGetArticlesCount()
-  const lastPage = articlesCount && Math.ceil(articlesCount / 10)
+  const { articlesCount: articlesCountId } = useGetArticlesCountByLang("id_ID")
+  const { articlesCount: articlesCountEn } = useGetArticlesCountByLang("en_US")
+  const lastPageId = articlesCountId && Math.ceil(articlesCountId / 10)
+  const lastPageEn = articlesCountEn && Math.ceil(articlesCountEn / 10)
   const [isLoading, setIsLoading] = React.useState(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [searchQueryEn, setSearchQueryEn] = React.useState<string>("")
   const [searchType, setSearchType] = React.useState("id_ID")
-  const [page, setPage] = React.useState<number>(1)
+  const [pageId, setPageId] = React.useState<number>(1)
+  const [pageEn, setPageEn] = React.useState<number>(1)
   const [articlesDataId, setArticlesDataId] = React.useState([])
   const [articlesDataEn, setArticlesDataEn] = React.useState([])
-  const { articles, updatedArticles } = useGetArticles("id_ID", page)
+  const { articles, updatedArticles } = useGetArticles("id_ID", pageId)
   const {
     articles: resultArticlesId,
     updatedArticles: updatedResultArticlesId,
   } = useSearchDashboardArticles("id_ID", searchQuery)
 
   const { articles: articlesEn, updatedArticles: updatedArticlesEn } =
-    useGetArticles("en_US", page)
+    useGetArticles("en_US", pageEn)
   const {
     articles: resultArticlesEn,
     updatedArticles: updatedResultArticlesEn,
@@ -96,13 +99,7 @@ export function ArticleDashboardContent() {
             type="text"
           />
           <Input.RightElement className="w-2">
-            <button
-              aria-label="Search"
-              type="submit"
-              className="inset-y-0 mr-3 flex items-center rounded-lg p-1 focus:outline-none"
-            >
-              Search
-            </button>
+            <Icon.Search />
           </Input.RightElement>
         </Input.Group>
       </div>
@@ -124,11 +121,11 @@ export function ArticleDashboardContent() {
                   searchQuery={searchQuery}
                   updateResultArticles={updatedResultArticlesId}
                   updateArticles={updatedArticles}
-                  page={page}
-                  lastPage={lastPage}
-                  handleBack={() => setPage((old) => Math.max(old - 1, 0))}
+                  page={pageId}
+                  lastPage={lastPageId}
+                  handleBack={() => setPageId((old) => Math.max(old - 1, 0))}
                   handleNext={() => {
-                    setPage((old) => old + 1)
+                    setPageId((old) => old + 1)
                   }}
                 />
               ) : (
@@ -140,17 +137,17 @@ export function ArticleDashboardContent() {
               )}
             </TabsContent>
             <TabsContent value="en_US">
-              {articlesDataId !== undefined && articlesDataId.length > 0 ? (
+              {articlesDataEn !== undefined && articlesDataEn.length > 0 ? (
                 <TableArticle
                   articles={articlesDataEn}
                   searchQuery={searchQueryEn}
                   updateResultArticles={updatedResultArticlesEn}
                   updateArticles={updatedArticlesEn}
-                  page={0}
-                  lastPage={0}
-                  handleBack={() => setPage((old) => Math.max(old - 1, 0))}
+                  page={pageEn}
+                  lastPage={lastPageEn}
+                  handleBack={() => setPageEn((old) => Math.max(old - 1, 0))}
                   handleNext={() => {
-                    setPage((old) => old + 1)
+                    setPageEn((old) => old + 1)
                   }}
                 />
               ) : (

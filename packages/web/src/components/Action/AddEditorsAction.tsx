@@ -168,7 +168,7 @@ export function AddEditorsAction(props: AddEditorsProps) {
             {selectedEditors.map((editor) => {
               return (
                 <div
-                  className="bg-theme-200 dark:bg-theme-800 flex items-center gap-2 px-2 py-1 text-[14px] text-black dark:text-white"
+                  className="bg-muted/20 text-foreground flex items-center gap-2 px-2 py-1 text-[14px]"
                   key={editor.id}
                 >
                   <span>{editor.name}</span>
@@ -186,7 +186,7 @@ export function AddEditorsAction(props: AddEditorsProps) {
           </div>
         </ScrollArea>
       )}
-      <div className="border-theme-300 bg-theme-100 dark:border-theme-700 dark:bg-theme-700 rounded-md border">
+      <div className="border-muted/30 bg-muted/100 rounded-md border">
         <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
           <Input
             type="text"
@@ -208,7 +208,7 @@ export function AddEditorsAction(props: AddEditorsProps) {
           )}
         </div>
         {searchResults.length > 0 && (
-          <ul className="border-theme-300 border-t">
+          <ul className="border-muted/30 border-t">
             {searchResults.map((searchEditor: UserDataProps) => {
               const dataEditors = {
                 id: searchEditor.id,
@@ -217,7 +217,7 @@ export function AddEditorsAction(props: AddEditorsProps) {
               return (
                 <li
                   key={searchEditor.id}
-                  className="hover:bg-theme-500 p-2"
+                  className="hover:bg-muted/500 p-2"
                   onClick={() => handleSelectandAssign(dataEditors)}
                 >
                   {searchEditor.name}

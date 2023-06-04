@@ -18,7 +18,7 @@ export const ArticleDashboardLayout: React.FunctionComponent<
         className={`${
           isOpen == false
             ? "hidden"
-            : "pt-15 dark:border-theme-700 dark:bg-theme-900 relative z-20 mt-16 flex flex-row overflow-x-auto bg-white py-4 opacity-100"
+            : "pt-15 bg-background relative z-20 mt-16 flex flex-row overflow-x-auto py-4 opacity-100"
         } `}
       >
         {sidebar}
