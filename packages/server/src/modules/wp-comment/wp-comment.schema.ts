@@ -23,7 +23,7 @@ const wpCommentUpdateInput = {
 
 const wpCommentGenerated = {
   id: z.string(),
-  wpPostSlug: z.number(),
+  wpPostSlug: z.string(),
   content: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
