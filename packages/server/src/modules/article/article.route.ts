@@ -13,6 +13,7 @@ import {
   getArticlesDashboardByLangHandler,
   getArticlesSitemapByLangHandler,
   getTotalArticlePrimariesHandler,
+  getTotalArticlesByLangHandler,
   getTotalArticlesHandler,
   searchArticlesByLangHandler,
   searchArticlesDashboardByLangHandler,
@@ -160,6 +161,8 @@ async function articleRoutes(server: FastifyInstance) {
   )
 
   server.get("/count", getTotalArticlesHandler)
+
+  server.get("/:articleLanguage/count", getTotalArticlesByLangHandler)
 
   server.get("/count/primary", getTotalArticlePrimariesHandler)
 
