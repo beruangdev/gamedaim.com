@@ -1,6 +1,10 @@
 # TODO:
 
-- [ ] fix(web): hydration error
-- [ ] handle authentication on layout
-- [ ] handle dark mode switch button
-- [ ] handle sing up setting
+## Web Dashboard
+- [ ] use controller on topic type
+- [ ] add download dashboard
+- [ ] add download file dashboard
+- [ ] add media dashboard
+- [ ] add setting dashboard
+- [ ] add ad dashboard
+- [ ] add shop dashboard
