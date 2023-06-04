@@ -46,9 +46,6 @@ const mediaUpload = {
 
 const mediaGenerated = {
   id: z.string(),
-  url: z.string(),
-  description: z.string().optional(),
-  type: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 }

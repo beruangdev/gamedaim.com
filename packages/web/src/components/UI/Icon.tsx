@@ -1,5 +1,10 @@
-import { ChevronDown, Circle, Loader2, Trash, Twitter } from "lucide-react"
-
+import {
+  LuChevronDown,
+  LuCircle,
+  LuLoader2,
+  LuTrash,
+  LuTwitter,
+} from "react-icons/lu"
 import {
   BiCheckSquare,
   BiListOl,
@@ -11,7 +16,6 @@ import {
 } from "react-icons/bi"
 import { ImBook } from "react-icons/im"
 import { IoGameController } from "react-icons/io5"
-
 import {
   FaAndroid,
   FaApple,
@@ -31,7 +35,6 @@ import {
   FaXbox,
   FaYoutube,
 } from "react-icons/fa"
-
 import {
   MdAccessTime,
   MdAccountCircle,
@@ -108,8 +111,8 @@ export const Icon = {
   CheckSquare: BiCheckSquare,
   ChevronLeft: MdChevronLeft,
   ChevronRight: MdChevronRight,
-  ChevronDown: ChevronDown,
-  Circle: Circle,
+  ChevronDown: LuChevronDown,
+  Circle: LuCircle,
   Close: MdClose,
   Code: MdCode,
   Coffe: FaCoffee,
@@ -153,15 +156,15 @@ export const Icon = {
   Settings: MdOutlineSettings,
   Search: MdOutlineSearch,
   Shop: MdStore,
-  Spinner: Loader2,
+  Spinner: LuLoader2,
   Star: BiStar,
   Sun: MdLightMode,
   Telegram: FaTelegramPlane,
   Topic: MdOutlineTopic,
-  Trash: Trash,
+  Trash: LuTrash,
   Trophy: BiTrophy,
   TV: BiTv,
-  Twitter: Twitter,
+  Twitter: LuTwitter,
   Update: MdUpdate,
   UploadFile: MdUploadFile,
   Users: MdSupervisedUserCircle,
