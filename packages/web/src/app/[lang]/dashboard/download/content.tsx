@@ -8,45 +8,47 @@ import { Badge } from "@/components/UI/Badge"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
-import { ArticleDataProps } from "@/lib/data-types"
+import { DownloadDataProps } from "@/lib/data-types"
 import {
-  useGetArticles,
-  useGetArticlesCountByLang,
-  useSearchDashboardArticles,
-} from "@/lib/api/client/article"
+  useGetDownloads,
+  useGetDownloadsCountByLang,
+  useSearchDashboardDownloads,
+} from "@/lib/api/client/download"
 import { formatDate } from "@/utils/date"
-import { handleDeleteArticle } from "./actions"
+import { handleDeleteDownload } from "./actions"
 import { Input } from "@/components/UI/Form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs"
 
 const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
 )
-export function ArticleDashboardContent() {
-  const { articlesCount: articlesCountId } = useGetArticlesCountByLang("id_ID")
-  const { articlesCount: articlesCountEn } = useGetArticlesCountByLang("en_US")
-  const lastPageId = articlesCountId && Math.ceil(articlesCountId / 10)
-  const lastPageEn = articlesCountEn && Math.ceil(articlesCountEn / 10)
+export function DownloadDashboardContent() {
+  const { downloadsCount: downloadsCountId } =
+    useGetDownloadsCountByLang("id_ID")
+  const { downloadsCount: downloadsCountEn } =
+    useGetDownloadsCountByLang("en_US")
+  const lastPageId = downloadsCountId && Math.ceil(downloadsCountId / 10)
+  const lastPageEn = downloadsCountEn && Math.ceil(downloadsCountEn / 10)
   const [isLoading, setIsLoading] = React.useState(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [searchQueryEn, setSearchQueryEn] = React.useState<string>("")
   const [searchType, setSearchType] = React.useState("id_ID")
   const [pageId, setPageId] = React.useState<number>(1)
   const [pageEn, setPageEn] = React.useState<number>(1)
-  const [articlesDataId, setArticlesDataId] = React.useState([])
-  const [articlesDataEn, setArticlesDataEn] = React.useState([])
-  const { articles, updatedArticles } = useGetArticles("id_ID", pageId)
+  const [downloadsDataId, setDownloadsDataId] = React.useState([])
+  const [downloadsDataEn, setDownloadsDataEn] = React.useState([])
+  const { downloads, updatedDownloads } = useGetDownloads("id_ID", pageId)
   const {
-    articles: resultArticlesId,
-    updatedArticles: updatedResultArticlesId,
-  } = useSearchDashboardArticles("id_ID", searchQuery)
+    downloads: resultDownloadsId,
+    updatedDownloads: updatedResultDownloadsId,
+  } = useSearchDashboardDownloads("id_ID", searchQuery)
 
-  const { articles: articlesEn, updatedArticles: updatedArticlesEn } =
-    useGetArticles("en_US", pageEn)
+  const { downloads: downloadsEn, updatedDownloads: updatedDownloadsEn } =
+    useGetDownloads("en_US", pageEn)
   const {
-    articles: resultArticlesEn,
-    updatedArticles: updatedResultArticlesEn,
-  } = useSearchDashboardArticles("en_US", searchQuery)
+    downloads: resultDownloadsEn,
+    updatedDownloads: updatedResultDownloadsEn,
+  } = useSearchDashboardDownloads("en_US", searchQuery)
 
   const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -59,20 +61,20 @@ export function ArticleDashboardContent() {
 
   React.useEffect(() => {
     if (searchQuery) {
-      setArticlesDataId(resultArticlesId)
+      setDownloadsDataId(resultDownloadsId)
     } else {
-      setArticlesDataId(articles)
+      setDownloadsDataId(downloads)
     }
     if (searchQueryEn) {
-      setArticlesDataEn(resultArticlesEn)
+      setDownloadsDataEn(resultDownloadsEn)
     } else {
-      setArticlesDataEn(articlesEn)
+      setDownloadsDataEn(downloadsEn)
     }
   }, [
-    articles,
-    articlesEn,
-    resultArticlesEn,
-    resultArticlesId,
+    downloads,
+    downloadsEn,
+    resultDownloadsEn,
+    resultDownloadsId,
     searchQuery,
     searchQueryEn,
   ])
@@ -84,7 +86,7 @@ export function ArticleDashboardContent() {
     <>
       <div className="mt-4 flex items-end justify-between">
         <div>
-          <NextLink href="/dashboard/article/new">
+          <NextLink href="/dashboard/download/new">
             <Button variant="ghost">
               <Icon.Add />
               Add New
@@ -115,12 +117,12 @@ export function ArticleDashboardContent() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="id_ID">
-              {articlesDataId !== undefined && articlesDataId.length > 0 ? (
-                <TableArticle
-                  articles={articlesDataId}
+              {downloadsDataId !== undefined && downloadsDataId.length > 0 ? (
+                <TableDownload
+                  downloads={downloadsDataId}
                   searchQuery={searchQuery}
-                  updateResultArticles={updatedResultArticlesId}
-                  updateArticles={updatedArticles}
+                  updateResultDownloads={updatedResultDownloadsId}
+                  updateDownloads={updatedDownloads}
                   page={pageId}
                   lastPage={lastPageId}
                   handleBack={() => setPageId((old) => Math.max(old - 1, 0))}
@@ -131,18 +133,18 @@ export function ArticleDashboardContent() {
               ) : (
                 <div className="my-48 flex items-center justify-center">
                   <h3 className="text-center text-4xl font-bold">
-                    Articles Not found
+                    Downloads Not found
                   </h3>
                 </div>
               )}
             </TabsContent>
             <TabsContent value="en_US">
-              {articlesDataEn !== undefined && articlesDataEn.length > 0 ? (
-                <TableArticle
-                  articles={articlesDataEn}
+              {downloadsDataEn !== undefined && downloadsDataEn.length > 0 ? (
+                <TableDownload
+                  downloads={downloadsDataEn}
                   searchQuery={searchQueryEn}
-                  updateResultArticles={updatedResultArticlesEn}
-                  updateArticles={updatedArticlesEn}
+                  updateResultDownloads={updatedResultDownloadsEn}
+                  updateDownloads={updatedDownloadsEn}
                   page={pageEn}
                   lastPage={lastPageEn}
                   handleBack={() => setPageEn((old) => Math.max(old - 1, 0))}
@@ -153,7 +155,7 @@ export function ArticleDashboardContent() {
               ) : (
                 <div className="my-48 flex items-center justify-center">
                   <h3 className="text-center text-4xl font-bold">
-                    Articles Not found
+                    Downloads Not found
                   </h3>
                 </div>
               )}
@@ -165,22 +167,22 @@ export function ArticleDashboardContent() {
   )
 }
 
-interface TableArticleProps {
-  articles: ArticleDataProps[]
+interface TableDownloadProps {
+  downloads: DownloadDataProps[]
   searchQuery: string
-  updateResultArticles: () => void
-  updateArticles: () => void
+  updateResultDownloads: () => void
+  updateDownloads: () => void
   page: number
   lastPage: number
   handleBack: () => void
   handleNext: () => void
 }
-const TableArticle = (props: TableArticleProps) => {
+const TableDownload = (props: TableDownloadProps) => {
   const {
-    articles,
+    downloads,
     searchQuery,
-    updateResultArticles,
-    updateArticles,
+    updateResultDownloads,
+    updateDownloads,
     page,
     lastPage,
     handleBack,
@@ -201,44 +203,44 @@ const TableArticle = (props: TableArticleProps) => {
           </Tr>
         </Thead>
         <Tbody>
-          {articles.map((article: ArticleDataProps) => (
-            <Tr key={article.id}>
+          {downloads.map((download: DownloadDataProps) => (
+            <Tr key={download.id}>
               <Td className="line-clamp-3 max-w-[120px]">
                 <div>
-                  <span className="font-medium">{article.title}</span>
+                  <span className="font-medium">{download.title}</span>
                 </div>
               </Td>
               {/* <Td className="whitespace-nowrap">
             <div className="flex">
               <span className="font-medium">
-                {article.author.name}
+                {download.author.name}
               </span>
             </div>
           </Td> */}
               <Td className="hidden md:table-cell">
-                {formatDate(article.createdAt, "LL")}
+                {formatDate(download.createdAt, "LL")}
               </Td>
               <Td className="hidden md:table-cell">
-                {formatDate(article.updatedAt, "LL")}
+                {formatDate(download.updatedAt, "LL")}
               </Td>
               <Td className="hidden whitespace-nowrap md:table-cell">
                 <div className="flex">
                   <span className="font-medium">
-                    <Badge variant="outline">{article.status}</Badge>
+                    <Badge variant="outline">{download.status}</Badge>
                   </span>
                 </div>
               </Td>
               <Td align="right">
                 <ActionDashboard
-                  viewLink={`/article/${article.slug}`}
+                  viewLink={`/download/${download.slug}`}
                   onDelete={() =>
-                    handleDeleteArticle(
-                      article.id,
-                      searchQuery ? updateResultArticles : updateArticles,
+                    handleDeleteDownload(
+                      download.id,
+                      searchQuery ? updateResultDownloads : updateDownloads,
                     )
                   }
-                  editLink={`/dashboard/article/edit/${article.id}`}
-                  content={article.title}
+                  editLink={`/dashboard/download/edit/${download.id}`}
+                  content={download.title}
                 />
               </Td>
             </Tr>

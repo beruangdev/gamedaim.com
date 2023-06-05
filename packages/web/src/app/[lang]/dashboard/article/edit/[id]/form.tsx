@@ -2,9 +2,10 @@
 import * as React from "react"
 import NextLink from "next/link"
 import NextImage from "next/image"
+import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 import { useDisclosure } from "@/hooks/use-disclosure"
-import { postArticleWithPrimaryAction } from "@/lib/api/server/article"
+import { getArticleByIdAction } from "@/lib/api/server/article"
 import { Button } from "@/components/UI/Button"
 import {
   FormControl,
@@ -23,7 +24,6 @@ import {
   AddEditorsAction,
   AddTopicsAction,
 } from "@/components/Action"
-import { useCurrentUser } from "@/hooks/use-current-user"
 import {
   Select,
   SelectContent,
@@ -36,18 +36,25 @@ import {
 import { EditorContent, useEditor } from "@tiptap/react"
 import { EditorKitExtension, EditorMenu } from "@/components/Editor"
 import { Icon } from "@/components/UI/Icon"
+import { TopicDataProps } from "@/lib/data-types"
+import { putArticle } from "@/lib/api/server/article"
+import { UserDataProps } from "@/lib/data-types"
 
 interface FormValues {
   title: string
   content: string
   excerpt?: string
+  slug: string
   language: string
   metaTitle?: string
   metaDescription?: string
 }
-export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
-  const { lang } = props
-  const { user } = useCurrentUser()
+export const EditArticleForm = (props: {
+  lang: LanguageTypeData
+  articleId: string
+}) => {
+  const { lang, articleId } = props
+  const router = useRouter()
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [editorContent, setEditorContent] = React.useState<string>("")
@@ -67,6 +74,16 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
   const [selectedEditors, setSelectedEditors] = React.useState<
     { id: string; name: string }[] | []
   >([])
+  const [article, setArticle] = React.useState<FormValues & { id: string }>({
+    id: "",
+    title: "",
+    excerpt: "",
+    content: "",
+    language: "",
+    slug: "",
+    metaTitle: "",
+    metaDescription: "",
+  })
   const { isOpen, onToggle } = useDisclosure()
 
   const editor = useEditor({
@@ -85,20 +102,48 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
     reset,
   } = useForm<FormValues>({ mode: "onBlur" })
 
-  React.useEffect(() => {
-    if (user) {
-      setAuthors((prevAuthors) => [...prevAuthors, user.user.id])
-      setSelectedAuthors((prevSelectedAuthors) => [
-        ...prevSelectedAuthors,
-        { id: user.user.id, name: user.user.name },
-      ])
-      setEditorIds((prevEditorIds) => [...prevEditorIds, user.user.id])
-      setSelectedEditors((prevSelectedEditors) => [
-        ...prevSelectedEditors,
-        { id: user.user.id, name: user.user.name },
-      ])
+  const loadArticle = async () => {
+    const { data } = await getArticleByIdAction(articleId as string)
+    if (data) {
+      setArticle({
+        id: data?.id,
+        title: data?.title,
+        slug: data?.slug,
+        content: data?.content,
+        excerpt: data?.excerpt,
+        metaTitle: data?.metaTitle,
+        metaDescription: data?.metaDescription,
+        language: data?.language,
+      })
+      setSelectedTopics(data?.topics)
+      setSelectedFeaturedImageId(data?.featuredImage.id as string)
+      setSelectedFeaturedImageUrl(data?.featuredImage.url as string)
+      setEditorContent(data?.content as string)
+      setAuthors(data?.authors.map((author: UserDataProps) => author.id))
+      setSelectedAuthors(
+        data?.authors.map((author: UserDataProps) => {
+          return { id: author.id, name: author.name }
+        }),
+      )
+      setEditorIds(data?.editors.map((editor: UserDataProps) => editor.id))
+      setSelectedEditors(
+        data?.editors.map((editor: UserDataProps) => {
+          return { id: editor.id, name: editor.name }
+        }),
+      )
+      setTopics(data?.topics.map((topic: TopicDataProps) => topic.id))
+      editor?.commands.setContent(data?.content as string)
     }
-  }, [user])
+  }
+
+  React.useEffect(() => {
+    reset(article)
+  }, [article, reset])
+
+  React.useEffect(() => {
+    loadArticle()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor])
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
@@ -110,16 +155,13 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
       authorIds: authors,
       editorIds: editorIds,
     }
-    const { data } = await postArticleWithPrimaryAction(mergedValues)
+    const { data } = await putArticle(article.id, mergedValues)
     if (data) {
-      reset()
-      editor?.commands.clearContent()
-      setSelectedTopics([])
-      setSelectedFeaturedImageUrl("")
       toast({
         variant: "success",
         description: "Article successfully created ",
       })
+      router.push("/dashboard/article")
     }
     setLoading(false)
   }
