@@ -33,7 +33,10 @@ export type ArticleSitemapDataProps = Pick<
   ArticleDataProps,
   "slug" | "updatedAt"
 >
-
+export type DownloadSitemapDataProps = Pick<
+  DownloadDataProps,
+  "slug" | "updatedAt"
+>
 export interface TopicPrimaryDataProps {
   id: string
   topics: TopicDataProps[]

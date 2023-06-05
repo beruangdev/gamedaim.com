@@ -38,6 +38,14 @@ export const SidebarDashboard = React.forwardRef<
           Add new article
         </Sidebar.ToggleItem>
       </Sidebar.Toggle>
+      <Sidebar.Toggle icon={<Icon.Article />} title="Articles">
+        <Sidebar.ToggleItem href="/dashboard/download">
+          All Downloads
+        </Sidebar.ToggleItem>
+        <Sidebar.ToggleItem href="/dashboard/download/new">
+          Add new download
+        </Sidebar.ToggleItem>
+      </Sidebar.Toggle>
       {currentUser?.user?.role === "ADMIN" && (
         <Sidebar.Toggle icon={<Icon.Topic />} title="Topics">
           <Sidebar.ToggleItem href="/dashboard/topic">
