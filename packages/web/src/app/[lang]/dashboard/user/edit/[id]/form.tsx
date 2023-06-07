@@ -26,6 +26,7 @@ import {
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { getUserByIdAction, putUserByAdminAction } from "@/lib/api/server/user"
+import { UserDataRole } from "@/lib/data-types"
 
 interface FormValues {
   username: string
@@ -35,10 +36,14 @@ interface FormValues {
   about?: string
   meta_title?: string
   meta_description?: string
-  role: string
+  role: UserDataRole
 }
+
 export const EditUserForm = (props: { id: string }) => {
   const { id } = props
+
+  const router = useRouter()
+
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [selectedProfilePictureId, setSelectedProfilePictureId] =
@@ -52,9 +57,8 @@ export const EditUserForm = (props: { id: string }) => {
     email: "",
     about: "",
     phoneNumber: "",
-    role: "",
+    role: "USER",
   })
-  const router = useRouter()
 
   const loadUser = React.useCallback(async () => {
     const { data } = await getUserByIdAction(id as string)
@@ -249,39 +253,37 @@ export const EditUserForm = (props: { id: string }) => {
           </>
         )}
         <FormControl invalid={Boolean(errors.role)}>
+          <FormLabel>
+            Role
+            <RequiredIndicator />
+          </FormLabel>
           <Controller
             control={control}
             name="role"
             render={({ field }) => (
-              <>
-                <FormLabel>
-                  Role
-                  <RequiredIndicator />
-                </FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  value={field.value}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Role</SelectLabel>
-                      <SelectItem value="ADMIN">ADMIN</SelectItem>
-                      <SelectItem value="AUTHOR">AUTHOR</SelectItem>
-                      <SelectItem value="PRO_USER">PRO USER</SelectItem>
-                      <SelectItem value="USER">USER</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {errors?.role && (
-                  <FormErrorMessage>{errors.role.message}</FormErrorMessage>
-                )}
-              </>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                value={field.value}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Role</SelectLabel>
+                    <SelectItem value="ADMIN">ADMIN</SelectItem>
+                    <SelectItem value="AUTHOR">AUTHOR</SelectItem>
+                    <SelectItem value="PRO_USER">PRO USER</SelectItem>
+                    <SelectItem value="USER">USER</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             )}
           />
+          {errors?.role && (
+            <FormErrorMessage>{errors.role.message}</FormErrorMessage>
+          )}
         </FormControl>
         <FormControl invalid={Boolean(errors.about)}>
           <FormLabel>About</FormLabel>
