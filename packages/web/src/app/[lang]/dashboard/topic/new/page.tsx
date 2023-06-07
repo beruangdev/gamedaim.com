@@ -8,16 +8,12 @@ export const metadata: Metadata = {
   description: "Add New Topic Dashboard",
 }
 
-export default function CreateTopicDashbaord() {
+export default function CreateTopicDashboard() {
   return (
-    <>
-      <>
-        <div className="mb-[100px] mt-4 flex items-end justify-end">
-          <div className="flex-1 space-y-4">
-            <AddNewTopicForm />
-          </div>
-        </div>
-      </>
-    </>
+    <div className="mb-[100px] mt-4 flex items-end justify-end">
+      <div className="flex-1 space-y-4">
+        <AddNewTopicForm />
+      </div>
+    </div>
   )
 }

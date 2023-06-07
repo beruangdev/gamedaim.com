@@ -12,12 +12,10 @@ export default async function CreateDownloadsDashboard({
 }) {
   const { lang, id } = params
   const { data } = await getDownloadByIdAction(id as string)
+
   if (!data) {
     notFound()
   }
-  return (
-    <>
-      <EditDownloadForm lang={lang} downloadId={id} />
-    </>
-  )
+
+  return <EditDownloadForm lang={lang} downloadId={id} />
 }

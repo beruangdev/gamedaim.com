@@ -3,6 +3,9 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
+import { Image } from "@/components/Image"
+import { ModalSelectMedia } from "@/components/Modal"
+import { Button } from "@/components/UI/Button"
 import {
   FormControl,
   FormErrorMessage,
@@ -10,10 +13,6 @@ import {
   Input,
   RequiredIndicator,
 } from "@/components/UI/Form"
-import { Image } from "@/components/Image"
-import { Textarea } from "@/components/UI/Textarea"
-import { toast } from "@/components/UI/Toast"
-import { Button } from "@/components/UI/Button"
 import {
   Select,
   SelectContent,
@@ -23,7 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/Select"
-import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast"
 import { postTopicWithPrimaryAction } from "@/lib/api/server/topic"
 
 interface FormValues {

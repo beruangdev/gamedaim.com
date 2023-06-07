@@ -6,43 +6,43 @@ import NextLink from "next/link"
 
 import { Badge } from "@/components/UI/Badge"
 import { Button, IconButton } from "@/components/UI/Button"
+import { Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
-import { DownloadDataProps } from "@/lib/data-types"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs"
 import {
   useGetDownloads,
   useGetDownloadsCountByLang,
   useSearchDashboardDownloads,
 } from "@/lib/api/client/download"
+import { DownloadDataProps } from "@/lib/data-types"
 import { formatDate } from "@/utils/date"
 import { handleDeleteDownload } from "./actions"
-import { Input } from "@/components/UI/Form"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs"
 
 const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
 )
 export function DownloadDashboardContent() {
-  const { downloadsCount: downloadsCountId } =
-    useGetDownloadsCountByLang("id_ID")
-  const { downloadsCount: downloadsCountEn } =
-    useGetDownloadsCountByLang("en_US")
-  const lastPageId = downloadsCountId && Math.ceil(downloadsCountId / 10)
-  const lastPageEn = downloadsCountEn && Math.ceil(downloadsCountEn / 10)
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [searchQueryEn, setSearchQueryEn] = React.useState<string>("")
   const [searchType, setSearchType] = React.useState("id_ID")
   const [pageId, setPageId] = React.useState<number>(1)
   const [pageEn, setPageEn] = React.useState<number>(1)
-  const [downloadsDataId, setDownloadsDataId] = React.useState<string[]>([])
-  const [downloadsDataEn, setDownloadsDataEn] = React.useState<string[]>([])
+  const [downloadsDataId, setDownloadsDataId] = React.useState<[]>([])
+  const [downloadsDataEn, setDownloadsDataEn] = React.useState<[]>([])
+
+  const { downloadsCount: downloadsCountId } =
+    useGetDownloadsCountByLang("id_ID")
+  const { downloadsCount: downloadsCountEn } =
+    useGetDownloadsCountByLang("en_US")
+  const lastPageId = downloadsCountId && Math.ceil(downloadsCountId / 10)
+  const lastPageEn = downloadsCountEn && Math.ceil(downloadsCountEn / 10)
   const { downloads, updatedDownloads } = useGetDownloads("id_ID", pageId)
   const {
     downloads: resultDownloadsId,
     updatedDownloads: updatedResultDownloadsId,
   } = useSearchDashboardDownloads("id_ID", searchQuery)
-
   const { downloads: downloadsEn, updatedDownloads: updatedDownloadsEn } =
     useGetDownloads("en_US", pageEn)
   const {
@@ -82,6 +82,7 @@ export function DownloadDashboardContent() {
   React.useEffect(() => {
     setIsLoading(false)
   }, [])
+
   return (
     <>
       <div className="mt-4 flex items-end justify-between">
@@ -93,7 +94,6 @@ export function DownloadDashboardContent() {
             </Button>
           </NextLink>
         </div>
-
         <Input.Group className="max-w-[200px]">
           <Input
             value={searchType === "id_ID" ? searchQuery : searchQueryEn}

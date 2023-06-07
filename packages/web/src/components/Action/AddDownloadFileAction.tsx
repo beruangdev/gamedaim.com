@@ -6,17 +6,17 @@ import { useCurrentUser } from "@/hooks/use-current-user"
 
 import { DownloadFileDataProps } from "@/lib/data-types"
 import { postDownloadFileAction } from "@/lib/api/server/download-file"
-import { toast } from "../UI/Toast"
+import { toast } from "@/components/UI/Toast"
 import {
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
   RequiredIndicator,
-} from "../UI/Form"
-import { ModalSelectMedia } from "../Modal/ModalSelectMedia"
-import { Textarea } from "../UI/Textarea"
-import { Button } from "../UI/Button"
+} from "@/components/UI/Form"
+import { ModalSelectMedia } from "@/components/Modal"
+import { Textarea } from "@/components/UI/Textarea"
+import { Button } from "@/components/UI/Button"
 import { AddAuthorsAction } from "./AddAuthorsAction"
 
 interface FormValues {

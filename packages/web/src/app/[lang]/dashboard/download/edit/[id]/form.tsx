@@ -1,42 +1,27 @@
 "use client"
+
 import * as React from "react"
 import NextImage from "next/image"
 import NextLink from "next/link"
 import { Controller, useForm } from "react-hook-form"
+import { EditorContent, useEditor } from "@tiptap/react"
 
-import { useEditor, EditorContent } from "@tiptap/react"
-import { useDisclosure } from "@/hooks/use-disclosure"
-
-import {
-  DownloadSchemaData,
-  DownloadFileDataProps,
-  TopicDataProps,
-  UserDataProps,
-  LanguageTypeData,
-} from "@/lib/data-types"
-import { EditorKitExtension, EditorMenu } from "@/components/Editor"
-import {
-  getDownloadByIdAction,
-  postDownloadWithPrimaryAction,
-} from "@/lib/api/server/download"
-import { toast } from "@/components/UI/Toast"
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
 import {
   ActionDashboard,
   AddAuthorsAction,
   AddDownloadFileAction,
   AddTopicsAction,
 } from "@/components/Action"
+import { EditorKitExtension, EditorMenu } from "@/components/Editor"
+import { ModalSelectMedia } from "@/components/Modal"
+import { Button } from "@/components/UI/Button"
 import {
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
 } from "@/components/UI/Form"
-import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
-import { Textarea } from "@/components/UI/Textarea"
-import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
+import { Icon } from "@/components/UI/Icon"
 import {
   Select,
   SelectContent,
@@ -46,7 +31,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/Select"
+import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast"
+import { useDisclosure } from "@/hooks/use-disclosure"
+import {
+  getDownloadByIdAction,
+  postDownloadWithPrimaryAction,
+} from "@/lib/api/server/download"
+import {
+  DownloadFileDataProps,
+  DownloadSchemaData,
+  LanguageTypeData,
+  TopicDataProps,
+  UserDataProps,
+} from "@/lib/data-types"
 import { DownloadDashboardContainer } from "../../container"
+
 interface FormValues {
   title: string
   content: string
@@ -62,10 +63,13 @@ interface FormValues {
   schemaType: DownloadSchemaData | ""
   type: string
 }
-export const EditDownloadForm = (props: {
+
+interface EditDownloadFormProps {
   downloadId: string
   lang: LanguageTypeData
-}) => {
+}
+
+export const EditDownloadForm = (props: EditDownloadFormProps) => {
   const { downloadId, lang } = props
   const { isOpen, onToggle } = useDisclosure()
 
@@ -107,6 +111,7 @@ export const EditDownloadForm = (props: {
     schemaType: "",
     type: "",
   })
+
   const {
     register,
     formState: { errors },
@@ -645,9 +650,7 @@ export const EditDownloadForm = (props: {
           )}
         </div>
         {showAddFiles && (
-          <div>
-            <AddDownloadFileAction updateDownloadFiles={handleUpdateFile} />
-          </div>
+          <AddDownloadFileAction updateDownloadFiles={handleUpdateFile} />
         )}
       </div>
     </>

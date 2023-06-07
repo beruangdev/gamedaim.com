@@ -7,6 +7,7 @@ export const handleDeleteDownload = async (
   updateDownload: () => void,
 ) => {
   const { data, error } = await deleteDownloadAction(downloadId)
+
   if (data) {
     toast({
       variant: "success",

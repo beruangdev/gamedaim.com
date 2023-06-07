@@ -10,11 +10,15 @@ export const metadata: Metadata = {
   description: "Edit User Dashboard",
 }
 
+interface EditUserDashboardProps {
+  params: {
+    id: string
+  }
+}
+
 export default async function EditUserDashboard({
   params,
-}: {
-  params: { id: string }
-}) {
+}: EditUserDashboardProps) {
   const { id } = params
   const { data } = await getUserByIdAction(id as string)
 
@@ -23,12 +27,10 @@ export default async function EditUserDashboard({
   }
 
   return (
-    <>
-      <div className="mb-[100px] mt-4 flex items-end justify-end">
-        <div className="flex-1 space-y-4">
-          <EditUserForm id={data.id} />
-        </div>
+    <div className="mb-[100px] mt-4 flex items-end justify-end">
+      <div className="flex-1 space-y-4">
+        <EditUserForm id={data.id} />
       </div>
-    </>
+    </div>
   )
 }

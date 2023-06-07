@@ -3,11 +3,15 @@ import * as React from "react"
 import { AddArticleForm } from "./form"
 import { LanguageTypeData } from "@/lib/data-types"
 
+interface CreateArticlesDashboardProps {
+  params: {
+    lang: LanguageTypeData
+  }
+}
+
 export default function CreateArticlesDashboard({
   params,
-}: {
-  params: { lang: LanguageTypeData }
-}) {
+}: CreateArticlesDashboardProps) {
   const { lang } = params
   return (
     <>
