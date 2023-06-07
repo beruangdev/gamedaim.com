@@ -1,13 +1,13 @@
 import * as React from "react"
 import { Metadata } from "next"
 
-import { DashboardContent } from "./content"
+import { ShopDashboardContent } from "./content"
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Dashboard",
 }
 
-export default function DashboardPage() {
-  return <DashboardContent />
+export default function ShopDashboardPage() {
+  return <ShopDashboardContent />
 }
