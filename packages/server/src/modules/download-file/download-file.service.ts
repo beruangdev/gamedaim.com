@@ -6,19 +6,17 @@ import {
 
 type CreateDownloadFileInputService = Omit<
   CreateDownloadFileInput,
-  "downloadIds" | "authorIds"
+  "authorIds"
 > & {
   slug: string
-  downloads: { connect: { id: string }[] }
   authors: { connect: { id: string }[] }
 }
 
 type UpdateDownloadFileInputService = Omit<
   UpdateDownloadFileInput,
-  "downloadIds" | "authorIds"
+  "authorIds"
 > & {
   slug: string
-  downloads: { connect: { id: string }[] }
   authors: { connect: { id: string }[] }
 }
 

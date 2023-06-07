@@ -1,14 +1,7 @@
 import db from "@/utils/db"
 import { CreateAdInput } from "./ad.schema"
+import { AdPosition } from "@prisma/client"
 
-export type AdPosition =
-  | "HOME_BELOW_HEADER"
-  | "ARTICLE_BELOW_HEADER"
-  | "TOPIC_BELOW_HEADER"
-  | "SINGLE_ARTICLE_ABOVE_CONTENT"
-  | "SINGLE_ARTICLE_MIDDLE_CONTENT"
-  | "SINGLE_ARTICLE_BELOW_CONTENT"
-  | "SINGLE_ARTICLE_POP_UP"
 
 export async function createAd(data: CreateAdInput) {
   return await db.ad.create({
@@ -43,6 +36,7 @@ export async function getAds(adPage: number, perPage: number) {
       title: true,
       content: true,
       position: true,
+      type: true,
       active: true,
       createdAt: true,
       updatedAt: true,

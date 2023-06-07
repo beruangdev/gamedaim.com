@@ -30,7 +30,6 @@ export async function createDownloadFileHandler(
       metaTitle,
       metaDescription,
       featuredImageId,
-      downloadIds,
       version,
       downloadLink,
       fileSize,
@@ -38,6 +37,7 @@ export async function createDownloadFileHandler(
       price,
       authorIds,
     } = request.body
+
     const user = request.user
     const downloadFileSlug = slugify(title.toLowerCase() + "_" + uniqueSlug())
 
@@ -61,9 +61,6 @@ export async function createDownloadFileHandler(
       currency: currency,
       price: price,
       featuredImageId: featuredImageId,
-      downloads: {
-        connect: downloadIds.map((id) => ({ id })),
-      },
       authors: {
         connect: authorIds.map((id) => ({ id })),
       },
@@ -89,7 +86,6 @@ export async function updateDownloadFileHandler(
       metaTitle,
       metaDescription,
       featuredImageId,
-      downloadIds,
       authorIds,
       version,
       downloadLink,
@@ -119,9 +115,6 @@ export async function updateDownloadFileHandler(
       currency: currency,
       price: price,
       featuredImageId: featuredImageId,
-      downloads: {
-        connect: downloadIds.map((id) => ({ id })),
-      },
       authors: {
         connect: authorIds.map((id) => ({ id })),
       },
