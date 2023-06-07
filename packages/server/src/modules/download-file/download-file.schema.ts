@@ -52,12 +52,6 @@ const downloadFileInput = {
       invalid_type_error: "Price must be a string",
     })
     .min(1),
-  downloadIds: z
-    .string({
-      invalid_type_error: "Download Id must be a string",
-    })
-    .array()
-    .optional(),
   authorIds: z
     .string({
       required_error: "Author Id is required",

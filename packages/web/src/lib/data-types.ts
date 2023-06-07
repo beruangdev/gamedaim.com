@@ -322,6 +322,7 @@ export type AdPositionData =
   | "SINGLE_DOWNLOAD_INLINE_CONTENT"
   | "SINGLE_DOWNLOAD_BELOW_CONTENT"
   | "SINGLE_DOWNLOAD_POP_UP"
+  | "DOWNLOADING_PAGE"
 
 export type AdTypeData = "PLAIN_AD" | "ADSENSE"
 

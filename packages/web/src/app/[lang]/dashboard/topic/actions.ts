@@ -9,7 +9,7 @@ export const handleDeleteTopic = async (
   if (data) {
     toast({
       variant: "success",
-      description: "Successfully delete topic!",
+      description: "Topic deleted successufully!",
     })
     updateTopic()
   } else if (error) {

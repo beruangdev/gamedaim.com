@@ -422,153 +422,142 @@ export const EditDownloadForm = (props: {
               </div>
               <div className="my-2 flex flex-col px-4">
                 <FormControl invalid={Boolean(errors.schemaType)}>
+                  <FormLabel>Language</FormLabel>
                   <Controller
                     control={control}
                     name="schemaType"
                     render={({ field }) => (
-                      <>
-                        <FormLabel>Language</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a Schema" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Schema</SelectLabel>
-                              <SelectItem value="DownloadApp">
-                                Download
-                              </SelectItem>
-                              <SelectItem value="BusinessApp">
-                                Business
-                              </SelectItem>
-                              <SelectItem value="MultimediaApp">
-                                Multimedia
-                              </SelectItem>
-                              <SelectItem value="MobileApp">Mobile</SelectItem>
-                              <SelectItem value="WebApp">Web</SelectItem>
-                              <SelectItem value="SocialNetworkingApp">
-                                Social
-                              </SelectItem>
-                              <SelectItem value="TravelApp">Travel</SelectItem>
-                              <SelectItem value="ShoppingApp">
-                                Shopping
-                              </SelectItem>
-                              <SelectItem value="SportsApp">Sports</SelectItem>
-                              <SelectItem value="LifeStyleApp">
-                                Lifestyle
-                              </SelectItem>
-                              <SelectItem value="DesignApp">Design</SelectItem>
-                              <SelectItem value="DeveloperApp">
-                                Developer
-                              </SelectItem>
-                              <SelectItem value="DriverApp">Driver</SelectItem>
-                              <SelectItem value="EducationalApp">
-                                Education
-                              </SelectItem>
-                              <SelectItem value="HealthApp">Health</SelectItem>
-                              <SelectItem value="FinanceApp">
-                                Finance
-                              </SelectItem>
-                              <SelectItem value="SecurityApp">
-                                Security
-                              </SelectItem>
-                              <SelectItem value="BrowserApp">
-                                Browser
-                              </SelectItem>
-                              <SelectItem value="CommunicationApp">
-                                Communication
-                              </SelectItem>
-                              <SelectItem value="HomeApp">Home</SelectItem>
-                              <SelectItem value="UtilitiesApp">
-                                Utilities
-                              </SelectItem>
-                              <SelectItem value="RefereceApp">
-                                Referece
-                              </SelectItem>
-                              <SelectItem value="GameApp">Game</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {errors?.schemaType && (
-                          <FormErrorMessage>
-                            {errors.schemaType.message}
-                          </FormErrorMessage>
-                        )}
-                      </>
+                      <Select
+                        defaultValue={field.value}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a Schema" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Schema</SelectLabel>
+                            <SelectItem value="DownloadApp">
+                              Download
+                            </SelectItem>
+                            <SelectItem value="BusinessApp">
+                              Business
+                            </SelectItem>
+                            <SelectItem value="MultimediaApp">
+                              Multimedia
+                            </SelectItem>
+                            <SelectItem value="MobileApp">Mobile</SelectItem>
+                            <SelectItem value="WebApp">Web</SelectItem>
+                            <SelectItem value="SocialNetworkingApp">
+                              Social
+                            </SelectItem>
+                            <SelectItem value="TravelApp">Travel</SelectItem>
+                            <SelectItem value="ShoppingApp">
+                              Shopping
+                            </SelectItem>
+                            <SelectItem value="SportsApp">Sports</SelectItem>
+                            <SelectItem value="LifeStyleApp">
+                              Lifestyle
+                            </SelectItem>
+                            <SelectItem value="DesignApp">Design</SelectItem>
+                            <SelectItem value="DeveloperApp">
+                              Developer
+                            </SelectItem>
+                            <SelectItem value="DriverApp">Driver</SelectItem>
+                            <SelectItem value="EducationalApp">
+                              Education
+                            </SelectItem>
+                            <SelectItem value="HealthApp">Health</SelectItem>
+                            <SelectItem value="FinanceApp">Finance</SelectItem>
+                            <SelectItem value="SecurityApp">
+                              Security
+                            </SelectItem>
+                            <SelectItem value="BrowserApp">Browser</SelectItem>
+                            <SelectItem value="CommunicationApp">
+                              Communication
+                            </SelectItem>
+                            <SelectItem value="HomeApp">Home</SelectItem>
+                            <SelectItem value="UtilitiesApp">
+                              Utilities
+                            </SelectItem>
+                            <SelectItem value="RefereceApp">
+                              Referece
+                            </SelectItem>
+                            <SelectItem value="GameApp">Game</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     )}
                   />
+                  {errors?.schemaType && (
+                    <FormErrorMessage>
+                      {errors.schemaType.message}
+                    </FormErrorMessage>
+                  )}
                 </FormControl>
               </div>
               <div className="my-2 flex flex-col px-4">
-                <Controller
-                  control={control}
-                  render={({ field }) => (
-                    <>
-                      <FormLabel>Type</FormLabel>
-                      <FormControl invalid={Boolean(errors.type)}>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a Type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Type</SelectLabel>
-                              <SelectItem value="App">Application</SelectItem>
-                              <SelectItem value="Game">Game</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {errors?.type && (
-                          <FormErrorMessage>
-                            {errors.type.message}
-                          </FormErrorMessage>
-                        )}
-                      </FormControl>
-                    </>
+                <FormControl invalid={Boolean(errors.type)}>
+                  <FormLabel>Type</FormLabel>
+                  <Controller
+                    control={control}
+                    name="type"
+                    render={({ field }) => (
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Type</SelectLabel>
+                            <SelectItem value="App">Application</SelectItem>
+                            <SelectItem value="Game">Game</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors?.type && (
+                    <FormErrorMessage>{errors.type.message}</FormErrorMessage>
                   )}
-                  name="type"
-                />
+                </FormControl>
               </div>
               <div className="my-2 flex flex-col px-4">
                 <FormControl invalid={Boolean(errors.language)}>
+                  <FormLabel>Language</FormLabel>
                   <Controller
-                    control={control}
                     name="language"
+                    control={control}
                     render={({ field }) => (
-                      <>
-                        <FormLabel>Language</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a language" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Language</SelectLabel>
-                              <SelectItem value="id_ID">Indonesia</SelectItem>
-                              <SelectItem value="en_US">English</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {errors?.language && (
-                          <FormErrorMessage>
-                            {errors.language.message}
-                          </FormErrorMessage>
-                        )}
-                      </>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a language" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Language</SelectLabel>
+                            <SelectItem value="id_ID">Indonesia</SelectItem>
+                            <SelectItem value="en_US">English</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     )}
                   />
+
+                  {errors?.language && (
+                    <FormErrorMessage>
+                      {errors.language.message}
+                    </FormErrorMessage>
+                  )}
                 </FormControl>
               </div>
             </div>
