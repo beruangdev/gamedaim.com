@@ -2,26 +2,10 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react"
-import {
-  MdCode,
-  MdFormatBold,
-  MdFormatItalic,
-  MdFormatListBulleted,
-  MdFormatListNumbered,
-  MdFormatQuote,
-  MdFormatStrikethrough,
-  MdFormatUnderlined,
-  MdHorizontalRule,
-  MdImage,
-  MdLink,
-  MdClose,
-  MdAdd,
-} from "react-icons/md"
-import { SiYoutube } from "react-icons/si"
-import { Button } from "@/components/UI/Button"
-import { IconButton } from "@/components/UI/Button"
-
 import { BubbleMenu, FloatingMenu } from "@tiptap/react"
+
+import { Button, IconButton } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 
 export function EditorMenu(props: any) {
   const { editor } = props
@@ -79,7 +63,7 @@ export function EditorMenu(props: any) {
             }}
             variant={editor.isActive("bold") ? "outline" : "ghost"}
           >
-            <MdFormatBold />
+            <Icon.FormatBold />
           </IconButton>
           <IconButton
             onClick={(e) => {
@@ -88,7 +72,7 @@ export function EditorMenu(props: any) {
             }}
             variant={editor.isActive("italic") ? "outline" : "ghost"}
           >
-            <MdFormatItalic />
+            <Icon.FormatItalic />
           </IconButton>
           <IconButton
             onClick={(e) => {
@@ -97,7 +81,7 @@ export function EditorMenu(props: any) {
             }}
             variant={editor.isActive("underline") ? "outline" : "ghost"}
           >
-            <MdFormatUnderlined />
+            <Icon.FormatUnderlined />
           </IconButton>
           <IconButton
             onClick={(e) => {
@@ -106,13 +90,13 @@ export function EditorMenu(props: any) {
             }}
             variant={editor.isActive("strike") ? "outline" : "ghost"}
           >
-            <MdFormatStrikethrough />
+            <Icon.FormatStrikethrough />
           </IconButton>
           <IconButton
             onClick={addLink}
             variant={editor.isActive("link") ? "outline" : "ghost"}
           >
-            <MdLink />
+            <Icon.Link />
           </IconButton>
           <IconButton
             onClick={(e) => {
@@ -121,7 +105,7 @@ export function EditorMenu(props: any) {
             }}
             variant={editor.isActive("codeBlock") ? "outline" : "ghost"}
           >
-            <MdCode />
+            <Icon.Code />
           </IconButton>
         </BubbleMenu>
       )}
@@ -140,15 +124,14 @@ export function EditorMenu(props: any) {
                     setShowMenu((prevCheck) => !prevCheck)
                   }}
                   variant="ghost"
-                  className="!rounded-full !px-0 shadow-sm"
+                  className="rounded-full p-3 shadow-sm"
                 >
-                  {showMenu === true ? <MdClose /> : <MdAdd />}
+                  {showMenu === true ? <Icon.Close /> : <Icon.Add />}
                 </IconButton>
               </div>
               <div
-                className={`${
-                  showMenu == true ? "flex" : "hidden"
-                } bg-background border-border w-full flex-col items-start justify-start space-x-2 space-y-2 rounded-lg px-3 py-3 shadow-sm transition-all`}
+                className={`${showMenu == true ? "flex" : "hidden"
+                  } bg-background border-border w-full flex-col items-start justify-start space-x-2 space-y-2 rounded-lg px-3 py-3 shadow-sm transition-all`}
               >
                 <Button
                   className="ml-2 mt-2"
@@ -223,7 +206,7 @@ export function EditorMenu(props: any) {
                   }}
                   variant={editor.isActive("bulletList") ? "outline" : "ghost"}
                 >
-                  <MdFormatListBulleted />
+                  <Icon.FormatListBulleted className="mr-2" />
                   List Bullet
                 </Button>
                 <Button
@@ -233,7 +216,7 @@ export function EditorMenu(props: any) {
                   }}
                   variant={editor.isActive("orderedList") ? "outline" : "ghost"}
                 >
-                  <MdFormatListNumbered />
+                  <Icon.FormatListNumbered className="mr-2" />
                   List Number
                 </Button>
                 <Button
@@ -243,7 +226,7 @@ export function EditorMenu(props: any) {
                   }}
                   variant={editor.isActive("blockquote") ? "outline" : "ghost"}
                 >
-                  <MdFormatQuote />
+                  <Icon.FormatQuote className="mr-2" />
                   Quote
                 </Button>
                 <Button
@@ -255,11 +238,11 @@ export function EditorMenu(props: any) {
                     editor.isActive("horizontalRule") ? "outline" : "ghost"
                   }
                 >
-                  <MdHorizontalRule />
+                  <Icon.HorizontalRule className="mr-2" />
                   Horizontal Rule
                 </Button>
                 <Button onClick={addImage} variant="ghost">
-                  <MdImage />
+                  <Icon.Image className="mr-2" />
                   Image
                 </Button>
                 <Button
@@ -269,14 +252,14 @@ export function EditorMenu(props: any) {
                   }}
                   variant={editor.isActive("codeBlock") ? "outline" : "ghost"}
                 >
-                  <MdCode />
+                  <Icon.Code className="mr-2" />
                   Code
                 </Button>
                 <Button
                   onClick={addYoutubeVideo}
                   variant={editor.isActive("youtube") ? "outline" : "ghost"}
                 >
-                  <SiYoutube />
+                  <Icon.Youtube className="mr-2" />
                   Youtube
                 </Button>
               </div>

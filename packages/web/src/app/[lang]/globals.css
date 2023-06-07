@@ -180,16 +180,6 @@
     animation-duration: 400ms;
   }
 
-  /* Editor */
-  .ProseMirror {
-    @apply text-foreground min-h-screen min-w-0 items-center space-y-2 px-3 py-2 text-base outline-none;
-  }
-
-  .ProseMirror p.is-editor-empty:first-child::before {
-    @apply text-foreground/80 pointer-events-none float-left h-0;
-    content: attr(data-placeholder);
-  }
-
   .article-container {
     @apply space-y-2;
   }
@@ -214,8 +204,7 @@
     @apply border-border bg-background my-4 rounded-sm border-l-4 p-4 italic;
   }
 
-  .article-container img,
-  .ProseMirror img {
+  .article-container img {
     @apply rounded-md;
   }
 
@@ -232,60 +221,74 @@
   iframe {
     @apply aspect-video h-auto w-full rounded-lg shadow-lg;
   }
+}
 
-  .hljs-comment,
-  .hljs-quote {
-    color: #616161;
-  }
+/* Editor */
+.ProseMirror {
+  @apply text-foreground min-h-screen min-w-0 items-center space-y-2 px-3 py-2 text-base outline-none focus:outline-none;
+}
 
-  .hljs-variable,
-  .hljs-template-variable,
-  .hljs-attribute,
-  .hljs-tag,
-  .hljs-name,
-  .hljs-regexp,
-  .hljs-link,
-  .hljs-name,
-  .hljs-selector-id,
-  .hljs-selector-class {
-    color: #f98181;
-  }
+.ProseMirror p.is-editor-empty:first-child::before {
+  @apply text-foreground/80 pointer-events-none float-left h-0;
+  content: attr(data-placeholder);
+}
 
-  .hljs-number,
-  .hljs-meta,
-  .hljs-built_in,
-  .hljs-builtin-name,
-  .hljs-literal,
-  .hljs-type,
-  .hljs-params {
-    color: #fbbc88;
-  }
+.ProseMirror img {
+  @apply rounded-md;
+}
 
-  .hljs-string,
-  .hljs-symbol,
-  .hljs-bullet {
-    color: #b9f18d;
-  }
+.hljs-comment,
+.hljs-quote {
+  color: #616161;
+}
 
-  .hljs-title,
-  .hljs-section {
-    color: #faf594;
-  }
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #f98181;
+}
 
-  .hljs-keyword,
-  .hljs-selector-tag {
-    color: #70cff8;
-  }
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #fbbc88;
+}
 
-  .hljs-emphasis {
-    font-style: italic;
-  }
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #b9f18d;
+}
 
-  .hljs-strong {
-    font-weight: 700;
-  }
+.hljs-title,
+.hljs-section {
+  color: #faf594;
+}
 
-  .tippybox {
-    @apply !max-w-5xl;
-  }
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #70cff8;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700;
+}
+
+.tippybox {
+  @apply !max-w-5xl;
 }
