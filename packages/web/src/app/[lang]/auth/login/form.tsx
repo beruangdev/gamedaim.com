@@ -21,7 +21,7 @@ import { axiosInstance } from "@/lib/http"
 
 export const LoginForm: React.FunctionComponent = () => {
   const router = useRouter()
-  const [showPassword, setShowPassword] = React.useState(false)
+  const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const handleToggleShowPassword = () => setShowPassword(!showPassword)
   const [loading, setLoading] = React.useState<boolean>(false)
 

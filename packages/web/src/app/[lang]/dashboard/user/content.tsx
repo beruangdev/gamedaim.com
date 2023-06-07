@@ -18,10 +18,11 @@ const ActionDashboard = dynamic(() =>
 )
 
 export function UserDashboardContent() {
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
+  const [page, setPage] = React.useState<number>(1)
+
   const { usersCount } = useGetUsersCount()
   const lastPage = usersCount && Math.ceil(usersCount / 10)
-  const [isLoading, setIsLoading] = React.useState(true)
-  const [page, setPage] = React.useState<number>(1)
   const { users, updatedUsers } = useGetUsers(page)
 
   React.useEffect(() => {
@@ -29,6 +30,7 @@ export function UserDashboardContent() {
       setPage((old) => Math.max(old - 1, 0))
     }
   }, [lastPage, page])
+
   React.useEffect(() => {
     setIsLoading(false)
   }, [])
