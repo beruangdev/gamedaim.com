@@ -27,7 +27,7 @@ async function downloadRoutes(server: FastifyInstance) {
     {
       preHandler: [server.authenticate],
       schema: {
-        body: $ref("createDownloadSchema"),
+        body: $ref("createDownloadPrimarySchema"),
         response: {
           201: $ref("downloadResponseSchema"),
         },

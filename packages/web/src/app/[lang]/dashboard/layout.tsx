@@ -8,9 +8,5 @@ interface DashboardLayoutProps {
 export default function DashboardLayout(props: DashboardLayoutProps) {
   const { children } = props
 
-  return (
-    <>
-      <DashboardContainer>{children}</DashboardContainer>
-    </>
-  )
+  return <DashboardContainer>{children}</DashboardContainer>
 }

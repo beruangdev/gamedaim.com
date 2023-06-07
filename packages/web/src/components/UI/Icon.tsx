@@ -1,11 +1,4 @@
 import {
-  LuChevronDown,
-  LuCircle,
-  LuLoader2,
-  LuTrash,
-  LuTwitter,
-} from "react-icons/lu"
-import {
   BiCheckSquare,
   BiListOl,
   BiMovie,
@@ -14,8 +7,6 @@ import {
   BiTrophy,
   BiTv,
 } from "react-icons/bi"
-import { ImBook } from "react-icons/im"
-import { IoGameController } from "react-icons/io5"
 import {
   FaAndroid,
   FaApple,
@@ -35,17 +26,17 @@ import {
   FaXbox,
   FaYoutube,
 } from "react-icons/fa"
+import { ImBook } from "react-icons/im"
+import { IoGameController } from "react-icons/io5"
+import {
+  LuChevronDown,
+  LuCircle,
+  LuLoader2,
+  LuTrash,
+  LuTwitter,
+} from "react-icons/lu"
 import {
   MdAccessTime,
-  MdFormatBold,
-  MdFormatItalic,
-  MdFormatListBulleted,
-  MdFormatListNumbered,
-  MdFormatQuote,
-  MdFormatStrikethrough,
-  MdFormatUnderlined,
-  MdHorizontalRule,
-  MdOutlineLink,
   MdAccountCircle,
   MdAddShoppingCart,
   MdAnalytics,
@@ -63,7 +54,15 @@ import {
   MdDiscount,
   MdDownload,
   MdFolder,
+  MdFormatBold,
+  MdFormatItalic,
+  MdFormatListBulleted,
+  MdFormatListNumbered,
+  MdFormatQuote,
+  MdFormatStrikethrough,
+  MdFormatUnderlined,
   MdHelpOutline,
+  MdHorizontalRule,
   MdImage,
   MdLightMode,
   MdLocationOn,
@@ -74,6 +73,7 @@ import {
   MdOutlineArrowBack,
   MdOutlineArrowForward,
   MdOutlineArticle,
+  MdOutlineBalance,
   MdOutlineBrokenImage,
   MdOutlineCheck,
   MdOutlineComment,
@@ -83,6 +83,7 @@ import {
   MdOutlineEditNote,
   MdOutlineHome,
   MdOutlineKeyboardArrowDown,
+  MdOutlineLink,
   MdOutlineMenu,
   MdOutlineMoreVert,
   MdOutlinePermMedia,
@@ -113,9 +114,9 @@ export const Icon = {
   ArrowBack: MdOutlineArrowBack,
   ArrowForward: MdOutlineArrowForward,
   Article: MdOutlineArticle,
+  Balance: MdOutlineBalance,
   Book: ImBook,
   BrokenImage: MdOutlineBrokenImage,
-  Cart: MdAddShoppingCart,
   Category: MdCategory,
   Check: MdOutlineCheck,
   CheckSquare: BiCheckSquare,
@@ -176,6 +177,7 @@ export const Icon = {
   Settings: MdOutlineSettings,
   Search: MdOutlineSearch,
   Shop: MdStore,
+  ShoppingCart: MdAddShoppingCart,
   Spinner: LuLoader2,
   Star: BiStar,
   Sun: MdLightMode,

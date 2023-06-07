@@ -8,7 +8,7 @@ import { Icon } from "@/components/UI/Icon"
 import { useLogout } from "@/hooks/use-logout"
 import { useCurrentUser } from "@/hooks/use-current-user"
 
-export interface SidebarDashboardProps {}
+export interface SidebarDashboardProps { }
 
 export const SidebarDashboard = React.forwardRef<
   HTMLDivElement,
@@ -16,9 +16,11 @@ export const SidebarDashboard = React.forwardRef<
 >((props, ref) => {
   const { ...rest } = props
 
+  const router = useRouter()
+
   const { user: currentUser } = useCurrentUser()
   const { logout } = useLogout()
-  const router = useRouter()
+
   return (
     <Sidebar ref={ref} {...rest}>
       <NextLink
@@ -88,6 +90,9 @@ export const SidebarDashboard = React.forwardRef<
           </Sidebar.Item>
         </>
       )}
+      <Sidebar.Item icon={<Icon.Shop />} href="/dashboard/shop">
+        Shop
+      </Sidebar.Item>
       <div className="py-5">
         <Sidebar.Item icon={<Icon.Person />} href="/setting/user/profile">
           Profile
