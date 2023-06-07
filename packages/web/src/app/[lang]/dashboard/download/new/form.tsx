@@ -47,8 +47,8 @@ interface FormValues {
   title: string
   content: string
   excerpt?: string
-  meta_title?: string
-  meta_description?: string
+  metaTitle?: string
+  metaDescription?: string
   developer: string
   operationSystem: string
   license: string
@@ -284,28 +284,28 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
               </div>
               <div className="my-2 flex flex-col px-4">
                 <FormLabel>Meta Title</FormLabel>
-                <FormControl invalid={Boolean(errors.meta_title)}>
+                <FormControl invalid={Boolean(errors.metaTitle)}>
                   <Input
-                    {...register("meta_title")}
+                    {...register("metaTitle")}
                     placeholder="Enter Meta Title (Optional)"
                   />
-                  {errors?.meta_title && (
+                  {errors?.metaTitle && (
                     <FormErrorMessage>
-                      {errors.meta_title.message}
+                      {errors.metaTitle.message}
                     </FormErrorMessage>
                   )}
                 </FormControl>
               </div>
               <div className="my-2 flex flex-col px-4">
                 <FormLabel>Meta Description</FormLabel>
-                <FormControl invalid={Boolean(errors.meta_description)}>
+                <FormControl invalid={Boolean(errors.metaDescription)}>
                   <Textarea
-                    {...register("meta_description")}
+                    {...register("metaDescription")}
                     placeholder="Enter Meta Description (Optional)"
                   />
-                  {errors?.meta_description && (
+                  {errors?.metaDescription && (
                     <FormErrorMessage>
-                      {errors.meta_description.message}
+                      {errors.metaDescription.message}
                     </FormErrorMessage>
                   )}
                 </FormControl>

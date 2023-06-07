@@ -70,9 +70,9 @@ export const AddDownloadFileAction = React.forwardRef<
     setLoading(true)
     const mergedValues = {
       ...values,
-      downloadIds: [""],
       featuredImageId: selectedFeaturedImageId,
       authorIds: authors,
+      downloadIds: [],
     }
 
     const { data, error } = await postDownloadFileAction(mergedValues)

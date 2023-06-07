@@ -131,7 +131,7 @@ export const EditDownloadForm = (props: {
         operatingSystem: data.operatingSystem,
         license: data.license,
         officialWeb: data.officialWeb,
-        schemaType: data.schemaType as unknown as DownloadSchemaData,
+        schemaType: data.schemaType,
         type: data.type,
       })
       setSelectedDownloadFile(data.downloadFiles)

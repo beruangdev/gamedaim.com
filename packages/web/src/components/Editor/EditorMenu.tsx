@@ -130,8 +130,9 @@ export function EditorMenu(props: any) {
                 </IconButton>
               </div>
               <div
-                className={`${showMenu == true ? "flex" : "hidden"
-                  } bg-background border-border w-full flex-col items-start justify-start space-x-2 space-y-2 rounded-lg px-3 py-3 shadow-sm transition-all`}
+                className={`${
+                  showMenu == true ? "flex" : "hidden"
+                } bg-background border-border w-full flex-col items-start justify-start space-x-2 space-y-2 rounded-lg px-3 py-3 shadow-sm transition-all`}
               >
                 <Button
                   className="ml-2 mt-2"
