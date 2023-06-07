@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 import { Image } from "@/components/Image"
 import { ModalSelectMedia } from "@/components/Modal"
@@ -26,6 +26,7 @@ import {
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { getTopicByIdAction, putTopicAction } from "@/lib/api/server/topic"
+import { LanguageTypeData, TopicTypeData } from "@/lib/data-types"
 
 interface FormValues {
   title: string
@@ -33,6 +34,8 @@ interface FormValues {
   description?: string
   metaTitle?: string
   metaDescription?: string
+  language: LanguageTypeData
+  type: TopicTypeData
 }
 
 export const EditTopicForm = (props: { id: string }) => {
@@ -49,9 +52,10 @@ export const EditTopicForm = (props: { id: string }) => {
     slug: "",
     metaTitle: "",
     metaDescription: "",
+    language: "id_ID",
+    type: "ALL",
   })
-  const [languageValue, setLanguageValue] = React.useState<string>("")
-  const [typeValue, setTypeValue] = React.useState<string>("")
+
   const router = useRouter()
 
   const loadTopic = React.useCallback(async () => {
@@ -64,9 +68,9 @@ export const EditTopicForm = (props: { id: string }) => {
         description: data.description,
         metaTitle: data.metaTitle,
         metaDescription: data.metaDescription,
+        language: data.language,
+        type: data.type,
       })
-      setLanguageValue(data.language)
-      setTypeValue(data.type)
       setSelectFeaturedImageId(data.featuredImage?.id as string)
       setSelectedFeaturedImageUrl(data.featuredImage?.url as string)
     } else {
@@ -87,6 +91,7 @@ export const EditTopicForm = (props: { id: string }) => {
     register,
     formState: { errors },
     reset,
+    control,
     handleSubmit,
   } = useForm<FormValues>()
 
@@ -103,7 +108,6 @@ export const EditTopicForm = (props: { id: string }) => {
     const mergedValues = {
       ...values,
       featuredImageId: selectFeaturedImageId,
-      type: typeValue,
     }
     const { data, error } = await putTopicAction(
       topic.id,
@@ -158,44 +162,64 @@ export const EditTopicForm = (props: { id: string }) => {
           Language
           <RequiredIndicator />
         </FormLabel>
-        <Select
-          value={languageValue}
-          onValueChange={(value) => setLanguageValue(value)}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a language" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Language</SelectLabel>
-              <SelectItem value="id_ID">Indonesia</SelectItem>
-              <SelectItem value="en_US">English</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <Controller
+          control={control}
+          name="language"
+          render={({ field }) => (
+            <Select
+              defaultValue={field.value}
+              value={field.value}
+              onValueChange={field.onChange}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Language</SelectLabel>
+                  <SelectItem value="id_ID">Indonesia</SelectItem>
+                  <SelectItem value="en_US">English</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          )}
+        />
+        {errors?.language && (
+          <FormErrorMessage>{errors.language.message}</FormErrorMessage>
+        )}
       </FormControl>
       <FormControl>
         <FormLabel>
           Type
           <RequiredIndicator />
         </FormLabel>
-        <Select
-          value={typeValue}
-          onValueChange={(value) => setTypeValue(value)}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Type</SelectLabel>
-              <SelectItem value="ALL">ALL</SelectItem>
-              <SelectItem value="ARTICLE">ARTICLE</SelectItem>
-              <SelectItem value="REVIEW">REVIEW</SelectItem>
-              <SelectItem value="TUTORIAL">TUTORIAL</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <Controller
+          control={control}
+          name="type"
+          render={({ field }) => (
+            <Select
+              defaultValue={field.value}
+              value={field.value}
+              onValueChange={field.onChange}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Type</SelectLabel>
+                  <SelectItem value="ALL">ALL</SelectItem>
+                  <SelectItem value="ARTICLE">ARTICLE</SelectItem>
+                  <SelectItem value="REVIEW">REVIEW</SelectItem>
+                  <SelectItem value="TUTORIAL">TUTORIAL</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          )}
+        />
+        {errors?.type && (
+          <FormErrorMessage>{errors.type.message}</FormErrorMessage>
+        )}
       </FormControl>
       <FormControl invalid={Boolean(errors.description)}>
         <FormLabel>Description</FormLabel>

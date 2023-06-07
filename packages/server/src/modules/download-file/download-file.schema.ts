@@ -87,7 +87,6 @@ const updateDownloadFileSchema = z.object({
 })
 
 const downloadFileResponseSchema = z.object({
-  ...downloadFileInput,
   ...downloadFileGenerated,
 })
 
