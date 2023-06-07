@@ -7,10 +7,10 @@ import NextLink from "next/link"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
+import { useGetAds, useGetAdsCount } from "@/lib/api/client/ad"
 import { AdDataProps } from "@/lib/data-types"
 import { formatDate } from "@/utils/date"
 import { handleDeleteAd } from "./actions"
-import { useGetAds, useGetAdsCount } from "@/lib/api/client/ad"
 
 const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
@@ -80,7 +80,9 @@ export function AdDashboardContent() {
                       </Td>
                       <Td className="whitespace-nowrap">
                         <div className="flex">
-                          <span className="font-medium">{JSON.stringify(ad.active)}</span>
+                          <span className="font-medium">
+                            {JSON.stringify(ad.active)}
+                          </span>
                         </div>
                       </Td>
                       <Td className="hidden whitespace-nowrap md:table-cell">
@@ -139,9 +141,7 @@ export function AdDashboardContent() {
             </>
           ) : (
             <div className="my-48 flex items-center justify-center">
-              <h3 className="text-center text-4xl font-bold">
-                Ads Not found
-              </h3>
+              <h3 className="text-center text-4xl font-bold">Ads Not found</h3>
             </div>
           ))}
       </div>

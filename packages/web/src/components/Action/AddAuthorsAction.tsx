@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form"
 import { toast } from "@/components/UI/Toast"
 import { Button } from "@/components/UI/Button"
 import { FormErrorMessage, Input } from "@/components/UI/Form"
-import { ScrollArea } from "@/components/UI/ScrollArea"
 import { Icon } from "@/components/UI/Icon"
 
 import { UserDataProps } from "@/lib/data-types"
@@ -161,13 +160,14 @@ export function AddAuthorsAction(props: AddAuthorsProps) {
   return (
     <div>
       <h3 className="text-base">Authors</h3>
-      {selectedAuthors.length > 0 && (
-        <ScrollArea className="mb-2 mt-2 max-h-72 rounded-md border">
-          <div>
-            {selectedAuthors.map((author) => {
+
+      <div className="border-muted/30 bg-muted/10 rounded-md border">
+        <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
+          {selectedAuthors.length > 0 &&
+            selectedAuthors.map((author) => {
               return (
                 <div
-                  className="bg-muted/80 text-foreground flex items-center gap-2 px-2 py-1 text-[14px]"
+                  className="bg-muted/20 text-foreground flex items-center gap-2 px-2 py-1 text-[14px]"
                   key={author.id}
                 >
                   <span>{author.name}</span>
@@ -182,11 +182,6 @@ export function AddAuthorsAction(props: AddAuthorsProps) {
                 </div>
               )
             })}
-          </div>
-        </ScrollArea>
-      )}
-      <div className="border-muted/30 bg-muted/10 rounded-md border">
-        <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
           <Input
             type="text"
             {...register("name", {

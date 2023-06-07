@@ -1,38 +1,27 @@
 "use client"
+
 import * as React from "react"
 import NextImage from "next/image"
 import NextLink from "next/link"
 import { Controller, useForm } from "react-hook-form"
+import { EditorContent, useEditor } from "@tiptap/react"
 
-import { useEditor, EditorContent } from "@tiptap/react"
-import { useDisclosure } from "@/hooks/use-disclosure"
-import { useCurrentUser } from "@/hooks/use-current-user"
-
-import {
-  DownloadSchemaData,
-  DownloadFileDataProps,
-  LanguageTypeData,
-} from "@/lib/data-types"
-import { EditorKitExtension, EditorMenu } from "@/components/Editor"
-import { postDownloadWithPrimaryAction } from "@/lib/api/server/download"
-import { toast } from "@/components/UI/Toast"
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
 import {
   ActionDashboard,
   AddAuthorsAction,
   AddDownloadFileAction,
   AddTopicsAction,
 } from "@/components/Action"
+import { EditorKitExtension, EditorMenu } from "@/components/Editor"
+import { ModalSelectMedia } from "@/components/Modal"
+import { Button } from "@/components/UI/Button"
 import {
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
 } from "@/components/UI/Form"
-import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
-import { Textarea } from "@/components/UI/Textarea"
-import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
+import { Icon } from "@/components/UI/Icon"
 import {
   Select,
   SelectContent,
@@ -42,7 +31,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/Select"
+import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast"
+import { useCurrentUser } from "@/hooks/use-current-user"
+import { useDisclosure } from "@/hooks/use-disclosure"
+import { postDownloadWithPrimaryAction } from "@/lib/api/server/download"
+import {
+  DownloadFileDataProps,
+  DownloadSchemaData,
+  LanguageTypeData,
+} from "@/lib/data-types"
 import { DownloadDashboardContainer } from "../container"
+
 interface FormValues {
   title: string
   content: string
@@ -57,6 +58,7 @@ interface FormValues {
   schemaType: DownloadSchemaData
   type: string
 }
+
 export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
   const { lang } = props
   const { isOpen, onToggle } = useDisclosure()
@@ -92,6 +94,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
       setEditorContent(editor.getHTML())
     },
   })
+
   React.useEffect(() => {
     if (user) {
       setAuthors((prevAuthors) => [...prevAuthors, user.user.id])
@@ -173,6 +176,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
     setSelectedFeaturedImageUrl(data.url)
     setOpenModal(false)
   }
+
   return (
     <>
       <form
@@ -365,153 +369,141 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
               </div>
               <div className="my-2 flex flex-col px-4">
                 <FormControl invalid={Boolean(errors.schemaType)}>
+                  <FormLabel>Language</FormLabel>
                   <Controller
                     control={control}
                     name="schemaType"
                     render={({ field }) => (
-                      <>
-                        <FormLabel>Language</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a Schema" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Schema</SelectLabel>
-                              <SelectItem value="DownloadApp">
-                                Download
-                              </SelectItem>
-                              <SelectItem value="BusinessApp">
-                                Business
-                              </SelectItem>
-                              <SelectItem value="MultimediaApp">
-                                Multimedia
-                              </SelectItem>
-                              <SelectItem value="MobileApp">Mobile</SelectItem>
-                              <SelectItem value="WebApp">Web</SelectItem>
-                              <SelectItem value="SocialNetworkingApp">
-                                Social
-                              </SelectItem>
-                              <SelectItem value="TravelApp">Travel</SelectItem>
-                              <SelectItem value="ShoppingApp">
-                                Shopping
-                              </SelectItem>
-                              <SelectItem value="SportsApp">Sports</SelectItem>
-                              <SelectItem value="LifeStyleApp">
-                                Lifestyle
-                              </SelectItem>
-                              <SelectItem value="DesignApp">Design</SelectItem>
-                              <SelectItem value="DeveloperApp">
-                                Developer
-                              </SelectItem>
-                              <SelectItem value="DriverApp">Driver</SelectItem>
-                              <SelectItem value="EducationalApp">
-                                Education
-                              </SelectItem>
-                              <SelectItem value="HealthApp">Health</SelectItem>
-                              <SelectItem value="FinanceApp">
-                                Finance
-                              </SelectItem>
-                              <SelectItem value="SecurityApp">
-                                Security
-                              </SelectItem>
-                              <SelectItem value="BrowserApp">
-                                Browser
-                              </SelectItem>
-                              <SelectItem value="CommunicationApp">
-                                Communication
-                              </SelectItem>
-                              <SelectItem value="HomeApp">Home</SelectItem>
-                              <SelectItem value="UtilitiesApp">
-                                Utilities
-                              </SelectItem>
-                              <SelectItem value="RefereceApp">
-                                Referece
-                              </SelectItem>
-                              <SelectItem value="GameApp">Game</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {errors?.schemaType && (
-                          <FormErrorMessage>
-                            {errors.schemaType.message}
-                          </FormErrorMessage>
-                        )}
-                      </>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a Schema" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Schema</SelectLabel>
+                            <SelectItem value="DownloadApp">
+                              Download
+                            </SelectItem>
+                            <SelectItem value="BusinessApp">
+                              Business
+                            </SelectItem>
+                            <SelectItem value="MultimediaApp">
+                              Multimedia
+                            </SelectItem>
+                            <SelectItem value="MobileApp">Mobile</SelectItem>
+                            <SelectItem value="WebApp">Web</SelectItem>
+                            <SelectItem value="SocialNetworkingApp">
+                              Social
+                            </SelectItem>
+                            <SelectItem value="TravelApp">Travel</SelectItem>
+                            <SelectItem value="ShoppingApp">
+                              Shopping
+                            </SelectItem>
+                            <SelectItem value="SportsApp">Sports</SelectItem>
+                            <SelectItem value="LifeStyleApp">
+                              Lifestyle
+                            </SelectItem>
+                            <SelectItem value="DesignApp">Design</SelectItem>
+                            <SelectItem value="DeveloperApp">
+                              Developer
+                            </SelectItem>
+                            <SelectItem value="DriverApp">Driver</SelectItem>
+                            <SelectItem value="EducationalApp">
+                              Education
+                            </SelectItem>
+                            <SelectItem value="HealthApp">Health</SelectItem>
+                            <SelectItem value="FinanceApp">Finance</SelectItem>
+                            <SelectItem value="SecurityApp">
+                              Security
+                            </SelectItem>
+                            <SelectItem value="BrowserApp">Browser</SelectItem>
+                            <SelectItem value="CommunicationApp">
+                              Communication
+                            </SelectItem>
+                            <SelectItem value="HomeApp">Home</SelectItem>
+                            <SelectItem value="UtilitiesApp">
+                              Utilities
+                            </SelectItem>
+                            <SelectItem value="RefereceApp">
+                              Referece
+                            </SelectItem>
+                            <SelectItem value="GameApp">Game</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     )}
                   />
+                  {errors?.schemaType && (
+                    <FormErrorMessage>
+                      {errors.schemaType.message}
+                    </FormErrorMessage>
+                  )}
                 </FormControl>
               </div>
               <div className="my-2 flex flex-col px-4">
-                <Controller
-                  control={control}
-                  render={({ field }) => (
-                    <>
-                      <FormLabel>Type</FormLabel>
-                      <FormControl invalid={Boolean(errors.type)}>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a Type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Type</SelectLabel>
-                              <SelectItem value="App">Application</SelectItem>
-                              <SelectItem value="Game">Game</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {errors?.type && (
-                          <FormErrorMessage>
-                            {errors.type.message}
-                          </FormErrorMessage>
-                        )}
-                      </FormControl>
-                    </>
+                <FormControl invalid={Boolean(errors.type)}>
+                  <FormLabel>Type</FormLabel>
+                  <Controller
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Type</SelectLabel>
+                            <SelectItem value="App">Application</SelectItem>
+                            <SelectItem value="Game">Game</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
+                    name="type"
+                  />
+                  {errors?.type && (
+                    <FormErrorMessage>{errors.type.message}</FormErrorMessage>
                   )}
-                  name="type"
-                />
+                </FormControl>
               </div>
               <div className="my-2 flex flex-col px-4">
                 <FormControl invalid={Boolean(errors.language)}>
+                  <FormLabel>Language</FormLabel>
                   <Controller
                     control={control}
                     name="language"
                     render={({ field }) => (
-                      <>
-                        <FormLabel>Language</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a language" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Language</SelectLabel>
-                              <SelectItem value="id_ID">Indonesia</SelectItem>
-                              <SelectItem value="en_US">English</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {errors?.language && (
-                          <FormErrorMessage>
-                            {errors.language.message}
-                          </FormErrorMessage>
-                        )}
-                      </>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a language" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Language</SelectLabel>
+                            <SelectItem value="id_ID">Indonesia</SelectItem>
+                            <SelectItem value="en_US">English</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     )}
                   />
+                  {errors?.language && (
+                    <FormErrorMessage>
+                      {errors.language.message}
+                    </FormErrorMessage>
+                  )}
                 </FormControl>
               </div>
             </div>
@@ -599,9 +591,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
           )}
         </div>
         {showAddFiles && (
-          <div>
-            <AddDownloadFileAction updateDownloadFiles={handleUpdateFile} />
-          </div>
+          <AddDownloadFileAction updateDownloadFiles={handleUpdateFile} />
         )}
       </div>
     </>

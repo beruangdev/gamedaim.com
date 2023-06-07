@@ -1,9 +1,11 @@
 "use client"
 
 import * as React from "react"
-
 import { useForm } from "react-hook-form"
 
+import { Image } from "@/components/Image"
+import { ModalSelectMedia } from "@/components/Modal"
+import { Button } from "@/components/UI/Button"
 import {
   FormControl,
   FormErrorMessage,
@@ -12,11 +14,8 @@ import {
   RequiredIndicator,
 } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
-import { Image } from "@/components/Image"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
-import { Button } from "@/components/UI/Button"
-import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
 import { signUpUserAction } from "@/lib/api/server/user"
 
 interface FormValues {

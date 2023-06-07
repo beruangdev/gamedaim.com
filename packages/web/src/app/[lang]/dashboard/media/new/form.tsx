@@ -1,12 +1,13 @@
 "use client"
+import * as React from "react"
+import { useForm } from "react-hook-form"
+
 import { Button } from "@/components/UI/Button"
 import { DropZone } from "@/components/UI/DropZone"
 import { FormControl, FormErrorMessage } from "@/components/UI/Form"
 import { toast } from "@/components/UI/Toast"
 import { postMediaAction } from "@/lib/api/server/media"
 import { resizeImage } from "@/utils/resize-image"
-import * as React from "react"
-import { useForm } from "react-hook-form"
 
 interface FormValues {
   file: FileList

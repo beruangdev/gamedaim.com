@@ -12,10 +12,12 @@ export default async function CreateArticlesDashboard({
   params,
 }: CreateArticlesDashboardProps) {
   const { lang, id } = params
+
   const { data } = await getArticleByIdAction(id as string)
   if (!data) {
     notFound()
   }
+
   return (
     <>
       <EditArticleForm lang={lang} articleId={id} />

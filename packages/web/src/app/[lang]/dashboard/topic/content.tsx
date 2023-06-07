@@ -7,10 +7,10 @@ import NextLink from "next/link"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
+import { useGetTopics, useGetTopicsCount } from "@/lib/api/client/topic"
 import { TopicDataProps } from "@/lib/data-types"
 import { formatDate } from "@/utils/date"
 import { handleDeleteTopic } from "./actions"
-import { useGetTopics, useGetTopicsCount } from "@/lib/api/client/topic"
 
 const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),

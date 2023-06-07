@@ -1,11 +1,20 @@
 "use client"
+
 import * as React from "react"
-import NextLink from "next/link"
 import NextImage from "next/image"
+import NextLink from "next/link"
+import { EditorContent, useEditor } from "@tiptap/react"
 import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
-import { useDisclosure } from "@/hooks/use-disclosure"
-import { getArticleByIdAction } from "@/lib/api/server/article"
+
+import { ArticleDashboardContainer } from "@/app/[lang]/dashboard/article/container"
+import {
+  AddAuthorsAction,
+  AddEditorsAction,
+  AddTopicsAction,
+} from "@/components/Action"
+import { EditorKitExtension, EditorMenu } from "@/components/Editor"
+import { ModalSelectMedia } from "@/components/Modal"
 import { Button } from "@/components/UI/Button"
 import {
   FormControl,
@@ -13,17 +22,7 @@ import {
   FormLabel,
   Input,
 } from "@/components/UI/Form"
-import { LanguageTypeData } from "@/lib/data-types"
-
-import { Textarea } from "@/components/UI/Textarea"
-import { toast } from "@/components/UI/Toast"
-import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
-import { ArticleDashboardContainer } from "@/app/[lang]/dashboard/article/container"
-import {
-  AddAuthorsAction,
-  AddEditorsAction,
-  AddTopicsAction,
-} from "@/components/Action"
+import { Icon } from "@/components/UI/Icon"
 import {
   Select,
   SelectContent,
@@ -33,12 +32,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/Select"
-import { EditorContent, useEditor } from "@tiptap/react"
-import { EditorKitExtension, EditorMenu } from "@/components/Editor"
-import { Icon } from "@/components/UI/Icon"
-import { TopicDataProps } from "@/lib/data-types"
-import { putArticle } from "@/lib/api/server/article"
-import { UserDataProps } from "@/lib/data-types"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast"
+import { useDisclosure } from "@/hooks/use-disclosure"
+import { getArticleByIdAction, putArticle } from "@/lib/api/server/article"
+import {
+  LanguageTypeData,
+  TopicDataProps,
+  UserDataProps,
+} from "@/lib/data-types"
 
 interface FormValues {
   title: string
@@ -54,7 +56,9 @@ export const EditArticleForm = (props: {
   articleId: string
 }) => {
   const { lang, articleId } = props
+
   const router = useRouter()
+
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [editorContent, setEditorContent] = React.useState<string>("")

@@ -6,18 +6,18 @@ import NextLink from "next/link"
 
 import { Badge } from "@/components/UI/Badge"
 import { Button, IconButton } from "@/components/UI/Button"
+import { Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
-import { ArticleDataProps } from "@/lib/data-types"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs"
 import {
   useGetArticles,
   useGetArticlesCountByLang,
   useSearchDashboardArticles,
 } from "@/lib/api/client/article"
+import { ArticleDataProps } from "@/lib/data-types"
 import { formatDate } from "@/utils/date"
 import { handleDeleteArticle } from "./actions"
-import { Input } from "@/components/UI/Form"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs"
 
 const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),

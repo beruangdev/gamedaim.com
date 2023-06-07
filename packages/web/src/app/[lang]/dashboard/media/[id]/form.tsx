@@ -1,8 +1,9 @@
 "use client"
 import * as React from "react"
 import NextImage from "next/image"
-import { getMediaByIdAction, putMediaAction } from "@/lib/api/server/media"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
+
 import { toast } from "@/components/UI/Toast"
 import {
   FormControl,
@@ -12,9 +13,10 @@ import {
   RequiredIndicator,
 } from "@/components/UI/Form"
 import { Button } from "@/components/UI/Button"
-import { copyToClipboard } from "@/utils/helper"
 import { Textarea } from "@/components/UI/Textarea"
-import { useRouter } from "next/navigation"
+
+import { getMediaByIdAction, putMediaAction } from "@/lib/api/server/media"
+import { copyToClipboard } from "@/utils/helper"
 
 interface FormValues {
   name: string
