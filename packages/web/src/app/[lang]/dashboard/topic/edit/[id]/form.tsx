@@ -50,8 +50,8 @@ export const EditTopicForm = (props: { id: string }) => {
     metaTitle: "",
     metaDescription: "",
   })
-  const [languageValue, setLanguageValue] = React.useState("")
-  const [typeValue, setTypeValue] = React.useState("")
+  const [languageValue, setLanguageValue] = React.useState<string>("")
+  const [typeValue, setTypeValue] = React.useState<string>("")
   const router = useRouter()
 
   const loadTopic = React.useCallback(async () => {

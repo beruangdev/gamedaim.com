@@ -40,8 +40,8 @@ export const AddNewTopicForm = () => {
     React.useState<string>("")
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
     React.useState<string>("")
-  const [languageValue, setLanguageValue] = React.useState("")
-  const [typeValue, setTypeValue] = React.useState("")
+  const [languageValue, setLanguageValue] = React.useState<string>("")
+  const [typeValue, setTypeValue] = React.useState<string>("")
 
   const {
     register,

@@ -6,8 +6,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
     "./src/**/**/*.{js,ts,jsx,tsx}",
     "./src/**/**/**/*.{js,ts,jsx,tsx}",
-    "../ui/src/**/*.{js,ts,jsx,tsx}",
-    "../editor/src/**/*.{js,ts,jsx,tsx}",
+    "./src/components/UI/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "class",
   theme: {

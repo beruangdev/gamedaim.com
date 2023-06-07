@@ -1,8 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { MdOutlineDelete } from "react-icons/md"
+
 import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 import { AlertDelete } from "@/components/Action"
 
 interface DeleteMediaButtonProps {
@@ -24,7 +25,7 @@ export const DeleteMediaButton = React.forwardRef<
         className="absolute z-20 rounded-full p-0"
         onClick={() => setOpenModal(true)}
       >
-        <MdOutlineDelete aria-label="Delete Media" />
+        <Icon.Close aria-label="Delete Media" />
       </Button>
       <AlertDelete
         desc={<>{content}</>}

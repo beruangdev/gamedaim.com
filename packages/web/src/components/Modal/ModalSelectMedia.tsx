@@ -3,8 +3,8 @@
 import * as React from "react"
 import NextImage from "next/image"
 import useSWR from "swr"
-import { MdOutlineSearch } from "react-icons/md"
 
+import { Icon } from "@/components/UI/Icon"
 import { InfiniteScrollMedia } from "@/components/InfiniteScroll"
 import { MediaUpload } from "@/components/Media"
 import { Modal } from "@/components/Modal"
@@ -76,7 +76,7 @@ export const ModalSelectMedia: React.FunctionComponent<
                   />
                   <Input.RightElement className="w-2">
                     <div className="inset-y-0 mr-3 flex items-center rounded-lg p-1 focus:outline-none">
-                      <MdOutlineSearch aria-label="Search" />
+                      <Icon.Search aria-label="Search" />
                     </div>
                   </Input.RightElement>
                 </Input.Group>
