@@ -2,23 +2,21 @@ import * as React from "react"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
 
-import { EditTopicForm } from "./form"
-import { getTopicByIdAction } from "@/lib/api/server/topic"
+import { EditAdForm } from "./form"
+import { getAdByIdAction } from "@/lib/api/server/ad"
 
 export const metadata: Metadata = {
-  title: "Edit Topic Dashboard",
-  description: "Edit Topic Dashboard",
+  title: "Edit Ad Dashboard",
+  description: "Edit Ad Dashboard",
 }
 
-interface EditTopicDashboardProps {
+interface EditAdDashboardProps {
   params: { id: string }
 }
 
-export default async function EditTopicDashboard(
-  props: EditTopicDashboardProps,
-) {
+export default async function EditAdDashboard(props: EditAdDashboardProps) {
   const { params } = props
-  const { data } = await getTopicByIdAction(params.id as string)
+  const { data } = await getAdByIdAction(params.id as string)
 
   if (!data) {
     notFound()
@@ -28,7 +26,7 @@ export default async function EditTopicDashboard(
     <>
       <div className="mb-[100px] mt-4 flex items-end justify-end">
         <div className="flex-1 space-y-4">
-          <EditTopicForm id={data.id} />
+          <EditAdForm id={data.id} />
         </div>
       </div>
     </>
