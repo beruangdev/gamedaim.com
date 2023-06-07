@@ -9,6 +9,7 @@ import { toast } from "@/components/UI/Toast"
 import { Input } from "@/components/UI/Form"
 import { DeleteMediaButton } from "@/components/Media"
 import { InfiniteScrollMedia } from "@/components/InfiniteScroll"
+import { Icon } from "@/components/UI/Icon"
 import {
   useGetMediasCount,
   useInfiniteMedias,
@@ -46,7 +47,7 @@ export function MediaLibraryDashboard() {
       <div className="mt-4 flex items-end justify-between">
         <div>
           <NextLink aria-label="Add New Media" href="/dashboard/media/new">
-            <Button aria-label="Add New Media">Add New</Button>
+            <Button aria-label="Add New Media">Add New </Button>
           </NextLink>
         </div>
         <form
@@ -54,14 +55,10 @@ export function MediaLibraryDashboard() {
         >
           <Input.Group>
             <Input type="text" onChange={handleSearchOnChange} />
-            <Input.RightElement className="w-2">
-              <button
-                aria-label="Search"
-                type="submit"
-                className="inset-y-0 mr-3 flex items-center rounded-lg p-1 focus:outline-none"
-              >
-                Search
-              </button>
+            <Input.RightElement>
+              <Button variant={null}>
+                <Icon.Search />
+              </Button>
             </Input.RightElement>
           </Input.Group>
         </form>

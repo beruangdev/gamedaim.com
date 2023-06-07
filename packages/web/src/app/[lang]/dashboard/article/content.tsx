@@ -109,8 +109,10 @@ export function ArticleDashboardContent() {
             onChange={handleSearchOnChange}
             type="text"
           />
-          <Input.RightElement className="w-2">
-            <Icon.Search />
+          <Input.RightElement>
+            <Button variant={null}>
+              <Icon.Search />
+            </Button>
           </Input.RightElement>
         </Input.Group>
       </div>
