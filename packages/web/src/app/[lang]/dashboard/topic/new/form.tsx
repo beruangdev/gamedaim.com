@@ -4,7 +4,7 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 
 import { Image } from "@/components/Image"
-import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
+import { ModalSelectMedia } from "@/components/Modal"
 import { Button } from "@/components/UI/Button"
 import {
   FormControl,

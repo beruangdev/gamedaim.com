@@ -13,7 +13,7 @@ import {
   AddTopicsAction,
 } from "@/components/Action"
 import { EditorKitExtension, EditorMenu } from "@/components/Editor"
-import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
+import { ModalSelectMedia } from "@/components/Modal"
 import { Button } from "@/components/UI/Button"
 import {
   FormControl,
