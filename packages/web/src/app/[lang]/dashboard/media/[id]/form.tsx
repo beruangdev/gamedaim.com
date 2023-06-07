@@ -118,7 +118,7 @@ export function EditMediaDashboard(props: { mediaId: string }) {
                 )}
               </FormControl>
               <FormLabel>URL</FormLabel>
-              <div className="border-theme-300 text-theme-900 bg-theme-50 hover:bg-theme-50 invalid:border-1 dark:border-theme-600 dark:text-theme-200 dark:bg-theme-700 dark:hover:bg-theme-700 dark:focus:bg-theme-800 dark:invalid:border-1 relative inline-flex h-9 w-full min-w-0 max-w-xl appearance-none items-center justify-between rounded-md border px-3 text-base transition-colors duration-75 ease-out invalid:border-red-500 invalid:ring-red-600 focus:bg-white focus:outline-none focus:ring-2 dark:invalid:border-red-700 dark:invalid:ring-red-700 dark:invalid:ring-offset-2">
+              <div className="border-muted/30 text-muted/90 bg-muted/50 invalid:border- focus:bg-background invalid:border-warning/50 invalid:ring-warning/60 relative inline-flex h-9 w-full min-w-0 max-w-xl appearance-none items-center justify-between rounded-md border px-3 text-base transition-colors duration-75 ease-out focus:outline-none focus:ring-2 dark:invalid:ring-offset-2">
                 <p>{media.url}</p>
                 <Button
                   aria-label="Copy Link"

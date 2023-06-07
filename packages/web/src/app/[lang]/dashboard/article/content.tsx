@@ -33,8 +33,12 @@ export function ArticleDashboardContent() {
   const [searchType, setSearchType] = React.useState("id_ID")
   const [pageId, setPageId] = React.useState<number>(1)
   const [pageEn, setPageEn] = React.useState<number>(1)
-  const [articlesDataId, setArticlesDataId] = React.useState<string[]>([])
-  const [articlesDataEn, setArticlesDataEn] = React.useState<string[]>([])
+  const [articlesDataId, setArticlesDataId] = React.useState<
+    ArticleDataProps[]
+  >([])
+  const [articlesDataEn, setArticlesDataEn] = React.useState<
+    ArticleDataProps[]
+  >([])
   const { articles, updatedArticles } = useGetArticles("id_ID", pageId)
   const {
     articles: resultArticlesId,
