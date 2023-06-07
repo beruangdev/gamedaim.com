@@ -46,7 +46,13 @@ export const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
             </p>
             <p className="text-foreground/50 text-xs">{description}</p>
           </div>
-          <input id="dropzone-file" type="file" className="hidden" {...rest} />
+          <input
+            id="dropzone-file"
+            type="file"
+            className="hidden"
+            multiple={true}
+            {...rest}
+          />
         </label>
       </div>
     )

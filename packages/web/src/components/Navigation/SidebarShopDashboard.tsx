@@ -8,7 +8,7 @@ import { useLogout } from "@/hooks/use-logout"
 import { useCurrentUser } from "@/hooks/use-current-user"
 import { ThemeSwitcher } from "@/components/Theme"
 
-export interface SidebarShopDashboardProps { }
+export interface SidebarShopDashboardProps {}
 
 export const SidebarShopDashboard = React.forwardRef<
   HTMLDivElement,

@@ -10,6 +10,7 @@ import {
   searchMediasHandler,
   updateMediaHandler,
   uploadMediaHandler,
+  uploadMultipleMediaHandler,
 } from "./media.controller"
 import { $ref } from "./media.schema"
 
@@ -21,6 +22,14 @@ async function mediaRoutes(server: FastifyInstance) {
       preHandler: [server.authenticate],
     },
     uploadMediaHandler,
+  )
+
+  server.post(
+    "/images",
+    {
+      preHandler: [server.authenticate],
+    },
+    uploadMultipleMediaHandler,
   )
 
   server.get(
