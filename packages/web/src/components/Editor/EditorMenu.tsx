@@ -9,7 +9,7 @@ import { Icon } from "@/components/UI/Icon"
 
 export function EditorMenu(props: any) {
   const { editor } = props
-  const [showMenu, setShowMenu] = React.useState(false)
+  const [showMenu, setShowMenu] = React.useState<boolean>(false)
 
   const addImage = () => {
     const url = window.prompt("URL")

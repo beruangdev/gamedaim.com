@@ -27,14 +27,14 @@ export function ArticleDashboardContent() {
   const { articlesCount: articlesCountEn } = useGetArticlesCountByLang("en_US")
   const lastPageId = articlesCountId && Math.ceil(articlesCountId / 10)
   const lastPageEn = articlesCountEn && Math.ceil(articlesCountEn / 10)
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [searchQueryEn, setSearchQueryEn] = React.useState<string>("")
   const [searchType, setSearchType] = React.useState("id_ID")
   const [pageId, setPageId] = React.useState<number>(1)
   const [pageEn, setPageEn] = React.useState<number>(1)
-  const [articlesDataId, setArticlesDataId] = React.useState([])
-  const [articlesDataEn, setArticlesDataEn] = React.useState([])
+  const [articlesDataId, setArticlesDataId] = React.useState<string[]>([])
+  const [articlesDataEn, setArticlesDataEn] = React.useState<string[]>([])
   const { articles, updatedArticles } = useGetArticles("id_ID", pageId)
   const {
     articles: resultArticlesId,

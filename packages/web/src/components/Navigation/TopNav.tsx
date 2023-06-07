@@ -10,11 +10,12 @@ import { SearchNavbar } from "@/components/Search"
 import { UserMenu } from "@/components/Menu"
 import { ThemeSwitcher } from "@/components/Theme"
 
-interface TopNavProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface TopNavProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
   ({ ...rest }, ref) => {
-    const [searchVisibility, setSearchVisibility] = React.useState(false)
+    const [searchVisibility, setSearchVisibility] =
+      React.useState<boolean>(false)
 
     React.useEffect(() => {
       if (searchVisibility) {

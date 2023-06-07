@@ -25,7 +25,9 @@ export function useDisclosure(props: UseDisclosureProps = {}) {
   const handleOpen = useCallbackRef(onOpenProp)
   const handleClose = useCallbackRef(onCloseProp)
 
-  const [isOpenState, setIsOpen] = React.useState(props.defaultIsOpen || false)
+  const [isOpenState, setIsOpen] = React.useState<boolean>(
+    props.defaultIsOpen || false,
+  )
 
   const isOpen = isOpenProp !== undefined ? isOpenProp : isOpenState
 

@@ -29,14 +29,14 @@ export function DownloadDashboardContent() {
     useGetDownloadsCountByLang("en_US")
   const lastPageId = downloadsCountId && Math.ceil(downloadsCountId / 10)
   const lastPageEn = downloadsCountEn && Math.ceil(downloadsCountEn / 10)
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [searchQueryEn, setSearchQueryEn] = React.useState<string>("")
   const [searchType, setSearchType] = React.useState("id_ID")
   const [pageId, setPageId] = React.useState<number>(1)
   const [pageEn, setPageEn] = React.useState<number>(1)
-  const [downloadsDataId, setDownloadsDataId] = React.useState([])
-  const [downloadsDataEn, setDownloadsDataEn] = React.useState([])
+  const [downloadsDataId, setDownloadsDataId] = React.useState<string[]>([])
+  const [downloadsDataEn, setDownloadsDataEn] = React.useState<string[]>([])
   const { downloads, updatedDownloads } = useGetDownloads("id_ID", pageId)
   const {
     downloads: resultDownloadsId,

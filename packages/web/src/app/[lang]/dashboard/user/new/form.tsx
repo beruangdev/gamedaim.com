@@ -31,7 +31,7 @@ interface FormValues {
 }
 export const AddNewUserForm = () => {
   const [loading, setLoading] = React.useState<boolean>(false)
-  const [showPassword, setShowPassword] = React.useState(false)
+  const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const handleToggleShowPassword = () => setShowPassword(!showPassword)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [selectedProfilePictureId, setSelectedProfilePictureId] =
