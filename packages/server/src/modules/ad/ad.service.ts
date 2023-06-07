@@ -2,7 +2,6 @@ import db from "@/utils/db"
 import { CreateAdInput } from "./ad.schema"
 import { AdPosition } from "@prisma/client"
 
-
 export async function createAd(data: CreateAdInput) {
   return await db.ad.create({
     data,

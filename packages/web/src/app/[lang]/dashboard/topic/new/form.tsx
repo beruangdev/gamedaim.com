@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 import { Image } from "@/components/Image"
 import { ModalSelectMedia } from "@/components/Modal"
@@ -25,12 +25,15 @@ import {
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { postTopicWithPrimaryAction } from "@/lib/api/server/topic"
+import { LanguageTypeData, TopicTypeData } from "@/lib/data-types"
 
 interface FormValues {
   title: string
   description?: string
   metaTitle?: string
   metaDescription?: string
+  language: LanguageTypeData
+  type: TopicTypeData
 }
 
 export const AddNewTopicForm = () => {
@@ -40,26 +43,27 @@ export const AddNewTopicForm = () => {
     React.useState<string>("")
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
     React.useState<string>("")
-  const [languageValue, setLanguageValue] = React.useState<string>("")
-  const [typeValue, setTypeValue] = React.useState<string>("")
 
   const {
     register,
     formState: { errors },
     handleSubmit,
+    control,
     reset,
   } = useForm<FormValues>()
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
+
     const mergedValues = {
       ...values,
-      type: typeValue,
       featuredImageId: selectFeaturedImageId,
     }
+
     const { data, error } = await postTopicWithPrimaryAction(
       selectFeaturedImageId ? mergedValues : values,
     )
+
     if (data) {
       setSelectFeaturedImageId("")
       setSelectedFeaturedImageUrl("")
@@ -105,44 +109,64 @@ export const AddNewTopicForm = () => {
           Language
           <RequiredIndicator />
         </FormLabel>
-        <Select
-          value={languageValue}
-          onValueChange={(value) => setLanguageValue(value)}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a language" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Language</SelectLabel>
-              <SelectItem value="id_ID">Indonesia</SelectItem>
-              <SelectItem value="en_US">English</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <Controller
+          control={control}
+          name="language"
+          render={({ field }) => (
+            <Select
+              defaultValue={field.value}
+              value={field.value}
+              onValueChange={field.onChange}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Language</SelectLabel>
+                  <SelectItem value="id_ID">Indonesia</SelectItem>
+                  <SelectItem value="en_US">English</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          )}
+        />
+        {errors?.language && (
+          <FormErrorMessage>{errors.language.message}</FormErrorMessage>
+        )}
       </FormControl>
       <FormControl>
         <FormLabel>
           Type
           <RequiredIndicator />
         </FormLabel>
-        <Select
-          value={typeValue}
-          onValueChange={(value) => setTypeValue(value)}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Type</SelectLabel>
-              <SelectItem value="ALL">ALL</SelectItem>
-              <SelectItem value="ARTICLE">ARTICLE</SelectItem>
-              <SelectItem value="REVIEW">REVIEW</SelectItem>
-              <SelectItem value="TUTORIAL">TUTORIAL</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <Controller
+          control={control}
+          name="type"
+          render={({ field }) => (
+            <Select
+              defaultValue={field.value}
+              value={field.value}
+              onValueChange={field.onChange}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Type</SelectLabel>
+                  <SelectItem value="ALL">ALL</SelectItem>
+                  <SelectItem value="ARTICLE">ARTICLE</SelectItem>
+                  <SelectItem value="REVIEW">REVIEW</SelectItem>
+                  <SelectItem value="TUTORIAL">TUTORIAL</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          )}
+        />
+        {errors?.type && (
+          <FormErrorMessage>{errors.type.message}</FormErrorMessage>
+        )}
       </FormControl>
       <FormControl invalid={Boolean(errors.description)}>
         <FormLabel>Description</FormLabel>

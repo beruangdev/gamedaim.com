@@ -363,8 +363,8 @@ export async function getTotalArticles() {
 export async function getTotalArticlesByLang(articleLanguage: LanguageType) {
   return await db.article.count({
     where: {
-      language: articleLanguage
-    }
+      language: articleLanguage,
+    },
   })
 }
 
