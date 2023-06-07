@@ -156,7 +156,6 @@ const updateDownloadSchema = z.object({
 })
 
 const downloadResponseSchema = z.object({
-  ...downloadInput,
   ...downloadGenerated,
 })
 
