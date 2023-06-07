@@ -4,6 +4,7 @@ import { buildJsonSchemas } from "fastify-zod"
 export const TOPIC_TYPE = [
   "ALL",
   "ARTICLE",
+  "DOWNLOAD",
   "MOVIE",
   "TV",
   "REVIEW",
