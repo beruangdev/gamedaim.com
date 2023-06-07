@@ -3,15 +3,14 @@ import { LanguageTypeData } from "@/lib/data-types"
 
 import { AddDownloadForms } from "./form"
 
-export default function CreateArticlesDashboard({
-  params,
-}: {
+interface CreateArticleDashboardProps {
   params: { lang: LanguageTypeData }
-}) {
+}
+
+export default function CreateArticleDashboard({
+  params,
+}: CreateArticleDashboardProps) {
   const { lang } = params
-  return (
-    <>
-      <AddDownloadForms lang={lang} />
-    </>
-  )
+
+  return <AddDownloadForms lang={lang} />
 }

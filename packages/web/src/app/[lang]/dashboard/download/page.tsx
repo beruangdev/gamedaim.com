@@ -8,10 +8,6 @@ export const metadata: Metadata = {
   description: "Download Dashboard",
 }
 
-export default function DownloadsDashboard() {
-  return (
-    <>
-      <DownloadDashboardContent />
-    </>
-  )
+export default function DownloadDashboard() {
+  return <DownloadDashboardContent />
 }

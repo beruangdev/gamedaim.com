@@ -6,6 +6,7 @@ export const handleDeleteTopic = async (
   updateTopic: () => void,
 ) => {
   const { data, error } = await deleteTopicAction(topicId)
+
   if (data) {
     toast({
       variant: "success",

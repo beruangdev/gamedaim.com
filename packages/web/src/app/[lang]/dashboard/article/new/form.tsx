@@ -1,10 +1,19 @@
 "use client"
+
 import * as React from "react"
-import NextLink from "next/link"
 import NextImage from "next/image"
+import NextLink from "next/link"
+import { EditorContent, useEditor } from "@tiptap/react"
 import { Controller, useForm } from "react-hook-form"
-import { useDisclosure } from "@/hooks/use-disclosure"
-import { postArticleWithPrimaryAction } from "@/lib/api/server/article"
+
+import { ArticleDashboardContainer } from "@/app/[lang]/dashboard/article/container"
+import {
+  AddAuthorsAction,
+  AddEditorsAction,
+  AddTopicsAction,
+} from "@/components/Action"
+import { EditorKitExtension, EditorMenu } from "@/components/Editor"
+import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
 import { Button } from "@/components/UI/Button"
 import {
   FormControl,
@@ -12,18 +21,7 @@ import {
   FormLabel,
   Input,
 } from "@/components/UI/Form"
-import { LanguageTypeData } from "@/lib/data-types"
-
-import { Textarea } from "@/components/UI/Textarea"
-import { toast } from "@/components/UI/Toast"
-import { ModalSelectMedia } from "@/components/Modal/ModalSelectMedia"
-import { ArticleDashboardContainer } from "@/app/[lang]/dashboard/article/container"
-import {
-  AddAuthorsAction,
-  AddEditorsAction,
-  AddTopicsAction,
-} from "@/components/Action"
-import { useCurrentUser } from "@/hooks/use-current-user"
+import { Icon } from "@/components/UI/Icon"
 import {
   Select,
   SelectContent,
@@ -33,9 +31,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/Select"
-import { EditorContent, useEditor } from "@tiptap/react"
-import { EditorKitExtension, EditorMenu } from "@/components/Editor"
-import { Icon } from "@/components/UI/Icon"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast"
+import { useCurrentUser } from "@/hooks/use-current-user"
+import { useDisclosure } from "@/hooks/use-disclosure"
+import { postArticleWithPrimaryAction } from "@/lib/api/server/article"
+import { LanguageTypeData } from "@/lib/data-types"
 
 interface FormValues {
   title: string
