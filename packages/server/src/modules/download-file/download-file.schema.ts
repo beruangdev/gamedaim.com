@@ -54,10 +54,10 @@ const downloadFileInput = {
     .min(1),
   downloadIds: z
     .string({
-      required_error: "Download Id is required",
       invalid_type_error: "Download Id must be a string",
     })
-    .array(),
+    .array()
+    .optional(),
   authorIds: z
     .string({
       required_error: "Author Id is required",
