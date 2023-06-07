@@ -329,6 +329,7 @@ enum TopicType {
   ARTICLE
   REVIEW
   TUTORIAL
+  DOWNLOAD
   MOVIE
   TV
   GAME
