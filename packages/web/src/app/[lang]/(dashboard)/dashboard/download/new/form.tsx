@@ -217,57 +217,61 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
           isOpen={isOpen}
           sidebar={
             <div className="scollbarhide scrollbar bg-background fixed bottom-[95px] right-0 top-[65px] flex min-w-[300px] max-w-[300px] flex-col space-y-4 overflow-x-auto border px-4 py-4 max-sm:min-w-full max-sm:max-w-full">
-              <AddTopicsAction
-                topics={topics}
-                addTopics={setTopics}
-                selectedTopics={selectedTopics}
-                addSelectedTopics={setSelectedTopics}
-                lang={lang}
-                topicType={"DOWNLOAD"}
-              />
-              {selectedFeaturedImageUrl ? (
-                <>
-                  <ModalSelectMedia
-                    handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
-                    triggerContent={
-                      <>
-                        <FormLabel>Featured Image</FormLabel>
-                        <div className="relative">
-                          <NextImage
-                            src={selectedFeaturedImageUrl}
-                            className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
-                            fill
-                            alt="Featured Image"
-                            onClick={() => setOpenModal(true)}
-                            sizes="(max-width: 768px) 30vw,
+              <div className="my-2 flex flex-col px-4">
+                <AddTopicsAction
+                  topics={topics}
+                  addTopics={setTopics}
+                  selectedTopics={selectedTopics}
+                  addSelectedTopics={setSelectedTopics}
+                  lang={lang}
+                  topicType={"DOWNLOAD"}
+                />
+              </div>
+              <div className="my-2 flex flex-col px-4">
+                {selectedFeaturedImageUrl ? (
+                  <>
+                    <ModalSelectMedia
+                      handleSelectUpdateMedia={handleUpdateMedia}
+                      open={openModal}
+                      setOpen={setOpenModal}
+                      triggerContent={
+                        <>
+                          <FormLabel>Featured Image</FormLabel>
+                          <div className="relative">
+                            <NextImage
+                              src={selectedFeaturedImageUrl}
+                              className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                              fill
+                              alt="Featured Image"
+                              onClick={() => setOpenModal(true)}
+                              sizes="(max-width: 768px) 30vw,
             (max-width: 1200px) 20vw,
             33vw"
-                            quality={60}
-                          />
-                        </div>
-                      </>
-                    }
-                  />
-                </>
-              ) : (
-                <>
-                  <ModalSelectMedia
-                    handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
-                    triggerContent={
-                      <>
-                        <FormLabel>Featured Image</FormLabel>
-                        <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
-                          <p>Select Featured Image</p>
-                        </div>
-                      </>
-                    }
-                  />
-                </>
-              )}
+                              quality={60}
+                            />
+                          </div>
+                        </>
+                      }
+                    />
+                  </>
+                ) : (
+                  <>
+                    <ModalSelectMedia
+                      handleSelectUpdateMedia={handleUpdateMedia}
+                      open={openModal}
+                      setOpen={setOpenModal}
+                      triggerContent={
+                        <>
+                          <FormLabel>Featured Image</FormLabel>
+                          <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
+                            <p>Select Featured Image</p>
+                          </div>
+                        </>
+                      }
+                    />
+                  </>
+                )}
+              </div>
               <div className="my-2 flex flex-col px-4">
                 <FormLabel>Excerpt</FormLabel>
                 <FormControl invalid={Boolean(errors.excerpt)}>
