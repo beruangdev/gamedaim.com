@@ -10,7 +10,7 @@ import { SearchNavbar } from "@/components/Search"
 import { UserMenu } from "@/components/Menu"
 import { ThemeSwitcher } from "@/components/Theme"
 
-interface TopNavProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface TopNavProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
   ({ ...rest }, ref) => {
@@ -31,7 +31,7 @@ export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
     return (
       <>
         <nav
-          className="bg-background border-border opacity-1 z-90 fixed left-auto top-0 -my-0 mx-auto box-border flex h-16 w-full items-center border-none px-4 py-0 align-baseline shadow-sm outline-none"
+          className="bg-background border-border opacity-1 fixed left-auto top-0 z-50 -my-0 mx-auto box-border flex h-16 w-full items-center border-none px-4 py-0 align-baseline shadow-sm outline-none"
           ref={ref}
           {...rest}
         >
