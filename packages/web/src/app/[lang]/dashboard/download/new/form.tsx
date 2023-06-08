@@ -465,8 +465,8 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
                         <SelectContent>
                           <SelectGroup>
                             <SelectLabel>Type</SelectLabel>
-                            <SelectItem value="App">Application</SelectItem>
-                            <SelectItem value="Game">Game</SelectItem>
+                            <SelectItem value="app">Application</SelectItem>
+                            <SelectItem value="game">Game</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
