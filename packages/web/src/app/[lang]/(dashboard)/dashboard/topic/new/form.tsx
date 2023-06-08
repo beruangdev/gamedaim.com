@@ -157,6 +157,7 @@ export const AddNewTopicForm = () => {
                   <SelectLabel>Type</SelectLabel>
                   <SelectItem value="ALL">ALL</SelectItem>
                   <SelectItem value="ARTICLE">ARTICLE</SelectItem>
+                  <SelectItem value="DOWNLOAD">DOWNLOAD</SelectItem>
                   <SelectItem value="REVIEW">REVIEW</SelectItem>
                   <SelectItem value="TUTORIAL">TUTORIAL</SelectItem>
                 </SelectGroup>
