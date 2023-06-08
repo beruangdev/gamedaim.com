@@ -178,7 +178,7 @@ export function AddEditorsAction(props: AddEditorsProps) {
                     onClick={() => handleRemoveValue(editor)}
                     className="h-auto min-w-0 bg-transparent p-0 text-inherit"
                   >
-                    <Icon.Delete />
+                    <Icon.Close />
                   </Button>
                 </div>
               )

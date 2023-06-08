@@ -218,7 +218,7 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
                         onClick={() => handleRemoveValue(topic)}
                         className="h-auto min-w-0 bg-transparent p-0 text-inherit"
                       >
-                        <Icon.Delete />
+                        <Icon.Close />
                       </Button>
                     </div>
                   )
