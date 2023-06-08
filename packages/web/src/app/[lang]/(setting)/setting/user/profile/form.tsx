@@ -45,9 +45,7 @@ export const EditUserForm = () => {
   const { user: currentUser } = useCurrentUser()
 
   const loadUser = React.useCallback(async () => {
-    const { data, error } = await getUserByIdAction(
-      currentUser?.user.id as string,
-    )
+    const { data, error } = await getUserByIdAction(currentUser?.id as string)
     if (data) {
       setUser({
         id: data.id,
@@ -62,7 +60,7 @@ export const EditUserForm = () => {
     } else if (error) {
       toast({ variant: "danger", description: error })
     }
-  }, [currentUser?.user.id])
+  }, [currentUser?.id])
 
   const handleUpdateMedia = (data: {
     id: React.SetStateAction<string>

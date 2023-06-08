@@ -48,7 +48,7 @@ export const SidebarDashboard = React.forwardRef<
           Add new download
         </Sidebar.ToggleItem>
       </Sidebar.Toggle>
-      {currentUser?.user?.role === "ADMIN" && (
+      {currentUser?.role === "ADMIN" && (
         <Sidebar.Toggle icon={<Icon.Topic />} title="Topics">
           <Sidebar.ToggleItem href="/dashboard/topic">
             All Topics
@@ -58,7 +58,7 @@ export const SidebarDashboard = React.forwardRef<
           </Sidebar.ToggleItem>
         </Sidebar.Toggle>
       )}
-      {currentUser?.user?.role === "ADMIN" && (
+      {currentUser?.role === "ADMIN" && (
         <Sidebar.Toggle icon={<Icon.Currency />} title="Ads">
           <Sidebar.ToggleItem href="/dashboard/ad">All Ads</Sidebar.ToggleItem>
           <Sidebar.ToggleItem href="/dashboard/ad/new">
@@ -72,7 +72,7 @@ export const SidebarDashboard = React.forwardRef<
           Add new
         </Sidebar.ToggleItem>
       </Sidebar.Toggle>
-      {currentUser?.user?.role === "ADMIN" && (
+      {currentUser?.role === "ADMIN" && (
         <>
           <Sidebar.Item icon={<Icon.Comment />} href="/dashboard/comment">
             Comments

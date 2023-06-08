@@ -67,7 +67,7 @@ export function UserDashboardContent() {
                     <Tr key={user.id}>
                       <Td className="line-clamp-3 max-w-[120px]">
                         <div className="flex">
-                          <span className="font-medium">{username}</span>
+                          <span className="font-medium">{user.username}</span>
                         </div>
                       </Td>
                       <Td className="white-space-nowrap">
@@ -92,7 +92,7 @@ export function UserDashboardContent() {
                       </Td>
                       <Td align="right">
                         <ActionDashboard
-                          viewLink={`/user/${username}`}
+                          viewLink={`/user/${user.username}`}
                           onDelete={() => {
                             handleDeleteUser(user.id, updatedUsers)
                           }}

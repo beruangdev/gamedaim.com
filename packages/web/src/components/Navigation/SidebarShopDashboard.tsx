@@ -23,7 +23,7 @@ export const SidebarShopDashboard = React.forwardRef<
 
   return (
     <Sidebar ref={ref} {...rest}>
-      {currentUser?.user?.role === "ADMIN" && (
+      {currentUser?.role === "ADMIN" && (
         <>
           <Sidebar.Item
             icon={<Icon.ArrowBack aria-label="Dashboard" />}
@@ -74,7 +74,7 @@ export const SidebarShopDashboard = React.forwardRef<
         </>
       )}
       <div className="py-5">
-        {currentUser?.user?.role === "ADMIN" && (
+        {currentUser?.role === "ADMIN" && (
           <Sidebar.Item
             icon={<Icon.Settings aria-label="Dashboard" />}
             href="/dashboard/shop/settings"
