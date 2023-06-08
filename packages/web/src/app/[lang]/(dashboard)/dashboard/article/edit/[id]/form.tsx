@@ -221,6 +221,7 @@ export const EditArticleForm = (props: {
                 addTopics={setTopics}
                 selectedTopics={selectedTopics}
                 addSelectedTopics={setSelectedTopics}
+                topicType={"ARTICLE"}
               />
               {selectedFeaturedImageUrl ? (
                 <>
