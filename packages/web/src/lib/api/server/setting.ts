@@ -39,17 +39,23 @@ export const postSettingAction = async (values: unknown) => {
 }
 
 export const getSettingsSiteAction = async () => {
-  const title = await getSettingByKeyAction("title")
-  const description = await getSettingByKeyAction("description")
-  const tagline = await getSettingByKeyAction("tagline")
-  const domain = await getSettingByKeyAction("domain")
-  const signup = await getSettingByKeyAction("signup")
+  const { data: siteTitle } = await getSettingByKeyAction("siteTitle")
+  const { data: siteTagline } = await getSettingByKeyAction("siteTagline")
+  const { data: siteDescription } = await getSettingByKeyAction(
+    "siteDescription",
+  )
+  const { data: siteMetaTitle } = await getSettingByKeyAction("siteMetaTitle")
+  const { data: siteMetaDescription } = await getSettingByKeyAction(
+    "siteMetaDescription",
+  )
+  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
 
   return {
-    title: title || "",
-    description: description || "",
-    tagline: tagline || "",
-    domain: domain || "",
-    signup: signup || "",
+    siteTitle,
+    siteTagline,
+    siteDescription,
+    siteMetaTitle,
+    siteMetaDescription,
+    siteDomain,
   }
 }
