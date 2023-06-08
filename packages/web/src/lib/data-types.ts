@@ -2,6 +2,12 @@ export interface ErrorResponse {
   message: string
 }
 
+export interface CheckSuccessResponse {
+  name: string
+  success: boolean
+  message: string
+}
+
 export interface ArticlePrimaryDataProps {
   id: string
   articles: ArticleDataProps[]

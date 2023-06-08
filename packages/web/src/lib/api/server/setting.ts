@@ -21,7 +21,7 @@ export const getSettingByKeyAction = async (settingKey: string) => {
 }
 
 export const postSettingAction = async (values: unknown) => {
-  const [res, err] = await http<SettingDataProps[]>("POST", {
+  const [res, err] = await http<SettingDataProps>("POST", {
     url: `/setting`,
     data: values,
   })
