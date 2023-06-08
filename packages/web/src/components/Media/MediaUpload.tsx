@@ -6,8 +6,7 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/UI/Button"
 import { FormControl, FormErrorMessage } from "@/components/UI/Form"
 import { DropZone } from "@/components/UI/DropZone"
-import { toast } from "@/components/UI/Toast"
-import { postMediaAction } from "@/lib/api/server/media"
+import { postMultipleMediaAction } from "@/lib/api/server/media"
 import { resizeImage } from "@/utils/resize-image"
 
 interface FormValues {
@@ -33,14 +32,20 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
 
     const onSubmitMedia = async (values: FormValues) => {
       setLoading(true)
-      const image = await resizeImage(values.file[0])
-      const { data, error } = await postMediaAction({ image })
+
+      const images = []
+      for (const file of values.file) {
+        const image = await resizeImage(file)
+        images.push(image)
+      }
+
+      const data = await postMultipleMediaAction(images)
+
       if (data) {
         addLoadMedias()
         reset()
-      } else {
-        toast({ variant: "danger", description: error })
       }
+
       setLoading(false)
     }
 
