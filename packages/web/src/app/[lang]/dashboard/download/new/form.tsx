@@ -37,26 +37,29 @@ import { toast } from "@/components/UI/Toast"
 import { useCurrentUser } from "@/hooks/use-current-user"
 import { useDisclosure } from "@/hooks/use-disclosure"
 import { postDownloadWithPrimaryAction } from "@/lib/api/server/download"
-import {
-  DownloadFileDataProps,
-  DownloadSchemaData,
-  LanguageTypeData,
-} from "@/lib/data-types"
+import { DownloadSchemaData, LanguageTypeData } from "@/lib/data-types"
 import { DownloadDashboardContainer } from "../container"
 
 interface FormValues {
   title: string
   content: string
   excerpt?: string
-  meta_title?: string
-  meta_description?: string
+  metaTitle?: string
+  metaDescription?: string
   developer: string
-  operationSystem: string
+  operatingSystem: string
   license: string
   language: string
   officialWeb: string
   schemaType: DownloadSchemaData
   type: string
+}
+interface SelectedDownloadFileProps {
+  id: string
+  title: string
+  version: string
+  fileSize: string
+  price: string
 }
 
 export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
@@ -80,7 +83,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
     React.useState<string>("")
   const [selectedDownloadFile, setSelectedDownloadFile] = React.useState<
-    DownloadFileDataProps[]
+    SelectedDownloadFileProps[]
   >([])
   const [selectedDownloadFileId, setSelectedDownloadFileId] = React.useState<
     string[]
@@ -105,16 +108,16 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
     }
   }, [user])
 
-  const handleUpdateFile = (value: DownloadFileDataProps) => {
+  const handleUpdateFile = (value: SelectedDownloadFileProps) => {
     setSelectedDownloadFile((prev) => [
-      ...(prev as DownloadFileDataProps[]),
+      ...(prev as SelectedDownloadFileProps[]),
       value,
     ])
     setSelectedDownloadFileId((prev) => [...prev, value.id])
     setShowAddFiles(false)
   }
 
-  const handleDeleteFile = (value: DownloadFileDataProps) => {
+  const handleDeleteFile = (value: SelectedDownloadFileProps) => {
     const filteredResult = selectedDownloadFile?.filter(
       (item) => item.id !== value.id,
     )
@@ -220,6 +223,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
                 selectedTopics={selectedTopics}
                 addSelectedTopics={setSelectedTopics}
                 lang={lang}
+                topicType={"DOWNLOAD"}
               />
               {selectedFeaturedImageUrl ? (
                 <>
@@ -288,28 +292,28 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
               </div>
               <div className="my-2 flex flex-col px-4">
                 <FormLabel>Meta Title</FormLabel>
-                <FormControl invalid={Boolean(errors.meta_title)}>
+                <FormControl invalid={Boolean(errors.metaTitle)}>
                   <Input
-                    {...register("meta_title")}
+                    {...register("metaTitle")}
                     placeholder="Enter Meta Title (Optional)"
                   />
-                  {errors?.meta_title && (
+                  {errors?.metaTitle && (
                     <FormErrorMessage>
-                      {errors.meta_title.message}
+                      {errors.metaTitle.message}
                     </FormErrorMessage>
                   )}
                 </FormControl>
               </div>
               <div className="my-2 flex flex-col px-4">
                 <FormLabel>Meta Description</FormLabel>
-                <FormControl invalid={Boolean(errors.meta_description)}>
+                <FormControl invalid={Boolean(errors.metaDescription)}>
                   <Textarea
-                    {...register("meta_description")}
+                    {...register("metaDescription")}
                     placeholder="Enter Meta Description (Optional)"
                   />
-                  {errors?.meta_description && (
+                  {errors?.metaDescription && (
                     <FormErrorMessage>
-                      {errors.meta_description.message}
+                      {errors.metaDescription.message}
                     </FormErrorMessage>
                   )}
                 </FormControl>
@@ -330,14 +334,14 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
               </div>
               <div className="my-2 flex flex-col px-4">
                 <FormLabel>Operation System</FormLabel>
-                <FormControl invalid={Boolean(errors.operationSystem)}>
+                <FormControl invalid={Boolean(errors.operatingSystem)}>
                   <Input
-                    {...register("operationSystem")}
+                    {...register("operatingSystem")}
                     placeholder="Enter Operation System"
                   />
-                  {errors?.operationSystem && (
+                  {errors?.operatingSystem && (
                     <FormErrorMessage>
-                      {errors.operationSystem.message}
+                      {errors.operatingSystem.message}
                     </FormErrorMessage>
                   )}
                 </FormControl>
@@ -558,8 +562,8 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
               </Thead>
               <Tbody>
                 {selectedDownloadFile.map(
-                  (downloadFile: DownloadFileDataProps) => (
-                    <Tr key={downloadFile.id}>
+                  (downloadFile: SelectedDownloadFileProps) => (
+                    <Tr key={downloadFile.title}>
                       <Td className="whitespace-nowrap">
                         <div className="flex">
                           <span className="font-medium">

@@ -37,3 +37,17 @@ export function useInfiniteMedias() {
     updateMedias: mutate,
   }
 }
+export function useSearchMedias(query: string | null) {
+  const { data, mutate, error } = useSWR(
+    query ? `/media/search/${query}` : null,
+    fetcher,
+  )
+  if (error) {
+    console.log(error)
+    toast({ variant: "danger", description: error.message })
+  }
+  return {
+    resultsMedias: data,
+    updateResultsMedias: mutate,
+  }
+}

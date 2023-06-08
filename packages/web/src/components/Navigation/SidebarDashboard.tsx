@@ -40,7 +40,7 @@ export const SidebarDashboard = React.forwardRef<
           Add new article
         </Sidebar.ToggleItem>
       </Sidebar.Toggle>
-      <Sidebar.Toggle icon={<Icon.Article />} title="Articles">
+      <Sidebar.Toggle icon={<Icon.Download />} title="Downloads">
         <Sidebar.ToggleItem href="/dashboard/download">
           All Downloads
         </Sidebar.ToggleItem>

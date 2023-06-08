@@ -34,18 +34,19 @@ import {
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
-import { useDisclosure } from "@/hooks/use-disclosure"
 import {
   getDownloadByIdAction,
   postDownloadWithPrimaryAction,
 } from "@/lib/api/server/download"
 import {
-  DownloadFileDataProps,
   DownloadSchemaData,
   LanguageTypeData,
   TopicDataProps,
   UserDataProps,
 } from "@/lib/data-types"
+
+import { useDisclosure } from "@/hooks/use-disclosure"
+
 import { DownloadDashboardContainer } from "../../container"
 
 interface FormValues {
@@ -68,7 +69,13 @@ interface EditDownloadFormProps {
   downloadId: string
   lang: LanguageTypeData
 }
-
+interface SelectedDownloadFileProps {
+  id: string
+  title: string
+  version: string
+  fileSize: string
+  price: string
+}
 export const EditDownloadForm = (props: EditDownloadFormProps) => {
   const { downloadId, lang } = props
   const { isOpen, onToggle } = useDisclosure()
@@ -89,7 +96,7 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
     React.useState<string>("")
   const [selectedDownloadFile, setSelectedDownloadFile] = React.useState<
-    DownloadFileDataProps[]
+    SelectedDownloadFileProps[]
   >([])
   const [selectedDownloadFileId, setSelectedDownloadFileId] = React.useState<
     string[]
@@ -136,10 +143,12 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
         operatingSystem: data.operatingSystem,
         license: data.license,
         officialWeb: data.officialWeb,
-        schemaType: data.schemaType as unknown as DownloadSchemaData,
+        schemaType: data.schemaType,
         type: data.type,
       })
-      setSelectedDownloadFile(data.downloadFiles)
+      setSelectedDownloadFile(
+        data.downloadFiles as unknown as SelectedDownloadFileProps[],
+      )
       setSelectedDownloadFileId(data.downloadFiles.map((file) => file.id))
       setSelectedFeaturedImageId(data?.featuredImage?.id as string)
       setSelectedFeaturedImageUrl(data?.featuredImage?.url as string)
@@ -165,16 +174,16 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
     },
   })
 
-  const handleUpdateFile = (value: DownloadFileDataProps) => {
+  const handleUpdateFile = (value: SelectedDownloadFileProps) => {
     setSelectedDownloadFile((prev) => [
-      ...(prev as DownloadFileDataProps[]),
+      ...(prev as SelectedDownloadFileProps[]),
       value,
     ])
     setSelectedDownloadFileId((prev) => [...prev, value.id])
     setShowAddFiles(false)
   }
 
-  const handleDeleteFile = (value: DownloadFileDataProps) => {
+  const handleDeleteFile = (value: SelectedDownloadFileProps) => {
     const filteredResult = selectedDownloadFile?.filter(
       (item) => item.id !== value.id,
     )
@@ -278,6 +287,7 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
                 selectedTopics={selectedTopics}
                 addSelectedTopics={setSelectedTopics}
                 lang={lang}
+                topicType={"DOWNLOAD"}
               />
               {selectedFeaturedImageUrl ? (
                 <>
@@ -617,7 +627,7 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
               </Thead>
               <Tbody>
                 {selectedDownloadFile.map(
-                  (downloadFile: DownloadFileDataProps) => (
+                  (downloadFile: SelectedDownloadFileProps) => (
                     <Tr key={downloadFile.id}>
                       <Td className="whitespace-nowrap">
                         <div className="flex">
