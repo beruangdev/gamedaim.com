@@ -8,7 +8,7 @@ import { Icon } from "@/components/UI/Icon"
 import { useLogout } from "@/hooks/use-logout"
 import { useCurrentUser } from "@/hooks/use-current-user"
 
-export interface SidebarDashboardProps { }
+export interface SidebarDashboardProps {}
 
 export const SidebarDashboard = React.forwardRef<
   HTMLDivElement,

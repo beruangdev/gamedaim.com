@@ -23,8 +23,9 @@ export const ShopDashboardContainer = React.forwardRef<
   return (
     <div className="relative flex h-auto" {...rest} ref={ref}>
       <div
-        className={`${open ? "max-lg:translate-x-0" : ""
-          } z-[99] h-full w-3/12 max-w-[250px] transition-[transform] max-lg:fixed max-lg:w-[250px] max-lg:-translate-x-full`}
+        className={`${
+          open ? "max-lg:translate-x-0" : ""
+        } z-[99] h-full w-3/12 max-w-[250px] transition-[transform] max-lg:fixed max-lg:w-[250px] max-lg:-translate-x-full`}
       >
         <Sidebar.ShopDashboard />
       </div>

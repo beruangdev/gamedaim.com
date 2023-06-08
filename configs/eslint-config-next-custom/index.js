@@ -44,8 +44,15 @@ module.exports = {
         caughtErrorsIgnorePattern: "^_",
       },
     ],
+    "no-unused-vars": [
+      "error",
+      {
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+        caughtErrorsIgnorePattern: "^_",
+      },
+    ],
     "@typescript-eslint/no-explicit-any": "warn",
-    "no-unused-vars": "off",
     "no-redeclare": "off",
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",
