@@ -4,3 +4,6 @@ export function findAuthPage(path: string, routes: string[]) {
     return path.includes(element)
   })
 }
+export const copyToClipboard = (value: string) => {
+  navigator.clipboard.writeText(value)
+}
