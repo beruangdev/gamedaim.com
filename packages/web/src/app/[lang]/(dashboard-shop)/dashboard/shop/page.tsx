@@ -4,8 +4,8 @@ import { Metadata } from "next"
 import { ShopDashboardContent } from "./content"
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Dashboard",
+  title: "Shop Dashboard",
+  description: "Shop Dashboard",
 }
 
 export default function ShopDashboardPage() {
