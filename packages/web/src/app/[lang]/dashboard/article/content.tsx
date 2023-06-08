@@ -23,29 +23,40 @@ const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
 )
 export function ArticleDashboardContent() {
-  const { articlesCount: articlesCountId } = useGetArticlesCountByLang("id_ID")
-  const { articlesCount: articlesCountEn } = useGetArticlesCountByLang("en_US")
-  const lastPageId = articlesCountId && Math.ceil(articlesCountId / 10)
-  const lastPageEn = articlesCountEn && Math.ceil(articlesCountEn / 10)
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [searchQueryEn, setSearchQueryEn] = React.useState<string>("")
   const [searchType, setSearchType] = React.useState("id_ID")
-  const [pageId, setPageId] = React.useState<number>(1)
-  const [pageEn, setPageEn] = React.useState<number>(1)
-  const [articlesDataId, setArticlesDataId] = React.useState<[]>([])
-  const [articlesDataEn, setArticlesDataEn] = React.useState<[]>([])
-  const { articles, updatedArticles } = useGetArticles("id_ID", pageId)
+  const [pageLangId, setPageLangId] = React.useState<number>(1)
+  const [pageLangEn, setPageLangEn] = React.useState<number>(1)
+  const [articlesDataLangId, setArticlesDataLangId] = React.useState<
+    ArticleDataProps[]
+  >([])
+  const [articlesDataLangEn, setArticlesDataLangEn] = React.useState<
+    ArticleDataProps[]
+  >([])
+
+  // Hooks get Articles by Lang
+
+  const { articlesCount: articlesCountLangId } =
+    useGetArticlesCountByLang("id_ID")
+  const { articlesCount: articlesCounLangtEn } =
+    useGetArticlesCountByLang("en_US")
+  const lastPageLangId =
+    articlesCountLangId && Math.ceil(articlesCountLangId / 10)
+  const lastPageLangEn =
+    articlesCounLangtEn && Math.ceil(articlesCounLangtEn / 10)
+  const { articles, updatedArticles } = useGetArticles("id_ID", pageLangId)
   const {
-    articles: resultArticlesId,
-    updatedArticles: updatedResultArticlesId,
+    articles: resultArticlesLangId,
+    updatedArticles: updatedResultArticlesLangId,
   } = useSearchDashboardArticles("id_ID", searchQuery)
 
-  const { articles: articlesEn, updatedArticles: updatedArticlesEn } =
-    useGetArticles("en_US", pageEn)
+  const { articles: articlesLangEn, updatedArticles: updatedArticlesLangEn } =
+    useGetArticles("en_US", pageLangEn)
   const {
-    articles: resultArticlesEn,
-    updatedArticles: updatedResultArticlesEn,
+    articles: resultArticlesLangEn,
+    updatedArticles: updatedResultArticlesLangEn,
   } = useSearchDashboardArticles("en_US", searchQuery)
 
   const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,20 +70,20 @@ export function ArticleDashboardContent() {
 
   React.useEffect(() => {
     if (searchQuery) {
-      setArticlesDataId(resultArticlesId)
+      setArticlesDataLangId(resultArticlesLangId)
     } else {
-      setArticlesDataId(articles)
+      setArticlesDataLangId(articles)
     }
     if (searchQueryEn) {
-      setArticlesDataEn(resultArticlesEn)
+      setArticlesDataLangEn(resultArticlesLangEn)
     } else {
-      setArticlesDataEn(articlesEn)
+      setArticlesDataLangEn(articlesLangEn)
     }
   }, [
     articles,
-    articlesEn,
-    resultArticlesEn,
-    resultArticlesId,
+    articlesLangEn,
+    resultArticlesLangEn,
+    resultArticlesLangId,
     searchQuery,
     searchQueryEn,
   ])
@@ -98,8 +109,10 @@ export function ArticleDashboardContent() {
             onChange={handleSearchOnChange}
             type="text"
           />
-          <Input.RightElement className="w-2">
-            <Icon.Search />
+          <Input.RightElement>
+            <Button variant={null}>
+              <Icon.Search />
+            </Button>
           </Input.RightElement>
         </Input.Group>
       </div>
@@ -115,17 +128,20 @@ export function ArticleDashboardContent() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="id_ID">
-              {articlesDataId !== undefined && articlesDataId.length > 0 ? (
+              {articlesDataLangId !== undefined &&
+              articlesDataLangId.length > 0 ? (
                 <TableArticle
-                  articles={articlesDataId}
+                  articles={articlesDataLangId}
                   searchQuery={searchQuery}
-                  updateResultArticles={updatedResultArticlesId}
+                  updateResultArticles={updatedResultArticlesLangId}
                   updateArticles={updatedArticles}
-                  page={pageId}
-                  lastPage={lastPageId}
-                  handleBack={() => setPageId((old) => Math.max(old - 1, 0))}
+                  page={pageLangId}
+                  lastPage={lastPageLangId}
+                  handleBack={() =>
+                    setPageLangId((old) => Math.max(old - 1, 0))
+                  }
                   handleNext={() => {
-                    setPageId((old) => old + 1)
+                    setPageLangId((old) => old + 1)
                   }}
                 />
               ) : (
@@ -137,17 +153,20 @@ export function ArticleDashboardContent() {
               )}
             </TabsContent>
             <TabsContent value="en_US">
-              {articlesDataEn !== undefined && articlesDataEn.length > 0 ? (
+              {articlesDataLangEn !== undefined &&
+              articlesDataLangEn.length > 0 ? (
                 <TableArticle
-                  articles={articlesDataEn}
+                  articles={articlesDataLangEn}
                   searchQuery={searchQueryEn}
-                  updateResultArticles={updatedResultArticlesEn}
-                  updateArticles={updatedArticlesEn}
-                  page={pageEn}
-                  lastPage={lastPageEn}
-                  handleBack={() => setPageEn((old) => Math.max(old - 1, 0))}
+                  updateResultArticles={updatedResultArticlesLangEn}
+                  updateArticles={updatedArticlesLangEn}
+                  page={pageLangEn}
+                  lastPage={lastPageLangEn}
+                  handleBack={() =>
+                    setPageLangEn((old) => Math.max(old - 1, 0))
+                  }
                   handleNext={() => {
-                    setPageEn((old) => old + 1)
+                    setPageLangEn((old) => old + 1)
                   }}
                 />
               ) : (

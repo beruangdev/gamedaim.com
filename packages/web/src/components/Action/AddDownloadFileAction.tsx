@@ -4,7 +4,6 @@ import NextImage from "next/image"
 import { useForm } from "react-hook-form"
 import { useCurrentUser } from "@/hooks/use-current-user"
 
-import { DownloadFileDataProps } from "@/lib/data-types"
 import { postDownloadFileAction } from "@/lib/api/server/download-file"
 import { toast } from "@/components/UI/Toast"
 import {
@@ -29,9 +28,15 @@ interface FormValues {
   currency: string
   price: string
 }
-
+interface SelectedDownloadFileProps {
+  id: string
+  title: string
+  version: string
+  fileSize: string
+  price: string
+}
 interface AddDownloadFileProps extends React.HTMLAttributes<HTMLDivElement> {
-  updateDownloadFiles: (data: DownloadFileDataProps) => void
+  updateDownloadFiles: (data: SelectedDownloadFileProps) => void
 }
 
 export const AddDownloadFileAction = React.forwardRef<
@@ -70,14 +75,16 @@ export const AddDownloadFileAction = React.forwardRef<
     setLoading(true)
     const mergedValues = {
       ...values,
-      downloadIds: [""],
       featuredImageId: selectedFeaturedImageId,
       authorIds: authors,
     }
 
     const { data, error } = await postDownloadFileAction(mergedValues)
     if (data) {
-      updateDownloadFiles(data)
+      updateDownloadFiles({
+        ...values,
+        id: data.id,
+      })
       setSelectedFeaturedImageUrl("")
       setSelectedFeaturedImageId("")
       toast({

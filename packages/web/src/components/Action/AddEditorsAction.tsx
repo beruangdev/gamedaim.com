@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form"
 import { toast } from "@/components/UI/Toast"
 import { Button } from "@/components/UI/Button"
 import { FormErrorMessage, Input } from "@/components/UI/Form"
-import { ScrollArea } from "@/components/UI/ScrollArea"
 import { Icon } from "@/components/UI/Icon"
 
 import { UserDataProps } from "@/lib/data-types"
@@ -162,10 +161,11 @@ export function AddEditorsAction(props: AddEditorsProps) {
   return (
     <div>
       <h3 className="text-base">Editors</h3>
-      {selectedEditors.length > 0 && (
-        <ScrollArea className="mb-2 mt-2 max-h-72 rounded-md border">
-          <div>
-            {selectedEditors.map((editor) => {
+
+      <div className="border-muted/30 bg-muted/100 rounded-md border">
+        <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
+          {selectedEditors.length > 0 &&
+            selectedEditors.map((editor) => {
               return (
                 <div
                   className="bg-muted/20 text-foreground flex items-center gap-2 px-2 py-1 text-[14px]"
@@ -183,11 +183,6 @@ export function AddEditorsAction(props: AddEditorsProps) {
                 </div>
               )
             })}
-          </div>
-        </ScrollArea>
-      )}
-      <div className="border-muted/30 bg-muted/100 rounded-md border">
-        <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
           <Input
             type="text"
             {...register("name", {

@@ -21,6 +21,7 @@ interface FormValues {
 
 interface AddTopicsProps extends React.HTMLAttributes<HTMLDivElement> {
   topics: string[]
+  topicType: string
   lang: LanguageTypeData
   addTopics: React.Dispatch<React.SetStateAction<string[]>>
   selectedTopics: {
@@ -43,7 +44,14 @@ interface FormValues {
 
 export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
   (props, ref) => {
-    const { topics, addTopics, selectedTopics, addSelectedTopics, lang } = props
+    const {
+      topics,
+      topicType,
+      addTopics,
+      selectedTopics,
+      addSelectedTopics,
+      lang,
+    } = props
 
     const [searchResults, setSearchResults] = React.useState<TopicDataProps[]>(
       [],
@@ -95,7 +103,10 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
           setInputValue("")
           setSearchResults([])
         } else {
-          const { data } = await postTopicWithPrimaryAction(value)
+          const { data } = await postTopicWithPrimaryAction({
+            ...value,
+            type: topicType,
+          })
 
           if (data) {
             addSelectedTopics((prev) => [
@@ -111,7 +122,15 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
           }
         }
       },
-      [addSelectedTopics, addTopics, assignTopic, lang, reset, selectedTopics],
+      [
+        addSelectedTopics,
+        addTopics,
+        assignTopic,
+        lang,
+        reset,
+        selectedTopics,
+        topicType,
+      ],
     )
 
     const handleFormSubmit = React.useCallback(
