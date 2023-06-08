@@ -5,16 +5,12 @@ import { EditArticleForm } from "./form"
 import { LanguageTypeData } from "@/lib/data-types"
 import { getArticleByIdAction } from "@/lib/api/server/article"
 
-interface EditArticlesDashboardProps {
-  params: {
-    lang: LanguageTypeData
-    id: string
-  }
+interface CreateArticlesDashboardProps {
+  params: { lang: LanguageTypeData; id: string }
 }
-
-export default async function EditArticlesDashboard({
+export default async function CreateArticlesDashboard({
   params,
-}: EditArticlesDashboardProps) {
+}: CreateArticlesDashboardProps) {
   const { lang, id } = params
 
   const { data } = await getArticleByIdAction(id as string)

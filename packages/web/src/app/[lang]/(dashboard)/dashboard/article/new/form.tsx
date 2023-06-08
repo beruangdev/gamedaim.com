@@ -176,6 +176,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
                 addTopics={setTopics}
                 selectedTopics={selectedTopics}
                 addSelectedTopics={setSelectedTopics}
+                topicType={"ARTICLE"}
               />
               {selectedFeaturedImageUrl ? (
                 <>
