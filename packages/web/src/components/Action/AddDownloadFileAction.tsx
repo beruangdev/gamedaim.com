@@ -110,7 +110,7 @@ export const AddDownloadFileAction = React.forwardRef<
   return (
     <div className="flex-1 space-y-4" ref={ref}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div>
           <FormControl invalid={Boolean(errors.title)}>
             <FormLabel>
               Title

@@ -1,13 +1,13 @@
 import * as React from "react"
 
-interface DownloadDashboardContainerProps
+interface DownloadDashboardLayoutProps
   extends React.HTMLAttributes<HTMLDivElement> {
   isOpen?: boolean
   sidebar?: React.ReactNode
 }
 
-export const DownloadDashboardContainer: React.FunctionComponent<
-  DownloadDashboardContainerProps
+export const DownloadDashboardLayout: React.FunctionComponent<
+  DownloadDashboardLayoutProps
 > = (props) => {
   const { isOpen, sidebar, children, ...rest } = props
 
@@ -18,7 +18,7 @@ export const DownloadDashboardContainer: React.FunctionComponent<
         className={`${
           isOpen == false
             ? "hidden"
-            : "pt-15 bg-background relative z-20 mt-16 flex flex-row overflow-x-auto py-4 opacity-100"
+            : "pt-15 bg-background relative z-[8] mt-16 flex flex-row overflow-x-auto py-4 opacity-100"
         } `}
       >
         {sidebar}

@@ -3,7 +3,7 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "@/components/UI/Toast"
 import { Button } from "@/components/UI/Button"
-import { FormErrorMessage, Input } from "@/components/UI/Form"
+import { FormErrorMessage, FormLabel, Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
 import { TopicDataProps, LanguageTypeData } from "@/lib/data-types"
 import {
@@ -201,7 +201,7 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
     return (
       <>
         <div ref={ref}>
-          <h3 className="text-base">Topics</h3>
+          <FormLabel>Topics</FormLabel>
           <div className="border-muted/30 bg-muted/100 rounded-md border">
             <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
               {selectedTopics.length > 0 &&
@@ -216,7 +216,7 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
                         disabled={selectedTopics.length === 1}
                         aria-label="Delete Topic"
                         onClick={() => handleRemoveValue(topic)}
-                        className="h-auto min-w-0 bg-transparent p-0 text-inherit"
+                        className="text-foreground hover:bg-warning h-auto min-w-0 bg-transparent p-0"
                       >
                         <Icon.Close />
                       </Button>
