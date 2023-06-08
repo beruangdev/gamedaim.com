@@ -4,7 +4,8 @@
   "main": "./dist/app.js",
   "scripts": {
     "start": "node ./dist/app.js",
-    "dev": "tsup --watch --onSuccess 'node ./dist/app.js'",
+    "dev": "tsup --watch --onSuccess 'node dist/app.js'",
+    "dev-win": "tsup --watch --onSuccess 'node ./dist/app.js'",
     "build": "rimraf ./dist && tsup",
     "prebuild": "npm run lint",
     "clean": "rimraf node_modules build dist",
