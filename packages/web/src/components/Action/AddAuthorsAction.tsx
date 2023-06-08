@@ -177,7 +177,7 @@ export function AddAuthorsAction(props: AddAuthorsProps) {
                     onClick={() => handleRemoveValue(author)}
                     className="h-auto min-w-0 bg-transparent p-0 text-inherit"
                   >
-                    <Icon.Delete />
+                    <Icon.Close />
                   </Button>
                 </div>
               )

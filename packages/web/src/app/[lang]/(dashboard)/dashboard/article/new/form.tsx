@@ -6,7 +6,7 @@ import NextLink from "next/link"
 import { EditorContent, useEditor } from "@tiptap/react"
 import { Controller, useForm } from "react-hook-form"
 
-import { ArticleDashboardContainer } from "@/app/[lang]/dashboard/article/container"
+import { ArticleDashboardLayout } from "@/components/Layout/ArticleDashboardLayout"
 import {
   AddAuthorsAction,
   AddEditorsAction,
@@ -88,15 +88,15 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
 
   React.useEffect(() => {
     if (user) {
-      setAuthors((prevAuthors) => [...prevAuthors, user.user.id])
+      setAuthors((prevAuthors) => [...prevAuthors, user.id])
       setSelectedAuthors((prevSelectedAuthors) => [
         ...prevSelectedAuthors,
-        { id: user.user.id, name: user.user.name },
+        { id: user.id, name: user.name },
       ])
-      setEditorIds((prevEditorIds) => [...prevEditorIds, user.user.id])
+      setEditorIds((prevEditorIds) => [...prevEditorIds, user.id])
       setSelectedEditors((prevSelectedEditors) => [
         ...prevSelectedEditors,
-        { id: user.user.id, name: user.user.name },
+        { id: user.id, name: user.name },
       ])
     }
   }, [user])
@@ -166,61 +166,65 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
             </Button>
           </div>
         </div>
-        <ArticleDashboardContainer
+        <ArticleDashboardLayout
           isOpen={isOpen}
           sidebar={
             <div className="scollbarhide scrollbar bg-background fixed bottom-0 right-0 top-0 mt-[70px] flex min-w-[300px] max-w-[300px] flex-col space-y-4 overflow-auto p-4 max-sm:min-w-full max-sm:max-w-full">
-              <AddTopicsAction
-                lang={lang}
-                topics={topics}
-                addTopics={setTopics}
-                selectedTopics={selectedTopics}
-                addSelectedTopics={setSelectedTopics}
-                topicType={"ARTICLE"}
-              />
-              {selectedFeaturedImageUrl ? (
-                <>
-                  <FormLabel>Featured Image</FormLabel>
-                  <ModalSelectMedia
-                    handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
-                    triggerContent={
-                      <>
-                        <div className="relative">
-                          <NextImage
-                            src={selectedFeaturedImageUrl}
-                            className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
-                            fill
-                            alt="Featured Image"
-                            onClick={() => setOpenModal(true)}
-                            sizes="(max-width: 768px) 30vw,
+              <div className="my-2 px-4">
+                <AddTopicsAction
+                  lang={lang}
+                  topics={topics}
+                  addTopics={setTopics}
+                  selectedTopics={selectedTopics}
+                  addSelectedTopics={setSelectedTopics}
+                  topicType={"ARTICLE"}
+                />
+              </div>
+              <div className="my-2 px-4">
+                {selectedFeaturedImageUrl ? (
+                  <>
+                    <FormLabel>Featured Image</FormLabel>
+                    <ModalSelectMedia
+                      handleSelectUpdateMedia={handleUpdateMedia}
+                      open={openModal}
+                      setOpen={setOpenModal}
+                      triggerContent={
+                        <>
+                          <div className="relative">
+                            <NextImage
+                              src={selectedFeaturedImageUrl}
+                              className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                              fill
+                              alt="Featured Image"
+                              onClick={() => setOpenModal(true)}
+                              sizes="(max-width: 768px) 30vw,
             (max-width: 1200px) 20vw,
             33vw"
-                            quality={60}
-                          />
-                        </div>
-                      </>
-                    }
-                  />
-                </>
-              ) : (
-                <>
-                  <ModalSelectMedia
-                    handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
-                    triggerContent={
-                      <>
-                        <FormLabel>Featured Image</FormLabel>
-                        <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
-                          <p>Select Featured Image</p>
-                        </div>
-                      </>
-                    }
-                  />
-                </>
-              )}
+                              quality={60}
+                            />
+                          </div>
+                        </>
+                      }
+                    />
+                  </>
+                ) : (
+                  <>
+                    <ModalSelectMedia
+                      handleSelectUpdateMedia={handleUpdateMedia}
+                      open={openModal}
+                      setOpen={setOpenModal}
+                      triggerContent={
+                        <>
+                          <FormLabel>Featured Image</FormLabel>
+                          <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
+                            <p>Select Featured Image</p>
+                          </div>
+                        </>
+                      }
+                    />
+                  </>
+                )}
+              </div>
               <div className="my-2 flex flex-col px-4">
                 <AddAuthorsAction
                   authors={authors}
@@ -328,7 +332,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
               </FormControl>
             </div>
           </div>
-        </ArticleDashboardContainer>
+        </ArticleDashboardLayout>
       </form>
     </>
   )

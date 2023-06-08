@@ -57,10 +57,10 @@ export const AddDownloadFileAction = React.forwardRef<
     React.useState<string>("")
   React.useEffect(() => {
     if (user) {
-      setAuthors((prevAuthors) => [...prevAuthors, user.user.id])
+      setAuthors((prevAuthors) => [...prevAuthors, user.id])
       setSelectedAuthors((prevSelectedAuthors) => [
         ...prevSelectedAuthors,
-        { id: user.user.id, name: user.user.name },
+        { id: user.id, name: user.name },
       ])
     }
   }, [user])
