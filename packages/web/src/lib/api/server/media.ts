@@ -106,6 +106,24 @@ export const postMediaAction = async (mediaImage: unknown) => {
 
   return { data: res, error: null }
 }
+export const postMultipleMediaAction = async (mediaImage: unknown) => {
+  const [res, err] = await http<MediaDataProps>("POST", {
+    url: "/media/images",
+    data: mediaImage,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
 
 export const putMediaAction = async (mediaId: string, values: unknown) => {
   const [res, err] = await http<MediaDataProps>("PUT", {

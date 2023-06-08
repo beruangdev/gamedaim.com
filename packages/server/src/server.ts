@@ -80,8 +80,8 @@ function buildServer() {
       fieldNameSize: 100,
       fieldSize: 100,
       fields: 10,
-      fileSize: 1000000,
-      files: 1,
+      fileSize: 1000000 * 20,
+      files: 20,
       headerPairs: 2000,
     },
   })

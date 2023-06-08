@@ -62,6 +62,54 @@ export async function uploadMediaHandler(
   }
 }
 
+export async function uploadMultipleMediaHandler(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  try {
+    const files = request.files()
+    const user = request.user
+
+    const uploads = []
+
+    for await (const file of files) {
+      const uniqueName = slugifyFile(uniqueSlug() + "-" + file.filename)
+
+      const fileProperties = {
+        Bucket: env.R2_BUCKET,
+        Key: uniqueName,
+        ContentType: file.mimetype,
+        Body: file.file,
+      }
+
+      const uploadToBucket = new Upload({
+        client: s3Client,
+        leavePartsOnError: false,
+        params: fileProperties,
+      })
+
+      uploadToBucket.on("httpUploadProgress", (progress) => {
+        console.log(progress)
+      })
+
+      await uploadToBucket.done()
+
+      const upload = await uploadMedia({
+        name: uniqueName,
+        url: "https://" + env.R2_DOMAIN + "/" + uniqueName,
+        type: file.mimetype as string,
+        authorId: user.id,
+      })
+
+      uploads.push(upload)
+    }
+
+    reply.code(200).send(uploads)
+  } catch (e) {
+    reply.code(500).send(e)
+  }
+}
+
 export async function updateMediaHandler(
   request: FastifyRequest<{
     Params: { mediaId: string }

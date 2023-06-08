@@ -6,7 +6,7 @@ import { Button } from "@/components/UI/Button"
 import { DropZone } from "@/components/UI/DropZone"
 import { FormControl, FormErrorMessage } from "@/components/UI/Form"
 import { toast } from "@/components/UI/Toast"
-import { postMediaAction } from "@/lib/api/server/media"
+import { postMultipleMediaAction } from "@/lib/api/server/media"
 import { resizeImage } from "@/utils/resize-image"
 
 interface FormValues {
@@ -25,8 +25,12 @@ export function UploadMediaDashboard() {
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
-    const image = await resizeImage(values.file[0])
-    const { data } = await postMediaAction({ image })
+    const images = []
+    for (const file of values.file) {
+      const image = await resizeImage(file)
+      images.push(image)
+    }
+    const data = await postMultipleMediaAction(images)
     if (data) {
       reset()
       toast({ variant: "success", description: "Media Successfully uploaded" })
