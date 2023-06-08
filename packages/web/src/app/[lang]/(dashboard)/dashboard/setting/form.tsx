@@ -475,7 +475,7 @@ export function SettingForm() {
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
           <FormControl invalid={Boolean(errorsDescription.value)}>
             <FormLabel>
-              Description
+              Site Description
               <RequiredIndicator />
             </FormLabel>
             <Textarea
@@ -516,7 +516,7 @@ export function SettingForm() {
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
           <FormControl invalid={Boolean(errorsMetaDescription.value)}>
             <FormLabel>
-              Meta Description
+              Site Meta Description
               <RequiredIndicator />
             </FormLabel>
             <Textarea
