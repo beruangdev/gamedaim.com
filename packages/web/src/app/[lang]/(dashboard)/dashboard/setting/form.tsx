@@ -82,7 +82,7 @@ export function SettingForm() {
     reset: resetMetaTitle,
   } = useForm<FormValues>({
     defaultValues: {
-      key: "metaTitle",
+      key: "siteMetaTitle",
     },
   })
 
@@ -419,7 +419,7 @@ export function SettingForm() {
 
   React.useEffect(() => {
     if (
-      formStatus.length === 12 &&
+      formStatus.length === 13 &&
       formStatus.every((successStatus) => successStatus.success === true)
     ) {
       toast({
