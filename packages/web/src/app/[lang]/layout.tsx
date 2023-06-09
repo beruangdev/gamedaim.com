@@ -30,8 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: `https:/${siteDomain?.value}/`,
       languages: {
-        "id-ID": "/",
-        "en-US": `https://global.${siteDomain?.value}`,
+        id: "/",
+        en: `https://global.${siteDomain?.value}`,
       },
     },
     openGraph: {
@@ -46,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
           height: env.LOGO_OG_HEIGHT,
         },
       ],
-      locale: "id-ID",
+      locale: "id",
       type: "website",
     },
     robots: {
@@ -76,7 +76,7 @@ interface RootLayoutProps {
 }
 
 export function generateStaticParams() {
-  return [{ locale: "en_US" }, { locale: "id_ID" }]
+  return [{ locale: "en" }, { locale: "id" }]
 }
 export default function RootLayout({
   children,
