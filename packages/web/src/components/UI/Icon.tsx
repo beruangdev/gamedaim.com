@@ -101,6 +101,7 @@ import {
   MdUploadFile,
   MdVpnKey,
 } from "react-icons/md"
+import { SiNintendoswitch } from "react-icons/si"
 
 export const Icon = {
   AccessTime: MdAccessTime,
@@ -169,9 +170,10 @@ export const Icon = {
   Moon: MdDarkMode,
   Movie: BiMovie,
   News: BiNews,
+  NintendoSwitch: SiNintendoswitch,
   Person: MdPerson,
   Pinterest: FaPinterestP,
-  PlayStaton: FaPlaystation,
+  PlayStation: FaPlaystation,
   Reddit: FaRedditAlien,
   Save: MdOutlineSave,
   Settings: MdOutlineSettings,
