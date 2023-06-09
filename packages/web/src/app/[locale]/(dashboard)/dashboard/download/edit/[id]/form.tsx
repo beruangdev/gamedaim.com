@@ -295,47 +295,41 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
                   </div>
                   <div className="my-2 flex flex-col px-4">
                     {selectedFeaturedImageUrl ? (
-                      <>
-                        <ModalSelectMedia
-                          handleSelectUpdateMedia={handleUpdateMedia}
-                          open={openModal}
-                          setOpen={setOpenModal}
-                          triggerContent={
-                            <>
-                              <FormLabel>Featured Image</FormLabel>
-                              <div className="relative">
-                                <NextImage
-                                  src={selectedFeaturedImageUrl}
-                                  className="border-muted/30 !relative mt-2 aspect-video h-[120px] cursor-pointer rounded-sm border-2 object-cover"
-                                  fill
-                                  alt="Featured Image"
-                                  onClick={() => setOpenModal(true)}
-                                  sizes="(max-width: 768px) 30vw,
-        (max-width: 1200px) 20vw,
-        33vw"
-                                  quality={60}
-                                />
-                              </div>
-                            </>
-                          }
-                        />
-                      </>
+                      <ModalSelectMedia
+                        handleSelectUpdateMedia={handleUpdateMedia}
+                        open={openModal}
+                        setOpen={setOpenModal}
+                        triggerContent={
+                          <>
+                            <FormLabel>Featured Image</FormLabel>
+                            <div className="relative">
+                              <NextImage
+                                src={selectedFeaturedImageUrl}
+                                className="border-muted/30 !relative mt-2 aspect-video h-[120px] cursor-pointer rounded-sm border-2 object-cover"
+                                fill
+                                alt="Featured Image"
+                                onClick={() => setOpenModal(true)}
+                                sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
+                                quality={60}
+                              />
+                            </div>
+                          </>
+                        }
+                      />
                     ) : (
-                      <>
-                        <ModalSelectMedia
-                          handleSelectUpdateMedia={handleUpdateMedia}
-                          open={openModal}
-                          setOpen={setOpenModal}
-                          triggerContent={
-                            <>
-                              <FormLabel>Featured Image</FormLabel>
-                              <div className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center">
-                                <p>Select Featured Image</p>
-                              </div>
-                            </>
-                          }
-                        />
-                      </>
+                      <ModalSelectMedia
+                        handleSelectUpdateMedia={handleUpdateMedia}
+                        open={openModal}
+                        setOpen={setOpenModal}
+                        triggerContent={
+                          <>
+                            <FormLabel>Featured Image</FormLabel>
+                            <div className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center">
+                              <p>Select Featured Image</p>
+                            </div>
+                          </>
+                        }
+                      />
                     )}
                   </div>
                   <div className="my-2 flex flex-col px-4">

@@ -1,6 +1,12 @@
 import NextLink from "next/link"
+import { Metadata } from "next"
 
 import { Button } from "@/components/UI/Button"
+
+export const metadata: Metadata = {
+  title: "404 Not Found",
+  description: "404 Not Found",
+}
 
 export default function NotFound() {
   return (
