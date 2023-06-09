@@ -124,8 +124,8 @@ export const AddNewTopicForm = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Language</SelectLabel>
-                  <SelectItem value="id_ID">Indonesia</SelectItem>
-                  <SelectItem value="en_US">English</SelectItem>
+                  <SelectItem value="id">Indonesia</SelectItem>
+                  <SelectItem value="en">English</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>

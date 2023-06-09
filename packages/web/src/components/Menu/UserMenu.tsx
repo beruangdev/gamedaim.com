@@ -31,7 +31,7 @@ export const UserMenu = () => {
         </IconButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-background w-56">
-        {params?.lang && params.lang === "id_ID" ? (
+        {params?.lang && params.lang === "id" ? (
           <DropdownMenuItem asChild>
             <NextLink
               href={
@@ -39,7 +39,7 @@ export const UserMenu = () => {
                   ? `https://global.${env.DOMAIN}`
                   : `http://global.localhost:3000`
               }
-              locale="en_US"
+              locale="en"
             >
               Switch to English
             </NextLink>
@@ -52,7 +52,7 @@ export const UserMenu = () => {
                   ? `https://${env.DOMAIN}`
                   : `http://localhost:3000`
               }
-              locale="id_ID"
+              locale="id"
             >
               Switch to Bahasa
             </NextLink>
