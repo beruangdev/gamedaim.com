@@ -30,8 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: `https:/${siteDomain?.value}/`,
       languages: {
-        id: `https://${siteDomain?.value}`,
-        en: `https://global.${siteDomain?.value}`,
+        id: `https://${siteDomain?.value || env.DOMAIN}`,
+        en: `https://global.${siteDomain?.value || env.DOMAIN}`,
       },
     },
     openGraph: {
