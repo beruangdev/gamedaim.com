@@ -30,7 +30,7 @@ export const UserMenu = () => {
         </IconButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-background w-56">
-        {params?.lang && params.lang === "id" ? (
+        {params?.locale && params.locale === "id" ? (
           <DropdownMenuItem asChild>
             <NextLink
               href={

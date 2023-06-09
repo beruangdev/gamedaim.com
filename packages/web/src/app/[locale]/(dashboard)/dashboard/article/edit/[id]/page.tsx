@@ -6,12 +6,12 @@ import { LanguageTypeData } from "@/lib/data-types"
 import { getArticleByIdAction } from "@/lib/api/server/article"
 
 interface CreateArticlesDashboardProps {
-  params: { lang: LanguageTypeData; id: string }
+  params: { locale: LanguageTypeData; id: string }
 }
 export default async function CreateArticlesDashboard({
   params,
 }: CreateArticlesDashboardProps) {
-  const { lang, id } = params
+  const { locale, id } = params
 
   const { data } = await getArticleByIdAction(id as string)
   if (!data) {
@@ -20,7 +20,7 @@ export default async function CreateArticlesDashboard({
 
   return (
     <>
-      <EditArticleForm lang={lang} articleId={id} />
+      <EditArticleForm locale={locale} articleId={id} />
     </>
   )
 }

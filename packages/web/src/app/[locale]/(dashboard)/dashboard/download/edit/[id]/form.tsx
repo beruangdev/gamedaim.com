@@ -12,10 +12,10 @@ import {
   AddDownloadFileAction,
   AddTopicsAction,
 } from "@/components/Action"
+import { DownloadDashboardLayout } from "@/components/Layout/DownloadDashboardLayout"
 import { EditorKitExtension, EditorMenu } from "@/components/Editor"
 import { Modal, ModalSelectMedia } from "@/components/Modal"
 import { Button } from "@/components/UI/Button"
-import { DownloadDashboardLayout } from "@/components/Layout/DownloadDashboardLayout"
 import {
   FormControl,
   FormErrorMessage,
@@ -35,10 +35,18 @@ import {
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
-import { useCurrentUser } from "@/hooks/use-current-user"
+import {
+  getDownloadByIdAction,
+  postDownloadWithPrimaryAction,
+} from "@/lib/api/server/download"
+import {
+  DownloadSchemaData,
+  LanguageTypeData,
+  TopicDataProps,
+  UserDataProps,
+} from "@/lib/data-types"
+
 import { useDisclosure } from "@/hooks/use-disclosure"
-import { postDownloadWithPrimaryAction } from "@/lib/api/server/download"
-import { DownloadSchemaData, LanguageTypeData } from "@/lib/data-types"
 import { ScrollArea } from "@/components/UI/ScrollArea"
 
 interface FormValues {
@@ -50,10 +58,16 @@ interface FormValues {
   developer: string
   operatingSystem: string
   license: string
+  slug: string
   language: string
   officialWeb: string
-  schemaType: DownloadSchemaData
+  schemaType: DownloadSchemaData | ""
   type: string
+}
+
+interface EditDownloadFormProps {
+  downloadId: string
+  locale: LanguageTypeData
 }
 interface SelectedDownloadFileProps {
   id: string
@@ -62,11 +76,9 @@ interface SelectedDownloadFileProps {
   fileSize: string
   price: string
 }
-
-export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
-  const { lang } = props
+export const EditDownloadForm = (props: EditDownloadFormProps) => {
+  const { downloadId, locale } = props
   const { isOpen, onToggle } = useDisclosure()
-  const { user } = useCurrentUser()
 
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
@@ -90,6 +102,69 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
     string[]
   >([])
   const [showAddFiles, setShowAddFiles] = React.useState<boolean>(false)
+  const [download, setDownload] = React.useState<FormValues & { id: string }>({
+    id: "",
+    title: "",
+    content: "",
+    slug: "",
+    excerpt: "",
+    language: "",
+    metaTitle: "",
+    metaDescription: "",
+    developer: "",
+    operatingSystem: "",
+    license: "",
+    officialWeb: "",
+    schemaType: "",
+    type: "",
+  })
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+    control,
+  } = useForm<FormValues>({ mode: "onBlur" })
+
+  const loadDownload = async () => {
+    const { data } = await getDownloadByIdAction(downloadId)
+    if (data) {
+      setDownload({
+        id: data.id,
+        title: data.title,
+        slug: data.slug,
+        content: data.content,
+        excerpt: data.excerpt,
+        metaTitle: data.metaTitle,
+        metaDescription: data.metaDescription,
+        developer: data.developer,
+        language: data.language,
+        operatingSystem: data.operatingSystem,
+        license: data.license,
+        officialWeb: data.officialWeb,
+        schemaType: data.schemaType,
+        type: data.type,
+      })
+      setSelectedDownloadFile(
+        data.downloadFiles as unknown as SelectedDownloadFileProps[],
+      )
+      setSelectedDownloadFileId(data.downloadFiles.map((file) => file.id))
+      setSelectedFeaturedImageId(data?.featuredImage?.id as string)
+      setSelectedFeaturedImageUrl(data?.featuredImage?.url as string)
+      setEditorContent(data.content)
+      setTopics(data.topics.map((topic: TopicDataProps) => topic.id))
+      setSelectedTopics(data.topics)
+      editor?.commands.setContent(data.content)
+      setAuthors(data.authors.map((author: UserDataProps) => author.id))
+      setSelectedTopics(data.topics)
+      setSelectedAuthors(
+        data?.authors.map((author: UserDataProps) => {
+          return { id: author.id, name: author.name }
+        }),
+      )
+    }
+  }
 
   const editor = useEditor({
     extensions: [EditorKitExtension],
@@ -98,16 +173,6 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
       setEditorContent(editor.getHTML())
     },
   })
-
-  React.useEffect(() => {
-    if (user) {
-      setAuthors((prevAuthors) => [...prevAuthors, user.id])
-      setSelectedAuthors((prevSelectedAuthors) => [
-        ...prevSelectedAuthors,
-        { id: user.id, name: user.name },
-      ])
-    }
-  }, [user])
 
   const handleUpdateFile = (value: SelectedDownloadFileProps) => {
     setSelectedDownloadFile((prev) => [
@@ -129,6 +194,15 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
     setSelectedDownloadFileId(filteredData)
   }
 
+  React.useEffect(() => {
+    loadDownload()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor])
+
+  React.useEffect(() => {
+    reset(download)
+  }, [download, reset])
+
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
     if (selectedDownloadFile && selectedDownloadFile?.length > 0) {
@@ -141,7 +215,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
         authorIds: authors,
       }
 
-      const { data, error } = await postDownloadWithPrimaryAction(mergedValues)
+      const { data } = await postDownloadWithPrimaryAction(mergedValues)
 
       if (data) {
         toast({
@@ -155,22 +229,12 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
         setSelectedTopics([])
         reset()
         editor?.commands.clearContent()
-      } else if (error) {
-        toast({ variant: "danger", description: error })
       }
     } else {
       toast({ variant: "danger", description: "File is empty" })
     }
     setLoading(false)
   }
-
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-    control,
-  } = useForm<FormValues>({ mode: "onBlur" })
 
   const handleUpdateMedia = (data: {
     id: React.SetStateAction<string>
@@ -180,7 +244,6 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
     setSelectedFeaturedImageUrl(data.url)
     setOpenModal(false)
   }
-
   return (
     <>
       <form
@@ -189,7 +252,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
         }}
         className="space-y-4"
       >
-        <div className="bg-background sticky top-[0px] z-[9] flex items-center justify-between px-3 py-5">
+        <div className="bg-background sticky top-[0px] z-[9] flex items-center justify-between border-b px-3 py-5">
           <Button aria-label="Go To Downloads" variant="ghost">
             <NextLink aria-label="Go To Downloads" href="/dashboard/downloads">
               Downloads
@@ -208,7 +271,6 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
             <Button
               aria-label="View Sidebar"
               variant="ghost"
-              type="button"
               onClick={onToggle}
             >
               <Icon.Menu />
@@ -227,7 +289,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
                       addTopics={setTopics}
                       selectedTopics={selectedTopics}
                       addSelectedTopics={setSelectedTopics}
-                      lang={lang}
+                      locale={locale}
                       topicType={"DOWNLOAD"}
                     />
                   </div>
@@ -572,7 +634,6 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
           </div>
         </DownloadDashboardLayout>
       </form>
-
       <div className="border-t p-4">
         <div className="flex justify-between pb-2">
           <h2>Files</h2>
@@ -611,7 +672,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
               <Tbody>
                 {selectedDownloadFile.map(
                   (downloadFile: SelectedDownloadFileProps) => (
-                    <Tr key={downloadFile.title}>
+                    <Tr key={downloadFile.id}>
                       <Td className="whitespace-nowrap">
                         <div className="flex">
                           <span className="font-medium">

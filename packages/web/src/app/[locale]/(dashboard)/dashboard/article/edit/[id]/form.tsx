@@ -53,10 +53,10 @@ interface FormValues {
   metaDescription?: string
 }
 export const EditArticleForm = (props: {
-  lang: LanguageTypeData
+  locale: LanguageTypeData
   articleId: string
 }) => {
-  const { lang, articleId } = props
+  const { locale, articleId } = props
 
   const router = useRouter()
 
@@ -220,7 +220,7 @@ export const EditArticleForm = (props: {
                 <div className="bg-background flex flex-col px-2 py-2">
                   <div className="my-2 px-4">
                     <AddTopicsAction
-                      lang={lang}
+                      locale={locale}
                       topics={topics}
                       addTopics={setTopics}
                       selectedTopics={selectedTopics}

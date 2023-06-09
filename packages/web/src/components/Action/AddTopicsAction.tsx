@@ -8,6 +8,7 @@ import { Icon } from "@/components/UI/Icon"
 import { TopicDataProps, LanguageTypeData } from "@/lib/data-types"
 import {
   postTopicWithPrimaryAction,
+  searchTopicsByLangAndTopicTypeAction,
   searchTopicsDashboardByLangAction,
 } from "@/lib/api/server/topic"
 
@@ -22,7 +23,7 @@ interface FormValues {
 interface AddTopicsProps extends React.HTMLAttributes<HTMLDivElement> {
   topics: string[]
   topicType: string
-  lang: LanguageTypeData
+  locale: LanguageTypeData
   addTopics: React.Dispatch<React.SetStateAction<string[]>>
   selectedTopics: {
     id: string
@@ -50,7 +51,7 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
       addTopics,
       selectedTopics,
       addSelectedTopics,
-      lang,
+      locale,
     } = props
 
     const [searchResults, setSearchResults] = React.useState<TopicDataProps[]>(
@@ -82,9 +83,10 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
 
     const onSubmit = React.useCallback(
       async (value: FormValues) => {
-        const { data } = await searchTopicsDashboardByLangAction(
-          lang,
+        const { data } = await searchTopicsByLangAndTopicTypeAction(
+          locale,
           value.title,
+          topicType,
         )
         const searchResult = data?.find((topic) => topic.title === value.title)
 
@@ -126,7 +128,7 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
         addSelectedTopics,
         addTopics,
         assignTopic,
-        lang,
+        locale,
         reset,
         selectedTopics,
         topicType,
@@ -161,7 +163,7 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
       setInputValue(e.target.value)
       if (e.target.value.length > 1) {
         const { data } = await searchTopicsDashboardByLangAction(
-          lang,
+          locale,
           e.target.value,
         )
 

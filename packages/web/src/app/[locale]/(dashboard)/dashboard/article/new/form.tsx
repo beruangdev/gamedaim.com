@@ -47,8 +47,8 @@ interface FormValues {
   metaTitle?: string
   metaDescription?: string
 }
-export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
-  const { lang } = props
+export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
+  const { locale } = props
   const { user } = useCurrentUser()
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
@@ -176,7 +176,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
                 <div className="bg-background flex flex-col px-2 py-2">
                   <div className="my-2 px-4">
                     <AddTopicsAction
-                      lang={lang}
+                      locale={locale}
                       topics={topics}
                       addTopics={setTopics}
                       selectedTopics={selectedTopics}

@@ -14,8 +14,8 @@ export const useGetArticlesCount = () => {
 
   return { articlesCount: data }
 }
-export const useGetArticlesCountByLang = (lang: LanguageTypeData) => {
-  const { data, error } = useSWR(`/article/${lang}/count`, fetcher)
+export const useGetArticlesCountByLang = (locale: LanguageTypeData) => {
+  const { data, error } = useSWR(`/article/${locale}/count`, fetcher)
 
   if (error) {
     console.log(error)

@@ -5,17 +5,17 @@ import { LanguageTypeData } from "@/lib/data-types"
 
 interface CreateArticlesDashboardProps {
   params: {
-    lang: LanguageTypeData
+    locale: LanguageTypeData
   }
 }
 
 export default function CreateArticlesDashboard({
   params,
 }: CreateArticlesDashboardProps) {
-  const { lang } = params
+  const { locale } = params
   return (
     <>
-      <AddArticleForm lang={lang} />
+      <AddArticleForm locale={locale} />
     </>
   )
 }
