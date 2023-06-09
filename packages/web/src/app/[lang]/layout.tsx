@@ -1,7 +1,6 @@
 import * as React from "react"
 import { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { BreadcrumbJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 
 import "@/styles/globals.css"
 import env from "env"
@@ -82,26 +81,6 @@ export default function RootLayout({
 }: RootLayoutProps) {
   return (
     <html lang={locale}>
-      <BreadcrumbJsonLd
-        useAppDir
-        itemListElements={[
-          {
-            position: 1,
-            name: siteDomain?.value || env.DOMAIN,
-            item: `https://${siteDomain?.value || env.DOMAIN}`,
-          },
-        ]}
-      />
-      <SiteLinksSearchBoxJsonLd
-        useAppDir
-        url={`https://${siteDomain?.value || env.DOMAIN}/`}
-        potentialActions={[
-          {
-            target: `https://${siteDomain?.value || env.DOMAIN}/search?q`,
-            queryInput: "search_term_string",
-          },
-        ]}
-      />
       <body className={inter.className} suppressHydrationWarning={true}>
         <Toaster />
         <ThemeProvider>{children}</ThemeProvider>
