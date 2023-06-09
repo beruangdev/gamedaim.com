@@ -21,6 +21,7 @@ import { handleDeleteTopic } from "./actions"
 const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
 )
+
 export function TopicDashboardContent() {
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
@@ -34,8 +35,6 @@ export function TopicDashboardContent() {
   const [topicsDataLangEn, setTopicsDataLangEn] = React.useState<
     TopicDataProps[]
   >([])
-
-  // Hooks get Topics by Lang
 
   const { topicsCount: topicsCountLangId } = useGetTopicsCountByLang("id")
   const { topicsCount: topicsCounLangtEn } = useGetTopicsCountByLang("en")
@@ -86,6 +85,7 @@ export function TopicDashboardContent() {
   React.useEffect(() => {
     setIsLoading(false)
   }, [])
+
   return (
     <>
       <div className="mt-4 flex items-end justify-between">
@@ -97,7 +97,6 @@ export function TopicDashboardContent() {
             </Button>
           </NextLink>
         </div>
-
         <Input.Group className="max-w-[200px]">
           <Input
             value={searchType === "id" ? searchQuery : searchQueryEn}
@@ -187,6 +186,7 @@ interface TableTopicProps {
   handleBack: () => void
   handleNext: () => void
 }
+
 const TableTopic = (props: TableTopicProps) => {
   const {
     topics,

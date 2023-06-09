@@ -1,26 +1,23 @@
 import * as React from "react"
 import { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { BreadcrumbJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 
+import "@/styles/globals.css"
 import env from "env"
 import { Toaster } from "@/components/UI/Toast"
 import { ThemeProvider } from "@/components/Theme"
-import "./globals.css"
 import { getSettingByKeyAction } from "@/lib/api/server/setting"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { data: siteTitle } = await getSettingByKeyAction("siteTitle")
-  const { data: siteTagline } = await getSettingByKeyAction("siteTagline")
-  const { data: siteDescription } = await getSettingByKeyAction(
-    "siteDescription",
-  )
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
-  const { data: twitterUsername } = await getSettingByKeyAction(
-    "twitterUsername",
-  )
+const { data: siteTitle } = await getSettingByKeyAction("siteTitle")
+const { data: siteTagline } = await getSettingByKeyAction("siteTagline")
+const { data: siteDescription } = await getSettingByKeyAction("siteDescription")
+const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
+const { data: twitterUsername } = await getSettingByKeyAction("twitterUsername")
 
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: {
       default: `${siteTitle?.value} | ${siteTagline?.value}` || env.SITE_TITLE,
@@ -78,12 +75,33 @@ interface RootLayoutProps {
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "id" }]
 }
+
 export default function RootLayout({
   children,
   params: { locale },
 }: RootLayoutProps) {
   return (
     <html lang={locale}>
+      <BreadcrumbJsonLd
+        useAppDir
+        itemListElements={[
+          {
+            position: 1,
+            name: siteDomain?.value || env.DOMAIN,
+            item: `https://${siteDomain?.value || env.DOMAIN}`,
+          },
+        ]}
+      />
+      <SiteLinksSearchBoxJsonLd
+        useAppDir
+        url={`https://${siteDomain?.value || env.DOMAIN}/`}
+        potentialActions={[
+          {
+            target: `https://${siteDomain?.value || env.DOMAIN}/search?q`,
+            queryInput: "search_term_string",
+          },
+        ]}
+      />
       <body className={inter.className} suppressHydrationWarning={true}>
         <Toaster />
         <ThemeProvider>{children}</ThemeProvider>

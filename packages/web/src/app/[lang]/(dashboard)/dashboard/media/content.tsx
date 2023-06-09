@@ -106,21 +106,19 @@ export function MediaLibraryDashboard() {
         )
       )}
       {!searchQuery && medias && medias.length > 0 ? (
-        <>
-          <div className="my-3">
-            {medias && (
-              <InfiniteScrollMedia
-                medias={medias}
-                index={2}
-                isLibrary={true}
-                totalPage={totalPageMedias}
-                page={page}
-                setPage={setPage}
-                updateMedia={updateMedias}
-              />
-            )}
-          </div>
-        </>
+        <div className="my-3">
+          {medias && (
+            <InfiniteScrollMedia
+              medias={medias}
+              index={2}
+              isLibrary={true}
+              totalPage={totalPageMedias}
+              page={page}
+              setPage={setPage}
+              updateMedia={updateMedias}
+            />
+          )}
+        </div>
       ) : (
         !searchQuery && (
           <div className="my-48 flex items-center justify-center">

@@ -122,11 +122,7 @@ export const ModalSelectMedia: React.FunctionComponent<
                   })}
                 </div>
               ) : (
-                searched && (
-                  <>
-                    <p>Medias Not Found</p>
-                  </>
-                )
+                searched && <p>Medias Not Found</p>
               )}
             </div>
           </>
