@@ -22,7 +22,6 @@ export const UserMenu = () => {
 
   const { user: currentUser } = useCurrentUser()
   const { logout } = useLogout()
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

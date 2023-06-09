@@ -142,7 +142,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
         }}
         className="space-y-4"
       >
-        <div className="bg-background sticky top-[0px] z-[90] flex items-center justify-between px-3 py-5">
+        <div className="bg-background sticky top-[0px] z-[9] flex items-center justify-between px-3 py-5">
           <Button aria-label="Back To Articles" variant="ghost">
             <NextLink aria-label="Back To Articles" href="/dashboard/articles">
               Articles
@@ -173,7 +173,7 @@ export const AddArticleForm = (props: { lang: LanguageTypeData }) => {
           sidebar={
             <div className="fixed bottom-0 right-0 top-0 mt-[85px]">
               <ScrollArea className="h-[calc(100vh-80px)] max-w-[300px] rounded border py-4 max-md:min-w-full">
-                <div className="bg-background flex flex-col px-4 py-2">
+                <div className="bg-background flex flex-col px-2 py-2">
                   <div className="my-2 px-4">
                     <AddTopicsAction
                       lang={lang}
