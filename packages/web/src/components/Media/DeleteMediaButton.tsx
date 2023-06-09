@@ -23,7 +23,7 @@ export const DeleteMediaButton = React.forwardRef<
       <Button
         aria-label="Delete Media"
         size={null}
-        className="bg-warning/80 absolute z-20 h-[30px] w-[30px] rounded-full p-0"
+        className="bg-danger/80 hover:bg-danger/80 absolute z-20 h-[30px] w-[30px] rounded-full p-0"
         onClick={() => setOpenModal(true)}
       >
         <Icon.Delete aria-label="Delete Media" />

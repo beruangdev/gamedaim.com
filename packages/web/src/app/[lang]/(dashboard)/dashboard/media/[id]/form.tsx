@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
 import { toast } from "@/components/UI/Toast"
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  RequiredIndicator,
-} from "@/components/UI/Form"
+import { FormControl, FormErrorMessage, FormLabel } from "@/components/UI/Form"
 import { Button } from "@/components/UI/Button"
 import { Textarea } from "@/components/UI/Textarea"
 
@@ -85,7 +79,7 @@ export function EditMediaDashboard(props: { mediaId: string }) {
   return (
     <>
       <>
-        <div className="mt-4 flex flex-row justify-between space-x-8">
+        <div className="mt-4 flex flex-col space-x-8 md:flex-row md:justify-between">
           <div
             className="relative aspect-[4/4]
             h-[200px]"
@@ -103,29 +97,18 @@ export function EditMediaDashboard(props: { mediaId: string }) {
           </div>
           <div className="flex-1 space-y-4">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <FormControl invalid={Boolean(errors.name)}>
-                <FormLabel>
-                  Name
-                  <RequiredIndicator />
-                </FormLabel>
-                <Input
-                  type="text"
-                  {...register("name", {
-                    required: "Name is Required",
-                  })}
-                  className="max-w-xl"
-                />
-                {errors?.name && (
-                  <FormErrorMessage>{errors.name.message}</FormErrorMessage>
-                )}
-              </FormControl>
+              <FormLabel>Name</FormLabel>
+              <div className="border-muted/30 bg-muted/50 invalid:border- focus:bg-background invalid:border-warning/50 invalid:ring-warning/60 relative inline-flex h-9 w-full min-w-0 max-w-xl appearance-none items-center rounded-md border px-3 text-base transition-colors duration-75 ease-out focus:outline-none focus:ring-2 dark:invalid:ring-offset-2">
+                <p>{media.name}</p>
+              </div>
               <FormLabel>URL</FormLabel>
-              <div className="border-muted/30 text-muted/90 bg-muted/50 invalid:border- focus:bg-background invalid:border-warning/50 invalid:ring-warning/60 relative inline-flex h-9 w-full min-w-0 max-w-xl appearance-none items-center justify-between rounded-md border px-3 text-base transition-colors duration-75 ease-out focus:outline-none focus:ring-2 dark:invalid:ring-offset-2">
+              <div className="border-muted/30 bg-muted/50 invalid:border- focus:bg-background invalid:border-warning/50 invalid:ring-warning/60 relative inline-flex h-9 w-full min-w-0 max-w-xl appearance-none items-center justify-between rounded-md border px-3 text-base transition-colors duration-75 ease-out focus:outline-none focus:ring-2 dark:invalid:ring-offset-2">
                 <p>{media.url}</p>
                 <Button
                   aria-label="Copy Link"
                   className="text-left font-normal"
                   variant="ghost"
+                  size={null}
                   onClick={(e: React.MouseEvent<HTMLElement>) => {
                     e.preventDefault()
                     copyToClipboard(media.url)
