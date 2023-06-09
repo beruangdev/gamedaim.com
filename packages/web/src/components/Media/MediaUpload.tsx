@@ -32,7 +32,6 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
 
     const onSubmitMedia = async (values: FormValues) => {
       setLoading(true)
-      console.log(values)
       const images = []
       for (const file of values.file) {
         const image = await resizeImage(file)
