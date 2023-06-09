@@ -105,29 +105,27 @@ export function UserDashboardContent() {
               </Table>
               {page && (
                 <div className="align-center mt-2 flex items-center justify-center space-x-2">
-                  <>
-                    {page !== 1 && (
-                      <IconButton
-                        variant="ghost"
-                        onClick={() => setPage((old) => Math.max(old - 1, 0))}
-                        disabled={page === 1}
-                        className="rounded-full px-0"
-                      >
-                        <Icon.ChevronLeft />
-                      </IconButton>
-                    )}
-                    {page !== lastPage && (
-                      <IconButton
-                        variant="ghost"
-                        onClick={() => {
-                          setPage((old) => old + 1)
-                        }}
-                        className="rounded-full px-0"
-                      >
-                        <Icon.ChevronRight />
-                      </IconButton>
-                    )}
-                  </>
+                  {page !== 1 && (
+                    <IconButton
+                      variant="ghost"
+                      onClick={() => setPage((old) => Math.max(old - 1, 0))}
+                      disabled={page === 1}
+                      className="rounded-full px-0"
+                    >
+                      <Icon.ChevronLeft />
+                    </IconButton>
+                  )}
+                  {page !== lastPage && (
+                    <IconButton
+                      variant="ghost"
+                      onClick={() => {
+                        setPage((old) => old + 1)
+                      }}
+                      className="rounded-full px-0"
+                    >
+                      <Icon.ChevronRight />
+                    </IconButton>
+                  )}
                 </div>
               )}
             </>

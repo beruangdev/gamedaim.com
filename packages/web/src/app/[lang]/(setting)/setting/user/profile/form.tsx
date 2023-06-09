@@ -178,37 +178,33 @@ export const EditUserForm = () => {
             open={openModal}
             setOpen={setOpenModal}
             triggerContent={
-              <>
-                <div className="relative">
-                  <Image
-                    src={selectedProfilePictureUrl}
-                    className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
-                    fill
-                    alt="ProfilePicturee"
-                    onClick={() => setOpenModal(true)}
-                    sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
-                  />
-                </div>
-              </>
+              <div className="relative">
+                <Image
+                  src={selectedProfilePictureUrl}
+                  className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                  fill
+                  alt="ProfilePicturee"
+                  onClick={() => setOpenModal(true)}
+                  sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
+                />
+              </div>
             }
           />
         </>
       ) : (
-        <>
-          <ModalSelectMedia
-            handleSelectUpdateMedia={handleUpdateMedia}
-            open={openModal}
-            setOpen={setOpenModal}
-            triggerContent={
-              <>
-                <FormLabel>ProfilePicturee</FormLabel>
-                <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
-                  <p>Select ProfilePicturee</p>
-                </div>
-              </>
-            }
-          />
-        </>
+        <ModalSelectMedia
+          handleSelectUpdateMedia={handleUpdateMedia}
+          open={openModal}
+          setOpen={setOpenModal}
+          triggerContent={
+            <>
+              <FormLabel>ProfilePicturee</FormLabel>
+              <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
+                <p>Select ProfilePicturee</p>
+              </div>
+            </>
+          }
+        />
       )}
       <FormControl invalid={Boolean(errors.about)}>
         <FormLabel>Description</FormLabel>

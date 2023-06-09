@@ -10,6 +10,7 @@ export default async function middleware(request: NextRequest) {
   const dataUser = currentUser && JSON.parse(currentUser)
   const currentTime = new Date().getTime()
   const pathname = request.nextUrl.pathname
+
   if (
     findAuthPage(pathname, adminOrAuthorRoutes) &&
     (!dataUser ||
@@ -23,6 +24,7 @@ export default async function middleware(request: NextRequest) {
 
     return response
   }
+
   if (
     findAuthPage(pathname, adminRoutes) &&
     (!dataUser ||
@@ -36,6 +38,7 @@ export default async function middleware(request: NextRequest) {
     response.cookies.delete("currentUser")
     return response
   }
+
   if (authRoutes.includes(pathname) && currentUser) {
     return NextResponse.redirect(new URL("/", request.url))
   }
