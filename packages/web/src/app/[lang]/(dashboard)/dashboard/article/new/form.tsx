@@ -5,8 +5,7 @@ import NextImage from "next/image"
 import NextLink from "next/link"
 import { EditorContent, useEditor } from "@tiptap/react"
 import { Controller, useForm } from "react-hook-form"
-
-import { ArticleDashboardContainer } from "@/app/[lang]/dashboard/article/container"
+import { ArticleDashboardContainer } from "@/app/[lang]/(dashboard)/dashboard/article/container"
 import {
   AddAuthorsAction,
   AddEditorsAction,

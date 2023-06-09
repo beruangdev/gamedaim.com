@@ -4,6 +4,8 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
+import { FcGoogle } from "react-icons/fc"
+import { FaFacebookF } from "react-icons/fa"
 
 import {
   FormControl,
@@ -72,6 +74,14 @@ export const LoginForm: React.FunctionComponent = () => {
 
     setLoading(false)
   }
+
+  const handleGoogleLogin = async () => {
+    setLoading(true)
+  }
+  const handleFacebookLogin = async () => {
+    setLoading(true)
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-4">
@@ -132,9 +142,29 @@ export const LoginForm: React.FunctionComponent = () => {
             <FormErrorMessage>{errors.password.message}</FormErrorMessage>
           )}
         </FormControl>
-        <Button type="submit" loading={loading}>
+        <Button type="submit" loading={loading} className="!mt-6 w-full">
           Login
         </Button>
+        <div className="flex flex-col space-y-2 py-3">
+          <Button
+            loading={loading}
+            onClick={handleGoogleLogin}
+            type="button"
+            className="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-5 py-3 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          >
+            <FcGoogle className="-ml-1 mr-2 h-6 w-6" />
+            Sign in with Google
+          </Button>
+          <Button
+            loading={loading}
+            type="button"
+            onClick={handleFacebookLogin}
+            className="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-5 py-3 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          >
+            <FaFacebookF className="-ml-1 mr-2 h-6 w-6 text-blue-600" />
+            Sign in with Facebook
+          </Button>
+        </div>
       </div>
     </form>
   )

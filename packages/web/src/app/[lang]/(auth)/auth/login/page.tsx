@@ -17,8 +17,8 @@ export default function Login() {
       <div>
         <h1 className="text-center text-2xl">Login</h1>
         <LoginForm />
-        <Separator />
-        <p className="mt-8 text-center">
+        <Separator className="my-4" />
+        <p className="text-center">
           Need an account?&nbsp;
           <NextLink className="font-semibold" href="/auth/signup">
             Create an account
