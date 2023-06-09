@@ -215,7 +215,6 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
                     >
                       <span>{topic.title}</span>
                       <Button
-                        disabled={selectedTopics.length === 1}
                         aria-label="Delete Topic"
                         onClick={() => handleRemoveValue(topic)}
                         className="text-foreground hover:bg-warning h-auto min-w-0 bg-transparent p-0"

@@ -640,10 +640,12 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
           <Modal
             content={
               <>
-                <ScrollArea className="h-[65vh] px-2 max-lg:h-[80vh]">
-                  <AddDownloadFileAction
-                    updateDownloadFiles={handleUpdateFile}
-                  />
+                <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
+                  <div className="px-2">
+                    <AddDownloadFileAction
+                      updateDownloadFiles={handleUpdateFile}
+                    />
+                  </div>
                 </ScrollArea>
               </>
             }
