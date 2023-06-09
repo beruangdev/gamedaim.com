@@ -24,6 +24,7 @@ import {
   getTotalTopics,
   getTotalTopicsByLang,
   searchTopicsByLang,
+  searchTopicsByLangAndType,
   searchTopicsDashboardByLang,
   updateTopic,
 } from "./topic.service"
@@ -429,6 +430,33 @@ export async function searchTopicsDashboardHandler(
     const searchQuery = request.params.searchTopicQuery
 
     const topics = await searchTopicsDashboardByLang(topicLanguage, searchQuery)
+    return reply.code(201).send(topics)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function searchTopicsByLangAndTypeHandler(
+  request: FastifyRequest<{
+    Params: {
+      topicLanguage: LanguageType
+      topicType: TopicType
+      searchTopicQuery: string
+    }
+  }>,
+  reply: FastifyReply,
+) {
+  try {
+    const topicLanguage = request.params.topicLanguage
+    const topicType = request.params.topicType
+    const searchQuery = request.params.searchTopicQuery
+
+    const topics = await searchTopicsByLangAndType(
+      topicLanguage,
+      topicType,
+      searchQuery,
+    )
     return reply.code(201).send(topics)
   } catch (e) {
     console.log(e)

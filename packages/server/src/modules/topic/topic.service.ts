@@ -391,3 +391,41 @@ export async function searchTopicsDashboardByLang(
     },
   })
 }
+
+export async function searchTopicsByLangAndType(
+  topicLanguage: LanguageType,
+  topicType: TopicType,
+  searchTopicQuery: string,
+) {
+  return await db.topic.findMany({
+    where: {
+      AND: [
+        {
+          language: topicLanguage,
+          type: topicType,
+        },
+      ],
+      OR: [
+        {
+          title: {
+            search: searchTopicQuery.split(" ").join(" & "),
+          },
+          slug: {
+            search: searchTopicQuery.split(" ").join(" & "),
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      type: true,
+      slug: true,
+      title: true,
+      featuredImage: {
+        select: {
+          url: true,
+        },
+      },
+    },
+  })
+}
