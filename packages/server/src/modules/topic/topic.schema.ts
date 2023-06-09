@@ -11,7 +11,7 @@ export const TOPIC_TYPE = [
   "TUTORIAL",
 ] as const
 
-const TOPIC_LANGUAGE = ["id_ID", "en_US"] as const
+const TOPIC_LANGUAGE = ["id", "en"] as const
 
 const topicInput = {
   title: z
@@ -49,7 +49,7 @@ const topicInput = {
     .optional(),
   language: z
     .enum(TOPIC_LANGUAGE, {
-      invalid_type_error: "only id_ID and en_US are accepted",
+      invalid_type_error: "only id and en are accepted",
     })
     .optional(),
 }

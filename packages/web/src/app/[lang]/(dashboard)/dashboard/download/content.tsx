@@ -26,33 +26,31 @@ export function DownloadDashboardContent() {
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [searchQueryEn, setSearchQueryEn] = React.useState<string>("")
-  const [searchType, setSearchType] = React.useState("id_ID")
+  const [searchType, setSearchType] = React.useState("id")
   const [pageId, setPageId] = React.useState<number>(1)
   const [pageEn, setPageEn] = React.useState<number>(1)
   const [downloadsDataId, setDownloadsDataId] = React.useState<[]>([])
   const [downloadsDataEn, setDownloadsDataEn] = React.useState<[]>([])
 
-  const { downloadsCount: downloadsCountId } =
-    useGetDownloadsCountByLang("id_ID")
-  const { downloadsCount: downloadsCountEn } =
-    useGetDownloadsCountByLang("en_US")
+  const { downloadsCount: downloadsCountId } = useGetDownloadsCountByLang("id")
+  const { downloadsCount: downloadsCountEn } = useGetDownloadsCountByLang("en")
   const lastPageId = downloadsCountId && Math.ceil(downloadsCountId / 10)
   const lastPageEn = downloadsCountEn && Math.ceil(downloadsCountEn / 10)
-  const { downloads, updatedDownloads } = useGetDownloads("id_ID", pageId)
+  const { downloads, updatedDownloads } = useGetDownloads("id", pageId)
   const {
     downloads: resultDownloadsId,
     updatedDownloads: updatedResultDownloadsId,
-  } = useSearchDashboardDownloads("id_ID", searchQuery)
+  } = useSearchDashboardDownloads("id", searchQuery)
   const { downloads: downloadsEn, updatedDownloads: updatedDownloadsEn } =
-    useGetDownloads("en_US", pageEn)
+    useGetDownloads("en", pageEn)
   const {
     downloads: resultDownloadsEn,
     updatedDownloads: updatedResultDownloadsEn,
-  } = useSearchDashboardDownloads("en_US", searchQuery)
+  } = useSearchDashboardDownloads("en", searchQuery)
 
   const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
-    if (searchType === "id_ID") {
+    if (searchType === "id") {
       setSearchQuery(e.target.value)
     } else {
       setSearchQueryEn(e.target.value)
@@ -96,7 +94,7 @@ export function DownloadDashboardContent() {
         </div>
         <Input.Group className="max-w-[200px]">
           <Input
-            value={searchType === "id_ID" ? searchQuery : searchQueryEn}
+            value={searchType === "id" ? searchQuery : searchQueryEn}
             onChange={handleSearchOnChange}
             type="text"
           />
@@ -109,16 +107,16 @@ export function DownloadDashboardContent() {
       </div>
       <div className="mb-[80px] mt-6 rounded">
         {!isLoading && (
-          <Tabs defaultValue="id_ID">
+          <Tabs defaultValue="id">
             <TabsList>
-              <TabsTrigger onClick={() => setSearchType("id_ID")} value="id_ID">
+              <TabsTrigger onClick={() => setSearchType("id")} value="id">
                 Indonesia
               </TabsTrigger>
-              <TabsTrigger onClick={() => setSearchType("en_US")} value="en_US">
+              <TabsTrigger onClick={() => setSearchType("en")} value="en">
                 English
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="id_ID">
+            <TabsContent value="id">
               {downloadsDataId !== undefined && downloadsDataId.length > 0 ? (
                 <TableDownload
                   downloads={downloadsDataId}
@@ -140,7 +138,7 @@ export function DownloadDashboardContent() {
                 </div>
               )}
             </TabsContent>
-            <TabsContent value="en_US">
+            <TabsContent value="en">
               {downloadsDataEn !== undefined && downloadsDataEn.length > 0 ? (
                 <TableDownload
                   downloads={downloadsDataEn}

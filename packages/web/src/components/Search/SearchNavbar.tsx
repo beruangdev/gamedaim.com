@@ -32,7 +32,7 @@ export const SearchNavbar = React.forwardRef<HTMLDivElement, SearchNavbarProps>(
       if (e.target.value.length > 1) {
         setSearched(true)
         const { data, error } = await searchArticlesByLangAction(
-          "id_ID",
+          "id",
           e.target.value,
         )
 

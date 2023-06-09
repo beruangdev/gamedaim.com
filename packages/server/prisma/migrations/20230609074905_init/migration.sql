@@ -20,7 +20,7 @@ CREATE TYPE "DownloadType" AS ENUM ('app', 'game');
 CREATE TYPE "DownloadSchema" AS ENUM ('DownloadApp', 'BusinessApp', 'MultimediaApp', 'MobileApp', 'WebApp', 'SocialNetworkingApp', 'TravelApp', 'ShoppingApp', 'SportsApp', 'LifeStyleApp', 'DesignApp', 'DeveloperApp', 'DriverApp', 'EducationalApp', 'HealthApp', 'FinanceApp', 'SecurityApp', 'BrowserApp', 'CommunicationApp', 'HomeApp', 'UtilitiesApp', 'RefereceApp', 'GameApp');
 
 -- CreateEnum
-CREATE TYPE "LanguageType" AS ENUM ('id_ID', 'en_US');
+CREATE TYPE "LanguageType" AS ENUM ('id', 'en');
 
 -- CreateEnum
 CREATE TYPE "PaymentStatus" AS ENUM ('UNPAID', 'PAID', 'FAILED', 'EXPIRED', 'ERROR', 'REFUNDED');
@@ -65,7 +65,7 @@ CREATE TABLE "ArticlePrimary" (
 -- CreateTable
 CREATE TABLE "Article" (
     "id" TEXT NOT NULL,
-    "language" "LanguageType" NOT NULL DEFAULT 'id_ID',
+    "language" "LanguageType" NOT NULL DEFAULT 'id',
     "title" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "content" TEXT NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE "TopicPrimary" (
 -- CreateTable
 CREATE TABLE "Topic" (
     "id" TEXT NOT NULL,
-    "language" "LanguageType" NOT NULL DEFAULT 'id_ID',
+    "language" "LanguageType" NOT NULL DEFAULT 'id',
     "title" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "description" TEXT,
@@ -171,7 +171,7 @@ CREATE TABLE "DownloadPrimary" (
 -- CreateTable
 CREATE TABLE "Download" (
     "id" TEXT NOT NULL,
-    "language" "LanguageType" NOT NULL DEFAULT 'id_ID',
+    "language" "LanguageType" NOT NULL DEFAULT 'id',
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "excerpt" TEXT NOT NULL,

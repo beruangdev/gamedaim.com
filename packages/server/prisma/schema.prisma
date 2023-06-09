@@ -45,7 +45,7 @@ model ArticlePrimary {
 
 model Article {
   id               String           @id @unique @default(uuid())
-  language         LanguageType     @default(id_ID)
+  language         LanguageType     @default(id)
   title            String
   slug             String           @unique
   content          String
@@ -74,7 +74,7 @@ model TopicPrimary {
 
 model Topic {
   id              String       @id @unique @default(uuid())
-  language        LanguageType @default(id_ID)
+  language        LanguageType @default(id)
   title           String
   slug            String       @unique
   description     String?
@@ -147,7 +147,7 @@ model DownloadPrimary {
 
 model Download {
   id                String            @id @unique @default(uuid())
-  language          LanguageType      @default(id_ID)
+  language          LanguageType      @default(id)
   title             String
   content           String
   excerpt           String
@@ -387,8 +387,8 @@ enum DownloadSchema {
 }
 
 enum LanguageType {
-  id_ID
-  en_US
+  id
+  en
 }
 
 enum PaymentStatus {

@@ -371,4 +371,4 @@ export type TopUpProviderData = "DIGIFLAZZ" | "APIGAMES"
 export type PaymentProviderData = "DUITKU" | "MIDTRANS" | "TRIPAY"
 export type TopUpStatusData = "PROCESSING" | "SUCCESS" | "FAILED" | "ERROR"
 
-export type LanguageTypeData = "id_ID" | "en_US"
+export type LanguageTypeData = "id" | "en"

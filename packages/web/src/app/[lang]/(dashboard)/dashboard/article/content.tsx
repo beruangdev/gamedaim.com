@@ -26,7 +26,7 @@ export function ArticleDashboardContent() {
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [searchQueryEn, setSearchQueryEn] = React.useState<string>("")
-  const [searchType, setSearchType] = React.useState("id_ID")
+  const [searchType, setSearchType] = React.useState("id")
   const [pageLangId, setPageLangId] = React.useState<number>(1)
   const [pageLangEn, setPageLangEn] = React.useState<number>(1)
   const [articlesDataLangId, setArticlesDataLangId] = React.useState<
@@ -38,30 +38,28 @@ export function ArticleDashboardContent() {
 
   // Hooks get Articles by Lang
 
-  const { articlesCount: articlesCountLangId } =
-    useGetArticlesCountByLang("id_ID")
-  const { articlesCount: articlesCounLangtEn } =
-    useGetArticlesCountByLang("en_US")
+  const { articlesCount: articlesCountLangId } = useGetArticlesCountByLang("id")
+  const { articlesCount: articlesCounLangtEn } = useGetArticlesCountByLang("en")
   const lastPageLangId =
     articlesCountLangId && Math.ceil(articlesCountLangId / 10)
   const lastPageLangEn =
     articlesCounLangtEn && Math.ceil(articlesCounLangtEn / 10)
-  const { articles, updatedArticles } = useGetArticles("id_ID", pageLangId)
+  const { articles, updatedArticles } = useGetArticles("id", pageLangId)
   const {
     articles: resultArticlesLangId,
     updatedArticles: updatedResultArticlesLangId,
-  } = useSearchDashboardArticles("id_ID", searchQuery)
+  } = useSearchDashboardArticles("id", searchQuery)
 
   const { articles: articlesLangEn, updatedArticles: updatedArticlesLangEn } =
-    useGetArticles("en_US", pageLangEn)
+    useGetArticles("en", pageLangEn)
   const {
     articles: resultArticlesLangEn,
     updatedArticles: updatedResultArticlesLangEn,
-  } = useSearchDashboardArticles("en_US", searchQuery)
+  } = useSearchDashboardArticles("en", searchQuery)
 
   const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
-    if (searchType === "id_ID") {
+    if (searchType === "id") {
       setSearchQuery(e.target.value)
     } else {
       setSearchQueryEn(e.target.value)
@@ -105,7 +103,7 @@ export function ArticleDashboardContent() {
 
         <Input.Group className="max-w-[200px]">
           <Input
-            value={searchType === "id_ID" ? searchQuery : searchQueryEn}
+            value={searchType === "id" ? searchQuery : searchQueryEn}
             onChange={handleSearchOnChange}
             type="text"
           />
@@ -118,16 +116,16 @@ export function ArticleDashboardContent() {
       </div>
       <div className="mb-[80px] mt-6 rounded">
         {!isLoading && (
-          <Tabs defaultValue="id_ID">
+          <Tabs defaultValue="id">
             <TabsList>
-              <TabsTrigger onClick={() => setSearchType("id_ID")} value="id_ID">
+              <TabsTrigger onClick={() => setSearchType("id")} value="id">
                 Indonesia
               </TabsTrigger>
-              <TabsTrigger onClick={() => setSearchType("en_US")} value="en_US">
+              <TabsTrigger onClick={() => setSearchType("en")} value="en">
                 English
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="id_ID">
+            <TabsContent value="id">
               {articlesDataLangId !== undefined &&
               articlesDataLangId.length > 0 ? (
                 <TableArticle
@@ -152,7 +150,7 @@ export function ArticleDashboardContent() {
                 </div>
               )}
             </TabsContent>
-            <TabsContent value="en_US">
+            <TabsContent value="en">
               {articlesDataLangEn !== undefined &&
               articlesDataLangEn.length > 0 ? (
                 <TableArticle

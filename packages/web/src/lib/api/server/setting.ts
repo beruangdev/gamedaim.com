@@ -4,7 +4,7 @@ import { ErrorResponse, SettingDataProps } from "@/lib/data-types"
 import { http } from "@/lib/http"
 
 export const getSettingByKeyAction = async (settingKey: string) => {
-  const [res, err] = await http<SettingDataProps[]>("GET", {
+  const [res, err] = await http<SettingDataProps>("GET", {
     url: `/setting/${settingKey}`,
   })
 

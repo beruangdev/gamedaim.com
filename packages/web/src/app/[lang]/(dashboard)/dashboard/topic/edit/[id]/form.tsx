@@ -52,7 +52,7 @@ export const EditTopicForm = (props: { id: string }) => {
     slug: "",
     metaTitle: "",
     metaDescription: "",
-    language: "id_ID",
+    language: "id",
     type: "ALL",
   })
 
@@ -177,8 +177,8 @@ export const EditTopicForm = (props: { id: string }) => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Language</SelectLabel>
-                  <SelectItem value="id_ID">Indonesia</SelectItem>
-                  <SelectItem value="en_US">English</SelectItem>
+                  <SelectItem value="id">Indonesia</SelectItem>
+                  <SelectItem value="en">English</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>

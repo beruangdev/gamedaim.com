@@ -16,6 +16,7 @@ import {
   getTotalTopicPrimariesHandler,
   getTotalTopicsByLangHandler,
   getTotalTopicsHandler,
+  searchTopicsByLangAndTypeHandler,
   searchTopicsByLangHandler,
   searchTopicsDashboardHandler,
   updateTopicHandler,
@@ -202,6 +203,18 @@ async function topicRoutes(server: FastifyInstance) {
       },
     },
     searchTopicsDashboardHandler,
+  )
+
+  server.get(
+    "/:topicLanguage/type/:topicType/search/:searchTopicQuery",
+    {
+      schema: {
+        response: {
+          200: $ref("topicsResponseSchema"),
+        },
+      },
+    },
+    searchTopicsByLangAndTypeHandler,
   )
 }
 

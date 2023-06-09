@@ -25,7 +25,7 @@ export function TopicDashboardContent() {
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [searchQueryEn, setSearchQueryEn] = React.useState<string>("")
-  const [searchType, setSearchType] = React.useState("id_ID")
+  const [searchType, setSearchType] = React.useState("id")
   const [pageLangId, setPageLangId] = React.useState<number>(1)
   const [pageLangEn, setPageLangEn] = React.useState<number>(1)
   const [topicsDataLangId, setTopicsDataLangId] = React.useState<
@@ -37,26 +37,26 @@ export function TopicDashboardContent() {
 
   // Hooks get Topics by Lang
 
-  const { topicsCount: topicsCountLangId } = useGetTopicsCountByLang("id_ID")
-  const { topicsCount: topicsCounLangtEn } = useGetTopicsCountByLang("en_US")
+  const { topicsCount: topicsCountLangId } = useGetTopicsCountByLang("id")
+  const { topicsCount: topicsCounLangtEn } = useGetTopicsCountByLang("en")
   const lastPageLangId = topicsCountLangId && Math.ceil(topicsCountLangId / 10)
   const lastPageLangEn = topicsCounLangtEn && Math.ceil(topicsCounLangtEn / 10)
-  const { topics, updatedTopics } = useGetTopics("id_ID", pageLangId)
+  const { topics, updatedTopics } = useGetTopics("id", pageLangId)
   const {
     topics: resultTopicsLangId,
     updatedTopics: updatedResultTopicsLangId,
-  } = useSearchDashboardTopics("id_ID", searchQuery)
+  } = useSearchDashboardTopics("id", searchQuery)
 
   const { topics: topicsLangEn, updatedTopics: updatedTopicsLangEn } =
-    useGetTopics("en_US", pageLangEn)
+    useGetTopics("en", pageLangEn)
   const {
     topics: resultTopicsLangEn,
     updatedTopics: updatedResultTopicsLangEn,
-  } = useSearchDashboardTopics("en_US", searchQuery)
+  } = useSearchDashboardTopics("en", searchQuery)
 
   const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
-    if (searchType === "id_ID") {
+    if (searchType === "id") {
       setSearchQuery(e.target.value)
     } else {
       setSearchQueryEn(e.target.value)
@@ -100,7 +100,7 @@ export function TopicDashboardContent() {
 
         <Input.Group className="max-w-[200px]">
           <Input
-            value={searchType === "id_ID" ? searchQuery : searchQueryEn}
+            value={searchType === "id" ? searchQuery : searchQueryEn}
             onChange={handleSearchOnChange}
             type="text"
           />
@@ -113,16 +113,16 @@ export function TopicDashboardContent() {
       </div>
       <div className="mb-[80px] mt-6 rounded">
         {!isLoading && (
-          <Tabs defaultValue="id_ID">
+          <Tabs defaultValue="id">
             <TabsList>
-              <TabsTrigger onClick={() => setSearchType("id_ID")} value="id_ID">
+              <TabsTrigger onClick={() => setSearchType("id")} value="id">
                 Indonesia
               </TabsTrigger>
-              <TabsTrigger onClick={() => setSearchType("en_US")} value="en_US">
+              <TabsTrigger onClick={() => setSearchType("en")} value="en">
                 English
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="id_ID">
+            <TabsContent value="id">
               {topicsDataLangId !== undefined && topicsDataLangId.length > 0 ? (
                 <TableTopic
                   topics={topicsDataLangId}
@@ -146,7 +146,7 @@ export function TopicDashboardContent() {
                 </div>
               )}
             </TabsContent>
-            <TabsContent value="en_US">
+            <TabsContent value="en">
               {topicsDataLangEn !== undefined && topicsDataLangEn.length > 0 ? (
                 <TableTopic
                   topics={topicsDataLangEn}

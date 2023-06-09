@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { buildJsonSchemas } from "fastify-zod"
 
-const ARTICLE_LANGUAGE = ["id_ID", "en_US"] as const
+const ARTICLE_LANGUAGE = ["id", "en"] as const
 
 const articleInput = {
   title: z
@@ -12,7 +12,7 @@ const articleInput = {
     .min(3),
   language: z
     .enum(ARTICLE_LANGUAGE, {
-      invalid_type_error: "only id_ID and en_US are accepted",
+      invalid_type_error: "only id and en are accepted",
     })
     .optional(),
   content: z
