@@ -1,9 +1,10 @@
+"use client"
 import * as React from "react"
 import NextLink from "next/link"
 
 import { TopicDataProps } from "@/lib/data-types"
-import { Button } from "../UI/Button"
-import { Icon } from "../UI/Icon"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 
 interface DropdownLinkProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string

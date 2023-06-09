@@ -1,10 +1,10 @@
 import * as React from "react"
 import NextLink from "next/link"
-import NextImage from "next/image"
 
 import { Button } from "@/components/UI/Button"
 import { DownloadFileDataProps, MediaDataProps } from "@/lib/data-types"
 import { Icon } from "@/components/UI/Icon"
+import { NextPicture } from "../Image"
 interface DownloadCardProps extends React.HTMLAttributes<HTMLDivElement> {
   operatingSystem: string
   slug: string
@@ -39,10 +39,10 @@ export const DownloadCard = React.forwardRef<HTMLDivElement, DownloadCardProps>(
               aria-label={title}
               href={`/download/${type.toLowerCase()}/${slug}`}
             >
-              <NextImage
-                className="!relative h-[185px] w-[200px]"
-                src={featuredImage?.url as string}
-                alt={title}
+              <NextPicture
+                className="relative h-[185px] w-[200px]"
+                url={featuredImage?.url as string}
+                title={title}
               />
             </NextLink>
             <Button

@@ -1,6 +1,6 @@
 import * as React from "react"
 import NextLink from "next/link"
-import NextImage from "next/image"
+import { NextPicture } from "../Image"
 interface DownloadCardSlideProps {
   title: string
   slug: string
@@ -20,10 +20,10 @@ export const DownloadCardSide = React.forwardRef<
         ref={ref}
       >
         <div className="relative flex max-w-xs flex-col space-y-3 md:max-w-3xl md:flex-row md:space-x-4 md:space-y-0">
-          <NextImage
-            src={src}
-            className="!relative aspect-[1/1] h-[75px] w-auto max-w-[unset] overflow-hidden rounded-md"
-            alt={title}
+          <NextPicture
+            url={src}
+            className="relative aspect-[1/1] h-[75px] w-auto max-w-[unset] overflow-hidden rounded-md"
+            title={title}
             sizes="(max-width: 768px) 50px, 100px"
             priority={true}
           />

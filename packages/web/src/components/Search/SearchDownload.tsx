@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
 
