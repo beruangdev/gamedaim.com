@@ -7,7 +7,7 @@ import { EditorContent, useEditor } from "@tiptap/react"
 import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 
-import { ArticleDashboardLayout } from "@/components/Layout/ArticleDashboardLayout"
+import { ArticleDashboardContainer } from "@/components/Container/ArticleDashboardContainer"
 import {
   AddAuthorsAction,
   AddEditorsAction,
@@ -212,7 +212,7 @@ export const EditArticleForm = (props: {
             </Button>
           </div>
         </div>
-        <ArticleDashboardLayout
+        <ArticleDashboardContainer
           isOpen={isOpen}
           sidebar={
             <div className="fixed bottom-0 right-0 top-0 mt-[85px]">
@@ -382,7 +382,7 @@ export const EditArticleForm = (props: {
               </FormControl>
             </div>
           </div>
-        </ArticleDashboardLayout>
+        </ArticleDashboardContainer>
       </form>
     </>
   )

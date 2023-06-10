@@ -15,7 +15,7 @@ import {
 import { EditorKitExtension, EditorMenu } from "@/components/Editor"
 import { Modal, ModalSelectMedia } from "@/components/Modal"
 import { Button } from "@/components/UI/Button"
-import { DownloadDashboardLayout } from "@/components/Layout/DownloadDashboardLayout"
+import { DownloadDashboardContainer } from "@/components/Container/DownloadDashboardContainer"
 import {
   FormControl,
   FormErrorMessage,
@@ -215,7 +215,7 @@ export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
             </Button>
           </div>
         </div>
-        <DownloadDashboardLayout
+        <DownloadDashboardContainer
           isOpen={isOpen}
           sidebar={
             <div className="fixed bottom-[95px] right-0 top-[90px]">
@@ -564,7 +564,7 @@ export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
               </FormControl>
             </div>
           </div>
-        </DownloadDashboardLayout>
+        </DownloadDashboardContainer>
       </form>
 
       <div className="border-t p-4">

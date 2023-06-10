@@ -1,13 +1,13 @@
 import * as React from "react"
 
-interface DownloadDashboardLayoutProps
+interface DownloadDashboardContainerProps
   extends React.HTMLAttributes<HTMLDivElement> {
   isOpen?: boolean
   sidebar?: React.ReactNode
 }
 
-export const DownloadDashboardLayout: React.FunctionComponent<
-  DownloadDashboardLayoutProps
+export const DownloadDashboardContainer: React.FunctionComponent<
+  DownloadDashboardContainerProps
 > = (props) => {
   const { isOpen, sidebar, children, ...rest } = props
 
