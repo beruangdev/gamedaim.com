@@ -10,6 +10,7 @@ export default async function middleware(request: NextRequest) {
   const dataUser = currentUser && JSON.parse(currentUser)
   const currentTime = new Date().getTime()
   const pathname = request.nextUrl.pathname
+
   if (
     findAuthPage(pathname, adminOrAuthorRoutes) &&
     (!dataUser ||
@@ -23,6 +24,7 @@ export default async function middleware(request: NextRequest) {
 
     return response
   }
+
   if (
     findAuthPage(pathname, adminRoutes) &&
     (!dataUser ||
@@ -36,15 +38,15 @@ export default async function middleware(request: NextRequest) {
     response.cookies.delete("currentUser")
     return response
   }
+
   if (authRoutes.includes(pathname) && currentUser) {
     return NextResponse.redirect(new URL("/", request.url))
   }
 
-  const defaultLocale = "id_ID"
+  const defaultLocale = "id"
 
-  // Step 2: Create and call the next-intl middleware
   const handleI18nRouting = createIntlMiddleware({
-    locales: ["id_ID", "en_US"],
+    locales: ["id", "en"],
     defaultLocale,
     domains: [
       {
@@ -52,23 +54,18 @@ export default async function middleware(request: NextRequest) {
           env.NODE_ENV !== "development"
             ? `global.${env.DOMAIN}`
             : `global.localhost`,
-        defaultLocale: "en_US",
-        // Optionally restrict the locales managed by this domain. If this
-        // domain receives requests for another locale (e.g. us.example.com/fr),
-        // then the middleware will redirect to a domain that supports it.
-        locales: ["en_US"],
+        defaultLocale: "en",
+        locales: ["en"],
       },
     ],
   })
   const response = handleI18nRouting(request)
 
-  // Step 3: Alter the response
   response.headers.set("x-default-locale", defaultLocale)
 
   return response
 }
 
 export const config = {
-  // Skip all paths that should not be internationalized
   matcher: ["/((?!_next|.*\\..*).*)"],
 }

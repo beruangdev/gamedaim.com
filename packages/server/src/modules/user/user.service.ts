@@ -13,10 +13,76 @@ export async function createUser(input: CreateUserInput) {
   })
 }
 
+export async function getUserPasswordResetRequest({
+  userId,
+}: {
+  userId: string
+}) {
+  return await db.userPasswordResetRequest.findUnique({
+    where: {
+      userId,
+    },
+  })
+}
+export async function getUserPasswordResetRequestByToken({
+  token,
+}: {
+  token: string
+}) {
+  return await db.userPasswordResetRequest.findUnique({
+    where: {
+      token,
+    },
+  })
+}
+
+export async function deleteUserPasswordResetRequest({
+  userId,
+}: {
+  userId: string
+}) {
+  return await db.userPasswordResetRequest.delete({
+    where: {
+      userId,
+    },
+  })
+}
+export async function deleteUserPasswordResetRequestByToken({
+  token,
+}: {
+  token: string
+}) {
+  return await db.userPasswordResetRequest.delete({
+    where: {
+      token,
+    },
+  })
+}
+
+export async function createUserPasswordResetRequest({
+  userId,
+}: {
+  userId: string
+}) {
+  return await db.userPasswordResetRequest.create({
+    data: {
+      userId,
+    },
+  })
+}
+
 export async function updateUser(userId: string, data: UpdateUserInput) {
   return await db.user.update({
     where: { id: userId },
     data,
+  })
+}
+export async function updateUserPassword(userId: string, password: string) {
+  return await db.user.update({
+    where: { id: userId },
+    data: {
+      password,
+    },
   })
 }
 

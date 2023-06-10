@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { buildJsonSchemas } from "fastify-zod"
 
-const DOWNLOAD_LANGUAGE = ["id_ID", "en_US"] as const
+const DOWNLOAD_LANGUAGE = ["id", "en"] as const
 
 const DOWNLOAD_SCHEMA_JSON = [
   "DownloadApp",
@@ -38,7 +38,7 @@ const downloadInput = {
     .min(2),
   language: z
     .enum(DOWNLOAD_LANGUAGE, {
-      invalid_type_error: "only id_ID and en_US are accepted",
+      invalid_type_error: "only id and en are accepted",
     })
     .optional(),
   content: z

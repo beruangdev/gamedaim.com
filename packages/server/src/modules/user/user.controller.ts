@@ -1,22 +1,29 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { UserRole } from "@prisma/client"
 
-import { comparePassword } from "@/utils/password"
+import { comparePassword, hashPassword } from "@/utils/password"
 import { CreateUserInput, LoginInput, UpdateUserInput } from "./user.schema"
 import {
   createUser,
+  createUserPasswordResetRequest,
   deleteUserById,
+  deleteUserPasswordResetRequest,
   getTotalUsers,
   getUserByEmail,
   getUserById,
   getUserByUsername,
   getUserByUsernameAndGetArticles,
   getUserByUsernameAndGetDownloads,
+  getUserPasswordResetRequest,
+  getUserPasswordResetRequestByToken,
   getUsers,
   getUsersByRole,
   searchUsers,
   updateUser,
+  updateUserPassword,
 } from "./user.service"
+import { sendVerificationCodeEmail } from "@/utils/nodemailer"
+import { diffForHuman } from "@/utils/time"
 
 export async function registerUserHandler(
   request: FastifyRequest<{
@@ -104,6 +111,145 @@ export async function loginHandler(
     })
 
     return { user, accessToken }
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function validityTokenHandler(
+  request: FastifyRequest<{
+    Body: {
+      token: string
+    }
+  }>,
+  reply: FastifyReply,
+) {
+  const { token } = request.body
+
+  try {
+    const userPasswordResetRequestByToken =
+      await getUserPasswordResetRequestByToken({
+        token,
+      })
+
+    if (!userPasswordResetRequestByToken) {
+      return reply.code(401).send({
+        message: "Invalid token",
+      })
+    }
+
+    const fifteenMinutesAgo = new Date()
+    fifteenMinutesAgo.setMinutes(fifteenMinutesAgo.getMinutes() - 15000)
+
+    if (userPasswordResetRequestByToken.createdAt < fifteenMinutesAgo) {
+      const expiredMessage = `Token is expired ${diffForHuman(
+        userPasswordResetRequestByToken.createdAt,
+      )}. Please request a new one`
+      return reply.code(401).send({
+        message: expiredMessage,
+      })
+    }
+
+    return reply.code(200).send(userPasswordResetRequestByToken)
+  } catch (error) {
+    console.log(error)
+    return reply.code(500).send(error)
+  }
+}
+
+export async function resetPasswordHandler(
+  request: FastifyRequest<{
+    Body: {
+      token: string
+      password: string
+    }
+  }>,
+  reply: FastifyReply,
+) {
+  const { token, password } = request.body
+
+  try {
+    const userPasswordResetRequestByToken =
+      await getUserPasswordResetRequestByToken({
+        token,
+      })
+
+    if (!userPasswordResetRequestByToken) {
+      return reply.code(401).send({
+        message: "Invalid token",
+      })
+    }
+
+    const fifteenMinutesAgo = new Date()
+    fifteenMinutesAgo.setMinutes(fifteenMinutesAgo.getMinutes() - 15000)
+
+    if (userPasswordResetRequestByToken.createdAt < fifteenMinutesAgo) {
+      const expiredMessage = `Token is expired ${diffForHuman(
+        userPasswordResetRequestByToken.createdAt,
+      )}. Please request a new one`
+      return reply.code(401).send({
+        message: expiredMessage,
+      })
+    }
+
+    const hashedPassword = hashPassword(password)
+    const user = await updateUserPassword(
+      userPasswordResetRequestByToken.userId,
+      hashedPassword,
+    )
+    return reply.code(200).send(user)
+  } catch (error) {
+    console.log(error)
+    return reply.code(500).send(error)
+  }
+}
+export async function sendVerificationCodeHandler(
+  request: FastifyRequest<{
+    Body: {
+      email: string
+      baseURL: string
+    }
+  }>,
+  reply: FastifyReply,
+) {
+  const { email, baseURL } = request.body
+
+  const user = await getUserByEmail(email)
+  if (!user) {
+    return reply.code(401).send({
+      message: "Invalid email",
+    })
+  }
+
+  const GetUserPasswordResetRequest = await getUserPasswordResetRequest({
+    userId: user.id,
+  })
+
+  const fifteenMinutesAgo = new Date()
+  fifteenMinutesAgo.setMinutes(fifteenMinutesAgo.getMinutes() - 15)
+  if (
+    GetUserPasswordResetRequest &&
+    GetUserPasswordResetRequest?.createdAt < fifteenMinutesAgo
+  ) {
+    deleteUserPasswordResetRequest({
+      userId: user.id,
+    })
+  }
+
+  const CreateUserPasswordResetRequest = await createUserPasswordResetRequest({
+    userId: user.id,
+  })
+
+  try {
+    const SendVerificationCodeEmail = await sendVerificationCodeEmail({
+      to: email,
+      token: CreateUserPasswordResetRequest.token,
+      baseURL,
+    })
+    return reply
+      .code(201)
+      .send({ CreateUserPasswordResetRequest, SendVerificationCodeEmail })
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)

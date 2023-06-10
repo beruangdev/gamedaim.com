@@ -32,14 +32,13 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
 
     const onSubmitMedia = async (values: FormValues) => {
       setLoading(true)
-
       const images = []
       for (const file of values.file) {
         const image = await resizeImage(file)
         images.push(image)
       }
 
-      const data = await postMultipleMediaAction(images)
+      const { data } = await postMultipleMediaAction(images)
 
       if (data) {
         addLoadMedias()
@@ -53,6 +52,7 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
       <div className="my-2 space-y-2" {...rest} ref={ref}>
         <Button
           aria-label="Add New Media"
+          type="button"
           onClick={(e) => {
             e.preventDefault()
             setShowUploadForm(!showUploadForm)
@@ -63,10 +63,8 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
         <div className={showUploadForm ? "flex" : "hidden"}>
           <div className="flex-1 space-y-4">
             <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                handleSubmit(onSubmitMedia)
-              }}
+              id="media-upload"
+              onSubmit={(e) => e.preventDefault()}
               className="space-y-4"
             >
               <FormControl invalid={Boolean(errors.file)}>
@@ -77,7 +75,8 @@ export const MediaUpload = React.forwardRef<HTMLDivElement, MediaUploadProps>(
               </FormControl>
               <div className="align-center flex justify-center">
                 <Button
-                  onSubmit={(e) => e.preventDefault()}
+                  type="button"
+                  onClick={handleSubmit(onSubmitMedia)}
                   aria-label="Submit"
                   loading={loading}
                 >

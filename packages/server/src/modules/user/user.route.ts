@@ -11,9 +11,12 @@ import {
   getUsersHandler,
   loginHandler,
   registerUserHandler,
+  resetPasswordHandler,
   searchUsersHandler,
+  sendVerificationCodeHandler,
   updateUserByAdminHandler,
   updateUserHandler,
+  validityTokenHandler,
 } from "./user.controller"
 import { $ref } from "./user.schema"
 
@@ -43,6 +46,10 @@ async function userRoutes(server: FastifyInstance) {
     },
     loginHandler,
   )
+
+  server.post("/send-verification-token", sendVerificationCodeHandler)
+  server.post("/validity-token", validityTokenHandler)
+  server.post("/reset-password", resetPasswordHandler)
 
   server.put(
     "/:userId",

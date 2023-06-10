@@ -9,31 +9,41 @@ datasource db {
 }
 
 model User {
-  id                  String             @id @unique @default(uuid())
-  email               String             @unique
-  username            String             @unique
-  name                String?
-  phoneNumber         String?
-  profilePictureId    String?
-  about               String?
-  password            String
-  metaTitle           String?
-  metaDescription     String?
-  role                UserRole           @default(USER)
-  articleAuthors      Article[]          @relation("ArticleAuthors")
-  articleEditors      Article[]          @relation("ArticleEditors")
-  articleComments     ArticleComment[]   @relation("CommentAuthors")
-  downloadAuthors     Download[]         @relation("DownloadAuthors")
-  downloadFileAuthors DownloadFile[]     @relation("DownloadFileAuthors")
-  downloadComments    DownloadComment[]  @relation("DownloadCommentAuthors")
-  topUpReviews        TopUpReview[]      @relation("TopUpReviewAuthors")
-  topUpComments       TopUpReviewReply[] @relation("TopUpReviewReplyAuthors")
-  topUpRatings        TopUpRating[]      @relation("TopUpRatingAuthors")
-  medias              Media[]            @relation("MediaAuthors")
-  profilePicture      Media?             @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
-  wpComments          WpComment[]        @relation("WpCommentAuthors")
-  createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
+  id                   String                    @id @unique @default(uuid())
+  email                String                    @unique
+  username             String                    @unique
+  name                 String?
+  phoneNumber          String?
+  profilePictureId     String?
+  about                String?
+  password             String
+  metaTitle            String?
+  metaDescription      String?
+  role                 UserRole                  @default(USER)
+  articleAuthors       Article[]                 @relation("ArticleAuthors")
+  articleEditors       Article[]                 @relation("ArticleEditors")
+  articleComments      ArticleComment[]          @relation("CommentAuthors")
+  downloadAuthors      Download[]                @relation("DownloadAuthors")
+  downloadFileAuthors  DownloadFile[]            @relation("DownloadFileAuthors")
+  downloadComments     DownloadComment[]         @relation("DownloadCommentAuthors")
+  topUpReviews         TopUpReview[]             @relation("TopUpReviewAuthors")
+  topUpComments        TopUpReviewReply[]        @relation("TopUpReviewReplyAuthors")
+  topUpRatings         TopUpRating[]             @relation("TopUpRatingAuthors")
+  medias               Media[]                   @relation("MediaAuthors")
+  profilePicture       Media?                    @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
+  wpComments           WpComment[]               @relation("WpCommentAuthors")
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
+  userPasswordResetRequest UserPasswordResetRequest?
+}
+
+model UserPasswordResetRequest {
+  id        String   @id @unique @default(uuid())
+  userId    String   @unique
+  user      User?    @relation(fields: [userId], references: [id])
+  token     String   @unique @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ArticlePrimary {
@@ -45,7 +55,7 @@ model ArticlePrimary {
 
 model Article {
   id               String           @id @unique @default(uuid())
-  language         LanguageType     @default(id_ID)
+  language         LanguageType     @default(id)
   title            String
   slug             String           @unique
   content          String
@@ -74,7 +84,7 @@ model TopicPrimary {
 
 model Topic {
   id              String       @id @unique @default(uuid())
-  language        LanguageType @default(id_ID)
+  language        LanguageType @default(id)
   title           String
   slug            String       @unique
   description     String?
@@ -147,7 +157,7 @@ model DownloadPrimary {
 
 model Download {
   id                String            @id @unique @default(uuid())
-  language          LanguageType      @default(id_ID)
+  language          LanguageType      @default(id)
   title             String
   content           String
   excerpt           String
@@ -387,8 +397,8 @@ enum DownloadSchema {
 }
 
 enum LanguageType {
-  id_ID
-  en_US
+  id
+  en
 }
 
 enum PaymentStatus {

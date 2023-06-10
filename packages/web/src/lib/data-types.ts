@@ -2,6 +2,12 @@ export interface ErrorResponse {
   message: string
 }
 
+export interface CheckSuccessResponse {
+  name: string
+  success: boolean
+  message: string
+}
+
 export interface ArticlePrimaryDataProps {
   id: string
   articles: ArticleDataProps[]
@@ -365,4 +371,4 @@ export type TopUpProviderData = "DIGIFLAZZ" | "APIGAMES"
 export type PaymentProviderData = "DUITKU" | "MIDTRANS" | "TRIPAY"
 export type TopUpStatusData = "PROCESSING" | "SUCCESS" | "FAILED" | "ERROR"
 
-export type LanguageTypeData = "id_ID" | "en_US"
+export type LanguageTypeData = "id" | "en"

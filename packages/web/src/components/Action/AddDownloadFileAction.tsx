@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react"
 import NextImage from "next/image"
 import { useForm } from "react-hook-form"
@@ -57,10 +58,10 @@ export const AddDownloadFileAction = React.forwardRef<
     React.useState<string>("")
   React.useEffect(() => {
     if (user) {
-      setAuthors((prevAuthors) => [...prevAuthors, user.user.id])
+      setAuthors((prevAuthors) => [...prevAuthors, user.id])
       setSelectedAuthors((prevSelectedAuthors) => [
         ...prevSelectedAuthors,
-        { id: user.user.id, name: user.user.name },
+        { id: user.id, name: user.name },
       ])
     }
   }, [user])
@@ -110,7 +111,7 @@ export const AddDownloadFileAction = React.forwardRef<
   return (
     <div className="flex-1 space-y-4" ref={ref}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div>
           <FormControl invalid={Boolean(errors.title)}>
             <FormLabel>
               Title
@@ -151,50 +152,43 @@ export const AddDownloadFileAction = React.forwardRef<
           </FormControl>
           <div>
             {selectedFeaturedImageUrl ? (
-              <>
-                <ModalSelectMedia
-                  handleSelectUpdateMedia={handleUpdateMedia}
-                  open={openModal}
-                  setOpen={setOpenModal}
-                  triggerContent={
-                    <>
-                      <FormLabel>Featured Image</FormLabel>
-                      <div className="relative">
-                        <NextImage
-                          src={selectedFeaturedImageUrl}
-                          className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
-                          fill
-                          alt="Featured Image"
-                          onClick={() => setOpenModal(true)}
-                          sizes="(max-width: 768px) 30vw,
-            (max-width: 1200px) 20vw,
-            33vw"
-                          quality={60}
-                        />
-                      </div>
-                    </>
-                  }
-                />
-              </>
+              <ModalSelectMedia
+                handleSelectUpdateMedia={handleUpdateMedia}
+                open={openModal}
+                setOpen={setOpenModal}
+                triggerContent={
+                  <>
+                    <FormLabel>Featured Image</FormLabel>
+                    <div className="relative">
+                      <NextImage
+                        src={selectedFeaturedImageUrl}
+                        className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                        fill
+                        alt="Featured Image"
+                        onClick={() => setOpenModal(true)}
+                        sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
+                        quality={60}
+                      />
+                    </div>
+                  </>
+                }
+              />
             ) : (
-              <>
-                <ModalSelectMedia
-                  handleSelectUpdateMedia={handleUpdateMedia}
-                  open={openModal}
-                  setOpen={setOpenModal}
-                  triggerContent={
-                    <>
-                      <FormLabel>Featured Image</FormLabel>
-                      <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
-                        <p>Select Featured Image</p>
-                      </div>
-                    </>
-                  }
-                />
-              </>
+              <ModalSelectMedia
+                handleSelectUpdateMedia={handleUpdateMedia}
+                open={openModal}
+                setOpen={setOpenModal}
+                triggerContent={
+                  <>
+                    <FormLabel>Featured Image</FormLabel>
+                    <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
+                      <p>Select Featured Image</p>
+                    </div>
+                  </>
+                }
+              />
             )}
           </div>
-
           <FormControl invalid={Boolean(errors.meta_title)}>
             <FormLabel>Meta Title</FormLabel>
             <Input

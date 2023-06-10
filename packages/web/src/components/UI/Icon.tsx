@@ -7,6 +7,7 @@ import {
   BiTrophy,
   BiTv,
 } from "react-icons/bi"
+import { BsArrowLeft } from "react-icons/bs"
 import {
   FaAndroid,
   FaApple,
@@ -26,6 +27,7 @@ import {
   FaXbox,
   FaYoutube,
 } from "react-icons/fa"
+import { FcGoogle } from "react-icons/fc"
 import { ImBook } from "react-icons/im"
 import { IoGameController } from "react-icons/io5"
 import {
@@ -34,6 +36,7 @@ import {
   LuLoader2,
   LuTrash,
   LuTwitter,
+  LuAlertCircle,
 } from "react-icons/lu"
 import {
   MdAccessTime,
@@ -111,7 +114,9 @@ export const Icon = {
   Android: FaAndroid,
   Apple: FaApple,
   AppleAlt: FaAppleAlt,
+  Alert: LuAlertCircle,
   ArrowBack: MdOutlineArrowBack,
+  ArrowLeft: BsArrowLeft,
   ArrowForward: MdOutlineArrowForward,
   Article: MdOutlineArticle,
   Balance: MdOutlineBalance,
@@ -150,6 +155,7 @@ export const Icon = {
   FormatStrikethrough: MdFormatStrikethrough,
   FormatUnderlined: MdFormatUnderlined,
   Game: IoGameController,
+  Google: FcGoogle,
   Help: MdHelpOutline,
   Home: MdOutlineHome,
   HorizontalRule: MdHorizontalRule,

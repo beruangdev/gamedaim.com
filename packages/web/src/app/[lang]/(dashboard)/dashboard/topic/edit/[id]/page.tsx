@@ -8,6 +8,19 @@ import { getTopicByIdAction } from "@/lib/api/server/topic"
 export const metadata: Metadata = {
   title: "Edit Topic Dashboard",
   description: "Edit Topic Dashboard",
+  robots: {
+    index: false,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 }
 
 interface EditTopicDashboardProps {

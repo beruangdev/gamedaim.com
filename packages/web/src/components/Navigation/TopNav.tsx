@@ -29,42 +29,40 @@ export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
     }, [searchVisibility])
 
     return (
-      <>
-        <nav
-          className="bg-background border-border opacity-1 z-90 fixed left-auto top-0 -my-0 mx-auto box-border flex h-16 w-full items-center border-none px-4 py-0 align-baseline shadow-sm outline-none"
-          ref={ref}
-          {...rest}
-        >
-          <div className="container mx-auto flex flex-wrap items-center justify-between">
-            <div className="flex flex-row">
-              <NextLink
-                aria-label="Home"
-                href="/"
-                className="text-foreground flex items-center"
-              >
-                <Logo />
-              </NextLink>
-            </div>
-            <div className="flex justify-center">
-              <IconButton
-                variant="ghost"
-                aria-label="Search"
-                onClick={() => setSearchVisibility((prev) => !prev)}
-              >
-                <Icon.Search className="h-5 w-5" />
-              </IconButton>
-              <UserMenu />
-              <ThemeSwitcher />
-            </div>
+      <nav
+        className="bg-background border-border opacity-1 fixed left-auto top-0 z-50 -my-0 mx-auto box-border flex h-16 w-full items-center border-none px-4 py-0 align-baseline shadow-sm outline-none"
+        ref={ref}
+        {...rest}
+      >
+        <div className="container mx-auto flex flex-wrap items-center justify-between">
+          <div className="flex flex-row">
+            <NextLink
+              aria-label="Home"
+              href="/"
+              className="text-foreground flex items-center"
+            >
+              <Logo />
+            </NextLink>
           </div>
-          <SearchNavbar
-            hideSearchVisibility={() => {
-              setSearchVisibility(false)
-            }}
-            searchVisibility={searchVisibility}
-          />
-        </nav>
-      </>
+          <div className="flex justify-center">
+            <IconButton
+              variant="ghost"
+              aria-label="Search"
+              onClick={() => setSearchVisibility((prev) => !prev)}
+            >
+              <Icon.Search className="h-5 w-5" />
+            </IconButton>
+            <UserMenu />
+            <ThemeSwitcher />
+          </div>
+        </div>
+        <SearchNavbar
+          hideSearchVisibility={() => {
+            setSearchVisibility(false)
+          }}
+          searchVisibility={searchVisibility}
+        />
+      </nav>
     )
   },
 )

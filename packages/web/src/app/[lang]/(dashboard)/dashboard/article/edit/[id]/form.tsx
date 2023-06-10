@@ -7,7 +7,7 @@ import { EditorContent, useEditor } from "@tiptap/react"
 import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 
-import { ArticleDashboardContainer } from "@/app/[lang]/(dashboard)/dashboard/article/container"
+import { ArticleDashboardLayout } from "@/components/Layout/ArticleDashboardLayout"
 import {
   AddAuthorsAction,
   AddEditorsAction,
@@ -32,6 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/Select"
+import { ScrollArea } from "@/components/UI/ScrollArea"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { useDisclosure } from "@/hooks/use-disclosure"
@@ -211,139 +212,147 @@ export const EditArticleForm = (props: {
             </Button>
           </div>
         </div>
-        <ArticleDashboardContainer
+        <ArticleDashboardLayout
           isOpen={isOpen}
           sidebar={
-            <div className="scollbarhide scrollbar bg-background fixed bottom-0 right-0 top-0 mt-[70px] flex min-w-[300px] max-w-[300px] flex-col space-y-4 overflow-auto p-4 max-sm:min-w-full max-sm:max-w-full">
-              <AddTopicsAction
-                lang={lang}
-                topics={topics}
-                addTopics={setTopics}
-                selectedTopics={selectedTopics}
-                addSelectedTopics={setSelectedTopics}
-                topicType={"ARTICLE"}
-              />
-              {selectedFeaturedImageUrl ? (
-                <>
-                  <FormLabel>Featured Image</FormLabel>
-                  <ModalSelectMedia
-                    handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
-                    triggerContent={
-                      <>
-                        <div className="relative">
-                          <NextImage
-                            src={selectedFeaturedImageUrl}
-                            className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
-                            fill
-                            alt="Featured Image"
-                            onClick={() => setOpenModal(true)}
-                            sizes="(max-width: 768px) 30vw,
-            (max-width: 1200px) 20vw,
-            33vw"
-                            quality={60}
-                          />
-                        </div>
-                      </>
-                    }
-                  />
-                </>
-              ) : (
-                <>
-                  <ModalSelectMedia
-                    handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
-                    triggerContent={
+            <div className="fixed bottom-0 right-0 top-0 mt-[85px]">
+              <ScrollArea className="h-[calc(100vh-80px)] max-w-[300px] rounded border py-4 max-md:min-w-full">
+                <div className="bg-background flex flex-col px-4 py-2">
+                  <div className="my-2 px-4">
+                    <AddTopicsAction
+                      lang={lang}
+                      topics={topics}
+                      addTopics={setTopics}
+                      selectedTopics={selectedTopics}
+                      addSelectedTopics={setSelectedTopics}
+                      topicType={"ARTICLE"}
+                    />
+                  </div>
+                  <div className="my-2 px-4">
+                    {selectedFeaturedImageUrl ? (
                       <>
                         <FormLabel>Featured Image</FormLabel>
-                        <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
-                          <p>Select Featured Image</p>
-                        </div>
+                        <ModalSelectMedia
+                          handleSelectUpdateMedia={handleUpdateMedia}
+                          open={openModal}
+                          setOpen={setOpenModal}
+                          triggerContent={
+                            <>
+                              <div className="relative">
+                                <NextImage
+                                  src={selectedFeaturedImageUrl}
+                                  className="border-muted/30 !relative mt-2 aspect-video h-[120px] cursor-pointer rounded-sm border-2 object-cover"
+                                  fill
+                                  alt="Featured Image"
+                                  onClick={() => setOpenModal(true)}
+                                  sizes="(max-width: 768px) 30vw,
+          (max-width: 1200px) 20vw,
+          33vw"
+                                  quality={60}
+                                />
+                              </div>
+                            </>
+                          }
+                        />
                       </>
-                    }
-                  />
-                </>
-              )}
-              <div className="my-2 flex flex-col px-4">
-                <AddAuthorsAction
-                  authors={authors}
-                  addAuthors={setAuthors}
-                  selectedAuthors={selectedAuthors}
-                  addSelectedAuthors={setSelectedAuthors}
-                />
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <AddEditorsAction
-                  editors={editorIds}
-                  addEditors={setEditorIds}
-                  selectedEditors={selectedEditors}
-                  addSelectedEditors={setSelectedEditors}
-                />
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormControl invalid={Boolean(errors.language)}>
-                  <Controller
-                    control={control}
-                    name="language"
-                    render={({ field }) => (
+                    ) : (
                       <>
-                        <FormLabel>Language</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select a language" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Language</SelectLabel>
-                              <SelectItem value="id_ID">Indonesia</SelectItem>
-                              <SelectItem value="en_US">English</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {errors?.language && (
-                          <FormErrorMessage>
-                            {errors.language.message}
-                          </FormErrorMessage>
-                        )}
+                        <ModalSelectMedia
+                          handleSelectUpdateMedia={handleUpdateMedia}
+                          open={openModal}
+                          setOpen={setOpenModal}
+                          triggerContent={
+                            <>
+                              <FormLabel>Featured Image</FormLabel>
+                              <div className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center">
+                                <p>Select Featured Image</p>
+                              </div>
+                            </>
+                          }
+                        />
                       </>
                     )}
-                  />
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormLabel>Meta Title</FormLabel>
-                <FormControl invalid={Boolean(errors.metaTitle)}>
-                  <Input
-                    {...register("metaTitle")}
-                    placeholder="Enter Meta Title (Optional)"
-                  />
-                  {errors?.metaTitle && (
-                    <FormErrorMessage>
-                      {errors.metaTitle.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormLabel>Meta Description</FormLabel>
-                <FormControl invalid={Boolean(errors.metaDescription)}>
-                  <Textarea
-                    {...register("metaDescription")}
-                    placeholder="Enter Meta Description (Optional)"
-                  />
-                  {errors?.metaDescription && (
-                    <FormErrorMessage>
-                      {errors.metaDescription.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <AddAuthorsAction
+                      authors={authors}
+                      addAuthors={setAuthors}
+                      selectedAuthors={selectedAuthors}
+                      addSelectedAuthors={setSelectedAuthors}
+                    />
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <AddEditorsAction
+                      editors={editorIds}
+                      addEditors={setEditorIds}
+                      selectedEditors={selectedEditors}
+                      addSelectedEditors={setSelectedEditors}
+                    />
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormControl invalid={Boolean(errors.language)}>
+                      <Controller
+                        control={control}
+                        name="language"
+                        render={({ field }) => (
+                          <>
+                            <FormLabel>Language</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              value={field.value}
+                            >
+                              <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select a language" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel>Language</SelectLabel>
+                                  <SelectItem value="id">Indonesia</SelectItem>
+                                  <SelectItem value="en">English</SelectItem>
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                            {errors?.language && (
+                              <FormErrorMessage>
+                                {errors.language.message}
+                              </FormErrorMessage>
+                            )}
+                          </>
+                        )}
+                      />
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormLabel>Meta Title</FormLabel>
+                    <FormControl invalid={Boolean(errors.metaTitle)}>
+                      <Input
+                        {...register("metaTitle")}
+                        placeholder="Enter Meta Title (Optional)"
+                      />
+                      {errors?.metaTitle && (
+                        <FormErrorMessage>
+                          {errors.metaTitle.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormLabel>Meta Description</FormLabel>
+                    <FormControl invalid={Boolean(errors.metaDescription)}>
+                      <Textarea
+                        {...register("metaDescription")}
+                        placeholder="Enter Meta Description (Optional)"
+                      />
+                      {errors?.metaDescription && (
+                        <FormErrorMessage>
+                          {errors.metaDescription.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                </div>
+              </ScrollArea>
             </div>
           }
         >
@@ -373,7 +382,7 @@ export const EditArticleForm = (props: {
               </FormControl>
             </div>
           </div>
-        </ArticleDashboardContainer>
+        </ArticleDashboardLayout>
       </form>
     </>
   )

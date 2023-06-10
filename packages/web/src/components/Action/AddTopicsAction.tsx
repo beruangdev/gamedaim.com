@@ -1,9 +1,11 @@
 "use client"
+
 import * as React from "react"
 import { useForm } from "react-hook-form"
+
 import { toast } from "@/components/UI/Toast"
 import { Button } from "@/components/UI/Button"
-import { FormErrorMessage, Input } from "@/components/UI/Form"
+import { FormErrorMessage, FormLabel, Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
 import { TopicDataProps, LanguageTypeData } from "@/lib/data-types"
 import {
@@ -199,71 +201,69 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
       addTopics(filteredData)
     }
     return (
-      <>
-        <div ref={ref}>
-          <h3 className="text-base">Topics</h3>
-          <div className="border-muted/30 bg-muted/100 rounded-md border">
-            <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
-              {selectedTopics.length > 0 &&
-                selectedTopics.map((topic) => {
-                  return (
-                    <div
-                      className="bg-muted/20 text-foreground flex items-center gap-2 px-2 py-1 text-[14px]"
-                      key={topic.id}
+      <div ref={ref}>
+        <FormLabel>Topics</FormLabel>
+        <div className="border-muted/30 bg-muted/100 rounded-md border">
+          <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
+            {selectedTopics.length > 0 &&
+              selectedTopics.map((topic) => {
+                return (
+                  <div
+                    className="bg-muted/20 text-foreground flex items-center gap-2 px-2 py-1 text-[14px]"
+                    key={topic.id}
+                  >
+                    <span>{topic.title}</span>
+                    <Button
+                      disabled={selectedTopics.length === 1}
+                      aria-label="Delete Topic"
+                      onClick={() => handleRemoveValue(topic)}
+                      className="text-foreground hover:bg-warning h-auto min-w-0 bg-transparent p-0"
                     >
-                      <span>{topic.title}</span>
-                      <Button
-                        disabled={selectedTopics.length === 1}
-                        aria-label="Delete Topic"
-                        onClick={() => handleRemoveValue(topic)}
-                        className="h-auto min-w-0 bg-transparent p-0 text-inherit"
-                      >
-                        <Icon.Delete />
-                      </Button>
-                    </div>
-                  )
-                })}
-              <Input
-                type="text"
-                {...register("title", {
-                  required: selectedTopics.length === 0 && "Topic is Required",
-                })}
-                className="h-auto w-full min-w-[50px] max-w-full shrink grow basis-0 border-none !bg-transparent p-0 focus:border-none focus:ring-0"
-                name="title"
-                onKeyDown={handleKeyDown}
-                id="searchTopic"
-                value={inputValue}
-                placeholder="Enter topics"
-                onChange={handleSearchChange}
-                onSubmit={handleFormSubmit}
-              />
+                      <Icon.Close />
+                    </Button>
+                  </div>
+                )
+              })}
+            <Input
+              type="text"
+              {...register("title", {
+                required: selectedTopics.length === 0 && "Topic is Required",
+              })}
+              className="h-auto w-full min-w-[50px] max-w-full shrink grow basis-0 border-none !bg-transparent p-0 focus:border-none focus:ring-0"
+              name="title"
+              onKeyDown={handleKeyDown}
+              id="searchTopic"
+              value={inputValue}
+              placeholder="Enter topics"
+              onChange={handleSearchChange}
+              onSubmit={handleFormSubmit}
+            />
 
-              {errors?.title && (
-                <FormErrorMessage>{errors.title.message}</FormErrorMessage>
-              )}
-            </div>
-            {searchResults.length > 0 && (
-              <ul className="border-muted/30 border-t">
-                {searchResults.map((searchTopic: TopicDataProps) => {
-                  const dataTopics = {
-                    id: searchTopic.id,
-                    title: searchTopic.title,
-                  }
-                  return (
-                    <li
-                      key={searchTopic.id}
-                      className="hover:bg-muted/50 p-2"
-                      onClick={() => handleSelectandAssign(dataTopics)}
-                    >
-                      {searchTopic.title}
-                    </li>
-                  )
-                })}
-              </ul>
+            {errors?.title && (
+              <FormErrorMessage>{errors.title.message}</FormErrorMessage>
             )}
           </div>
+          {searchResults.length > 0 && (
+            <ul className="border-muted/30 border-t">
+              {searchResults.map((searchTopic: TopicDataProps) => {
+                const dataTopics = {
+                  id: searchTopic.id,
+                  title: searchTopic.title,
+                }
+                return (
+                  <li
+                    key={searchTopic.id}
+                    className="hover:bg-muted/50 p-2"
+                    onClick={() => handleSelectandAssign(dataTopics)}
+                  >
+                    {searchTopic.title}
+                  </li>
+                )
+              })}
+            </ul>
+          )}
         </div>
-      </>
+      </div>
     )
   },
 )

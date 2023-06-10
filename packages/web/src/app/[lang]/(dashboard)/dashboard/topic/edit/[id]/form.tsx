@@ -52,7 +52,7 @@ export const EditTopicForm = (props: { id: string }) => {
     slug: "",
     metaTitle: "",
     metaDescription: "",
-    language: "id_ID",
+    language: "id",
     type: "ALL",
   })
 
@@ -177,8 +177,8 @@ export const EditTopicForm = (props: { id: string }) => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Language</SelectLabel>
-                  <SelectItem value="id_ID">Indonesia</SelectItem>
-                  <SelectItem value="en_US">English</SelectItem>
+                  <SelectItem value="id">Indonesia</SelectItem>
+                  <SelectItem value="en">English</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -210,6 +210,7 @@ export const EditTopicForm = (props: { id: string }) => {
                   <SelectLabel>Type</SelectLabel>
                   <SelectItem value="ALL">ALL</SelectItem>
                   <SelectItem value="ARTICLE">ARTICLE</SelectItem>
+                  <SelectItem value="DOWNLOAD">DOWNLOAD</SelectItem>
                   <SelectItem value="REVIEW">REVIEW</SelectItem>
                   <SelectItem value="TUTORIAL">TUTORIAL</SelectItem>
                 </SelectGroup>
@@ -240,37 +241,33 @@ export const EditTopicForm = (props: { id: string }) => {
             open={openModal}
             setOpen={setOpenModal}
             triggerContent={
-              <>
-                <div className="relative">
-                  <Image
-                    src={selectedFeaturedImageUrl}
-                    className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
-                    fill
-                    alt="Featured Image"
-                    onClick={() => setOpenModal(true)}
-                    sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
-                  />
-                </div>
-              </>
+              <div className="relative">
+                <Image
+                  src={selectedFeaturedImageUrl}
+                  className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                  fill
+                  alt="Featured Image"
+                  onClick={() => setOpenModal(true)}
+                  sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
+                />
+              </div>
             }
           />
         </>
       ) : (
-        <>
-          <ModalSelectMedia
-            handleSelectUpdateMedia={handleUpdateMedia}
-            open={openModal}
-            setOpen={setOpenModal}
-            triggerContent={
-              <>
-                <FormLabel>Featured Image</FormLabel>
-                <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
-                  <p>Select Featured Image</p>
-                </div>
-              </>
-            }
-          />
-        </>
+        <ModalSelectMedia
+          handleSelectUpdateMedia={handleUpdateMedia}
+          open={openModal}
+          setOpen={setOpenModal}
+          triggerContent={
+            <>
+              <FormLabel>Featured Image</FormLabel>
+              <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
+                <p>Select Featured Image</p>
+              </div>
+            </>
+          }
+        />
       )}
       <FormControl invalid={Boolean(errors.metaTitle)}>
         <FormLabel>Meta Title</FormLabel>

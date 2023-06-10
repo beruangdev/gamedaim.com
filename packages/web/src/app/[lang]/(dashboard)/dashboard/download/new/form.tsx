@@ -13,8 +13,9 @@ import {
   AddTopicsAction,
 } from "@/components/Action"
 import { EditorKitExtension, EditorMenu } from "@/components/Editor"
-import { ModalSelectMedia } from "@/components/Modal"
+import { Modal, ModalSelectMedia } from "@/components/Modal"
 import { Button } from "@/components/UI/Button"
+import { DownloadDashboardLayout } from "@/components/Layout/DownloadDashboardLayout"
 import {
   FormControl,
   FormErrorMessage,
@@ -38,7 +39,7 @@ import { useCurrentUser } from "@/hooks/use-current-user"
 import { useDisclosure } from "@/hooks/use-disclosure"
 import { postDownloadWithPrimaryAction } from "@/lib/api/server/download"
 import { DownloadSchemaData, LanguageTypeData } from "@/lib/data-types"
-import { DownloadDashboardContainer } from "../container"
+import { ScrollArea } from "@/components/UI/ScrollArea"
 
 interface FormValues {
   title: string
@@ -100,10 +101,10 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
 
   React.useEffect(() => {
     if (user) {
-      setAuthors((prevAuthors) => [...prevAuthors, user.user.id])
+      setAuthors((prevAuthors) => [...prevAuthors, user.id])
       setSelectedAuthors((prevSelectedAuthors) => [
         ...prevSelectedAuthors,
-        { id: user.user.id, name: user.user.name },
+        { id: user.id, name: user.name },
       ])
     }
   }, [user])
@@ -188,7 +189,7 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
         }}
         className="space-y-4"
       >
-        <div className="bg-background sticky top-[0px] z-[90] flex items-center justify-between px-3 py-5">
+        <div className="bg-background sticky top-[0px] z-[9] flex items-center justify-between px-3 py-5">
           <Button aria-label="Go To Downloads" variant="ghost">
             <NextLink aria-label="Go To Downloads" href="/dashboard/downloads">
               Downloads
@@ -207,309 +208,333 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
             <Button
               aria-label="View Sidebar"
               variant="ghost"
+              type="button"
               onClick={onToggle}
             >
               <Icon.Menu />
             </Button>
           </div>
         </div>
-        <DownloadDashboardContainer
+        <DownloadDashboardLayout
           isOpen={isOpen}
           sidebar={
-            <div className="scollbarhide scrollbar bg-background fixed bottom-[95px] right-0 top-[65px] flex min-w-[300px] max-w-[300px] flex-col space-y-4 overflow-x-auto border px-4 py-4 max-sm:min-w-full max-sm:max-w-full">
-              <AddTopicsAction
-                topics={topics}
-                addTopics={setTopics}
-                selectedTopics={selectedTopics}
-                addSelectedTopics={setSelectedTopics}
-                lang={lang}
-                topicType={"DOWNLOAD"}
-              />
-              {selectedFeaturedImageUrl ? (
-                <>
-                  <ModalSelectMedia
-                    handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
-                    triggerContent={
-                      <>
-                        <FormLabel>Featured Image</FormLabel>
-                        <div className="relative">
-                          <NextImage
-                            src={selectedFeaturedImageUrl}
-                            className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
-                            fill
-                            alt="Featured Image"
-                            onClick={() => setOpenModal(true)}
-                            sizes="(max-width: 768px) 30vw,
-            (max-width: 1200px) 20vw,
-            33vw"
-                            quality={60}
-                          />
-                        </div>
-                      </>
-                    }
-                  />
-                </>
-              ) : (
-                <>
-                  <ModalSelectMedia
-                    handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
-                    triggerContent={
-                      <>
-                        <FormLabel>Featured Image</FormLabel>
-                        <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
-                          <p>Select Featured Image</p>
-                        </div>
-                      </>
-                    }
-                  />
-                </>
-              )}
-              <div className="my-2 flex flex-col px-4">
-                <FormLabel>Excerpt</FormLabel>
-                <FormControl invalid={Boolean(errors.excerpt)}>
-                  <Textarea
-                    {...register("excerpt")}
-                    placeholder="Enter Meta Title (Optional)"
-                  />
-                  {errors?.excerpt && (
-                    <FormErrorMessage>
-                      {errors.excerpt.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <AddAuthorsAction
-                  authors={authors}
-                  addAuthors={setAuthors}
-                  selectedAuthors={selectedAuthors}
-                  addSelectedAuthors={setSelectedAuthors}
-                />
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormLabel>Meta Title</FormLabel>
-                <FormControl invalid={Boolean(errors.metaTitle)}>
-                  <Input
-                    {...register("metaTitle")}
-                    placeholder="Enter Meta Title (Optional)"
-                  />
-                  {errors?.metaTitle && (
-                    <FormErrorMessage>
-                      {errors.metaTitle.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormLabel>Meta Description</FormLabel>
-                <FormControl invalid={Boolean(errors.metaDescription)}>
-                  <Textarea
-                    {...register("metaDescription")}
-                    placeholder="Enter Meta Description (Optional)"
-                  />
-                  {errors?.metaDescription && (
-                    <FormErrorMessage>
-                      {errors.metaDescription.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormLabel>Developer</FormLabel>
-                <FormControl invalid={Boolean(errors.developer)}>
-                  <Input
-                    {...register("developer")}
-                    placeholder="Enter Developer"
-                  />
-                  {errors?.developer && (
-                    <FormErrorMessage>
-                      {errors.developer.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormLabel>Operation System</FormLabel>
-                <FormControl invalid={Boolean(errors.operatingSystem)}>
-                  <Input
-                    {...register("operatingSystem")}
-                    placeholder="Enter Operation System"
-                  />
-                  {errors?.operatingSystem && (
-                    <FormErrorMessage>
-                      {errors.operatingSystem.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormLabel>License</FormLabel>
-                <FormControl invalid={Boolean(errors.license)}>
-                  <Input {...register("license")} placeholder="Enter License" />
-                  {errors?.license && (
-                    <FormErrorMessage>
-                      {errors.license.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormLabel>Official Web</FormLabel>
-                <FormControl invalid={Boolean(errors.officialWeb)}>
-                  <Input
-                    {...register("officialWeb")}
-                    placeholder="Enter License"
-                  />
-                  {errors?.officialWeb && (
-                    <FormErrorMessage>
-                      {errors.officialWeb.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormControl invalid={Boolean(errors.schemaType)}>
-                  <FormLabel>Language</FormLabel>
-                  <Controller
-                    control={control}
-                    name="schemaType"
-                    render={({ field }) => (
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        value={field.value}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a Schema" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Schema</SelectLabel>
-                            <SelectItem value="DownloadApp">
-                              Download
-                            </SelectItem>
-                            <SelectItem value="BusinessApp">
-                              Business
-                            </SelectItem>
-                            <SelectItem value="MultimediaApp">
-                              Multimedia
-                            </SelectItem>
-                            <SelectItem value="MobileApp">Mobile</SelectItem>
-                            <SelectItem value="WebApp">Web</SelectItem>
-                            <SelectItem value="SocialNetworkingApp">
-                              Social
-                            </SelectItem>
-                            <SelectItem value="TravelApp">Travel</SelectItem>
-                            <SelectItem value="ShoppingApp">
-                              Shopping
-                            </SelectItem>
-                            <SelectItem value="SportsApp">Sports</SelectItem>
-                            <SelectItem value="LifeStyleApp">
-                              Lifestyle
-                            </SelectItem>
-                            <SelectItem value="DesignApp">Design</SelectItem>
-                            <SelectItem value="DeveloperApp">
-                              Developer
-                            </SelectItem>
-                            <SelectItem value="DriverApp">Driver</SelectItem>
-                            <SelectItem value="EducationalApp">
-                              Education
-                            </SelectItem>
-                            <SelectItem value="HealthApp">Health</SelectItem>
-                            <SelectItem value="FinanceApp">Finance</SelectItem>
-                            <SelectItem value="SecurityApp">
-                              Security
-                            </SelectItem>
-                            <SelectItem value="BrowserApp">Browser</SelectItem>
-                            <SelectItem value="CommunicationApp">
-                              Communication
-                            </SelectItem>
-                            <SelectItem value="HomeApp">Home</SelectItem>
-                            <SelectItem value="UtilitiesApp">
-                              Utilities
-                            </SelectItem>
-                            <SelectItem value="RefereceApp">
-                              Referece
-                            </SelectItem>
-                            <SelectItem value="GameApp">Game</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
+            <div className="fixed bottom-[95px] right-0 top-[90px]">
+              <ScrollArea className="h-[calc(100vh-180px)] max-w-[300px] rounded border py-4 max-sm:max-w-full">
+                <div className="bg-background flex flex-col px-4 py-2 max-sm:min-w-full ">
+                  <div className="my-2 flex flex-col px-4">
+                    <AddTopicsAction
+                      topics={topics}
+                      addTopics={setTopics}
+                      selectedTopics={selectedTopics}
+                      addSelectedTopics={setSelectedTopics}
+                      lang={lang}
+                      topicType={"DOWNLOAD"}
+                    />
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    {selectedFeaturedImageUrl ? (
+                      <ModalSelectMedia
+                        handleSelectUpdateMedia={handleUpdateMedia}
+                        open={openModal}
+                        setOpen={setOpenModal}
+                        triggerContent={
+                          <>
+                            <FormLabel>Featured Image</FormLabel>
+                            <div className="relative">
+                              <NextImage
+                                src={selectedFeaturedImageUrl}
+                                className="border-muted/30 !relative mt-2 aspect-video h-[120px] cursor-pointer rounded-sm border-2 object-cover"
+                                fill
+                                alt="Featured Image"
+                                onClick={() => setOpenModal(true)}
+                                sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
+                                quality={60}
+                              />
+                            </div>
+                          </>
+                        }
+                      />
+                    ) : (
+                      <ModalSelectMedia
+                        handleSelectUpdateMedia={handleUpdateMedia}
+                        open={openModal}
+                        setOpen={setOpenModal}
+                        triggerContent={
+                          <>
+                            <FormLabel>Featured Image</FormLabel>
+                            <div className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center">
+                              <p>Select Featured Image</p>
+                            </div>
+                          </>
+                        }
+                      />
                     )}
-                  />
-                  {errors?.schemaType && (
-                    <FormErrorMessage>
-                      {errors.schemaType.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormControl invalid={Boolean(errors.type)}>
-                  <FormLabel>Type</FormLabel>
-                  <Controller
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        value={field.value}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Type</SelectLabel>
-                            <SelectItem value="app">Application</SelectItem>
-                            <SelectItem value="game">Game</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    )}
-                    name="type"
-                  />
-                  {errors?.type && (
-                    <FormErrorMessage>{errors.type.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
-              <div className="my-2 flex flex-col px-4">
-                <FormControl invalid={Boolean(errors.language)}>
-                  <FormLabel>Language</FormLabel>
-                  <Controller
-                    control={control}
-                    name="language"
-                    render={({ field }) => (
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        value={field.value}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a language" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Language</SelectLabel>
-                            <SelectItem value="id_ID">Indonesia</SelectItem>
-                            <SelectItem value="en_US">English</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                  {errors?.language && (
-                    <FormErrorMessage>
-                      {errors.language.message}
-                    </FormErrorMessage>
-                  )}
-                </FormControl>
-              </div>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormLabel>Excerpt</FormLabel>
+                    <FormControl invalid={Boolean(errors.excerpt)}>
+                      <Textarea
+                        {...register("excerpt")}
+                        placeholder="Enter Meta Title (Optional)"
+                      />
+                      {errors?.excerpt && (
+                        <FormErrorMessage>
+                          {errors.excerpt.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <AddAuthorsAction
+                      authors={authors}
+                      addAuthors={setAuthors}
+                      selectedAuthors={selectedAuthors}
+                      addSelectedAuthors={setSelectedAuthors}
+                    />
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormLabel>Meta Title</FormLabel>
+                    <FormControl invalid={Boolean(errors.metaTitle)}>
+                      <Input
+                        {...register("metaTitle")}
+                        placeholder="Enter Meta Title (Optional)"
+                      />
+                      {errors?.metaTitle && (
+                        <FormErrorMessage>
+                          {errors.metaTitle.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormLabel>Meta Description</FormLabel>
+                    <FormControl invalid={Boolean(errors.metaDescription)}>
+                      <Textarea
+                        {...register("metaDescription")}
+                        placeholder="Enter Meta Description (Optional)"
+                      />
+                      {errors?.metaDescription && (
+                        <FormErrorMessage>
+                          {errors.metaDescription.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormLabel>Developer</FormLabel>
+                    <FormControl invalid={Boolean(errors.developer)}>
+                      <Input
+                        {...register("developer")}
+                        placeholder="Enter Developer"
+                      />
+                      {errors?.developer && (
+                        <FormErrorMessage>
+                          {errors.developer.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormLabel>Operation System</FormLabel>
+                    <FormControl invalid={Boolean(errors.operatingSystem)}>
+                      <Input
+                        {...register("operatingSystem")}
+                        placeholder="Enter Operation System"
+                      />
+                      {errors?.operatingSystem && (
+                        <FormErrorMessage>
+                          {errors.operatingSystem.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormLabel>License</FormLabel>
+                    <FormControl invalid={Boolean(errors.license)}>
+                      <Input
+                        {...register("license")}
+                        placeholder="Enter License"
+                      />
+                      {errors?.license && (
+                        <FormErrorMessage>
+                          {errors.license.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormLabel>Official Web</FormLabel>
+                    <FormControl invalid={Boolean(errors.officialWeb)}>
+                      <Input
+                        {...register("officialWeb")}
+                        placeholder="Enter License"
+                      />
+                      {errors?.officialWeb && (
+                        <FormErrorMessage>
+                          {errors.officialWeb.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormControl invalid={Boolean(errors.schemaType)}>
+                      <FormLabel>Language</FormLabel>
+                      <Controller
+                        control={control}
+                        name="schemaType"
+                        render={({ field }) => (
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            value={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a Schema" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Schema</SelectLabel>
+                                <SelectItem value="DownloadApp">
+                                  Download
+                                </SelectItem>
+                                <SelectItem value="BusinessApp">
+                                  Business
+                                </SelectItem>
+                                <SelectItem value="MultimediaApp">
+                                  Multimedia
+                                </SelectItem>
+                                <SelectItem value="MobileApp">
+                                  Mobile
+                                </SelectItem>
+                                <SelectItem value="WebApp">Web</SelectItem>
+                                <SelectItem value="SocialNetworkingApp">
+                                  Social
+                                </SelectItem>
+                                <SelectItem value="TravelApp">
+                                  Travel
+                                </SelectItem>
+                                <SelectItem value="ShoppingApp">
+                                  Shopping
+                                </SelectItem>
+                                <SelectItem value="SportsApp">
+                                  Sports
+                                </SelectItem>
+                                <SelectItem value="LifeStyleApp">
+                                  Lifestyle
+                                </SelectItem>
+                                <SelectItem value="DesignApp">
+                                  Design
+                                </SelectItem>
+                                <SelectItem value="DeveloperApp">
+                                  Developer
+                                </SelectItem>
+                                <SelectItem value="DriverApp">
+                                  Driver
+                                </SelectItem>
+                                <SelectItem value="EducationalApp">
+                                  Education
+                                </SelectItem>
+                                <SelectItem value="HealthApp">
+                                  Health
+                                </SelectItem>
+                                <SelectItem value="FinanceApp">
+                                  Finance
+                                </SelectItem>
+                                <SelectItem value="SecurityApp">
+                                  Security
+                                </SelectItem>
+                                <SelectItem value="BrowserApp">
+                                  Browser
+                                </SelectItem>
+                                <SelectItem value="CommunicationApp">
+                                  Communication
+                                </SelectItem>
+                                <SelectItem value="HomeApp">Home</SelectItem>
+                                <SelectItem value="UtilitiesApp">
+                                  Utilities
+                                </SelectItem>
+                                <SelectItem value="RefereceApp">
+                                  Referece
+                                </SelectItem>
+                                <SelectItem value="GameApp">Game</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      {errors?.schemaType && (
+                        <FormErrorMessage>
+                          {errors.schemaType.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormControl invalid={Boolean(errors.type)}>
+                      <FormLabel>Type</FormLabel>
+                      <Controller
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            value={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a Type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Type</SelectLabel>
+                                <SelectItem value="app">Application</SelectItem>
+                                <SelectItem value="game">Game</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        )}
+                        name="type"
+                      />
+                      {errors?.type && (
+                        <FormErrorMessage>
+                          {errors.type.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                  <div className="my-2 flex flex-col px-4">
+                    <FormControl invalid={Boolean(errors.language)}>
+                      <FormLabel>Language</FormLabel>
+                      <Controller
+                        control={control}
+                        name="language"
+                        render={({ field }) => (
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            value={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a language" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Language</SelectLabel>
+                                <SelectItem value="id">Indonesia</SelectItem>
+                                <SelectItem value="en">English</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      {errors?.language && (
+                        <FormErrorMessage>
+                          {errors.language.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </div>
+                </div>
+              </ScrollArea>
             </div>
           }
         >
@@ -539,14 +564,23 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
               </FormControl>
             </div>
           </div>
-        </DownloadDashboardContainer>
+        </DownloadDashboardLayout>
       </form>
+
       <div className="border-t p-4">
         <div className="flex justify-between pb-2">
           <h2>Files</h2>
-          <Button aria-label="Add File" onClick={() => setShowAddFiles(true)}>
-            Add File
-          </Button>
+          <Modal
+            content={
+              <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
+                <AddDownloadFileAction updateDownloadFiles={handleUpdateFile} />
+              </ScrollArea>
+            }
+            trigger={<Button aria-label="Add File">Add File</Button>}
+            title={"Add File"}
+            onOpenChange={setShowAddFiles}
+            open={showAddFiles}
+          />
         </div>
         <div>
           {selectedDownloadFile && selectedDownloadFile.length > 0 && (
@@ -594,9 +628,6 @@ export const AddDownloadForms = (props: { lang: LanguageTypeData }) => {
             </Table>
           )}
         </div>
-        {showAddFiles && (
-          <AddDownloadFileAction updateDownloadFiles={handleUpdateFile} />
-        )}
       </div>
     </>
   )

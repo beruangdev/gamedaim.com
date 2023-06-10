@@ -3,7 +3,7 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "@/components/UI/Toast"
 import { Button } from "@/components/UI/Button"
-import { FormErrorMessage, Input } from "@/components/UI/Form"
+import { FormErrorMessage, FormLabel, Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
 
 import { UserDataProps } from "@/lib/data-types"
@@ -159,9 +159,8 @@ export function AddAuthorsAction(props: AddAuthorsProps) {
   }
   return (
     <div>
-      <h3 className="text-base">Authors</h3>
-
-      <div className="border-muted/30 bg-muted/10 rounded-md border">
+      <FormLabel>Authors</FormLabel>
+      <div className="border-muted/30 bg-muted/100 rounded-md border">
         <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
           {selectedAuthors.length > 0 &&
             selectedAuthors.map((author) => {
@@ -175,9 +174,9 @@ export function AddAuthorsAction(props: AddAuthorsProps) {
                     disabled={selectedAuthors.length === 1}
                     aria-label="Delete Author"
                     onClick={() => handleRemoveValue(author)}
-                    className="h-auto min-w-0 bg-transparent p-0 text-inherit"
+                    className="text-foreground hover:bg-warning h-auto min-w-0 bg-transparent p-0"
                   >
-                    <Icon.Delete />
+                    <Icon.Close />
                   </Button>
                 </div>
               )

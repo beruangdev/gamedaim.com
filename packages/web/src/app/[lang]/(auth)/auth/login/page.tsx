@@ -24,15 +24,12 @@ export default function Login() {
             Create an account
           </NextLink>
         </p>
-        {/* <p className="mt-8 text-center"> */}
-        {/*   Forgot Password?&nbsp; */}
-        {/*   <NextLink */}
-        {/*     className="font-semibold" */}
-        {/*     href="/auth/forgot-password" */}
-        {/*   > */}
-        {/*     Reset here */}
-        {/*   </NextLink> */}
-        {/* </p> */}
+        <p className="mt-8 text-center">
+          Forgot Password?&nbsp;
+          <NextLink className="font-semibold" href="/auth/forgot-password">
+            Reset here
+          </NextLink>
+        </p>
       </div>
     </>
   )

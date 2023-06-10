@@ -8,17 +8,19 @@ import { getUserByIdAction } from "@/lib/api/server/user"
 import { axiosInstance } from "@/lib/http"
 
 export const useCurrentUser = () => {
-  const [user, setUser] = React.useState<{
-    user: UserDataProps
-    accessToken: string
-  } | null>(null)
+  const [user, setUser] = React.useState<
+    | (UserDataProps & {
+        accessToken: string
+      })
+    | null
+  >(null)
 
   React.useEffect(() => {
     const currentUser = Cookies.get("currentUser")
     const userData = currentUser && JSON.parse(currentUser)
 
     if (currentUser) {
-      setUser(userData)
+      setUser({ ...userData.user, ...userData.accessToken })
       axiosInstance.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${userData.accessToken}`
@@ -32,7 +34,7 @@ export const useCurrentUser = () => {
     if (userInfo && currentUser) {
       const dataCurrentUser = JSON.parse(currentUser)
       const newUser = {
-        user: userInfo,
+        ...userInfo,
         accessToken: dataCurrentUser.accessToken,
       }
       Cookies.set("currentUser", JSON.stringify(newUser))

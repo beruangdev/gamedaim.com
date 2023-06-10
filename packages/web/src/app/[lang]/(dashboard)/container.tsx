@@ -24,13 +24,13 @@ export const DashboardContainer = React.forwardRef<
       <div
         className={`${
           open ? "max-lg:translate-x-0" : ""
-        } z-[99] h-full w-3/12 max-w-[250px] transition-[transform] max-lg:fixed max-lg:w-[250px] max-lg:-translate-x-full`}
+        } z-[49] h-full w-3/12 max-w-[250px] transition-[transform] max-lg:fixed max-lg:w-[250px] max-lg:-translate-x-full`}
       >
         <Sidebar.Dashboard />
       </div>
       <div className="w-full px-3 transition-all max-lg:w-full">{children}</div>
       <div
-        className="bg-background fixed inset-x-0 bottom-0 z-[9999] flex items-center justify-around border-t py-3 lg:hidden"
+        className="bg-background fixed inset-x-0 bottom-0 z-[49] flex items-center justify-around border-t py-3 lg:hidden"
         ref={ref}
       >
         <NextLink
