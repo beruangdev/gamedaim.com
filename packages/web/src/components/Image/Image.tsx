@@ -17,13 +17,23 @@ const rgbDataURL = (r: number, g: number, b: number) =>
   }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`
 
 export const Image = (props: ImageProps) => {
-  const { src, placeholder = "blur", ...rest } = props
+  const {
+    src,
+    sizes = `(max-width: 768px) 100px,
+  (max-width: 1200px) 200px,
+  300px`,
+    placeholder = "blur",
+    fill = true,
+    ...rest
+  } = props
   return (
     <NextImage
       src={src}
       placeholder={placeholder}
       blurDataURL={rgbDataURL(218, 218, 218)}
       quality={60}
+      sizes={sizes}
+      fill={fill}
       {...rest}
     />
   )
