@@ -1,9 +1,11 @@
 "use client"
+
 import * as React from "react"
 import { DownloadCard } from "@/components/Card"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+
 import { DownloadDataProps } from "@/lib/data-types"
-import { Button } from "../UI/Button"
-import { Icon } from "../UI/Icon"
 
 interface ListDownloadProps extends React.HTMLAttributes<HTMLDivElement> {
   listDownloads: DownloadDataProps[] | null
@@ -18,7 +20,7 @@ export const ListDownload = React.forwardRef<HTMLDivElement, ListDownloadProps>(
     const [showArrow, setShowArrow] = React.useState(false)
 
     const arrowClass =
-      "hidden justify-center content-center bg-white hover:bg-theme-800 hover:text-white p-2 cursor-pointer ring-0 absolute rounded-full"
+      "hidden justify-center content-center bg-background hover:bg-muted/80 hover:text-background p-2 cursor-pointer ring-0 absolute rounded-full"
 
     const contentRef: React.RefObject<HTMLDivElement> =
       React.useRef<HTMLDivElement>(null)

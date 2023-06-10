@@ -32,9 +32,5 @@ export default function CreateArticlesDashboard({
   params,
 }: CreateArticlesDashboardProps) {
   const { locale } = params
-  return (
-    <>
-      <AddArticleForm locale={locale} />
-    </>
-  )
+  return <AddArticleForm locale={locale} />
 }

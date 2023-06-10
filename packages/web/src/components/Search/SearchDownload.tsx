@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/UI/Form"
@@ -36,14 +37,11 @@ export const SearchDownload = React.forwardRef<
       <form onSubmit={handleSubmit} autoComplete="off">
         <Input.Group>
           <Input.LeftElement>
-            <Icon.Search
-              aria-label="Search"
-              className="text-theme-800 dark:text-theme-200"
-            />
+            <Icon.Search aria-label="Search" className="text-muted/80" />
           </Input.LeftElement>
           <Input
             type="search"
-            className="rounded-lg border-none"
+            className="rounded-lg"
             name="q"
             onChange={handleChange}
             autoComplete="off"

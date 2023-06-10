@@ -633,21 +633,15 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
           <h2>Files</h2>
           <Modal
             content={
-              <>
-                <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
-                  <div className="px-2">
-                    <AddDownloadFileAction
-                      updateDownloadFiles={handleUpdateFile}
-                    />
-                  </div>
-                </ScrollArea>
-              </>
+              <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
+                <div className="px-2">
+                  <AddDownloadFileAction
+                    updateDownloadFiles={handleUpdateFile}
+                  />
+                </div>
+              </ScrollArea>
             }
-            trigger={
-              <>
-                <Button aria-label="Add File">Add File</Button>
-              </>
-            }
+            trigger={<Button aria-label="Add File">Add File</Button>}
             title={"Add File"}
             onOpenChange={setShowAddFiles}
             open={showAddFiles}

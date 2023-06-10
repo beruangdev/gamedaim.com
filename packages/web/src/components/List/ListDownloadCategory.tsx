@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react"
 import NextLink from "next/link"
 import NextImage from "next/image"
@@ -22,7 +23,7 @@ export const ListDownloadCategory = React.forwardRef<
   const [nextDisplay, setNextDisplay] = React.useState<string>("md:flex")
 
   const arrowClass =
-    "hidden justify-center content-center bg-white hover:bg-theme-800 hover:text-white p-2 cursor-pointer ring-0 absolute rounded-full"
+    "hidden justify-center content-center bg-background hover:bg-muted/80 hover:text-background p-2 cursor-pointer ring-0 absolute rounded-full"
 
   const contentRef: React.RefObject<HTMLDivElement> =
     React.useRef<HTMLDivElement>(null)
@@ -93,7 +94,7 @@ export const ListDownloadCategory = React.forwardRef<
           return (
             <div
               key={i}
-              className="dark:bg-theme-700 inline-flex w-[200px] flex-row overflow-hidden rounded-lg bg-white shadow-lg"
+              className="bg-background inline-flex w-[200px] flex-row overflow-hidden rounded-lg shadow-lg"
             >
               {list.featuredImage && (
                 <NextImage

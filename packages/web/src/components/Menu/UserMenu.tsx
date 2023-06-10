@@ -60,11 +60,6 @@ export const UserMenu = () => {
         {currentUser ? (
           <>
             <DropdownMenuItem asChild>
-              <NextLink href={`/user/${currentUser?.username}`}>
-                <Icon.Person className="mr-2 h-5 w-5" /> Profile
-              </NextLink>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
               <NextLink href="/setting/user/profile">
                 <Icon.Settings className="mr-2 h-5 w-5" /> Setting
               </NextLink>
