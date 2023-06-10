@@ -24,12 +24,12 @@ export const DropdownLink = (props: DropdownLinkProps) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="focus:shadow-outline bg-muted/500 text-background rounded px-4 py-2 font-bold focus:outline-none">
+      <DropdownMenuTrigger className="focus:shadow-outline bg-muted/500 text-foreground rounded px-4 py-2 font-bold focus:outline-none">
         <span className="mr-2">{title}</span>
         <Icon.KeyboardArrowDown aria-label="Show List" className="h-6 w-6" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>Categories</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {list &&
           list.map(
