@@ -22,7 +22,6 @@ export const UserMenu = () => {
 
   const { user: currentUser } = useCurrentUser()
   const { logout } = useLogout()
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +30,7 @@ export const UserMenu = () => {
         </IconButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-background w-56">
-        {params?.lang && params.lang === "id" ? (
+        {params?.locale && params.locale === "id" ? (
           <DropdownMenuItem asChild>
             <NextLink
               href={
@@ -60,11 +59,6 @@ export const UserMenu = () => {
         )}
         {currentUser ? (
           <>
-            <DropdownMenuItem asChild>
-              <NextLink href={`/user/${currentUser?.username}`}>
-                <Icon.Person className="mr-2 h-5 w-5" /> Profile
-              </NextLink>
-            </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <NextLink href="/setting/user/profile">
                 <Icon.Settings className="mr-2 h-5 w-5" /> Setting

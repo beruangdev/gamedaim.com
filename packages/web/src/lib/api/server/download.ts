@@ -301,3 +301,24 @@ export const searchDownloadsDashboardByLangAction = async (
 
   return { data: res, error: null }
 }
+
+export const getDownloadByTypeAndLangAction = async (
+  downloadType: string,
+  downloadLanguage: LanguageTypeData,
+  downloadPage = 1,
+) => {
+  const [res, err] = await http<DownloadDataProps[]>("GET", {
+    url: `/download/${downloadLanguage}/type/${downloadType}/${downloadPage}`,
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}

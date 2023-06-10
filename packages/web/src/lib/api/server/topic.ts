@@ -322,3 +322,23 @@ export const searchTopicsDashboardByLangAction = async (
 
   return { data: res, error: null }
 }
+export const searchTopicsByLangAndTopicTypeAction = async (
+  topicLanguage: LanguageTypeData,
+  topicQuery: string,
+  topicType: string,
+) => {
+  const [res, err] = await http<TopicDataProps[]>("GET", {
+    url: `/topic/${topicLanguage}/type/${topicType}/search/${topicQuery}`,
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}

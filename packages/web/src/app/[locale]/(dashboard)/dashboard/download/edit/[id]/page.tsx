@@ -25,18 +25,18 @@ export const metadata: Metadata = {
 }
 
 interface CreateArticlesDashboardProps {
-  params: { lang: LanguageTypeData; id: string }
+  params: { locale: LanguageTypeData; id: string }
 }
 
 export default async function CreateDownloadsDashboard({
   params,
 }: CreateArticlesDashboardProps) {
-  const { lang, id } = params
+  const { locale, id } = params
   const { data } = await getDownloadByIdAction(id as string)
 
   if (!data) {
     notFound()
   }
 
-  return <EditDownloadForm lang={lang} downloadId={id} />
+  return <EditDownloadForm locale={locale} downloadId={id} />
 }

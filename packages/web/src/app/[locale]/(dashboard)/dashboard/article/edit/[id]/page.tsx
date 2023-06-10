@@ -25,13 +25,13 @@ export const metadata: Metadata = {
 }
 
 interface CreateArticlesDashboardProps {
-  params: { lang: LanguageTypeData; id: string }
+  params: { locale: LanguageTypeData; id: string }
 }
 
 export default async function CreateArticlesDashboard({
   params,
 }: CreateArticlesDashboardProps) {
-  const { lang, id } = params
+  const { locale, id } = params
 
   const { data } = await getArticleByIdAction(id as string)
 
@@ -39,5 +39,9 @@ export default async function CreateArticlesDashboard({
     notFound()
   }
 
-  return <EditArticleForm lang={lang} articleId={id} />
+  return (
+    <>
+      <EditArticleForm locale={locale} articleId={id} />
+    </>
+  )
 }

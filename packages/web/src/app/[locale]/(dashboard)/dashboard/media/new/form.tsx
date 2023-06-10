@@ -30,7 +30,7 @@ export function UploadMediaDashboard() {
       const image = await resizeImage(file)
       images.push(image)
     }
-    const data = await postMultipleMediaAction(images)
+    const { data } = await postMultipleMediaAction(images)
     if (data) {
       reset()
       toast({ variant: "success", description: "Media Successfully uploaded" })

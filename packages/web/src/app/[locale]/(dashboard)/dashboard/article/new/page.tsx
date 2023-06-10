@@ -24,13 +24,13 @@ export const metadata: Metadata = {
 
 interface CreateArticlesDashboardProps {
   params: {
-    lang: LanguageTypeData
+    locale: LanguageTypeData
   }
 }
 
 export default function CreateArticlesDashboard({
   params,
 }: CreateArticlesDashboardProps) {
-  const { lang } = params
-  return <AddArticleForm lang={lang} />
+  const { locale } = params
+  return <AddArticleForm locale={locale} />
 }

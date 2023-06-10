@@ -14,8 +14,8 @@ export const useGetDownloadsCount = () => {
 
   return { downloadsCount: data }
 }
-export const useGetDownloadsCountByLang = (lang: LanguageTypeData) => {
-  const { data, error } = useSWR(`/download/${lang}/count`, fetcher)
+export const useGetDownloadsCountByLang = (locale: LanguageTypeData) => {
+  const { data, error } = useSWR(`/download/${locale}/count`, fetcher)
 
   if (error) {
     console.log(error)

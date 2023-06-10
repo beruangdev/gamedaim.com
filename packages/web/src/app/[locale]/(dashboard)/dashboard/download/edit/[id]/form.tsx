@@ -67,7 +67,7 @@ interface FormValues {
 
 interface EditDownloadFormProps {
   downloadId: string
-  lang: LanguageTypeData
+  locale: LanguageTypeData
 }
 interface SelectedDownloadFileProps {
   id: string
@@ -77,7 +77,7 @@ interface SelectedDownloadFileProps {
   price: string
 }
 export const EditDownloadForm = (props: EditDownloadFormProps) => {
-  const { downloadId, lang } = props
+  const { downloadId, locale } = props
   const { isOpen, onToggle } = useDisclosure()
 
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -282,14 +282,14 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
           sidebar={
             <div className="fixed bottom-[95px] right-0 top-[90px]">
               <ScrollArea className="h-[calc(100vh-180px)] max-w-[300px] rounded border py-4 max-sm:max-w-full">
-                <div className="bg-background flex flex-col px-4 py-2 max-sm:min-w-full ">
+                <div className="bg-background flex flex-col px-2 py-2 max-sm:min-w-full ">
                   <div className="my-2 flex flex-col px-4">
                     <AddTopicsAction
                       topics={topics}
                       addTopics={setTopics}
                       selectedTopics={selectedTopics}
                       addSelectedTopics={setSelectedTopics}
-                      lang={lang}
+                      locale={locale}
                       topicType={"DOWNLOAD"}
                     />
                   </div>
@@ -633,19 +633,15 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
           <h2>Files</h2>
           <Modal
             content={
-              <>
-                <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
+              <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
+                <div className="px-2">
                   <AddDownloadFileAction
                     updateDownloadFiles={handleUpdateFile}
                   />
-                </ScrollArea>
-              </>
+                </div>
+              </ScrollArea>
             }
-            trigger={
-              <>
-                <Button aria-label="Add File">Add File</Button>
-              </>
-            }
+            trigger={<Button aria-label="Add File">Add File</Button>}
             title={"Add File"}
             onOpenChange={setShowAddFiles}
             open={showAddFiles}

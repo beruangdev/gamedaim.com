@@ -14,8 +14,8 @@ export const useGetTopicsCount = () => {
 
   return { topicsCount: data }
 }
-export const useGetTopicsCountByLang = (lang: LanguageTypeData) => {
-  const { data, error } = useSWR(`/topic/${lang}/count`, fetcher)
+export const useGetTopicsCountByLang = (locale: LanguageTypeData) => {
+  const { data, error } = useSWR(`/topic/${locale}/count`, fetcher)
 
   if (error) {
     console.log(error)

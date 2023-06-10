@@ -3,8 +3,8 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 import Cookies from "js-cookie"
-import { useRouter } from "next/navigation"
 
+import { useRouter } from "next/navigation"
 import {
   FormControl,
   FormLabel,
@@ -54,7 +54,7 @@ export const LoginForm: React.FunctionComponent = () => {
       const isoDate = thirdDayDate.toISOString()
       const dataCookies = { ...data, expiration: isoDate }
 
-      Cookies.set("currentUser", JSON.stringify(dataCookies))
+      Cookies.set("currentUser", JSON.stringify(dataCookies), { path: "/" })
 
       toast({ variant: "success", description: "Successfully signed in" })
 
