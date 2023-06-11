@@ -18,6 +18,7 @@ import { toast } from "@/components/UI/Toast"
 
 import { loginUserAction } from "@/lib/api/server/user"
 import { axiosInstance } from "@/lib/http"
+import { getGoogleURL } from "@/utils/social-auth"
 
 export const LoginForm: React.FunctionComponent = () => {
   const router = useRouter()
@@ -75,6 +76,9 @@ export const LoginForm: React.FunctionComponent = () => {
 
   const handleGoogleLogin = async () => {
     setLoading(true)
+    const url = getGoogleURL((location.pathname as string) || "/")
+    const newWindow = window.open(url, "_blank", "noopener,noreferrer")
+    if (newWindow) newWindow.opener = null
   }
   const handleFacebookLogin = async () => {
     setLoading(true)

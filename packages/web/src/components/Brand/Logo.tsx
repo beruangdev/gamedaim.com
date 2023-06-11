@@ -5,9 +5,9 @@ import { Image } from "@/components/Image"
 
 interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(() => {
+export const Logo = React.forwardRef<HTMLDivElement, LogoProps>((_, ref) => {
   return (
-    <div className="relative h-[23px] w-[120px]">
+    <div className="relative h-[23px] w-[120px]" ref={ref}>
       <Image
         fill
         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"

@@ -128,7 +128,7 @@ async function downloadRoutes(server: FastifyInstance) {
   )
 
   server.get(
-    "/slug/:downloadSlug/:downloadFilesPage",
+    "/slug/:downloadSlug/page/:downloadFilesPage",
     {
       schema: {
         response: {

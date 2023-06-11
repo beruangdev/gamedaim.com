@@ -18,7 +18,7 @@ interface TopNavProps {
 }
 
 export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
-  (props: TopNavProps) => {
+  (props: TopNavProps, ref) => {
     const { toggleSideNav, ...rest } = props
 
     const { data: facebook } = useSWR("facebookUsername", (key) =>
@@ -40,6 +40,7 @@ export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
     return (
       <header
         className="opacity-1 dark:bg-theme-900 fixed left-auto top-0 z-[49] -my-0 mx-auto box-border flex h-16 w-full items-center border-none bg-white px-2 py-0 align-baseline shadow-lg outline-none"
+        ref={ref}
         {...rest}
       >
         <div className="relative ml-auto mr-auto grow px-3">

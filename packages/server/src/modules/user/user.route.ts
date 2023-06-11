@@ -47,9 +47,9 @@ async function userRoutes(server: FastifyInstance) {
     loginHandler,
   )
 
-  server.post("/send-verification-token", sendVerificationCodeHandler)
-  server.post("/validity-token", validityTokenHandler)
-  server.post("/reset-password", resetPasswordHandler)
+  server.post("/send-verification-token", {}, sendVerificationCodeHandler)
+  server.post("/validity-token", {}, validityTokenHandler)
+  server.post("/reset-password", {}, resetPasswordHandler)
 
   server.put(
     "/:userId",

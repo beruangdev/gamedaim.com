@@ -236,6 +236,65 @@ export async function getTopicArticlesHandler(
   })
 }
 
+export async function getTopicDownloadsHandler(
+  topicSlug: string,
+  topicPage: number,
+  perPage: number,
+) {
+  return await db.topic.findUnique({
+    where: { slug: topicSlug },
+    select: {
+      id: true,
+      title: true,
+      language: true,
+      slug: true,
+      description: true,
+      metaTitle: true,
+      metaDescription: true,
+      type: true,
+      downloads: {
+        skip: (topicPage - 1) * perPage,
+        take: perPage,
+        orderBy: {
+          updatedAt: "desc",
+        },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          metaTitle: true,
+          metaDescription: true,
+          excerpt: true,
+          status: true,
+          featuredImage: {
+            select: {
+              url: true,
+            },
+          },
+          downloadFiles: {
+            select: {
+              price: true,
+              fileSize: true,
+            },
+          },
+        },
+      },
+      featuredImage: {
+        select: {
+          url: true,
+        },
+      },
+      _count: {
+        select: {
+          downloads: true,
+        },
+      },
+      createdAt: true,
+      updatedAt: true,
+    },
+  })
+}
+
 export async function getTopicBySlug(topicSlug: string) {
   return await db.topic.findUnique({
     where: {

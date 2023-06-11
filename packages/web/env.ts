@@ -31,6 +31,8 @@ const env: EnvProps = {
   MENU_PRIMARY: process.env.NEXT_PUBLIC_MENU_PRIMARY as string,
   MENU_FOOTER: process.env.NEXT_PUBLIC_MENU_FOOTER as string,
   SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN as string,
+  // GOOGLE_REDIRECT: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT as string,
+  // GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
 }
 
 export default env
