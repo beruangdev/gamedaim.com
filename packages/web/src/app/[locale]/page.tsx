@@ -8,9 +8,9 @@ import { Footer } from "@/components/Footer"
 import { TopNav } from "@/components/Navigation"
 import { getSettingByKeyAction } from "@/lib/api/server/setting"
 
-const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
-
 export default async function IndexPage() {
+  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
+
   return (
     <>
       <BreadcrumbJsonLd
