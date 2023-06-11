@@ -8,6 +8,7 @@ import {
   getTopicArticlesBySlugHandler,
   getTopicByIdHandler,
   getTopicBySlugHandler,
+  getTopicDownloadsBySlugHandler,
   getTopicPrimaryByIdHandler,
   getTopicsByLangHandler,
   getTopicsByTypeAndLangHandler,
@@ -161,6 +162,18 @@ async function topicRoutes(server: FastifyInstance) {
       },
     },
     getTopicArticlesBySlugHandler,
+  )
+
+  server.get(
+    "/slug/:topicSlug/downloads/page/:topicPage",
+    {
+      schema: {
+        response: {
+          200: $ref("topicsResponseSchema"),
+        },
+      },
+    },
+    getTopicDownloadsBySlugHandler,
   )
 
   server.get(
