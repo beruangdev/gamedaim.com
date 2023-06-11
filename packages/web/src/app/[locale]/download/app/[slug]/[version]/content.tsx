@@ -11,7 +11,7 @@ import { ListDownload } from "@/components/List"
 import { DownloadCardSide } from "@/components/Card"
 import { DownloadDataProps, DownloadFileDataProps } from "@/lib/data-types"
 
-import { DownloadButtonAction } from "./downloadaction"
+import { DownloadButtonAction } from "./action"
 
 interface DownloadAppVersionProps {
   download: DownloadDataProps | null

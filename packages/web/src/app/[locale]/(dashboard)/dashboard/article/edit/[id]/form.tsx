@@ -264,7 +264,10 @@ export const EditArticleForm = (props: {
                           triggerContent={
                             <>
                               <FormLabel>Featured Image</FormLabel>
-                              <div className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center">
+                              <div
+                                onClick={() => setOpenModal(true)}
+                                className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center"
+                              >
                                 <p>Select Featured Image</p>
                               </div>
                             </>

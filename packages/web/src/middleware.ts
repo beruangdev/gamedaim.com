@@ -46,7 +46,7 @@ export default async function middleware(request: NextRequest) {
   const defaultLocale = "id"
 
   const handleI18nRouting = createIntlMiddleware({
-    locales: ["id", "en"],
+    locales: ["id"],
     defaultLocale,
     domains: [
       {
@@ -58,8 +58,10 @@ export default async function middleware(request: NextRequest) {
         locales: ["en"],
       },
     ],
+    localeDetection: false,
   })
   const response = handleI18nRouting(request)
+  response.cookies.set("currentUser", currentUser ? currentUser : "")
 
   response.headers.set("x-default-locale", defaultLocale)
 

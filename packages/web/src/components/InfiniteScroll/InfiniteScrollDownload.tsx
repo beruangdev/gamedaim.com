@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/router"
 
 import { Button } from "@/components/UI/Button"
 import { DownloadCard } from "@/components/Card"
@@ -21,8 +20,6 @@ export const InfiniteScrollDownload = React.forwardRef<
   InfiniteScrollProps
 >((props, ref) => {
   const { posts, totalPage, index, locale, ...rest } = props
-
-  const router = useRouter()
 
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
   const [page, setPage] = React.useState<number>(index || 1)
@@ -46,21 +43,14 @@ export const InfiniteScrollDownload = React.forwardRef<
   React.useEffect(() => {
     const lmRef: HTMLDivElement | null = loadMoreRef.current
     const observer = new IntersectionObserver(handleObserver)
-    const handleRouteChange = () => {
-      setList(posts)
-    }
-
-    router.events.on("routeChangeComplete", handleRouteChange)
 
     if (loadMoreRef.current) observer.observe(loadMoreRef.current)
     return () => {
       if (lmRef) {
         observer.unobserve(lmRef)
       }
-
-      router.events.off("routeChangeComplete", handleRouteChange)
     }
-  }, [handleObserver, posts, router.events])
+  }, [handleObserver, posts])
 
   return (
     <div ref={ref} {...rest}>

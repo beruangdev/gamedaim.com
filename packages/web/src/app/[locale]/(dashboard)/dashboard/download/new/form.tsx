@@ -262,7 +262,10 @@ export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
                         triggerContent={
                           <>
                             <FormLabel>Featured Image</FormLabel>
-                            <div className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center">
+                            <div
+                              onClick={() => setOpenModal(true)}
+                              className="bg-muted text-success relative m-auto flex aspect-video h-[120px] cursor-pointer items-center justify-center"
+                            >
                               <p>Select Featured Image</p>
                             </div>
                           </>

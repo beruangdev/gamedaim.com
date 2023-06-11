@@ -213,14 +213,17 @@ export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
                       </>
                     ) : (
                       <>
+                        <FormLabel>Featured Image</FormLabel>
                         <ModalSelectMedia
                           handleSelectUpdateMedia={handleUpdateMedia}
                           open={openModal}
                           setOpen={setOpenModal}
                           triggerContent={
                             <>
-                              <FormLabel>Featured Image</FormLabel>
-                              <div className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center">
+                              <div
+                                onClick={() => setOpenModal(true)}
+                                className="bg-muted text-success relative m-auto flex aspect-video h-[120px] cursor-pointer items-center justify-center"
+                              >
                                 <p>Select Featured Image</p>
                               </div>
                             </>
