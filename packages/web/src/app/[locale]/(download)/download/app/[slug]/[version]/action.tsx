@@ -53,7 +53,7 @@ export const DownloadButtonAction = (props: DownloadButtonActionProps) => {
         Download ({fileSize})
       </Button>
       {showCountdown && (
-        <div className="bg-green-100 p-7 text-black">
+        <div className="bg-success text-foreground p-7">
           Link download akan terbuka pada
           {difference} detik
         </div>

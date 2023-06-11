@@ -77,7 +77,7 @@ export function DownloadGameSlugContent(props: DownloadGameProps) {
                         <NextLink
                           aria-label="Show All Version Page"
                           href={`/download/app/${download.slug}#all-version`}
-                          className="text-green-400"
+                          className="text-success"
                         >
                           Show All Version
                         </NextLink>
