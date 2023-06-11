@@ -97,7 +97,7 @@ export const EditUserForm = () => {
       selectProfilePictureId ? mergedValues : values,
     )
     if (data) {
-      toast({ variant: "success", description: "Update Proile Successfully!" })
+      toast({ variant: "success", description: "Update Profile Successfully!" })
     } else {
       toast({ variant: "danger", description: error })
     }
@@ -172,18 +172,18 @@ export const EditUserForm = () => {
       </FormControl>
       {selectedProfilePictureUrl ? (
         <>
-          <FormLabel>ProfilePicturee</FormLabel>
+          <FormLabel>Profile Picture</FormLabel>
           <ModalSelectMedia
             handleSelectUpdateMedia={handleUpdateMedia}
             open={openModal}
             setOpen={setOpenModal}
             triggerContent={
-              <div className="relative">
+              <div className="!relative mt-2 aspect-video h-[120px] cursor-pointer">
                 <Image
                   src={selectedProfilePictureUrl}
-                  className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                  className="border-muted/30 rounded-sm border-2 object-cover"
                   fill
-                  alt="ProfilePicturee"
+                  alt="Profile Picture"
                   onClick={() => setOpenModal(true)}
                   sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
                 />
@@ -198,9 +198,12 @@ export const EditUserForm = () => {
           setOpen={setOpenModal}
           triggerContent={
             <>
-              <FormLabel>ProfilePicturee</FormLabel>
-              <div className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center">
-                <p>Select ProfilePicturee</p>
+              <FormLabel>Profile Picture</FormLabel>
+              <div
+                onClick={() => setOpenModal(true)}
+                className="bg-muted text-success relative mr-auto flex aspect-video h-[120px] items-center justify-center"
+              >
+                <p>Select Profile Picture</p>
               </div>
             </>
           }

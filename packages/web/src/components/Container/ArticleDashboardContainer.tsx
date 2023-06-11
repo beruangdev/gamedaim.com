@@ -1,13 +1,13 @@
 import * as React from "react"
 
-interface ArticleDashboardLayoutProps
+interface ArticleDashboardContainerProps
   extends React.HTMLAttributes<HTMLDivElement> {
   isOpen?: boolean
   sidebar?: React.ReactNode
 }
 
-export const ArticleDashboardLayout: React.FunctionComponent<
-  ArticleDashboardLayoutProps
+export const ArticleDashboardContainer: React.FunctionComponent<
+  ArticleDashboardContainerProps
 > = (props) => {
   const { isOpen, sidebar, children, ...rest } = props
 

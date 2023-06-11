@@ -53,7 +53,22 @@ export const getDownloadFileByIdAction = async (downloadFileId: string) => {
 
   return { data: res, error: null }
 }
+export const getDownloadFileBySlugAction = async (downloadFileSlug: string) => {
+  const [res, err] = await http<DownloadFileDataProps>("GET", {
+    url: `/download-file/slug/${downloadFileSlug}`,
+  })
 
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
 export const putDownloadFileAction = async (
   downloadFileId: string,
   values: unknown,
