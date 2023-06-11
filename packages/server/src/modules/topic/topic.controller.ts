@@ -15,6 +15,7 @@ import {
   getTopicArticlesHandler,
   getTopicById,
   getTopicBySlug,
+  getTopicDownloadsHandler,
   getTopicPrimaryById,
   getTopicsByLang,
   getTopicsByTypeAndLang,
@@ -336,6 +337,26 @@ export async function getTopicArticlesBySlugHandler(
     const topicPage = Number(request.params.topicPage || 1)
 
     const topic = await getTopicArticlesHandler(topicSlug, topicPage, perPage)
+    return reply.code(201).send(topic)
+  } catch (e) {
+    console.log(e)
+    return reply.code(500).send(e)
+  }
+}
+
+export async function getTopicDownloadsBySlugHandler(
+  request: FastifyRequest<{
+    Params: { topicSlug: string; topicPage: number }
+  }>,
+  reply: FastifyReply,
+) {
+  try {
+    const { topicSlug } = request.params
+
+    const perPage = 10
+    const topicPage = Number(request.params.topicPage || 1)
+
+    const topic = await getTopicDownloadsHandler(topicSlug, topicPage, perPage)
     return reply.code(201).send(topic)
   } catch (e) {
     console.log(e)
