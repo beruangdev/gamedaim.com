@@ -342,3 +342,22 @@ export const searchTopicsByLangAndTopicTypeAction = async (
 
   return { data: res, error: null }
 }
+export const getTopicDownloadsBySlugAction = async (
+  topicSlug: string,
+  topicPage: number,
+) => {
+  const [res, err] = await http<TopicDataProps>("GET", {
+    url: `/topic/slug/${topicSlug}/downloads/page/${topicPage}`,
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
