@@ -207,11 +207,11 @@ export const EditUserForm = () => {
         />
       )}
       <FormControl invalid={Boolean(errors.about)}>
-        <FormLabel>Description</FormLabel>
+        <FormLabel>About</FormLabel>
         <Textarea
           {...register("about")}
           className="max-w-xl"
-          placeholder="Enter Description (Optional)"
+          placeholder="Enter About (Optional)"
         />
         {errors?.about && (
           <FormErrorMessage>{errors.about.message}</FormErrorMessage>
