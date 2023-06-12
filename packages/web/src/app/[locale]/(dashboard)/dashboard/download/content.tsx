@@ -232,7 +232,7 @@ const TableDownload = (props: TableDownloadProps) => {
               </Td>
               <Td align="right">
                 <ActionDashboard
-                  viewLink={`/download/${download.slug}`}
+                  viewLink={`/download/${download.type}/${download.slug}`}
                   onDelete={() =>
                     handleDeleteDownload(
                       download.id,
