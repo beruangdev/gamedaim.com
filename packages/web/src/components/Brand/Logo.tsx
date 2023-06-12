@@ -5,7 +5,7 @@ import { Image } from "@/components/Image"
 
 interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(() => {
+export const Logo: React.FunctionComponent<LogoProps> = () => {
   return (
     <div className="relative h-[23px] w-[120px]">
       <Image
@@ -17,4 +17,4 @@ export const Logo = React.forwardRef<HTMLDivElement, LogoProps>(() => {
       />
     </div>
   )
-})
+}
