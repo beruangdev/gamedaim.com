@@ -4,10 +4,6 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  webpack(config) {
-    config.experiments = { ...config.experiments, topLevelAwait: true }
-    return config
-  },
   reactStrictMode: true,
   images: {
     domains: [

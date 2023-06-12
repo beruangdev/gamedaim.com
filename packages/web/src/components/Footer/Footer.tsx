@@ -25,7 +25,7 @@ export const Footer = React.forwardRef<HTMLDivElement, FooterProps>(
       >
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="flex flex-col px-8 md:flex-row">
-            <div className="mb-6 w-5/12 md:mb-0">
+            <div className="mb-6 mr-3 w-5/12 md:mb-0">
               <NextLink
                 aria-label="Go To Homepage"
                 className="self-center pl-4"
@@ -33,9 +33,9 @@ export const Footer = React.forwardRef<HTMLDivElement, FooterProps>(
               >
                 <Logo />
               </NextLink>
-              <ul className="text-foreground/80 mt-8 space-y-2 font-medium">
+              <ul className="text-foreground/80 mt-8 flex flex-col space-y-2 font-medium">
                 <li className="inline-flex">
-                  <Icon.Location className="mr-2 h-10 w-10" />
+                  <Icon.Location className="mr-2 h-6 w-6" />
                   <span>{env.ADDRESS}</span>
                 </li>
                 <li className="inline-flex">

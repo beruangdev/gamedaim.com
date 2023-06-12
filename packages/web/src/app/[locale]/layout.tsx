@@ -10,13 +10,17 @@ import { getSettingByKeyAction } from "@/lib/api/server/setting"
 
 const inter = Inter({ subsets: ["latin"] })
 
-const { data: siteTitle } = await getSettingByKeyAction("siteTitle")
-const { data: siteTagline } = await getSettingByKeyAction("siteTagline")
-const { data: siteDescription } = await getSettingByKeyAction("siteDescription")
-const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
-const { data: twitterUsername } = await getSettingByKeyAction("twitterUsername")
-
 export async function generateMetadata(): Promise<Metadata> {
+  const { data: siteTitle } = await getSettingByKeyAction("siteTitle")
+  const { data: siteTagline } = await getSettingByKeyAction("siteTagline")
+  const { data: siteDescription } = await getSettingByKeyAction(
+    "siteDescription",
+  )
+  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
+  const { data: twitterUsername } = await getSettingByKeyAction(
+    "twitterUsername",
+  )
+
   return {
     title: {
       default: `${siteTitle?.value} | ${siteTagline?.value}` || env.SITE_TITLE,
