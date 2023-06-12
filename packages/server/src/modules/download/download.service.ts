@@ -313,6 +313,7 @@ export async function getDownloadById(downloadId: string) {
       updatedAt: true,
       authors: {
         select: {
+          id: true,
           name: true,
           username: true,
           profilePicture: true,
