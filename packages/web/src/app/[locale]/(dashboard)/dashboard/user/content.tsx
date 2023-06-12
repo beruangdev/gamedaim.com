@@ -110,7 +110,7 @@ export function UserDashboardContent() {
                       variant="ghost"
                       onClick={() => setPage((old) => Math.max(old - 1, 0))}
                       disabled={page === 1}
-                      className="rounded-full px-0"
+                      className="rounded-full"
                     >
                       <Icon.ChevronLeft />
                     </IconButton>
@@ -121,7 +121,7 @@ export function UserDashboardContent() {
                       onClick={() => {
                         setPage((old) => old + 1)
                       }}
-                      className="rounded-full px-0"
+                      className="rounded-full"
                     >
                       <Icon.ChevronRight />
                     </IconButton>
