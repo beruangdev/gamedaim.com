@@ -576,7 +576,7 @@ export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
           <Modal
             content={
               <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
-                <div className="px-2">
+                <div className="px-4">
                   <AddDownloadFileAction
                     updateDownloadFiles={handleUpdateFile}
                   />

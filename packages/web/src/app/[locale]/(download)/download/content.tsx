@@ -6,6 +6,7 @@ import { DownloadDataProps, TopicDataProps } from "@/lib/data-types"
 import { DropdownLink } from "@/components/Dropdown"
 import { SearchDownload } from "@/components/Search"
 import { ListDownload } from "@/components/List"
+import { DownloadCard } from "@/components/Card"
 
 interface DownloadProps {
   downloads: DownloadDataProps[] | null
@@ -53,7 +54,18 @@ export function DownloadPageContent(props: DownloadProps) {
           <h2>Newest</h2>
         </div>
         <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          <ListDownload listDownloads={downloads} />
+          {downloads &&
+            downloads.map((download) => {
+              return (
+                <DownloadCard
+                  operatingSystem={download.operatingSystem}
+                  slug={download.slug}
+                  title={download.title}
+                  type={download.type || "app"}
+                  downloadFiles={download.downloadFiles}
+                />
+              )
+            })}
         </div>
       </div>
     </div>

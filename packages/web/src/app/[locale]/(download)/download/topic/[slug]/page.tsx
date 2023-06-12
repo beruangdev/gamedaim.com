@@ -4,6 +4,8 @@ import { getTopicDownloadsBySlugAction } from "@/lib/api/server/topic"
 
 import { DownloadsByTopicContent } from "./content"
 
+export const revalidate = 60
+
 export default async function DownloadByTopicPage({
   params,
 }: {

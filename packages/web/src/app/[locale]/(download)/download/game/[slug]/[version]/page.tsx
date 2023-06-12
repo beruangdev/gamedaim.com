@@ -18,6 +18,8 @@ interface DownloadGameSlugProps {
   }
 }
 
+export const revalidate = 60
+
 export default async function DownloadGameSlugPage({
   params,
 }: DownloadGameSlugProps) {

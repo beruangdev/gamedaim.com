@@ -4,10 +4,12 @@ import {
   getDownloadByTypeAndLangAction,
   getDownloadsByLangAction,
 } from "@/lib/api/server/download"
-import { getTopicsByLangAction } from "@/lib/api/server/topic"
+import { getTopicsByTypeAndLangAction } from "@/lib/api/server/topic"
 import { LanguageTypeData } from "@/lib/data-types"
 
 import { DownloadPageContent } from "./content"
+
+export const revalidate = 60
 
 export default async function ShopDashboardPage({
   params,
@@ -17,7 +19,11 @@ export default async function ShopDashboardPage({
   const { locale } = params
   const { data: downloads } = await getDownloadsByLangAction(locale)
   const { data: apps } = await getDownloadByTypeAndLangAction("app", locale)
-  const { data: topics } = await getTopicsByLangAction(locale, 1)
+  const { data: topics } = await getTopicsByTypeAndLangAction(
+    locale,
+    "DOWNLOAD",
+    1,
+  )
   const { data: games } = await getDownloadByTypeAndLangAction("game", locale)
 
   return (

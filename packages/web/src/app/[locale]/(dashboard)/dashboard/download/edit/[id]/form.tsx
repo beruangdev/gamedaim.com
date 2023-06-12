@@ -35,10 +35,7 @@ import {
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
-import {
-  getDownloadByIdAction,
-  postDownloadWithPrimaryAction,
-} from "@/lib/api/server/download"
+import { getDownloadByIdAction, putDownload } from "@/lib/api/server/download"
 import {
   DownloadSchemaData,
   LanguageTypeData,
@@ -215,7 +212,7 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
         authorIds: authors,
       }
 
-      const { data } = await postDownloadWithPrimaryAction(mergedValues)
+      const { data } = await putDownload(downloadId, mergedValues)
 
       if (data) {
         toast({
@@ -637,7 +634,7 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
           <Modal
             content={
               <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
-                <div className="px-2">
+                <div className="px-4">
                   <AddDownloadFileAction
                     updateDownloadFiles={handleUpdateFile}
                   />

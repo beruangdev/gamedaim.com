@@ -10,6 +10,8 @@ import { LanguageTypeData } from "@/lib/data-types"
 
 import { DownloadGameContent } from "./content"
 
+export const revalidate = 60
+
 export default async function ShopDashboardPage({
   params,
 }: {
