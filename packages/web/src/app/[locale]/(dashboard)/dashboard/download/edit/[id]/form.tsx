@@ -217,15 +217,8 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
       if (data) {
         toast({
           variant: "success",
-          description: "Download Successfully created",
+          description: "Download Successfully updated",
         })
-        setSelectedDownloadFile([])
-        setSelectedDownloadFileId([])
-        setSelectedFeaturedImageId("")
-        setSelectedFeaturedImageUrl("")
-        setSelectedTopics([])
-        reset()
-        editor?.commands.clearContent()
       }
     } else {
       toast({ variant: "danger", description: "File is empty" })
@@ -251,8 +244,12 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
       >
         <div className="bg-background sticky top-[0px] z-[9] flex items-center justify-between border-b px-3 py-5">
           <Button aria-label="Go To Downloads" variant="ghost">
-            <NextLink aria-label="Go To Downloads" href="/dashboard/downloads">
-              Downloads
+            <NextLink
+              className="flex items-center"
+              aria-label="Go To Downloads"
+              href="/dashboard/download"
+            >
+              <Icon.ChevronLeft aria-label="Back To Downloads" /> Downloads
             </NextLink>
           </Button>
           <div>

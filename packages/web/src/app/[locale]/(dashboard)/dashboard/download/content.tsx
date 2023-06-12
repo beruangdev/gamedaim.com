@@ -46,7 +46,7 @@ export function DownloadDashboardContent() {
   const {
     downloads: resultDownloadsEn,
     updatedDownloads: updatedResultDownloadsEn,
-  } = useSearchDashboardDownloads("en", searchQuery)
+  } = useSearchDashboardDownloads("en", searchQueryEn)
 
   const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -56,6 +56,7 @@ export function DownloadDashboardContent() {
       setSearchQueryEn(e.target.value)
     }
   }
+  console.log(searchType, resultDownloadsEn, searchQueryEn)
 
   React.useEffect(() => {
     if (searchQuery) {

@@ -46,8 +46,9 @@ export const DownloadCard = React.forwardRef<HTMLDivElement, DownloadCardProps>(
               </div>
             </NextLink>
             <Button
+              size={null}
               aria-label="Operating System"
-              className="text-primary/80 bg-background absolute right-[5px] top-[5px] w-[25px] rounded-full p-[1px]"
+              className="text-primary/80 bg-background absolute right-[5px] top-[5px] h-10 w-10 rounded-full p-[1px]"
             >
               {icon}
             </Button>

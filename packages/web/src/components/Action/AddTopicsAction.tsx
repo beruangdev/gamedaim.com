@@ -11,7 +11,6 @@ import { TopicDataProps, LanguageTypeData } from "@/lib/data-types"
 import {
   postTopicWithPrimaryAction,
   searchTopicsByLangAndTopicTypeAction,
-  searchTopicsDashboardByLangAction,
 } from "@/lib/api/server/topic"
 
 interface FormValues {
@@ -164,9 +163,10 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
       e.preventDefault()
       setInputValue(e.target.value)
       if (e.target.value.length > 1) {
-        const { data } = await searchTopicsDashboardByLangAction(
+        const { data } = await searchTopicsByLangAndTopicTypeAction(
           locale,
           e.target.value,
+          topicType,
         )
 
         if (data) {

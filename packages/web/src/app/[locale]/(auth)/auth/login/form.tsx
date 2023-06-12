@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { useForm } from "react-hook-form"
-import Cookies from "js-cookie"
 
 import { useRouter } from "next/navigation"
 import {
@@ -18,6 +17,7 @@ import { toast } from "@/components/UI/Toast"
 
 import { loginUserAction } from "@/lib/api/server/user"
 import { axiosInstance } from "@/lib/http"
+import Cookies from "js-cookie"
 
 export const LoginForm: React.FunctionComponent = () => {
   const router = useRouter()
@@ -53,7 +53,6 @@ export const LoginForm: React.FunctionComponent = () => {
       // Mengonversi tanggal ke dalam format ISO
       const isoDate = thirdDayDate.toISOString()
       const dataCookies = { ...data, expiration: isoDate }
-
       Cookies.set("currentUser", JSON.stringify(dataCookies), { path: "/" })
 
       toast({ variant: "success", description: "Successfully signed in" })
