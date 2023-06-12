@@ -270,7 +270,7 @@ const TableArticle = (props: TableArticleProps) => {
                 variant="ghost"
                 onClick={handleBack}
                 disabled={page === 1}
-                className="rounded-full px-0"
+                className="rounded-full"
               >
                 <Icon.ChevronLeft />
               </IconButton>
@@ -279,7 +279,7 @@ const TableArticle = (props: TableArticleProps) => {
               <IconButton
                 variant="ghost"
                 onClick={handleNext}
-                className="rounded-full px-0"
+                className="rounded-full"
               >
                 <Icon.ChevronRight />
               </IconButton>
