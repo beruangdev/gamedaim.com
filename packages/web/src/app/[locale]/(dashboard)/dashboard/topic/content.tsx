@@ -268,7 +268,7 @@ const TableTopic = (props: TableTopicProps) => {
                 variant="ghost"
                 onClick={handleBack}
                 disabled={page === 1}
-                className="rounded-full px-0"
+                className="rounded-full"
               >
                 <Icon.ChevronLeft />
               </IconButton>
@@ -277,7 +277,7 @@ const TableTopic = (props: TableTopicProps) => {
               <IconButton
                 variant="ghost"
                 onClick={handleNext}
-                className="rounded-full px-0"
+                className="rounded-full"
               >
                 <Icon.ChevronRight />
               </IconButton>

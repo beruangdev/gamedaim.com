@@ -255,7 +255,7 @@ const TableDownload = (props: TableDownloadProps) => {
                 variant="ghost"
                 onClick={handleBack}
                 disabled={page === 1}
-                className="rounded-full px-0"
+                className="rounded-full"
               >
                 <Icon.ChevronLeft />
               </IconButton>
@@ -264,7 +264,7 @@ const TableDownload = (props: TableDownloadProps) => {
               <IconButton
                 variant="ghost"
                 onClick={handleNext}
-                className="rounded-full px-0"
+                className="rounded-full"
               >
                 <Icon.ChevronRight />
               </IconButton>
