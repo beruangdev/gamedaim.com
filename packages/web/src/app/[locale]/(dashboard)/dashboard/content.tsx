@@ -9,6 +9,8 @@ import { useGetArticlesCount } from "@/lib/api/client/article"
 import { useGetMediasCount } from "@/lib/api/client/media"
 import { useGetTopicsCount } from "@/lib/api/client/topic"
 import { useGetUsersCount } from "@/lib/api/client/user"
+import { useGetDownloadsCount } from "@/lib/api/client/download"
+import { useGetDownloadFilesCount } from "@/lib/api/client/download-file"
 
 const BoxDashboard = dynamic(() =>
   import("@/components/Box").then((mod) => mod.BoxDashboard),
@@ -17,6 +19,8 @@ const BoxDashboard = dynamic(() =>
 export function DashboardContent() {
   const { articlesCount } = useGetArticlesCount()
   const { adsCount } = useGetAdsCount()
+  const { downloadsCount } = useGetDownloadsCount()
+  const { downloadFilesCount } = useGetDownloadFilesCount()
   const { topicsCount } = useGetTopicsCount()
   const { mediasCount } = useGetMediasCount()
   const { usersCount } = useGetUsersCount()
@@ -30,35 +34,49 @@ export function DashboardContent() {
             <BoxDashboard
               icon={<Icon.Article className="h-5 w-5" />}
               count={articlesCount}
-              text="article"
+              text="articles"
+            />
+          )}
+          {downloadsCount !== undefined && (
+            <BoxDashboard
+              icon={<Icon.Download className="h-5 w-5" />}
+              count={downloadsCount}
+              text="downloads"
+            />
+          )}
+          {downloadFilesCount !== undefined && (
+            <BoxDashboard
+              icon={<Icon.UploadFile className="h-5 w-5" />}
+              count={downloadFilesCount}
+              text="download files"
             />
           )}
           {topicsCount !== undefined && (
             <BoxDashboard
               icon={<Icon.Topic className="h-5 w-5" />}
               count={topicsCount}
-              text="topic"
+              text="topics"
             />
           )}
           {adsCount !== undefined && (
             <BoxDashboard
               icon={<Icon.Currency className="h-5 w-5" />}
               count={adsCount}
-              text="ad"
+              text="ads"
             />
           )}
           {mediasCount !== undefined && (
             <BoxDashboard
               icon={<Icon.Media className="h-5 w-5" />}
               count={mediasCount}
-              text="media"
+              text="medias"
             />
           )}
           {usersCount !== undefined && (
             <BoxDashboard
               icon={<Icon.Users className="h-5 w-5" />}
               count={usersCount}
-              text="user"
+              text="users"
             />
           )}
         </div>
