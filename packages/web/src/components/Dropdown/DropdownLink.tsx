@@ -4,6 +4,7 @@ import * as React from "react"
 import NextLink from "next/link"
 
 import { Icon } from "@/components/UI/Icon"
+import { Button } from "@/components/UI/Button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,9 +25,14 @@ export const DropdownLink = (props: DropdownLinkProps) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="focus:shadow-outline bg-muted/500 text-foreground rounded px-4 py-2 font-bold focus:outline-none">
-        <span className="mr-2">{title}</span>
-        <Icon.KeyboardArrowDown aria-label="Show List" className="h-6 w-6" />
+      <DropdownMenuTrigger>
+        <Button
+          variant="outline"
+          className="bg-muted/50 text-foreground rounded px-4 py-2 font-bold"
+        >
+          <span className="mr-2">{title}</span>
+          <Icon.KeyboardArrowDown aria-label="Show List" className="h-6 w-6" />
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Categories</DropdownMenuLabel>
@@ -44,7 +50,7 @@ export const DropdownLink = (props: DropdownLinkProps) => {
                 <NextLink
                   aria-label={list.title}
                   href={`/download/topic/${list.slug}`}
-                  className="text-muted/80 hover:bg-muted hover:text-muted/90 block px-4 py-2"
+                  className="hover:bg-muted/10 block px-4 py-2"
                 >
                   {list.title}
                 </NextLink>

@@ -12,7 +12,7 @@ import {
   AddDownloadFileAction,
   AddTopicsAction,
 } from "@/components/Action"
-import { DownloadDashboardLayout } from "@/components/Layout/DownloadDashboardLayout"
+import { DownloadDashboardContainer } from "@/components/Container/DownloadDashboardContainer"
 import { EditorKitExtension, EditorMenu } from "@/components/Editor"
 import { Modal, ModalSelectMedia } from "@/components/Modal"
 import { Button } from "@/components/UI/Button"
@@ -277,7 +277,7 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
             </Button>
           </div>
         </div>
-        <DownloadDashboardLayout
+        <DownloadDashboardContainer
           isOpen={isOpen}
           sidebar={
             <div className="fixed bottom-[95px] right-0 top-[90px]">
@@ -324,7 +324,10 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
                         triggerContent={
                           <>
                             <FormLabel>Featured Image</FormLabel>
-                            <div className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center">
+                            <div
+                              onClick={() => setOpenModal(true)}
+                              className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center"
+                            >
                               <p>Select Featured Image</p>
                             </div>
                           </>
@@ -626,7 +629,7 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
               </FormControl>
             </div>
           </div>
-        </DownloadDashboardLayout>
+        </DownloadDashboardContainer>
       </form>
       <div className="border-t p-4">
         <div className="flex justify-between pb-2">

@@ -6,7 +6,7 @@ import NextLink from "next/link"
 import { EditorContent, useEditor } from "@tiptap/react"
 import { Controller, useForm } from "react-hook-form"
 
-import { ArticleDashboardLayout } from "@/components/Layout/ArticleDashboardLayout"
+import { ArticleDashboardContainer } from "@/components/Container/ArticleDashboardContainer"
 import {
   AddAuthorsAction,
   AddEditorsAction,
@@ -168,7 +168,7 @@ export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
             </Button>
           </div>
         </div>
-        <ArticleDashboardLayout
+        <ArticleDashboardContainer
           isOpen={isOpen}
           sidebar={
             <div className="fixed bottom-0 right-0 top-0 mt-[85px]">
@@ -213,14 +213,17 @@ export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
                       </>
                     ) : (
                       <>
+                        <FormLabel>Featured Image</FormLabel>
                         <ModalSelectMedia
                           handleSelectUpdateMedia={handleUpdateMedia}
                           open={openModal}
                           setOpen={setOpenModal}
                           triggerContent={
                             <>
-                              <FormLabel>Featured Image</FormLabel>
-                              <div className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center">
+                              <div
+                                onClick={() => setOpenModal(true)}
+                                className="bg-muted text-success relative m-auto flex aspect-video h-[120px] cursor-pointer items-center justify-center"
+                              >
                                 <p>Select Featured Image</p>
                               </div>
                             </>
@@ -338,7 +341,7 @@ export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
               </FormControl>
             </div>
           </div>
-        </ArticleDashboardLayout>
+        </ArticleDashboardContainer>
       </form>
     </>
   )

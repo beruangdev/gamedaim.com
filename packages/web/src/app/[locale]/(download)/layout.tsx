@@ -1,5 +1,5 @@
 import * as React from "react"
-import { HomeLayout } from "@/components/Layout/HomeLayout"
+import { MainContainer } from "@/components/Container/MainContainer"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -8,5 +8,5 @@ interface DashboardLayoutProps {
 export default function DashboardLayout(props: DashboardLayoutProps) {
   const { children } = props
 
-  return <HomeLayout>{children}</HomeLayout>
+  return <MainContainer>{children}</MainContainer>
 }

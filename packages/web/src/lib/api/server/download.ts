@@ -192,7 +192,7 @@ export const getDownloadsSitemapByLangAction = async (
 
 export const getDownloadsBySlugAction = async (downloadSlug: string) => {
   const [res, err] = await http<DownloadDataProps>("GET", {
-    url: `/download/slug/${downloadSlug}`,
+    url: `/download/slug/${downloadSlug}/page/1`,
   })
 
   if (err !== null) {
