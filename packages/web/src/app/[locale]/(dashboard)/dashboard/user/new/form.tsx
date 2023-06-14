@@ -238,10 +238,10 @@ export const AddNewUserForm = () => {
             open={openModal}
             setOpen={setOpenModal}
             triggerContent={
-              <div className="relative">
+              <div className="relative mt-2 aspect-video h-[120px] cursor-pointer">
                 <Image
                   src={selectedProfilePictureUrl}
-                  className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                  className="border-muted/30 rounded-sm border-2 object-cover"
                   fill
                   alt="Profile Picture"
                   onClick={() => setOpenModal(true)}
@@ -258,12 +258,12 @@ export const AddNewUserForm = () => {
           setOpen={setOpenModal}
           triggerContent={
             <>
-              <FormLabel>Featured Image</FormLabel>
+              <FormLabel>Profile Picture</FormLabel>
               <div
                 onClick={() => setOpenModal(true)}
-                className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center"
+                className="bg-muted text-success relative mr-auto flex aspect-video h-[120px] items-center justify-center"
               >
-                <p>Select Featured Image</p>
+                <p>Select Profile Picture</p>
               </div>
             </>
           }

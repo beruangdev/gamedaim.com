@@ -28,7 +28,7 @@ export const DashboardContainer = React.forwardRef<
       >
         <Sidebar.Dashboard />
       </div>
-      <div className="w-full pl-[250px] pr-3 transition-all max-lg:mb-28 max-lg:w-full max-lg:px-3">
+      <div className="w-full pl-[260px] pr-3 transition-all max-lg:mb-28 max-lg:w-full max-lg:px-3">
         {children}
       </div>
       <div
