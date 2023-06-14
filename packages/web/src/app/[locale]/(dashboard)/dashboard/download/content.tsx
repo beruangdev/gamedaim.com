@@ -56,7 +56,6 @@ export function DownloadDashboardContent() {
       setSearchQueryEn(e.target.value)
     }
   }
-  console.log(searchType, resultDownloadsEn, searchQueryEn)
 
   React.useEffect(() => {
     if (searchQuery) {

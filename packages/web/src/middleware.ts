@@ -52,13 +52,13 @@ export default async function middleware(request: NextRequest) {
       {
         domain:
           env.NODE_ENV !== "development"
-            ? `global.${env.DOMAIN}`
+            ? `global.localhost`
             : `global.localhost`,
         defaultLocale: "en",
         locales: ["en"],
       },
       {
-        domain: env.NODE_ENV !== "development" ? `${env.DOMAIN}` : `localhost`,
+        domain: env.NODE_ENV !== "development" ? `localhost` : `localhost`,
         defaultLocale: "id",
         locales: ["id"],
       },

@@ -1,8 +1,6 @@
 import * as React from "react"
 
 import NextLink from "next/link"
-import parse from "html-react-parser"
-import { DownloadDataProps, DownloadFileDataProps } from "@/lib/data-types"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,8 +11,9 @@ import { Image } from "@/components/Image"
 import { Button } from "@/components/UI/Button"
 import { SpecBox } from "@/components/Box"
 import { DownloadCardSide } from "@/components/Card"
-import { formatDate } from "@/utils/date"
 import { ListDownload } from "@/components/List"
+import { DownloadDataProps, DownloadFileDataProps } from "@/lib/data-types"
+import { formatDate } from "@/utils/date"
 import { parseAndSplitHTMLString } from "@/utils/helper"
 
 interface DownloadGameProps {
@@ -110,9 +109,8 @@ export function DownloadGameSlugContent(props: DownloadGameProps) {
               </div>
             </div>
             <div className="p-7">
-              {parse(firstHalf)}
-
-              {parse(secondHalf)}
+              <div dangerouslySetInnerHTML={{ __html: firstHalf }} />
+              <div dangerouslySetInnerHTML={{ __html: secondHalf }} />
             </div>
             <div className="dark:bg-muted/80 bg-background grid grid-cols-3 grid-rows-2 rounded-lg shadow">
               <SpecBox

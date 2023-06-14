@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 
 interface PlainAdProps extends React.HTMLAttributes<HTMLDivElement> {
