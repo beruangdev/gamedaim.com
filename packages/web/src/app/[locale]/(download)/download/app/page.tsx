@@ -5,6 +5,7 @@ import {
   getDownloadsByLangAction,
   getDownloadsCountAction,
 } from "@/lib/api/server/download"
+import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { getTopicsByLangAction } from "@/lib/api/server/topic"
 import { LanguageTypeData } from "@/lib/data-types"
 
@@ -22,6 +23,9 @@ export default async function ShopDashboardPage({
   const { data: apps } = await getDownloadByTypeAndLangAction("app", locale)
   const { data: topics } = await getTopicsByLangAction(locale, 1)
   const { data: downloadsCount } = await getDownloadsCountAction()
+  const { data: adsBelowHeader } = await getAdsByPositionAction(
+    "DOWNLOAD_BELOW_HEADER",
+  )
 
   return (
     <DownloadAppContent
@@ -30,6 +34,7 @@ export default async function ShopDashboardPage({
       locale={locale}
       topics={topics}
       downloadsCount={downloadsCount}
+      adsBelowHeader={adsBelowHeader}
     />
   )
 }

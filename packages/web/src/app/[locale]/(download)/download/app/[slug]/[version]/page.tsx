@@ -1,6 +1,8 @@
 import * as React from "react"
 import { notFound } from "next/navigation"
 
+import { getDownloadFileBySlugAction } from "@/lib/api/server/download-file"
+import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import {
   getDownloadsByLangAction,
   getDownloadsBySlugAction,
@@ -8,7 +10,6 @@ import {
 import { LanguageTypeData } from "@/lib/data-types"
 
 import { DownloadAppVersion } from "./content"
-import { getDownloadFileBySlugAction } from "@/lib/api/server/download-file"
 
 interface DownloadAppSlugProps {
   params: {
@@ -29,6 +30,10 @@ export default async function DownloadAppSlugPage({
   const { data: downloadFile } = await getDownloadFileBySlugAction(
     version as string,
   )
+  const { data: adsDownloadingPageData } = await getAdsByPositionAction(
+    "DOWNLOADING_PAGE",
+  )
+
   if (!download) {
     notFound()
   }
@@ -37,6 +42,7 @@ export default async function DownloadAppSlugPage({
       downloads={downloads}
       download={download}
       downloadFile={downloadFile}
+      adsDownloadingPage={adsDownloadingPageData}
     />
   )
 }

@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import NextLink from "next/link"
+import { Ad } from "@/components/Ad"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,7 +13,11 @@ import { Button } from "@/components/UI/Button"
 import { SpecBox } from "@/components/Box"
 import { DownloadCardSide } from "@/components/Card"
 import { ListDownload } from "@/components/List"
-import { DownloadDataProps, DownloadFileDataProps } from "@/lib/data-types"
+import {
+  AdDataProps,
+  DownloadDataProps,
+  DownloadFileDataProps,
+} from "@/lib/data-types"
 
 import { formatDate } from "@/utils/date"
 import { parseAndSplitHTMLString } from "@/utils/helper"
@@ -20,10 +25,19 @@ import { parseAndSplitHTMLString } from "@/utils/helper"
 interface DownloadAppProps {
   download: DownloadDataProps | null
   downloads: DownloadDataProps[] | null
+  adsBelowContentData: AdDataProps[] | null
+  adsAboveContentData: AdDataProps[] | null
+  adsMiddleContentData: AdDataProps[] | null
 }
 
 export function DownloadAppSlugContent(props: DownloadAppProps) {
-  const { download, downloads } = props
+  const {
+    download,
+    downloads,
+    adsMiddleContentData,
+    adsAboveContentData,
+    adsBelowContentData,
+  } = props
 
   const fileVersion =
     download && download.downloadFiles.length > 0
@@ -109,8 +123,24 @@ export function DownloadAppSlugContent(props: DownloadAppProps) {
               </div>
             </div>
             <div className="p-7">
+              {adsAboveContentData &&
+                adsAboveContentData.length > 0 &&
+                adsAboveContentData.map((ad: AdDataProps) => {
+                  return <Ad ad={ad} />
+                })}
               <div dangerouslySetInnerHTML={{ __html: firstHalf }} />
+              {adsMiddleContentData &&
+                adsMiddleContentData.length > 0 &&
+                adsMiddleContentData.map((ad: AdDataProps) => {
+                  return <Ad ad={ad} />
+                })}
               <div dangerouslySetInnerHTML={{ __html: secondHalf }} />
+
+              {adsBelowContentData &&
+                adsBelowContentData.length > 0 &&
+                adsBelowContentData.map((ad: AdDataProps) => {
+                  return <Ad ad={ad} />
+                })}
             </div>
             <div className="dark:bg-muted/80 bg-background grid grid-cols-3 grid-rows-2 rounded-lg shadow">
               <SpecBox

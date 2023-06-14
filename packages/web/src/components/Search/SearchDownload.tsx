@@ -4,6 +4,7 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
+import { Button } from "../UI/Button"
 
 interface SearchDownloadProps extends React.HTMLAttributes<HTMLDivElement> {
   onSearch?: (query: string) => void
@@ -36,17 +37,17 @@ export const SearchDownload = React.forwardRef<
     <div ref={ref} {...rest}>
       <form onSubmit={handleSubmit} autoComplete="off">
         <Input.Group>
-          <Input.LeftElement>
-            <Icon.Search aria-label="Search" className="text-muted/80" />
+          <Input.LeftElement className="text-muted/80">
+            <Button type="button" variant={null}>
+              <Icon.Search aria-label="Search" />
+            </Button>
           </Input.LeftElement>
           <Input
             type="search"
-            className="rounded-lg"
             name="q"
             onChange={handleChange}
             autoComplete="off"
             placeholder="Search..."
-            required
           />
         </Input.Group>
       </form>

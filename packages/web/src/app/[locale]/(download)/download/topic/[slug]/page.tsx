@@ -1,5 +1,7 @@
 import * as React from "react"
+import { notFound } from "next/navigation"
 
+import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { getTopicDownloadsBySlugAction } from "@/lib/api/server/topic"
 
 import { DownloadsByTopicContent } from "./content"
@@ -16,6 +18,16 @@ export default async function DownloadByTopicPage({
     slug as string,
     1,
   )
-
-  return <DownloadsByTopicContent topicDownload={topicDownload} />
+  const { data: adsBelowHeader } = await getAdsByPositionAction(
+    "DOWNLOAD_BELOW_HEADER",
+  )
+  if (!topicDownload) {
+    notFound()
+  }
+  return (
+    <DownloadsByTopicContent
+      topicDownload={topicDownload}
+      adsBelowHeader={adsBelowHeader}
+    />
+  )
 }
