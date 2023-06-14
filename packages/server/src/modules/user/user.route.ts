@@ -9,6 +9,8 @@ import {
   getUserByUsernameHandler,
   getUsersByRoleHandler,
   getUsersHandler,
+  loginFacebookHandler,
+  loginGoogleHandler,
   loginHandler,
   registerUserHandler,
   resetPasswordHandler,
@@ -46,6 +48,12 @@ async function userRoutes(server: FastifyInstance) {
     },
     loginHandler,
   )
+
+  server.get("/google/oauth", {}, loginGoogleHandler)
+  server.post("/google/oauth", {}, loginGoogleHandler)
+
+  server.get("/facebook/oauth", {}, loginFacebookHandler)
+  server.post("/facebook/oauth", {}, loginFacebookHandler)
 
   server.post("/send-verification-token", {}, sendVerificationCodeHandler)
   server.post("/validity-token", {}, validityTokenHandler)

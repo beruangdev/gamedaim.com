@@ -15,10 +15,9 @@ import {
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { toast } from "@/components/UI/Toast"
-
 import { loginUserAction } from "@/lib/api/server/user"
 import { axiosInstance } from "@/lib/http"
-import { getGoogleURL } from "@/utils/social-auth"
+import { getFacebookURL, getGoogleURL } from "@/utils/social-auth"
 
 export const LoginForm: React.FunctionComponent = () => {
   const router = useRouter()
@@ -43,15 +42,10 @@ export const LoginForm: React.FunctionComponent = () => {
     const { data, error } = await loginUserAction(values)
 
     if (data) {
-      // Mendapatkan tanggal saat ini
       const currentDate = new Date()
-
-      // Mendapatkan tanggal pada hari ketiga mendatang
       const thirdDayDate = new Date(
         currentDate.getTime() + 2 * 24 * 60 * 60 * 1000,
       )
-
-      // Mengonversi tanggal ke dalam format ISO
       const isoDate = thirdDayDate.toISOString()
       const dataCookies = { ...data, expiration: isoDate }
 
@@ -75,13 +69,14 @@ export const LoginForm: React.FunctionComponent = () => {
   }
 
   const handleGoogleLogin = async () => {
-    setLoading(true)
-    const url = getGoogleURL((location.pathname as string) || "/")
+    const url = getGoogleURL((location.href as string) || "/")
     const newWindow = window.open(url, "_blank", "noopener,noreferrer")
     if (newWindow) newWindow.opener = null
   }
   const handleFacebookLogin = async () => {
-    setLoading(true)
+    const url = getFacebookURL((location.href as string) || "/")
+    const newWindow = window.open(url, "_blank", "noopener,noreferrer")
+    if (newWindow) newWindow.opener = null
   }
 
   return (
@@ -149,6 +144,7 @@ export const LoginForm: React.FunctionComponent = () => {
         </Button>
         <div className="flex flex-col space-y-2 py-3">
           <Button
+            disabled={true}
             loading={loading}
             onClick={handleGoogleLogin}
             type="button"
@@ -158,6 +154,7 @@ export const LoginForm: React.FunctionComponent = () => {
             Sign in with Google
           </Button>
           <Button
+            disabled={true}
             loading={loading}
             type="button"
             onClick={handleFacebookLogin}
