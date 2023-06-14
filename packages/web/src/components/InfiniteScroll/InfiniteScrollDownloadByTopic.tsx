@@ -60,6 +60,7 @@ export const InfiniteScrollDownloadByTopic = React.forwardRef<
               <DownloadCard
                 operatingSystem={download.operatingSystem}
                 slug={download.slug}
+                featuredImage={download.featuredImage}
                 title={download.title}
                 type={"App"}
                 downloadFiles={download.downloadFiles}

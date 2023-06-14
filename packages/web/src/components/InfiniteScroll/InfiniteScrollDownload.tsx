@@ -62,6 +62,7 @@ export const InfiniteScrollDownload = React.forwardRef<
                 operatingSystem={download.operatingSystem}
                 slug={download.slug}
                 title={download.title}
+                featuredImage={download.featuredImage}
                 type={download.type}
                 downloadFiles={download.downloadFiles}
               />

@@ -9,6 +9,9 @@ import { getTopicsByLangAction } from "@/lib/api/server/topic"
 import { LanguageTypeData } from "@/lib/data-types"
 
 import { DownloadGameContent } from "./content"
+import { getAdsByPositionAction } from "@/lib/api/server/ad"
+
+export const revalidate = 60
 
 export default async function ShopDashboardPage({
   params,
@@ -20,7 +23,9 @@ export default async function ShopDashboardPage({
   const { data: apps } = await getDownloadByTypeAndLangAction("game", locale)
   const { data: topics } = await getTopicsByLangAction(locale, 1)
   const { data: downloadsCount } = await getDownloadsCountAction()
-
+  const { data: adsBelowHeader } = await getAdsByPositionAction(
+    "DOWNLOAD_BELOW_HEADER",
+  )
   return (
     <DownloadGameContent
       downloads={downloads}
@@ -28,6 +33,7 @@ export default async function ShopDashboardPage({
       locale={locale}
       topics={topics}
       downloadsCount={downloadsCount}
+      adsBelowHeader={adsBelowHeader}
     />
   )
 }

@@ -213,47 +213,42 @@ export const EditUserForm = (props: { id: string }) => {
 
         {selectedProfilePictureUrl ? (
           <>
-            <FormLabel>Featured Image</FormLabel>
+            <FormLabel>Profile Picture</FormLabel>
             <ModalSelectMedia
               handleSelectUpdateMedia={handleUpdateMedia}
               open={openModal}
               setOpen={setOpenModal}
               triggerContent={
-                <>
-                  <div className="relative">
-                    <Image
-                      src={selectedProfilePictureUrl}
-                      className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
-                      fill
-                      alt="Featured Image"
-                      onClick={() => setOpenModal(true)}
-                      sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
-                      quality={60}
-                    />
-                  </div>
-                </>
+                <div className="relative mt-2 aspect-video h-[120px] cursor-pointer">
+                  <Image
+                    src={selectedProfilePictureUrl}
+                    className="border-muted/30 rounded-sm border-2 object-cover"
+                    fill
+                    alt="Profile Picture"
+                    onClick={() => setOpenModal(true)}
+                    sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
+                  />
+                </div>
               }
             />
           </>
         ) : (
-          <>
-            <ModalSelectMedia
-              handleSelectUpdateMedia={handleUpdateMedia}
-              open={openModal}
-              setOpen={setOpenModal}
-              triggerContent={
-                <>
-                  <FormLabel>Featured Image</FormLabel>
-                  <div
-                    onClick={() => setOpenModal(true)}
-                    className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center"
-                  >
-                    <p>Select Featured Image</p>
-                  </div>
-                </>
-              }
-            />
-          </>
+          <ModalSelectMedia
+            handleSelectUpdateMedia={handleUpdateMedia}
+            open={openModal}
+            setOpen={setOpenModal}
+            triggerContent={
+              <>
+                <FormLabel>Profile Picture</FormLabel>
+                <div
+                  onClick={() => setOpenModal(true)}
+                  className="bg-muted text-success relative mr-auto flex aspect-video h-[120px] items-center justify-center"
+                >
+                  <p>Select Profile Picture</p>
+                </div>
+              </>
+            }
+          />
         )}
         <FormControl invalid={Boolean(errors.role)}>
           <FormLabel>

@@ -8,10 +8,15 @@ import { Badge } from "@/components/UI/Badge"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
-import { useGetUsers, useGetUsersCount } from "@/lib/api/client/user"
+import {
+  useGetUsers,
+  useGetUsersCount,
+  useSearchUsers,
+} from "@/lib/api/client/user"
 import { UserDataProps } from "@/lib/data-types"
 import { formatDate } from "@/utils/date"
 import { handleDeleteUser } from "./actions"
+import { Input } from "@/components/UI/Form"
 
 const ActionDashboard = dynamic(() =>
   import("@/components/Action").then((mod) => mod.ActionDashboard),
@@ -20,10 +25,27 @@ const ActionDashboard = dynamic(() =>
 export function UserDashboardContent() {
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [page, setPage] = React.useState<number>(1)
-
+  const [searchQuery, setSearchQuery] = React.useState<string>("")
+  const [usersData, setUsersData] = React.useState<UserDataProps[]>([])
   const { usersCount } = useGetUsersCount()
   const lastPage = usersCount && Math.ceil(usersCount / 10)
+
   const { users, updatedUsers } = useGetUsers(page)
+  const { users: searchResults, updatedUsers: updateSearchResults } =
+    useSearchUsers(searchQuery)
+
+  const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setSearchQuery(e.target.value)
+  }
+
+  React.useEffect(() => {
+    if (searchQuery) {
+      setUsersData(searchResults)
+    } else {
+      setUsersData(users)
+    }
+  }, [searchQuery, searchResults, users])
 
   React.useEffect(() => {
     if (page > lastPage) {
@@ -46,10 +68,22 @@ export function UserDashboardContent() {
             </Button>
           </NextLink>
         </div>
+        <Input.Group className="max-w-[200px]">
+          <Input
+            value={searchQuery}
+            onChange={handleSearchOnChange}
+            type="text"
+          />
+          <Input.RightElement>
+            <Button variant={null}>
+              <Icon.Search />
+            </Button>
+          </Input.RightElement>
+        </Input.Group>
       </div>
       <div className="mb-[80px] mt-6 rounded">
         {!isLoading &&
-          (users !== undefined && users.length > 0 ? (
+          (usersData !== undefined && usersData.length > 0 ? (
             <>
               <Table className="table-fixed border-collapse border-spacing-0">
                 <Thead>
@@ -63,7 +97,7 @@ export function UserDashboardContent() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {users.map((user: UserDataProps) => (
+                  {usersData.map((user: UserDataProps) => (
                     <Tr key={user.id}>
                       <Td className="line-clamp-3 max-w-[120px]">
                         <div className="flex">
@@ -94,7 +128,10 @@ export function UserDashboardContent() {
                         <ActionDashboard
                           viewLink={`/user/${user.username}`}
                           onDelete={() => {
-                            handleDeleteUser(user.id, updatedUsers)
+                            handleDeleteUser(user.id, () => {
+                              updateSearchResults
+                              updatedUsers
+                            })
                           }}
                           editLink={`/dashboard/user/edit/${user.id}`}
                         />
@@ -103,7 +140,7 @@ export function UserDashboardContent() {
                   ))}
                 </Tbody>
               </Table>
-              {page && (
+              {page && !searchQuery && (
                 <div className="align-center mt-2 flex items-center justify-center space-x-2">
                   {page !== 1 && (
                     <IconButton

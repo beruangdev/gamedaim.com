@@ -24,3 +24,14 @@ export const useGetUsers = (page = 1) => {
 
   return { users: data, updatedUsers: mutate }
 }
+
+export const useSearchUsers = (searchQuery: string) => {
+  const { data, error, mutate } = useSWR(`/user/search/${searchQuery}`, fetcher)
+
+  if (error) {
+    console.log(error)
+    toast({ variant: "danger", description: error.message })
+  }
+
+  return { users: data, updatedUsers: mutate }
+}

@@ -144,8 +144,12 @@ export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
       >
         <div className="bg-background sticky top-[0px] z-[9] flex items-center justify-between px-3 py-5">
           <Button aria-label="Back To Articles" variant="ghost">
-            <NextLink aria-label="Back To Articles" href="/dashboard/articles">
-              Articles
+            <NextLink
+              className="flex items-center"
+              aria-label="Back To Articles"
+              href="/dashboard/articles"
+            >
+              <Icon.ChevronLeft aria-label="Back To Articles" /> Articles
             </NextLink>
           </Button>
           <div>

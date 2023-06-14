@@ -1,7 +1,8 @@
 import * as React from "react"
 
 import NextLink from "next/link"
-import { DownloadDataProps, DownloadFileDataProps } from "@/lib/data-types"
+import { Ad } from "@/components/Ad"
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,22 +13,40 @@ import { Image } from "@/components/Image"
 import { Button } from "@/components/UI/Button"
 import { SpecBox } from "@/components/Box"
 import { DownloadCardSide } from "@/components/Card"
-import { formatDate } from "@/utils/date"
 import { ListDownload } from "@/components/List"
+import {
+  AdDataProps,
+  DownloadDataProps,
+  DownloadFileDataProps,
+} from "@/lib/data-types"
+import { formatDate } from "@/utils/date"
+import { parseAndSplitHTMLString } from "@/utils/helper"
 
 interface DownloadGameProps {
   download: DownloadDataProps | null
   downloads: DownloadDataProps[] | null
+  adsBelowContentData: AdDataProps[] | null
+  adsAboveContentData: AdDataProps[] | null
+  adsMiddleContentData: AdDataProps[] | null
 }
 
 export function DownloadGameSlugContent(props: DownloadGameProps) {
-  const { download, downloads } = props
+  const {
+    download,
+    downloads,
+    adsMiddleContentData,
+    adsAboveContentData,
+    adsBelowContentData,
+  } = props
 
   const fileVersion =
     download && download.downloadFiles.length > 0
       ? download?.downloadFiles[0]
       : undefined
 
+  const { firstHalf, secondHalf } = parseAndSplitHTMLString(
+    download?.content || "",
+  )
   return (
     <div className="mx-auto flex w-full flex-row max-[991px]:px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
       <div className="flex w-full flex-col overflow-x-hidden px-4 lg:mr-4">
@@ -104,7 +123,26 @@ export function DownloadGameSlugContent(props: DownloadGameProps) {
                 </div>
               </div>
             </div>
-            <div className="p-7">{download?.content}</div>
+            <div className="p-7">
+              {adsAboveContentData &&
+                adsAboveContentData.length > 0 &&
+                adsAboveContentData.map((ad: AdDataProps) => {
+                  return <Ad ad={ad} />
+                })}
+              <div dangerouslySetInnerHTML={{ __html: firstHalf }} />
+              {adsMiddleContentData &&
+                adsMiddleContentData.length > 0 &&
+                adsMiddleContentData.map((ad: AdDataProps) => {
+                  return <Ad ad={ad} />
+                })}
+              <div dangerouslySetInnerHTML={{ __html: secondHalf }} />
+
+              {adsBelowContentData &&
+                adsBelowContentData.length > 0 &&
+                adsBelowContentData.map((ad: AdDataProps) => {
+                  return <Ad ad={ad} />
+                })}
+            </div>
             <div className="dark:bg-muted/80 bg-background grid grid-cols-3 grid-rows-2 rounded-lg shadow">
               <SpecBox
                 icon={<Icon.Windows />}
