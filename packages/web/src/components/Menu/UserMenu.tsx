@@ -35,7 +35,7 @@ export const UserMenu = () => {
             <NextLink
               href={
                 env.NODE_ENV !== "development"
-                  ? `https://global.${env.DOMAIN}`
+                  ? `http://global.${env.DOMAIN}`
                   : `http://global.localhost:3000`
               }
               locale="en"
@@ -48,7 +48,7 @@ export const UserMenu = () => {
             <NextLink
               href={
                 env.NODE_ENV !== "development"
-                  ? `https://${env.DOMAIN}`
+                  ? `http://${env.DOMAIN}`
                   : `http://localhost:3000`
               }
               locale="id"

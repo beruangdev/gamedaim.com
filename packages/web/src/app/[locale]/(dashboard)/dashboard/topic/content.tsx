@@ -215,9 +215,11 @@ const TableTopic = (props: TableTopicProps) => {
         <Tbody>
           {topics.map((topic: TopicDataProps) => (
             <Tr key={topic.id}>
-              <Td className="line-clamp-3 max-w-[120px]">
+              <Td className="max-w-[120px]">
                 <div className="flex">
-                  <span className="font-medium">{topic.title}</span>
+                  <span className="line-clamp-3 font-medium">
+                    {topic.title}
+                  </span>
                 </div>
               </Td>
               <Td className="white-space-nowrap">

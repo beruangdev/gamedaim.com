@@ -1,3 +1,5 @@
 export * from "./InfiniteScrollMedia"
 export * from "./InfiniteScrollDownload"
 export * from "./InfiniteScrollDownloadByTopic"
+export * from "./InfiniteScrollArticle"
+export * from "./InfiniteScrollTopic"
