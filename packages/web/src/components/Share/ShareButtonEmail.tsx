@@ -1,9 +1,7 @@
-"use client"
-
 import * as React from "react"
 
+import { Icon } from "@/components/UI/Icon"
 import { ShareButton, ShareButtonProps } from "./ShareButton"
-import { Icon } from "../UI/Icon"
 
 export const ShareButtonEmail = React.forwardRef<
   HTMLDivElement,
@@ -13,7 +11,7 @@ export const ShareButtonEmail = React.forwardRef<
 
   return (
     <ShareButton
-      className="bg-secondary"
+      className="bg-foreground/80"
       onClick={onClick}
       icon={<Icon.Email aria-label="Email" />}
       subject={subject}

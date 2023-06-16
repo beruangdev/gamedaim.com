@@ -7,7 +7,7 @@ import NextLink from "next/link"
 import { Button, ButtonGroup } from "@/components/UI/Button"
 import { Image } from "@/components/Image"
 import { Ad } from "@/components/Ad"
-import { MetadataPost } from "@/components/Metadata"
+import { ArticleInfo } from "@/components/ArticleInfo"
 import { StickyShare } from "@/components/Share"
 
 import { AdDataProps, ArticleDataProps } from "@/lib/data-types"
@@ -114,12 +114,12 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
               )
             })}
           </ButtonGroup>
-          <h1 className="border-theme-200 dark:border-theme-600 mb-2 mt-4 line-clamp-none border-b pb-2 text-[25px] font-bold leading-[1.7] md:border-none md:text-[40px] md:leading-[43px]">
+          <h1 className="border-border mb-2 mt-4 line-clamp-none border-b pb-2 text-[25px] font-bold leading-[1.7] md:border-none md:text-[40px] md:leading-[43px]">
             {title}
           </h1>
           {isWP && (
             <div className="mb-2">
-              <MetadataPost
+              <ArticleInfo
                 authorName={authorName}
                 authorAvatarUrl={authorImg}
                 authorSlug={authorUrl}
@@ -137,7 +137,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
               />
               {featuredImageCaption && (
                 <span
-                  className="text-theme-600 dark:text-theme-500 text-center text-xs italic"
+                  className="text-foreground text-center text-xs italic"
                   dangerouslySetInnerHTML={{ __html: featuredImageCaption }}
                 />
               )}

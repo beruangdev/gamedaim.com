@@ -7,14 +7,15 @@ import { WpCategoriesDataProps } from "@/lib/wp-data-types"
 import { wpCategoryPathBySlug, wpPrimaryCategorySlug } from "@/utils/helper"
 import { formatDate } from "@/utils/date"
 
-interface MetadataFeaturedProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ArticleInfoFeaturedProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   categories: WpCategoriesDataProps[]
   date: string
 }
 
-export const MetadataFeatured = React.forwardRef<
+export const ArticleInfoFeatured = React.forwardRef<
   HTMLDivElement,
-  MetadataFeaturedProps
+  ArticleInfoFeaturedProps
 >((props, ref) => {
   const { categories, date, ...rest } = props
 
@@ -33,7 +34,7 @@ export const MetadataFeatured = React.forwardRef<
 
   return (
     <div className="flex flex-row" {...rest} ref={ref}>
-      <div className="text-theme-200 dark:text-theme-100 my-1 flex flex-row items-center">
+      <div className="text-foreground/50 my-1 flex flex-row items-center">
         {categories && (
           <>
             <div className="flex flex-row items-center">

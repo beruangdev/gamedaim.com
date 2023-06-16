@@ -7,14 +7,14 @@ import { Icon } from "@/components/UI/Icon"
 import { wpAuthorPathBySlug } from "@/utils/helper"
 import { formatDate } from "@/utils/date"
 
-interface MetadataPostProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ArticleInfoProps extends React.HTMLAttributes<HTMLDivElement> {
   authorName: string
   authorAvatarUrl: string
   authorSlug: string
   date: string
 }
 
-export const MetadataPost = React.forwardRef<HTMLDivElement, MetadataPostProps>(
+export const ArticleInfo = React.forwardRef<HTMLDivElement, ArticleInfoProps>(
   (props, ref) => {
     const { authorName, authorAvatarUrl, authorSlug, date, ...rest } = props
 
@@ -43,10 +43,10 @@ export const MetadataPost = React.forwardRef<HTMLDivElement, MetadataPostProps>(
                 <div>
                   <Icon.AccessTime
                     aria-label="Date"
-                    className="text-theme-700 dark:text-theme-200 inline-block h-3 w-3"
+                    className="text-foreground/70 inline-block h-3 w-3"
                   />
                   <time
-                    className="text-theme-700 dark:text-theme-200 ml-[6px] text-xs"
+                    className="text-foreground/70 ml-[6px] text-xs"
                     dateTime={date}
                   >
                     {formatDate(date, "LL")}

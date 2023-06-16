@@ -1,9 +1,7 @@
-"use client"
-
 import * as React from "react"
 
-import { ShareButton, ShareButtonProps } from "./ShareButton"
 import { Icon } from "@/components/UI/Icon"
+import { ShareButton, ShareButtonProps } from "./ShareButton"
 
 export const ShareButtonTelegram = React.forwardRef<
   HTMLDivElement,
