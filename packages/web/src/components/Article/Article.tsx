@@ -92,7 +92,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
     return (
       <>
         <article id={postData?.slug} ref={ref} className="article-divider px-4">
-          <ButtonGroup>
+          <ButtonGroup className="space-x-2">
             {categories?.map((category) => {
               return (
                 <Button
@@ -128,20 +128,22 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
             </div>
           )}
           {featuredImageUrl && (
-            <div className="relative aspect-video w-full">
-              <Image
-                src={featuredImageUrl}
-                className="max-w-auto relative aspect-video w-full overflow-hidden rounded object-cover"
-                alt={featuredImageAlt}
-                sizes="(max-width: 768px) 300px, 500px"
-              />
+            <>
+              <div className="relative aspect-video w-full">
+                <Image
+                  src={featuredImageUrl}
+                  className="max-w-auto relative aspect-video w-full overflow-hidden rounded object-cover"
+                  alt={featuredImageAlt}
+                  sizes="(max-width: 768px) 300px, 500px"
+                />
+              </div>
               {featuredImageCaption && (
                 <span
                   className="text-foreground text-center text-xs italic"
                   dangerouslySetInnerHTML={{ __html: featuredImageCaption }}
                 />
               )}
-            </div>
+            </>
           )}
           <div className="flex">
             <StickyShare
@@ -170,9 +172,9 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
             </section>
           </div>
           <section className="mx-4 my-6 md:mx-12" id="tag">
-            <ButtonGroup>
-              {tags &&
-                tags.map((tag: { slug: string; name: string }) => {
+            {tags && (
+              <ButtonGroup className="space-x-2">
+                {tags.map((tag: { slug: string; name: string }) => {
                   return (
                     <Button
                       aria-label={tag.name}
@@ -189,14 +191,15 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                     </Button>
                   )
                 })}
-            </ButtonGroup>
+              </ButtonGroup>
+            )}
           </section>
 
           <section className="mb-20">
             {isMain === true && (
               <>
                 <div className="mb-2">
-                  <h4 className="text-primary-400 border-primary-400 border-b-4">
+                  <h4 className="text-primary border-primary/40 border-b-4">
                     Related Posts
                   </h4>
                 </div>
@@ -205,7 +208,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                     posts.map((post) => {
                       return (
                         <article
-                          className="border-theme-200 border-b-2"
+                          className="border-border border-b-2"
                           key={post.title}
                         >
                           <NextLink
@@ -218,7 +221,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                                 : "/article/" + post.slug
                             }
                           >
-                            <p className="hover:text-primary-400 font-semibold">
+                            <p className="hover:text-primary font-semibold">
                               {post.title}
                             </p>
                           </NextLink>

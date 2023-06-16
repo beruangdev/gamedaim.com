@@ -40,7 +40,7 @@ export const ArticleInfoFeatured = React.forwardRef<
             <div className="flex flex-row items-center">
               <NextLink
                 aria-label={primary.name}
-                className={`hover:text-primary-400 line-clamp-1 cursor-pointer`}
+                className={`hover:text-primary line-clamp-1 cursor-pointer`}
                 href={wpCategoryPathBySlug(primary.slug)}
               >
                 {categoryIcon && (

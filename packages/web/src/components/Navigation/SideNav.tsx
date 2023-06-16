@@ -22,7 +22,7 @@ export const SideNav = React.forwardRef<HTMLDivElement, SideNavProps>(
                 href="/"
                 className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
               >
-                <p className="hover:text-primary-400 inline-flex items-center font-bold">
+                <p className="hover:text-primary inline-flex items-center font-bold">
                   {<Icon.Home aria-label="Home" className={stylesIcons} />}{" "}
                   {"Home"}
                 </p>
@@ -37,7 +37,7 @@ export const SideNav = React.forwardRef<HTMLDivElement, SideNavProps>(
               href="/article"
               className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
             >
-              <p className="hover:text-primary/40 inline-flex items-center font-bold">
+              <p className="hover:text-primary inline-flex items-center font-bold">
                 <Icon.Article aria-label="Article" className={stylesIcons} />{" "}
                 Article
               </p>
@@ -49,7 +49,7 @@ export const SideNav = React.forwardRef<HTMLDivElement, SideNavProps>(
               href="/download"
               className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
             >
-              <p className="hover:text-primary/40 inline-flex items-center font-bold">
+              <p className="hover:text-primary inline-flex items-center font-bold">
                 <Icon.Download aria-label="Download" className={stylesIcons} />
                 Download
               </p>
@@ -61,7 +61,7 @@ export const SideNav = React.forwardRef<HTMLDivElement, SideNavProps>(
               href="/shop"
               className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
             >
-              <p className="hover:text-primary/40 inline-flex items-center font-bold">
+              <p className="hover:text-primary inline-flex items-center font-bold">
                 <Icon.Shop aria-label="Shop" className={stylesIcons} /> Shop
               </p>
             </NextLink>
