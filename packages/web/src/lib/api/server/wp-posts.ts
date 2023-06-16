@@ -156,7 +156,7 @@ export async function wpGetPostBySlug(slug: string) {
     return {
       error: (err as AxiosError<ErrorResponse>)?.response?.data
         ?.message as string,
-      posts: null,
+      post: null,
     }
   }
 
@@ -219,13 +219,16 @@ export async function wpGetPostsByCategorySlug(categoryId: string, after = "") {
     }
   }
 
-  const posts = res?.data.posts.edges.map(
+  const postsData = res?.data.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
-
+  let posts
+  if (Array.isArray(postsData)) {
+    posts = postsData.map(wpMapPostData)
+  }
   return {
     error: null,
-    posts: Array.isArray(posts) && posts.map(wpMapPostData),
+    posts: posts,
     pageInfo: res?.data.posts.pageInfo,
   }
 }
@@ -247,13 +250,16 @@ export async function wpGetPostsByTagSlug(id: string, after = "") {
     }
   }
 
-  const posts = res?.data.tag.posts.edges.map(
+  const postsData = res?.data.tag.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
-
+  let posts
+  if (Array.isArray(postsData)) {
+    posts = postsData.map(wpMapPostData)
+  }
   return {
     error: null,
-    posts: Array.isArray(posts) && posts.map(wpMapPostData),
+    posts: posts,
     pageInfo: res?.data.tag.posts.pageInfo,
   }
 }

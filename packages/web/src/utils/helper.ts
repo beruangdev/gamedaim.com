@@ -1,3 +1,5 @@
+import { WpCategoriesDataProps } from "@/lib/wp-data-types"
+
 //check if path includes one of routes for authentication
 export function findAuthPage(path: string, routes: string[]) {
   return routes.some(function (element) {
@@ -65,4 +67,30 @@ export const splitUriWP = (uri: string) => {
   const match: RegExpMatchArray | null = uri.match(regex)
   const newUri = match && match.length > 2 ? `/${match[1]}/${match[3]}` : uri
   return newUri
+}
+
+export function wpPrimaryCategorySlug(category: WpCategoriesDataProps[]) {
+  const isPrimary = category.find(({ parent }) => {
+    return parent === null
+  })
+  let primary
+  if (isPrimary) {
+    primary = isPrimary
+    return { primary }
+  } else {
+    primary = category[0]
+    return { primary }
+  }
+}
+
+export function wpAuthorPathBySlug(slug: string) {
+  return `/author/${slug}`
+}
+
+export function wpCategoryPathBySlug(slug: string) {
+  return `/category/${slug}`
+}
+
+export function wpTagPathBySlug(slug: string) {
+  return `/tag/${slug}`
 }
