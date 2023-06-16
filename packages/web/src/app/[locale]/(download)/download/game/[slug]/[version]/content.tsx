@@ -1,5 +1,6 @@
 import * as React from "react"
 
+import { Ad } from "@/components/Ad"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,7 +10,11 @@ import { Icon } from "@/components/UI/Icon"
 import { Image } from "@/components/Image"
 import { ListDownload } from "@/components/List"
 import { DownloadCardSide } from "@/components/Card"
-import { DownloadDataProps, DownloadFileDataProps } from "@/lib/data-types"
+import {
+  AdDataProps,
+  DownloadDataProps,
+  DownloadFileDataProps,
+} from "@/lib/data-types"
 
 import { DownloadButtonAction } from "./action"
 
@@ -17,10 +22,11 @@ interface DownloadGameVersionProps {
   download: DownloadDataProps | null
   downloadFile: DownloadFileDataProps | null
   downloads: DownloadDataProps[] | null
+  adsDownloadingPage: AdDataProps[] | null
 }
 
 export function DownloadGameVersion(props: DownloadGameVersionProps) {
-  const { downloadFile, download, downloads } = props
+  const { downloadFile, download, downloads, adsDownloadingPage } = props
 
   return (
     <section className="flex w-full flex-col">
@@ -76,6 +82,11 @@ export function DownloadGameVersion(props: DownloadGameVersionProps) {
                         fileSize={downloadFile?.fileSize as string}
                       />
                     </div>
+                    {adsDownloadingPage &&
+                      adsDownloadingPage.length > 0 &&
+                      adsDownloadingPage.map((ad: AdDataProps) => {
+                        return <Ad ad={ad} />
+                      })}
                   </div>
                 </div>
               </div>

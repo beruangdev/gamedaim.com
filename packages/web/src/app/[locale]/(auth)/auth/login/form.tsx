@@ -48,8 +48,10 @@ export const LoginForm: React.FunctionComponent = () => {
       )
       const isoDate = thirdDayDate.toISOString()
       const dataCookies = { ...data, expiration: isoDate }
-
-      Cookies.set("currentUser", JSON.stringify(dataCookies), { path: "/" })
+      Cookies.set("currentUser", JSON.stringify(dataCookies), {
+        path: "/",
+        domain: ".localhost",
+      })
 
       toast({ variant: "success", description: "Successfully signed in" })
 

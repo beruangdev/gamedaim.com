@@ -59,3 +59,20 @@ export const useSearchDashboardDownloads = (
 
   return { downloads: data, updatedDownloads: mutate }
 }
+
+export const useSearchDownloads = (
+  downloadLanguage: LanguageTypeData,
+  query: string,
+) => {
+  const { data, error, mutate } = useSWR(
+    `/download/${downloadLanguage}/search/${query}`,
+    fetcher,
+  )
+
+  if (error) {
+    console.log(error)
+    toast({ variant: "danger", description: error.message })
+  }
+
+  return { downloads: data, updatedDownloads: mutate }
+}

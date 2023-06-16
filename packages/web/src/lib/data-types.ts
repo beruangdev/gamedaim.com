@@ -314,6 +314,7 @@ export type TopicTypeData =
   | "GAME"
   | "TV"
   | "MOVIE"
+  | "DOWNLOAD"
 
 export type AdPositionData =
   | "HOME_BELOW_HEADER"

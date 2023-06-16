@@ -21,9 +21,11 @@ export const DownloadButtonAction = (props: DownloadButtonActionProps) => {
     setCountdownInterval(
       //@ts-ignore
       setInterval(() => {
+        setDifference((prevDifference): number => prevDifference - 1)
         setShowCountdown(false)
         setCountdownInterval(null)
         window.open(downloadLink, "_blank")
+        setDifference(10)
       }, 10000),
     )
   }
@@ -35,16 +37,8 @@ export const DownloadButtonAction = (props: DownloadButtonActionProps) => {
     }
   }, [countdownInterval])
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setDifference((prevDifference): number => prevDifference - 1)
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
-
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-col">
       <Button
         aria-label="Download"
         onClick={handleDownloadClick}
@@ -53,7 +47,7 @@ export const DownloadButtonAction = (props: DownloadButtonActionProps) => {
         Download ({fileSize})
       </Button>
       {showCountdown && (
-        <div className="bg-success text-foreground p-7">
+        <div className="bg-success/30 text-foreground p-7">
           Link download akan terbuka pada
           {difference} detik
         </div>

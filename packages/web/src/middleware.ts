@@ -46,7 +46,7 @@ export default async function middleware(request: NextRequest) {
   const defaultLocale = "id"
 
   const handleI18nRouting = createIntlMiddleware({
-    locales: ["id"],
+    locales: ["id", "en"],
     defaultLocale,
     domains: [
       {
@@ -56,6 +56,11 @@ export default async function middleware(request: NextRequest) {
             : `global.localhost`,
         defaultLocale: "en",
         locales: ["en"],
+      },
+      {
+        domain: env.NODE_ENV !== "development" ? `${env.DOMAIN}` : `localhost`,
+        defaultLocale: "id",
+        locales: ["id"],
       },
     ],
     localeDetection: false,

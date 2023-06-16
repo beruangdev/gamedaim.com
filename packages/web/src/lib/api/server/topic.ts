@@ -196,7 +196,7 @@ export const getTopicsByTypeAndLangAction = async (
   topicType: TopicTypeData,
   topicPage = 1,
 ) => {
-  const [res, err] = await http<TopicSitemapDataProps[]>("GET", {
+  const [res, err] = await http<TopicDataProps[]>("GET", {
     url: `/topic/${topicLanguage}/type/${topicType}/page/${topicPage}`,
   })
 
@@ -216,7 +216,7 @@ export const getTopicArticlesBySlugAction = async (
   topicSlug: string,
   topicPage = 1,
 ) => {
-  const [res, err] = await http<TopicSitemapDataProps[]>("GET", {
+  const [res, err] = await http<TopicDataProps>("GET", {
     url: `/topic/slug/${topicSlug}/articles/page/${topicPage}`,
   })
 

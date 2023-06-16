@@ -46,7 +46,7 @@ export function DownloadDashboardContent() {
   const {
     downloads: resultDownloadsEn,
     updatedDownloads: updatedResultDownloadsEn,
-  } = useSearchDashboardDownloads("en", searchQuery)
+  } = useSearchDashboardDownloads("en", searchQueryEn)
 
   const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -205,9 +205,11 @@ const TableDownload = (props: TableDownloadProps) => {
         <Tbody>
           {downloads.map((download: DownloadDataProps) => (
             <Tr key={download.id}>
-              <Td className="line-clamp-3 max-w-[120px]">
+              <Td className="max-w-[120px]">
                 <div>
-                  <span className="font-medium">{download.title}</span>
+                  <span className="line-clamp-3 font-medium">
+                    {download.title}
+                  </span>
                 </div>
               </Td>
               {/* <Td className="whitespace-nowrap">

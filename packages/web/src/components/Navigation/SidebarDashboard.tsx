@@ -23,12 +23,18 @@ export const SidebarDashboard = React.forwardRef<
 
   return (
     <Sidebar ref={ref} {...rest}>
-      <NextLink
-        href="/"
-        className="mx-auto my-0 flex items-center justify-center p-5"
-      >
-        <Logo />
-      </NextLink>
+      <div className="flex items-center gap-2">
+        <NextLink
+          href="/"
+          className="my-0 flex items-center justify-center p-5"
+        >
+          <Logo />
+        </NextLink>
+        <div>
+          <ThemeSwitcher />
+        </div>
+      </div>
+
       <Sidebar.Item icon={<Icon.Dashboard />} href="/dashboard">
         Dashboard
       </Sidebar.Item>
@@ -106,9 +112,6 @@ export const SidebarDashboard = React.forwardRef<
         >
           Log Out
         </Sidebar.Item>
-        <div className="absolute bottom-0 left-0 m-5">
-          <ThemeSwitcher />
-        </div>
       </div>
     </Sidebar>
   )

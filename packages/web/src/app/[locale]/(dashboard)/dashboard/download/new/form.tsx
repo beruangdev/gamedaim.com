@@ -191,8 +191,12 @@ export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
       >
         <div className="bg-background sticky top-[0px] z-[9] flex items-center justify-between px-3 py-5">
           <Button aria-label="Go To Downloads" variant="ghost">
-            <NextLink aria-label="Go To Downloads" href="/dashboard/downloads">
-              Downloads
+            <NextLink
+              className="flex items-center"
+              aria-label="Go To Downloads"
+              href="/dashboard/download"
+            >
+              <Icon.ChevronLeft aria-label="Back To Downloads" /> Downloads
             </NextLink>
           </Button>
           <div>
@@ -576,7 +580,7 @@ export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
           <Modal
             content={
               <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
-                <div className="px-2">
+                <div className="px-4">
                   <AddDownloadFileAction
                     updateDownloadFiles={handleUpdateFile}
                   />
