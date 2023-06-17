@@ -210,6 +210,7 @@ const TableArticle = (props: TableArticleProps) => {
         <Thead>
           <Tr isTitle>
             <Th>Title</Th>
+            <Th>Language</Th>
             {/* <Th>Author</Th> */}
             <Th className="hidden md:table-cell">Published Date</Th>
             <Th className="hidden md:table-cell">Last Modified</Th>
@@ -227,13 +228,16 @@ const TableArticle = (props: TableArticleProps) => {
                   </span>
                 </div>
               </Td>
-              {/* <Td className="whitespace-nowrap">
-            <div className="flex">
-              <span className="font-medium">
-                {article.author.name}
-              </span>
-            </div>
-          </Td> */}
+              <Td className="whitespace-nowrap">
+                <div className="flex gap-2">
+                  <NextLink href={`/dashboard/article/edit/en/${article.id}`}>
+                    En
+                  </NextLink>
+                  <NextLink href={`/dashboard/article/edit/id/${article.id}`}>
+                    Id
+                  </NextLink>
+                </div>
+              </Td>
               <Td className="hidden md:table-cell">
                 {formatDate(article.createdAt, "LL")}
               </Td>

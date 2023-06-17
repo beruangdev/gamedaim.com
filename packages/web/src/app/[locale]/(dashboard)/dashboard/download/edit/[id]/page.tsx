@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import { Metadata } from "next"
 
 import { EditDownloadForm } from "./form"
-import { LanguageTypeData } from "@/lib/data-types"
 import { getDownloadByIdAction } from "@/lib/api/server/download"
 
 export const metadata: Metadata = {
@@ -25,18 +24,18 @@ export const metadata: Metadata = {
 }
 
 interface CreateArticlesDashboardProps {
-  params: { locale: LanguageTypeData; id: string }
+  params: { id: string }
 }
 
 export default async function CreateDownloadsDashboard({
   params,
 }: CreateArticlesDashboardProps) {
-  const { locale, id } = params
+  const { id } = params
   const { data } = await getDownloadByIdAction(id as string)
 
   if (!data) {
     notFound()
   }
 
-  return <EditDownloadForm locale={locale} downloadId={id} />
+  return <EditDownloadForm downloadId={id} />
 }

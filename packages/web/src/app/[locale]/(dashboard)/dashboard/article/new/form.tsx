@@ -47,8 +47,7 @@ interface FormValues {
   metaTitle?: string
   metaDescription?: string
 }
-export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
-  const { locale } = props
+export const AddArticleForm = () => {
   const { user } = useCurrentUser()
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
@@ -85,7 +84,15 @@ export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
     handleSubmit,
     control,
     reset,
-  } = useForm<FormValues>({ mode: "onBlur" })
+    watch,
+  } = useForm<FormValues>({
+    mode: "onBlur",
+    defaultValues: {
+      language: "id",
+    },
+  })
+
+  const valueLanguage = watch("language") as LanguageTypeData | undefined
 
   React.useEffect(() => {
     if (user) {
@@ -178,16 +185,52 @@ export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
             <div className="fixed bottom-0 right-0 top-0 mt-[85px]">
               <ScrollArea className="h-[calc(100vh-80px)] max-w-[300px] rounded border py-4 max-md:min-w-full">
                 <div className="bg-background flex flex-col px-2 py-2">
-                  <div className="my-2 px-4">
-                    <AddTopicsAction
-                      locale={locale}
-                      topics={topics}
-                      addTopics={setTopics}
-                      selectedTopics={selectedTopics}
-                      addSelectedTopics={setSelectedTopics}
-                      topicType={"ARTICLE"}
-                    />
+                  <div className="my-2 flex flex-col px-4">
+                    <FormControl invalid={Boolean(errors.language)}>
+                      <Controller
+                        control={control}
+                        name="language"
+                        render={({ field }) => (
+                          <>
+                            <FormLabel>Language</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              value={field.value}
+                            >
+                              <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select a language" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel>Language</SelectLabel>
+                                  <SelectItem value="id">Indonesia</SelectItem>
+                                  <SelectItem value="en">English</SelectItem>
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                            {errors?.language && (
+                              <FormErrorMessage>
+                                {errors.language.message}
+                              </FormErrorMessage>
+                            )}
+                          </>
+                        )}
+                      />
+                    </FormControl>
                   </div>
+                  {valueLanguage && (
+                    <div className="my-2 px-4">
+                      <AddTopicsAction
+                        locale={valueLanguage}
+                        topics={topics}
+                        addTopics={setTopics}
+                        selectedTopics={selectedTopics}
+                        addSelectedTopics={setSelectedTopics}
+                        topicType={"ARTICLE"}
+                      />
+                    </div>
+                  )}
                   <div className="my-2 px-4">
                     {selectedFeaturedImageUrl ? (
                       <>
@@ -252,40 +295,7 @@ export const AddArticleForm = (props: { locale: LanguageTypeData }) => {
                       addSelectedEditors={setSelectedEditors}
                     />
                   </div>
-                  <div className="my-2 flex flex-col px-4">
-                    <FormControl invalid={Boolean(errors.language)}>
-                      <Controller
-                        control={control}
-                        name="language"
-                        render={({ field }) => (
-                          <>
-                            <FormLabel>Language</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                              value={field.value}
-                            >
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a language" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectLabel>Language</SelectLabel>
-                                  <SelectItem value="id">Indonesia</SelectItem>
-                                  <SelectItem value="en">English</SelectItem>
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                            {errors?.language && (
-                              <FormErrorMessage>
-                                {errors.language.message}
-                              </FormErrorMessage>
-                            )}
-                          </>
-                        )}
-                      />
-                    </FormControl>
-                  </div>
+
                   <div className="my-2 flex flex-col px-4">
                     <FormLabel>Meta Title</FormLabel>
                     <FormControl invalid={Boolean(errors.metaTitle)}>

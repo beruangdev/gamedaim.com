@@ -3,8 +3,6 @@ import { notFound } from "next/navigation"
 
 import { wpGetAllPosts, wpGetPostBySlug } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
-import { WpCategoriesDataProps } from "@/lib/wp-data-types"
-import { wpPrimaryCategorySlug } from "@/utils/helper"
 
 import { PostContent } from "./content"
 
@@ -15,17 +13,11 @@ interface PostPageProps {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { slug, categorySlug } = params
+  const { slug } = params
   const { posts } = await wpGetAllPosts()
   const { post } = await wpGetPostBySlug(slug as string)
-  let primaryData
-  if (post) {
-    const { primary } = wpPrimaryCategorySlug(
-      post?.categories as WpCategoriesDataProps[],
-    )
-    primaryData = primary
-  }
-  if (!post || primaryData?.slug !== categorySlug) {
+
+  if (!post) {
     notFound()
   }
   const { data: adsBelowHeader } = await getAdsByPositionAction(

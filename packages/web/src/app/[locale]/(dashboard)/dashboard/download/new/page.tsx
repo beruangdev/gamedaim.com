@@ -1,7 +1,6 @@
 import * as React from "react"
 import { Metadata } from "next"
 
-import { LanguageTypeData } from "@/lib/data-types"
 import { AddDownloadForms } from "./form"
 
 export const metadata: Metadata = {
@@ -22,14 +21,6 @@ export const metadata: Metadata = {
   },
 }
 
-interface CreateArticleDashboardProps {
-  params: { locale: LanguageTypeData }
-}
-
-export default function CreateArticleDashboard({
-  params,
-}: CreateArticleDashboardProps) {
-  const { locale } = params
-
-  return <AddDownloadForms locale={locale} />
+export default function CreateArticleDashboard() {
+  return <AddDownloadForms />
 }

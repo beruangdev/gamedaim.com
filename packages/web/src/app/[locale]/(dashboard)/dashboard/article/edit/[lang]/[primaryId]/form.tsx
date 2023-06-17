@@ -52,8 +52,11 @@ interface FormValues {
   metaTitle?: string
   metaDescription?: string
 }
-export const EditArticleForm = (props: { articleId: string }) => {
-  const { articleId } = props
+export const EditArticleForm = (props: {
+  articleId: string
+  lang: LanguageTypeData
+}) => {
+  const { articleId, lang } = props
 
   const router = useRouter()
 
@@ -106,7 +109,7 @@ export const EditArticleForm = (props: { articleId: string }) => {
   } = useForm<FormValues>({
     mode: "onBlur",
     defaultValues: {
-      language: "id",
+      language: lang,
     },
   })
 
