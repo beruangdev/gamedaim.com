@@ -218,6 +218,17 @@ export interface TransactionDataProps {
   paid_at: number
 }
 
+export interface PaymentMethodsProps {
+  fee_merchant: { flat: number | null; percent: number | null }
+  name: string
+  fee_customer: { flat: number | null; percent: number | null }
+  group: string
+  description: string
+  icon_url: string
+  code: string
+  totalFee?: number
+}
+
 export interface StatusPrePaidTopUpProps {
   ref_id: string
   customer_no: string
