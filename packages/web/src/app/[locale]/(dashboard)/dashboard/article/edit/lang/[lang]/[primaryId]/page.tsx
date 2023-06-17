@@ -1,10 +1,10 @@
 import * as React from "react"
-import { notFound } from "next/navigation"
 import { Metadata } from "next"
 
-import { EditArticleForm } from "./form"
-import { getArticleByIdAction } from "@/lib/api/server/article"
+import { AddArticleForm } from "./form"
 import { LanguageTypeData } from "@/lib/data-types"
+import { getArticlePrimaryByIdAction } from "@/lib/api/server/article"
+import { redirect } from "next/navigation"
 export const metadata: Metadata = {
   title: "Edit Article Dashboard",
   description: "Edit Article Dashboard",
@@ -31,16 +31,16 @@ export default async function CreateArticlesDashboard({
   params,
 }: CreateArticlesDashboardProps) {
   const { primaryId, lang } = params
-
-  const { data } = await getArticleByIdAction(primaryId as string)
-
-  if (!data || lang !== ("id" || "en")) {
-    notFound()
+  const { data } = await getArticlePrimaryByIdAction(primaryId)
+  const selectedArticle = data?.articles.find(
+    (article) => article.language === lang,
+  )
+  if (selectedArticle) {
+    redirect(`/dashboard/article/edit/${selectedArticle.id}`)
   }
-
   return (
     <>
-      <EditArticleForm articleId={primaryId} lang={lang} />
+      <AddArticleForm primaryId={primaryId} lang={lang} />
     </>
   )
 }

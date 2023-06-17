@@ -4,8 +4,7 @@ import * as React from "react"
 import NextImage from "next/image"
 import NextLink from "next/link"
 import { EditorContent, useEditor } from "@tiptap/react"
-import { useRouter } from "next/navigation"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { ArticleDashboardContainer } from "@/components/Container/ArticleDashboardContainer"
 import {
@@ -23,40 +22,32 @@ import {
   Input,
 } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/UI/Select"
+
 import { ScrollArea } from "@/components/UI/ScrollArea"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
+import { useCurrentUser } from "@/hooks/use-current-user"
 import { useDisclosure } from "@/hooks/use-disclosure"
-import { getArticleByIdAction, putArticle } from "@/lib/api/server/article"
-import {
-  LanguageTypeData,
-  TopicDataProps,
-  UserDataProps,
-} from "@/lib/data-types"
+import { postArticleAction } from "@/lib/api/server/article"
+import { LanguageTypeData } from "@/lib/data-types"
 
 interface FormValues {
   title: string
   content: string
   excerpt?: string
-  slug: string
   language: string
   metaTitle?: string
   metaDescription?: string
+  articlePrimaryId: string
 }
-export const EditArticleForm = (props: { articleId: string }) => {
-  const { articleId } = props
 
-  const router = useRouter()
-
+interface AddArticleFormProps {
+  primaryId: string
+  lang: LanguageTypeData
+}
+export const AddArticleForm = (props: AddArticleFormProps) => {
+  const { primaryId, lang } = props
+  const { user } = useCurrentUser()
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [editorContent, setEditorContent] = React.useState<string>("")
@@ -76,16 +67,6 @@ export const EditArticleForm = (props: { articleId: string }) => {
   const [selectedEditors, setSelectedEditors] = React.useState<
     { id: string; name: string }[] | []
   >([])
-  const [article, setArticle] = React.useState<FormValues & { id: string }>({
-    id: "",
-    title: "",
-    excerpt: "",
-    content: "",
-    language: "",
-    slug: "",
-    metaTitle: "",
-    metaDescription: "",
-  })
   const { isOpen, onToggle } = useDisclosure()
 
   const editor = useEditor({
@@ -100,60 +81,33 @@ export const EditArticleForm = (props: { articleId: string }) => {
     register,
     formState: { errors },
     handleSubmit,
-    control,
+
     reset,
     watch,
   } = useForm<FormValues>({
     mode: "onBlur",
     defaultValues: {
-      language: "id",
+      language: lang,
+      articlePrimaryId: primaryId,
     },
   })
 
   const valueLanguage = watch("language") as LanguageTypeData | undefined
 
-  const loadArticle = async () => {
-    const { data } = await getArticleByIdAction(articleId as string)
-    if (data) {
-      setArticle({
-        id: data?.id,
-        title: data?.title,
-        slug: data?.slug,
-        content: data?.content,
-        excerpt: data?.excerpt,
-        metaTitle: data?.metaTitle,
-        metaDescription: data?.metaDescription,
-        language: data?.language,
-      })
-      setSelectedTopics(data?.topics)
-      setSelectedFeaturedImageId(data?.featuredImage.id as string)
-      setSelectedFeaturedImageUrl(data?.featuredImage.url as string)
-      setEditorContent(data?.content as string)
-      setAuthors(data?.authors.map((author: UserDataProps) => author.id))
-      setSelectedAuthors(
-        data?.authors.map((author: UserDataProps) => {
-          return { id: author.id, name: author.name }
-        }),
-      )
-      setEditorIds(data?.editors.map((editor: UserDataProps) => editor.id))
-      setSelectedEditors(
-        data?.editors.map((editor: UserDataProps) => {
-          return { id: editor.id, name: editor.name }
-        }),
-      )
-      setTopics(data?.topics.map((topic: TopicDataProps) => topic.id))
-      editor?.commands.setContent(data?.content as string)
+  React.useEffect(() => {
+    if (user) {
+      setAuthors((prevAuthors) => [...prevAuthors, user.id])
+      setSelectedAuthors((prevSelectedAuthors) => [
+        ...prevSelectedAuthors,
+        { id: user.id, name: user.name },
+      ])
+      setEditorIds((prevEditorIds) => [...prevEditorIds, user.id])
+      setSelectedEditors((prevSelectedEditors) => [
+        ...prevSelectedEditors,
+        { id: user.id, name: user.name },
+      ])
     }
-  }
-
-  React.useEffect(() => {
-    reset(article)
-  }, [article, reset])
-
-  React.useEffect(() => {
-    loadArticle()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor])
+  }, [user])
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
@@ -165,13 +119,16 @@ export const EditArticleForm = (props: { articleId: string }) => {
       authorIds: authors,
       editorIds: editorIds,
     }
-    const { data } = await putArticle(article.id, mergedValues)
+    const { data } = await postArticleAction(mergedValues)
     if (data) {
+      reset()
+      editor?.commands.clearContent()
+      setSelectedTopics([])
+      setSelectedFeaturedImageUrl("")
       toast({
         variant: "success",
         description: "Article successfully created ",
       })
-      router.push("/dashboard/article")
     }
     setLoading(false)
   }
@@ -197,7 +154,7 @@ export const EditArticleForm = (props: { articleId: string }) => {
             <NextLink
               className="flex items-center"
               aria-label="Back To Articles"
-              href="/dashboard/articles"
+              href="/dashboard/article"
             >
               <Icon.ChevronLeft aria-label="Back To Articles" /> Articles
             </NextLink>
@@ -213,6 +170,7 @@ export const EditArticleForm = (props: { articleId: string }) => {
               Publish
             </Button>
             <Button
+              type="button"
               aria-label="View Sidebar"
               variant="ghost"
               onClick={onToggle}
@@ -227,40 +185,6 @@ export const EditArticleForm = (props: { articleId: string }) => {
             <div className="fixed bottom-0 right-0 top-0 mt-[85px]">
               <ScrollArea className="h-[calc(100vh-80px)] max-w-[300px] rounded border py-4 max-md:min-w-full">
                 <div className="bg-background flex flex-col px-2 py-2">
-                  <div className="my-2 flex flex-col px-4">
-                    <FormControl invalid={Boolean(errors.language)}>
-                      <Controller
-                        control={control}
-                        name="language"
-                        render={({ field }) => (
-                          <>
-                            <FormLabel>Language</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                              value={field.value}
-                            >
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a language" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectLabel>Language</SelectLabel>
-                                  <SelectItem value="id">Indonesia</SelectItem>
-                                  <SelectItem value="en">English</SelectItem>
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                            {errors?.language && (
-                              <FormErrorMessage>
-                                {errors.language.message}
-                              </FormErrorMessage>
-                            )}
-                          </>
-                        )}
-                      />
-                    </FormControl>
-                  </div>
                   {valueLanguage && (
                     <div className="my-2 px-4">
                       <AddTopicsAction
@@ -302,16 +226,16 @@ export const EditArticleForm = (props: { articleId: string }) => {
                       </>
                     ) : (
                       <>
+                        <FormLabel>Featured Image</FormLabel>
                         <ModalSelectMedia
                           handleSelectUpdateMedia={handleUpdateMedia}
                           open={openModal}
                           setOpen={setOpenModal}
                           triggerContent={
                             <>
-                              <FormLabel>Featured Image</FormLabel>
                               <div
                                 onClick={() => setOpenModal(true)}
-                                className="bg-muted text-success relative m-auto flex aspect-video h-[120px] items-center justify-center"
+                                className="bg-muted text-success relative m-auto flex aspect-video h-[120px] cursor-pointer items-center justify-center"
                               >
                                 <p>Select Featured Image</p>
                               </div>

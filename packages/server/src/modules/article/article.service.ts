@@ -220,6 +220,16 @@ export async function getArticlesSitemapByLang(
 export async function getArticlePrimaryById(articlePrimaryId: string) {
   return await db.articlePrimary.findUnique({
     where: { id: articlePrimaryId },
+    select: {
+      id: true,
+      articles: {
+        select: {
+          language: true,
+          title: true,
+          id: true,
+        },
+      },
+    },
   })
 }
 
@@ -227,6 +237,11 @@ export async function getArticleById(articleId: string) {
   return await db.article.findUnique({
     where: { id: articleId },
     select: {
+      articlePrimary: {
+        select: {
+          id: true,
+        },
+      },
       language: true,
       content: true,
       excerpt: true,

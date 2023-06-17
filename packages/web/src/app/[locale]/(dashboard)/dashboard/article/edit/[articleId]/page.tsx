@@ -24,15 +24,15 @@ export const metadata: Metadata = {
 }
 
 interface CreateArticlesDashboardProps {
-  params: { id: string }
+  params: { articleId: string }
 }
 
 export default async function CreateArticlesDashboard({
   params,
 }: CreateArticlesDashboardProps) {
-  const { id } = params
+  const { articleId } = params
 
-  const { data } = await getArticleByIdAction(id as string)
+  const { data } = await getArticleByIdAction(articleId as string)
 
   if (!data) {
     notFound()
@@ -40,7 +40,7 @@ export default async function CreateArticlesDashboard({
 
   return (
     <>
-      <EditArticleForm articleId={id} />
+      <EditArticleForm articleId={articleId} />
     </>
   )
 }

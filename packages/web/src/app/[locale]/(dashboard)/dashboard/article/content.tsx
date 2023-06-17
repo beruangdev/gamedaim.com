@@ -230,10 +230,14 @@ const TableArticle = (props: TableArticleProps) => {
               </Td>
               <Td className="whitespace-nowrap">
                 <div className="flex gap-2">
-                  <NextLink href={`/dashboard/article/edit/en/${article.id}`}>
+                  <NextLink
+                    href={`/dashboard/article/edit/lang/en/${article.articlePrimary.id}`}
+                  >
                     En
                   </NextLink>
-                  <NextLink href={`/dashboard/article/edit/id/${article.id}`}>
+                  <NextLink
+                    href={`/dashboard/article/edit/lang/id/${article.articlePrimary.id}`}
+                  >
                     Id
                   </NextLink>
                 </div>

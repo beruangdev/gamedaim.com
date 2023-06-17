@@ -36,7 +36,11 @@ import { ScrollArea } from "@/components/UI/ScrollArea"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { useDisclosure } from "@/hooks/use-disclosure"
-import { getArticleByIdAction, putArticle } from "@/lib/api/server/article"
+import {
+  getArticleByIdAction,
+  getArticlePrimaryByIdAction,
+  putArticle,
+} from "@/lib/api/server/article"
 import {
   LanguageTypeData,
   TopicDataProps,
@@ -51,12 +55,10 @@ interface FormValues {
   language: string
   metaTitle?: string
   metaDescription?: string
+  primaryId: string
 }
-export const EditArticleForm = (props: {
-  articleId: string
-  lang: LanguageTypeData
-}) => {
-  const { articleId, lang } = props
+export const EditArticleForm = (props: { articleId: string }) => {
+  const { articleId } = props
 
   const router = useRouter()
 
@@ -88,6 +90,7 @@ export const EditArticleForm = (props: {
     slug: "",
     metaTitle: "",
     metaDescription: "",
+    primaryId: "",
   })
   const { isOpen, onToggle } = useDisclosure()
 
@@ -109,7 +112,7 @@ export const EditArticleForm = (props: {
   } = useForm<FormValues>({
     mode: "onBlur",
     defaultValues: {
-      language: lang,
+      language: "id",
     },
   })
 
@@ -127,6 +130,7 @@ export const EditArticleForm = (props: {
         metaTitle: data?.metaTitle,
         metaDescription: data?.metaDescription,
         language: data?.language,
+        primaryId: data?.articlePrimary.id,
       })
       setSelectedTopics(data?.topics)
       setSelectedFeaturedImageId(data?.featuredImage.id as string)
@@ -168,14 +172,28 @@ export const EditArticleForm = (props: {
       authorIds: authors,
       editorIds: editorIds,
     }
-    const { data } = await putArticle(article.id, mergedValues)
-    if (data) {
+    const { data: primaryData } = await getArticlePrimaryByIdAction(
+      values.primaryId,
+    )
+    const selectedArticle = primaryData?.articles.find(
+      (articleData) => articleData.id !== article.id,
+    )
+    if (selectedArticle?.language !== values.language) {
+      const { data } = await putArticle(article.id, mergedValues)
+      if (data) {
+        toast({
+          variant: "success",
+          description: "Article successfully created ",
+        })
+        router.push("/dashboard/article")
+      }
+    } else {
       toast({
-        variant: "success",
-        description: "Article successfully created ",
+        variant: "danger",
+        description: "Article with same language has been added ",
       })
-      router.push("/dashboard/article")
     }
+
     setLoading(false)
   }
 
@@ -200,7 +218,7 @@ export const EditArticleForm = (props: {
             <NextLink
               className="flex items-center"
               aria-label="Back To Articles"
-              href="/dashboard/articles"
+              href="/dashboard/article"
             >
               <Icon.ChevronLeft aria-label="Back To Articles" /> Articles
             </NextLink>

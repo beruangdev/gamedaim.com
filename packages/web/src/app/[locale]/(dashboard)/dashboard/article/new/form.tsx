@@ -154,7 +154,7 @@ export const AddArticleForm = () => {
             <NextLink
               className="flex items-center"
               aria-label="Back To Articles"
-              href="/dashboard/articles"
+              href="/dashboard/article"
             >
               <Icon.ChevronLeft aria-label="Back To Articles" /> Articles
             </NextLink>
