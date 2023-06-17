@@ -94,7 +94,7 @@ export const ResetPasswordForm: React.FunctionComponent = () => {
       {errorMessage ? (
         <div className="my-12">
           <div
-            className="my-8 flex rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-gray-800 dark:text-red-400"
+            className="text-danger border-danger-300 bg-danger-50 my-8 flex rounded-lg border p-4 text-sm"
             role="alert"
           >
             <Icon.Alert className="mr-3 inline h-5 w-5 flex-shrink-0"></Icon.Alert>

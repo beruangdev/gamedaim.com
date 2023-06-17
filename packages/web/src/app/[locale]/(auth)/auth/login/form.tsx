@@ -150,7 +150,7 @@ export const LoginForm: React.FunctionComponent = () => {
             loading={loading}
             onClick={handleGoogleLogin}
             type="button"
-            className="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-5 py-3 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="border-muted bg-muted text-muted inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-5 py-3 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100"
           >
             <Icon.Google className="-ml-1 mr-2 h-6 w-6" />
             Sign in with Google
@@ -160,9 +160,9 @@ export const LoginForm: React.FunctionComponent = () => {
             loading={loading}
             type="button"
             onClick={handleFacebookLogin}
-            className="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-5 py-3 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="border-muted bg-muted text-muted inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-5 py-3 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100"
           >
-            <Icon.Facebook className="-ml-1 mr-2 h-6 w-6 text-blue-600" />
+            <Icon.Facebook className="text-primary -ml-1 mr-2 h-6 w-6" />
             Sign in with Facebook
           </Button>
         </div>

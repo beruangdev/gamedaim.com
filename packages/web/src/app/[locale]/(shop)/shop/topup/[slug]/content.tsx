@@ -10,6 +10,7 @@ interface ShopPageContentProps {
   prePaidBrands: PriceListPrePaidProps[]
   slug: string
 }
+
 export default function ShopShowPageContent({
   prePaidBrands,
 }: ShopPageContentProps) {

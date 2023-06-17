@@ -22,31 +22,6 @@ export async function topUpDigiflazzCheckBalanceHandler(
   }
 }
 
-export async function getTopUpDigiflazzPriceListPrePaidFromDBHandler(
-  _request: FastifyRequest,
-  reply: FastifyReply,
-) {
-  try {
-    const priceList = (await digiflazz.daftarHarga("prepaid")) as {
-      data: string
-    }
-
-    if (Array.isArray(priceList.data)) {
-      await savePriceList({
-        key: "digiflazzTopUpListPricePrePaid",
-        value: priceList.data,
-      })
-    }
-
-    const savedPriceList = await getPriceListByKey("topUpListPricePrePaid")
-
-    return reply.code(201).send(savedPriceList)
-  } catch (e) {
-    console.log(e)
-    return reply.code(500).send(e)
-  }
-}
-
 export async function topUpDigiflazzPriceListPrePaidHandler(
   _request: FastifyRequest,
   reply: FastifyReply,

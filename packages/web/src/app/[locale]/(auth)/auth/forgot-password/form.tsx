@@ -62,7 +62,7 @@ export const ForgotPasswordForm: React.FunctionComponent = () => {
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div
-            className="my-8 flex rounded-lg border border-blue-300 bg-blue-50 p-4 text-sm text-blue-800 dark:border-blue-800 dark:bg-gray-800 dark:text-blue-400"
+            className="text-muted border-muted bg-muted my-8 flex rounded-lg border border-blue-300 bg-blue-50 p-4 text-sm text-blue-800"
             role="alert"
           >
             <Icon.Alert className="mr-3 inline h-5 w-5 flex-shrink-0"></Icon.Alert>

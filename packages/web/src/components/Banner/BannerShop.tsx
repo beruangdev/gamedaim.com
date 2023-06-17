@@ -14,7 +14,7 @@ export const BannerShop = React.forwardRef<HTMLDivElement, BannerShopProps>(
     const { content } = props
 
     const arrowClass =
-      "justify-center content-center bg-[#F39C12] hover:bg-theme-800 hover:text-white p-2 cursor-pointer border-none ring-0 absolute rounded-full top-[48%]"
+      "text-background justify-center content-center bg-[#F39C12] hover:bg-primary hover:text-white p-2 cursor-pointer border-none ring-0 absolute rounded-full top-[48%]"
 
     return (
       <div className="flex h-full items-center justify-center" ref={ref}>

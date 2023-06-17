@@ -25,23 +25,29 @@ export const BannerTopup = React.forwardRef<HTMLDivElement, BannerTopUpProps>(
         <CoverTopUp url={slugify(brand)} className="relative h-full w-full" />
         <div className="absolute flex h-full w-full items-center justify-center bg-[#0000008f]">
           <Breadcrumb
-            className="breadcrumb-topup dark:text-theme-200 text-white"
+            className="breadcrumb-topup text-foreground"
             separator={
-              <MdChevronRight aria-label="Breadcrumb" className="text-white" />
+              <MdChevronRight
+                aria-label="Breadcrumb"
+                className="text-background"
+              />
             }
           >
             <BreadcrumbItem>
-              <BreadcrumbLink className="text-white" href="/shop">
+              <BreadcrumbLink className="text-background" href="/shop">
                 GAMEDAIM STORE
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <BreadcrumbLink className="text-white" href="/shop/topup">
+              <BreadcrumbLink className="text-background" href="/shop/topup">
                 TOP UP
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem className="col-span-2" currentPage>
-              <BreadcrumbLink className="text-[40px] text-white" href={url}>
+              <BreadcrumbLink
+                className="text-background text-[40px]"
+                href={url}
+              >
                 {brand}
               </BreadcrumbLink>
             </BreadcrumbItem>
