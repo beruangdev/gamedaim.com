@@ -63,8 +63,7 @@ interface SelectedDownloadFileProps {
   price: string
 }
 
-export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
-  const { locale } = props
+export const AddDownloadForms = () => {
   const { isOpen, onToggle } = useDisclosure()
   const { user } = useCurrentUser()
 
@@ -170,7 +169,15 @@ export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
     handleSubmit,
     reset,
     control,
-  } = useForm<FormValues>({ mode: "onBlur" })
+    watch,
+  } = useForm<FormValues>({
+    mode: "onBlur",
+    defaultValues: {
+      language: "id",
+    },
+  })
+
+  const valueLanguage = watch("language") as LanguageTypeData | undefined
 
   const handleUpdateMedia = (data: {
     id: React.SetStateAction<string>
@@ -226,15 +233,110 @@ export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
               <ScrollArea className="h-[calc(100vh-180px)] max-w-[300px] rounded border py-4 max-sm:max-w-full">
                 <div className="bg-background flex flex-col px-2 py-2 max-sm:min-w-full ">
                   <div className="my-2 flex flex-col px-4">
-                    <AddTopicsAction
-                      topics={topics}
-                      addTopics={setTopics}
-                      selectedTopics={selectedTopics}
-                      addSelectedTopics={setSelectedTopics}
-                      locale={locale}
-                      topicType={"DOWNLOAD"}
-                    />
+                    <FormControl invalid={Boolean(errors.schemaType)}>
+                      <FormLabel>Language</FormLabel>
+                      <Controller
+                        control={control}
+                        name="schemaType"
+                        render={({ field }) => (
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            value={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a Schema" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Schema</SelectLabel>
+                                <SelectItem value="DownloadApp">
+                                  Download
+                                </SelectItem>
+                                <SelectItem value="BusinessApp">
+                                  Business
+                                </SelectItem>
+                                <SelectItem value="MultimediaApp">
+                                  Multimedia
+                                </SelectItem>
+                                <SelectItem value="MobileApp">
+                                  Mobile
+                                </SelectItem>
+                                <SelectItem value="WebApp">Web</SelectItem>
+                                <SelectItem value="SocialNetworkingApp">
+                                  Social
+                                </SelectItem>
+                                <SelectItem value="TravelApp">
+                                  Travel
+                                </SelectItem>
+                                <SelectItem value="ShoppingApp">
+                                  Shopping
+                                </SelectItem>
+                                <SelectItem value="SportsApp">
+                                  Sports
+                                </SelectItem>
+                                <SelectItem value="LifeStyleApp">
+                                  Lifestyle
+                                </SelectItem>
+                                <SelectItem value="DesignApp">
+                                  Design
+                                </SelectItem>
+                                <SelectItem value="DeveloperApp">
+                                  Developer
+                                </SelectItem>
+                                <SelectItem value="DriverApp">
+                                  Driver
+                                </SelectItem>
+                                <SelectItem value="EducationalApp">
+                                  Education
+                                </SelectItem>
+                                <SelectItem value="HealthApp">
+                                  Health
+                                </SelectItem>
+                                <SelectItem value="FinanceApp">
+                                  Finance
+                                </SelectItem>
+                                <SelectItem value="SecurityApp">
+                                  Security
+                                </SelectItem>
+                                <SelectItem value="BrowserApp">
+                                  Browser
+                                </SelectItem>
+                                <SelectItem value="CommunicationApp">
+                                  Communication
+                                </SelectItem>
+                                <SelectItem value="HomeApp">Home</SelectItem>
+                                <SelectItem value="UtilitiesApp">
+                                  Utilities
+                                </SelectItem>
+                                <SelectItem value="RefereceApp">
+                                  Referece
+                                </SelectItem>
+                                <SelectItem value="GameApp">Game</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      {errors?.schemaType && (
+                        <FormErrorMessage>
+                          {errors.schemaType.message}
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
                   </div>
+                  {valueLanguage && (
+                    <div className="my-2 px-4">
+                      <AddTopicsAction
+                        locale={valueLanguage}
+                        topics={topics}
+                        addTopics={setTopics}
+                        selectedTopics={selectedTopics}
+                        addSelectedTopics={setSelectedTopics}
+                        topicType={"ARTICLE"}
+                      />
+                    </div>
+                  )}
                   <div className="my-2 flex flex-col px-4">
                     {selectedFeaturedImageUrl ? (
                       <ModalSelectMedia
@@ -383,99 +485,7 @@ export const AddDownloadForms = (props: { locale: LanguageTypeData }) => {
                       )}
                     </FormControl>
                   </div>
-                  <div className="my-2 flex flex-col px-4">
-                    <FormControl invalid={Boolean(errors.schemaType)}>
-                      <FormLabel>Language</FormLabel>
-                      <Controller
-                        control={control}
-                        name="schemaType"
-                        render={({ field }) => (
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            value={field.value}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a Schema" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>Schema</SelectLabel>
-                                <SelectItem value="DownloadApp">
-                                  Download
-                                </SelectItem>
-                                <SelectItem value="BusinessApp">
-                                  Business
-                                </SelectItem>
-                                <SelectItem value="MultimediaApp">
-                                  Multimedia
-                                </SelectItem>
-                                <SelectItem value="MobileApp">
-                                  Mobile
-                                </SelectItem>
-                                <SelectItem value="WebApp">Web</SelectItem>
-                                <SelectItem value="SocialNetworkingApp">
-                                  Social
-                                </SelectItem>
-                                <SelectItem value="TravelApp">
-                                  Travel
-                                </SelectItem>
-                                <SelectItem value="ShoppingApp">
-                                  Shopping
-                                </SelectItem>
-                                <SelectItem value="SportsApp">
-                                  Sports
-                                </SelectItem>
-                                <SelectItem value="LifeStyleApp">
-                                  Lifestyle
-                                </SelectItem>
-                                <SelectItem value="DesignApp">
-                                  Design
-                                </SelectItem>
-                                <SelectItem value="DeveloperApp">
-                                  Developer
-                                </SelectItem>
-                                <SelectItem value="DriverApp">
-                                  Driver
-                                </SelectItem>
-                                <SelectItem value="EducationalApp">
-                                  Education
-                                </SelectItem>
-                                <SelectItem value="HealthApp">
-                                  Health
-                                </SelectItem>
-                                <SelectItem value="FinanceApp">
-                                  Finance
-                                </SelectItem>
-                                <SelectItem value="SecurityApp">
-                                  Security
-                                </SelectItem>
-                                <SelectItem value="BrowserApp">
-                                  Browser
-                                </SelectItem>
-                                <SelectItem value="CommunicationApp">
-                                  Communication
-                                </SelectItem>
-                                <SelectItem value="HomeApp">Home</SelectItem>
-                                <SelectItem value="UtilitiesApp">
-                                  Utilities
-                                </SelectItem>
-                                <SelectItem value="RefereceApp">
-                                  Referece
-                                </SelectItem>
-                                <SelectItem value="GameApp">Game</SelectItem>
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors?.schemaType && (
-                        <FormErrorMessage>
-                          {errors.schemaType.message}
-                        </FormErrorMessage>
-                      )}
-                    </FormControl>
-                  </div>
+
                   <div className="my-2 flex flex-col px-4">
                     <FormControl invalid={Boolean(errors.type)}>
                       <FormLabel>Type</FormLabel>

@@ -114,7 +114,9 @@ export const getArticleByIdAction = async (articleId: string) => {
 }
 
 export const getArticlePrimaryByIdAction = async (articleId: string) => {
-  const [res, err] = await http<ArticleDataProps>("GET", {
+  const [res, err] = await http<{
+    articles: { title: string; id: string; language: LanguageTypeData }[]
+  }>("GET", {
     url: `/article/primary/${articleId}`,
   })
 

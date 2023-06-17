@@ -76,17 +76,7 @@ async function articleRoutes(server: FastifyInstance) {
     deleteArticleHandler,
   )
 
-  server.get(
-    "/primary/:articleId",
-    {
-      schema: {
-        response: {
-          200: $ref("articlesResponseSchema"),
-        },
-      },
-    },
-    getArticlePrimaryByIdHandler,
-  )
+  server.get("/primary/:articlePrimaryId", getArticlePrimaryByIdHandler)
 
   server.get(
     "/:articleId",

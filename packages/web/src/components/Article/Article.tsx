@@ -98,7 +98,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                 <Button
                   key={category.name}
                   aria-label={isWP ? category.name : category.title}
-                  className="rounded-full uppercase"
+                  className="mb-2 rounded-full uppercase"
                 >
                   <NextLink
                     aria-label={isWP ? category.name : category.title}
