@@ -4,7 +4,7 @@ import * as React from "react"
 import NextImage from "next/image"
 import NextLink from "next/link"
 import { EditorContent, useEditor } from "@tiptap/react"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { ArticleDashboardContainer } from "@/components/Container/ArticleDashboardContainer"
 import {
@@ -22,21 +22,13 @@ import {
   Input,
 } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/UI/Select"
+
 import { ScrollArea } from "@/components/UI/ScrollArea"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { useCurrentUser } from "@/hooks/use-current-user"
 import { useDisclosure } from "@/hooks/use-disclosure"
-import { postArticleWithPrimaryAction } from "@/lib/api/server/article"
+import { postArticleAction } from "@/lib/api/server/article"
 import { LanguageTypeData } from "@/lib/data-types"
 
 interface FormValues {
@@ -46,8 +38,15 @@ interface FormValues {
   language: string
   metaTitle?: string
   metaDescription?: string
+  articlePrimaryId: string
 }
-export const AddArticleForm = () => {
+
+interface AddArticleFormProps {
+  primaryId: string
+  lang: LanguageTypeData
+}
+export const AddArticleForm = (props: AddArticleFormProps) => {
+  const { primaryId, lang } = props
   const { user } = useCurrentUser()
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
@@ -82,13 +81,14 @@ export const AddArticleForm = () => {
     register,
     formState: { errors },
     handleSubmit,
-    control,
+
     reset,
     watch,
   } = useForm<FormValues>({
     mode: "onBlur",
     defaultValues: {
-      language: "id",
+      language: lang,
+      articlePrimaryId: primaryId,
     },
   })
 
@@ -119,7 +119,7 @@ export const AddArticleForm = () => {
       authorIds: authors,
       editorIds: editorIds,
     }
-    const { data } = await postArticleWithPrimaryAction(mergedValues)
+    const { data } = await postArticleAction(mergedValues)
     if (data) {
       reset()
       editor?.commands.clearContent()
@@ -185,40 +185,6 @@ export const AddArticleForm = () => {
             <div className="fixed bottom-0 right-0 top-0 mt-[85px]">
               <ScrollArea className="h-[calc(100vh-80px)] max-w-[300px] rounded border py-4 max-md:min-w-full">
                 <div className="bg-background flex flex-col px-2 py-2">
-                  <div className="my-2 flex flex-col px-4">
-                    <FormControl invalid={Boolean(errors.language)}>
-                      <Controller
-                        control={control}
-                        name="language"
-                        render={({ field }) => (
-                          <>
-                            <FormLabel>Language</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                              value={field.value}
-                            >
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a language" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectLabel>Language</SelectLabel>
-                                  <SelectItem value="id">Indonesia</SelectItem>
-                                  <SelectItem value="en">English</SelectItem>
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                            {errors?.language && (
-                              <FormErrorMessage>
-                                {errors.language.message}
-                              </FormErrorMessage>
-                            )}
-                          </>
-                        )}
-                      />
-                    </FormControl>
-                  </div>
                   {valueLanguage && (
                     <div className="my-2 px-4">
                       <AddTopicsAction

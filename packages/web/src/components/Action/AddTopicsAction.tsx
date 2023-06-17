@@ -68,6 +68,17 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
       reset,
     } = useForm<FormValues>({ mode: "all", reValidateMode: "onChange" })
 
+    const handleLocaleChange = React.useCallback(() => {
+      setInputValue("")
+      setSearchResults([])
+      addTopics([])
+      addSelectedTopics([])
+    }, [addSelectedTopics, addTopics])
+
+    React.useEffect(() => {
+      handleLocaleChange()
+    }, [handleLocaleChange, locale])
+
     const assignTopic = React.useCallback(
       (id: string | never) => {
         const checkedTopics = [...topics]

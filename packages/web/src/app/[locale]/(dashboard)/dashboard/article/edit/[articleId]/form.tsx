@@ -36,7 +36,11 @@ import { ScrollArea } from "@/components/UI/ScrollArea"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { useDisclosure } from "@/hooks/use-disclosure"
-import { getArticleByIdAction, putArticle } from "@/lib/api/server/article"
+import {
+  getArticleByIdAction,
+  getArticlePrimaryByIdAction,
+  putArticle,
+} from "@/lib/api/server/article"
 import {
   LanguageTypeData,
   TopicDataProps,
@@ -51,12 +55,10 @@ interface FormValues {
   language: string
   metaTitle?: string
   metaDescription?: string
+  primaryId: string
 }
-export const EditArticleForm = (props: {
-  locale: LanguageTypeData
-  articleId: string
-}) => {
-  const { locale, articleId } = props
+export const EditArticleForm = (props: { articleId: string }) => {
+  const { articleId } = props
 
   const router = useRouter()
 
@@ -88,6 +90,7 @@ export const EditArticleForm = (props: {
     slug: "",
     metaTitle: "",
     metaDescription: "",
+    primaryId: "",
   })
   const { isOpen, onToggle } = useDisclosure()
 
@@ -105,7 +108,15 @@ export const EditArticleForm = (props: {
     handleSubmit,
     control,
     reset,
-  } = useForm<FormValues>({ mode: "onBlur" })
+    watch,
+  } = useForm<FormValues>({
+    mode: "onBlur",
+    defaultValues: {
+      language: "id",
+    },
+  })
+
+  const valueLanguage = watch("language") as LanguageTypeData | undefined
 
   const loadArticle = async () => {
     const { data } = await getArticleByIdAction(articleId as string)
@@ -119,6 +130,7 @@ export const EditArticleForm = (props: {
         metaTitle: data?.metaTitle,
         metaDescription: data?.metaDescription,
         language: data?.language,
+        primaryId: data?.articlePrimary.id,
       })
       setSelectedTopics(data?.topics)
       setSelectedFeaturedImageId(data?.featuredImage.id as string)
@@ -160,14 +172,28 @@ export const EditArticleForm = (props: {
       authorIds: authors,
       editorIds: editorIds,
     }
-    const { data } = await putArticle(article.id, mergedValues)
-    if (data) {
+    const { data: primaryData } = await getArticlePrimaryByIdAction(
+      values.primaryId,
+    )
+    const otherLangArticle = primaryData?.articles.find(
+      (articleData) => articleData.id !== article.id,
+    )
+    if (otherLangArticle?.language !== values.language) {
+      const { data } = await putArticle(article.id, mergedValues)
+      if (data) {
+        toast({
+          variant: "success",
+          description: "Article successfully created ",
+        })
+        router.push("/dashboard/article")
+      }
+    } else {
       toast({
-        variant: "success",
-        description: "Article successfully created ",
+        variant: "danger",
+        description: "Article with same language has been added ",
       })
-      router.push("/dashboard/article")
     }
+
     setLoading(false)
   }
 
@@ -192,7 +218,7 @@ export const EditArticleForm = (props: {
             <NextLink
               className="flex items-center"
               aria-label="Back To Articles"
-              href="/dashboard/articles"
+              href="/dashboard/article"
             >
               <Icon.ChevronLeft aria-label="Back To Articles" /> Articles
             </NextLink>
@@ -222,16 +248,52 @@ export const EditArticleForm = (props: {
             <div className="fixed bottom-0 right-0 top-0 mt-[85px]">
               <ScrollArea className="h-[calc(100vh-80px)] max-w-[300px] rounded border py-4 max-md:min-w-full">
                 <div className="bg-background flex flex-col px-2 py-2">
-                  <div className="my-2 px-4">
-                    <AddTopicsAction
-                      locale={locale}
-                      topics={topics}
-                      addTopics={setTopics}
-                      selectedTopics={selectedTopics}
-                      addSelectedTopics={setSelectedTopics}
-                      topicType={"ARTICLE"}
-                    />
+                  <div className="my-2 flex flex-col px-4">
+                    <FormControl invalid={Boolean(errors.language)}>
+                      <Controller
+                        control={control}
+                        name="language"
+                        render={({ field }) => (
+                          <>
+                            <FormLabel>Language</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              value={field.value}
+                            >
+                              <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select a language" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel>Language</SelectLabel>
+                                  <SelectItem value="id">Indonesia</SelectItem>
+                                  <SelectItem value="en">English</SelectItem>
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                            {errors?.language && (
+                              <FormErrorMessage>
+                                {errors.language.message}
+                              </FormErrorMessage>
+                            )}
+                          </>
+                        )}
+                      />
+                    </FormControl>
                   </div>
+                  {valueLanguage && (
+                    <div className="my-2 px-4">
+                      <AddTopicsAction
+                        locale={valueLanguage}
+                        topics={topics}
+                        addTopics={setTopics}
+                        selectedTopics={selectedTopics}
+                        addSelectedTopics={setSelectedTopics}
+                        topicType={"ARTICLE"}
+                      />
+                    </div>
+                  )}
                   <div className="my-2 px-4">
                     {selectedFeaturedImageUrl ? (
                       <>
@@ -296,40 +358,7 @@ export const EditArticleForm = (props: {
                       addSelectedEditors={setSelectedEditors}
                     />
                   </div>
-                  <div className="my-2 flex flex-col px-4">
-                    <FormControl invalid={Boolean(errors.language)}>
-                      <Controller
-                        control={control}
-                        name="language"
-                        render={({ field }) => (
-                          <>
-                            <FormLabel>Language</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                              value={field.value}
-                            >
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a language" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectLabel>Language</SelectLabel>
-                                  <SelectItem value="id">Indonesia</SelectItem>
-                                  <SelectItem value="en">English</SelectItem>
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                            {errors?.language && (
-                              <FormErrorMessage>
-                                {errors.language.message}
-                              </FormErrorMessage>
-                            )}
-                          </>
-                        )}
-                      />
-                    </FormControl>
-                  </div>
+
                   <div className="my-2 flex flex-col px-4">
                     <FormLabel>Meta Title</FormLabel>
                     <FormControl invalid={Boolean(errors.metaTitle)}>
