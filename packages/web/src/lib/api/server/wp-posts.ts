@@ -188,13 +188,16 @@ export async function wpGetPostsByAuthorSlug(
     }
   }
 
-  const posts = res?.data.posts.edges.map(
+  const postsData = res?.data.posts.edges.map(
     ({ node = {} }) => node,
   ) as WpMapPostDataProps[]
-
+  let posts
+  if (Array.isArray(postsData)) {
+    posts = postsData.map(wpMapPostData)
+  }
   return {
     error: null,
-    posts: Array.isArray(posts) && posts.map(wpMapPostData),
+    posts: posts,
     pageInfo: res?.data.posts.pageInfo,
   }
 }

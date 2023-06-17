@@ -2,12 +2,12 @@ import * as React from "react"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
 
-import { EditDownloadForm } from "./form"
-import { getDownloadByIdAction } from "@/lib/api/server/download"
+import { EditArticleForm } from "./form"
+import { getArticleByIdAction } from "@/lib/api/server/article"
 
 export const metadata: Metadata = {
-  title: "Edit Download Dashboard",
-  description: "Edit Download Dashboard",
+  title: "Edit Article Dashboard",
+  description: "Edit Article Dashboard",
   robots: {
     index: false,
     follow: true,
@@ -24,18 +24,23 @@ export const metadata: Metadata = {
 }
 
 interface CreateArticlesDashboardProps {
-  params: { id: string }
+  params: { articleId: string }
 }
 
-export default async function CreateDownloadsDashboard({
+export default async function CreateArticlesDashboard({
   params,
 }: CreateArticlesDashboardProps) {
-  const { id } = params
-  const { data } = await getDownloadByIdAction(id as string)
+  const { articleId } = params
+
+  const { data } = await getArticleByIdAction(articleId as string)
 
   if (!data) {
     notFound()
   }
 
-  return <EditDownloadForm downloadId={id} />
+  return (
+    <>
+      <EditArticleForm articleId={articleId} />
+    </>
+  )
 }
