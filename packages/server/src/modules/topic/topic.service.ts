@@ -62,6 +62,9 @@ export async function getTopicsByLang(
           url: true,
         },
       },
+      topicPrimary: {
+        select: { id: true },
+      },
     },
     skip: (topicPage - 1) * perPage,
     take: perPage,
@@ -89,6 +92,9 @@ export async function getTopicsDashboardByLang(
       type: true,
       createdAt: true,
       updatedAt: true,
+      topicPrimary: {
+        select: { id: true },
+      },
     },
   })
 }
@@ -414,6 +420,9 @@ export async function searchTopicsByLang(
           url: true,
         },
       },
+      topicPrimary: {
+        select: { id: true },
+      },
     },
   })
 }
@@ -447,6 +456,9 @@ export async function searchTopicsDashboardByLang(
       type: true,
       createdAt: true,
       updatedAt: true,
+      topicPrimary: {
+        select: { id: true },
+      },
     },
   })
 }
@@ -484,6 +496,9 @@ export async function searchTopicsByLangAndType(
         select: {
           url: true,
         },
+      },
+      topicPrimary: {
+        select: { id: true },
       },
     },
   })

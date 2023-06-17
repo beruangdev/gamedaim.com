@@ -194,6 +194,9 @@ export async function getDownloadsByLang(
           profilePicture: true,
         },
       },
+      downloadPrimary: {
+        select: { id: true },
+      },
     },
   })
 }
@@ -224,6 +227,9 @@ export async function getDownloadsDashboardByLang(
         select: {
           name: true,
         },
+      },
+      downloadPrimary: {
+        select: { id: true },
       },
     },
   })
@@ -626,6 +632,9 @@ export async function searchDownloadsDashboardByLang(
         select: {
           name: true,
         },
+      },
+      downloadPrimary: {
+        select: { id: true },
       },
     },
   })
