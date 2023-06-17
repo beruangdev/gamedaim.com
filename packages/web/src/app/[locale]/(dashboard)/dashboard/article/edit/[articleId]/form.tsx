@@ -175,10 +175,10 @@ export const EditArticleForm = (props: { articleId: string }) => {
     const { data: primaryData } = await getArticlePrimaryByIdAction(
       values.primaryId,
     )
-    const selectedArticle = primaryData?.articles.find(
+    const otherLangArticle = primaryData?.articles.find(
       (articleData) => articleData.id !== article.id,
     )
-    if (selectedArticle?.language !== values.language) {
+    if (otherLangArticle?.language !== values.language) {
       const { data } = await putArticle(article.id, mergedValues)
       if (data) {
         toast({
