@@ -8,6 +8,7 @@ import {
   topUpDigiflazzDepositHandler,
   topUpDigiflazzTransactionHandler,
   topUpDigiflazzPlnCheckHandler,
+  getTopUpDigiflazzPriceListPrePaidFromDBHandler,
 } from "./top-up.controller"
 
 async function topupRoutes(server: FastifyInstance) {
@@ -21,6 +22,11 @@ async function topupRoutes(server: FastifyInstance) {
   server.post(
     "/digiflazz/price-list-postpaid",
     topUpDigiflazzListPostPaidHandler,
+  )
+
+  server.get(
+    "/digiflazz/price-list-prepaid/data",
+    getTopUpDigiflazzPriceListPrePaidFromDBHandler,
   )
 
   server.post(

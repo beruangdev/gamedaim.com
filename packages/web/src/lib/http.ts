@@ -10,18 +10,6 @@ export const axiosInstanceWP = axios.create({
   baseURL: env.WP_API_URL,
 })
 
-export const fetcher = async (url: string) => {
-  const currentUser = Cookies.get("currentUser")
-  const userData = currentUser && JSON.parse(currentUser)
-  const config = {
-    headers: {
-      Authorization: `Bearer ${userData?.accessToken}`,
-    },
-  }
-
-  return axiosInstance.get(url, config).then((res) => res.data)
-}
-
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 
 export const http = async <T, E = unknown>(
@@ -37,6 +25,18 @@ export const http = async <T, E = unknown>(
     }
     throw err
   }
+}
+
+export const fetcher = async (url: string) => {
+  const currentUser = Cookies.get("currentUser")
+  const userData = currentUser && JSON.parse(currentUser)
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userData?.accessToken}`,
+    },
+  }
+
+  return axiosInstance.get(url, config).then((res) => res.data)
 }
 
 export const wpHttp = async <T, E = unknown>(
