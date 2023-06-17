@@ -143,6 +143,11 @@ export async function getArticlesByLang(
           url: true,
         },
       },
+      articlePrimary: {
+        select: {
+          id: true,
+        },
+      },
     },
   })
 }
@@ -178,6 +183,9 @@ export async function getArticlesDashboardByLang(
         select: {
           name: true,
         },
+      },
+      articlePrimary: {
+        select: { id: true },
       },
     },
   })
@@ -405,6 +413,9 @@ export async function searchArticlesByLang(
           url: true,
         },
       },
+      articlePrimary: {
+        select: { id: true },
+      },
     },
   })
 }
@@ -438,6 +449,9 @@ export async function searchArticlesDashboardByLang(
         select: {
           name: true,
         },
+      },
+      articlePrimary: {
+        select: { id: true },
       },
     },
   })
