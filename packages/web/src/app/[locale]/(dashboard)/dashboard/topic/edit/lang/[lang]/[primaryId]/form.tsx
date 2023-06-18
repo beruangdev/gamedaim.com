@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 
 import { Image } from "@/components/Image"
@@ -25,100 +24,78 @@ import {
 } from "@/components/UI/Select"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
-import { getTopicByIdAction, putTopicAction } from "@/lib/api/server/topic"
+import { postTopicAction } from "@/lib/api/server/topic"
 import { LanguageTypeData, TopicTypeData } from "@/lib/data-types"
 
 interface FormValues {
   title: string
-  slug: string
   description?: string
   metaTitle?: string
   metaDescription?: string
   language: LanguageTypeData
   type: TopicTypeData
+  topicPrimaryId: string
 }
 
-export const EditTopicForm = (props: { id: string }) => {
-  const { id } = props
+interface AddNewLangTopicFormProps {
+  primaryId: string
+  lang: LanguageTypeData
+}
+
+export const AddNewLangTopicForm = (props: AddNewLangTopicFormProps) => {
+  const { primaryId, lang } = props
+
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [selectFeaturedImageId, setSelectFeaturedImageId] =
     React.useState<string>("")
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
     React.useState<string>("")
-  const [topic, setTopic] = React.useState<FormValues & { id: string }>({
-    id: "",
-    title: "",
-    slug: "",
-    metaTitle: "",
-    metaDescription: "",
-    language: "id",
-    type: "ALL",
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    control,
+    reset,
+  } = useForm<FormValues>({
+    defaultValues: {
+      topicPrimaryId: primaryId,
+      language: lang,
+    },
   })
 
-  const router = useRouter()
+  const onSubmit = async (values: FormValues) => {
+    setLoading(true)
 
-  const loadTopic = React.useCallback(async () => {
-    const { data, error } = await getTopicByIdAction(id as string)
+    const mergedValues = {
+      ...values,
+      featuredImageId: selectFeaturedImageId,
+    }
+
+    const { data, error } = await postTopicAction(
+      selectFeaturedImageId ? mergedValues : values,
+    )
+
     if (data) {
-      setTopic({
-        id: data.id,
-        title: data.title,
-        slug: data.slug,
-        description: data.description,
-        metaTitle: data.metaTitle,
-        metaDescription: data.metaDescription,
-        language: data.language,
-        type: data.type,
-      })
-      setSelectFeaturedImageId(data.featuredImage?.id as string)
-      setSelectedFeaturedImageUrl(data.featuredImage?.url as string)
+      setSelectFeaturedImageId("")
+      setSelectedFeaturedImageUrl("")
+      reset()
+      toast({ variant: "success", description: "Create topic successfully" })
     } else {
       toast({ variant: "danger", description: error })
     }
-  }, [id])
+    setLoading(false)
+  }
 
   const handleUpdateMedia = (data: {
     id: React.SetStateAction<string>
     url: React.SetStateAction<string>
   }) => {
-    setSelectFeaturedImageId(data.id as string)
-    setSelectedFeaturedImageUrl(data.url as string)
+    setSelectFeaturedImageId(data.id)
+    setSelectedFeaturedImageUrl(data.url)
+    toast({ variant: "success", description: "Image has been selected" })
     setOpenModal(false)
-  }
-
-  const {
-    register,
-    formState: { errors },
-    reset,
-    control,
-    handleSubmit,
-  } = useForm<FormValues>()
-
-  React.useEffect(() => {
-    loadTopic()
-  }, [loadTopic])
-
-  React.useEffect(() => {
-    reset(topic)
-  }, [reset, topic])
-
-  const onSubmit = async (values: FormValues) => {
-    setLoading(true)
-    const mergedValues = {
-      ...values,
-      featuredImageId: selectFeaturedImageId,
-    }
-    const { data, error } = await putTopicAction(
-      topic.id,
-      selectFeaturedImageId ? mergedValues : values,
-    )
-    if (data) {
-      router.push("/dashboard/topic")
-    } else {
-      toast({ variant: "danger", description: error })
-    }
-    setLoading(false)
   }
 
   return (
@@ -138,54 +115,6 @@ export const EditTopicForm = (props: { id: string }) => {
         />
         {errors?.title && (
           <FormErrorMessage>{errors.title.message}</FormErrorMessage>
-        )}
-      </FormControl>
-      <FormControl invalid={Boolean(errors.slug)}>
-        <FormLabel>
-          Slug
-          <RequiredIndicator />
-        </FormLabel>
-        <Input
-          type="text"
-          {...register("slug", {
-            required: "Slug is Required",
-          })}
-          className="max-w-xl"
-          placeholder="Enter Slug"
-        />
-        {errors?.slug && (
-          <FormErrorMessage>{errors.slug.message}</FormErrorMessage>
-        )}
-      </FormControl>
-      <FormControl>
-        <FormLabel>
-          Language
-          <RequiredIndicator />
-        </FormLabel>
-        <Controller
-          control={control}
-          name="language"
-          render={({ field }) => (
-            <Select
-              defaultValue={field.value}
-              value={field.value}
-              onValueChange={field.onChange}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a language" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Language</SelectLabel>
-                  <SelectItem value="id">Indonesia</SelectItem>
-                  <SelectItem value="en">English</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        />
-        {errors?.language && (
-          <FormErrorMessage>{errors.language.message}</FormErrorMessage>
         )}
       </FormControl>
       <FormControl>
@@ -241,10 +170,10 @@ export const EditTopicForm = (props: { id: string }) => {
             open={openModal}
             setOpen={setOpenModal}
             triggerContent={
-              <div className="relative">
+              <div className="border-muted/30 relative mt-2 aspect-video h-[150px] cursor-pointer rounded-sm border-2">
                 <Image
                   src={selectedFeaturedImageUrl}
-                  className="border-muted/30 !relative mt-2 aspect-video h-[150px] max-h-[200px] cursor-pointer rounded-sm border-2 object-cover"
+                  className="object-cover"
                   fill
                   alt="Featured Image"
                   onClick={() => setOpenModal(true)}
@@ -264,7 +193,7 @@ export const EditTopicForm = (props: { id: string }) => {
               <FormLabel>Featured Image</FormLabel>
               <div
                 onClick={() => setOpenModal(true)}
-                className="bg-muted text-success relative m-auto flex aspect-video h-[150px] items-center justify-center"
+                className="bg-muted text-success relative mr-auto flex aspect-video h-[150px] items-center justify-center"
               >
                 <p>Select Featured Image</p>
               </div>

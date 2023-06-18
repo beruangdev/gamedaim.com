@@ -45,7 +45,7 @@ interface AddArticleFormProps {
   primaryId: string
   lang: LanguageTypeData
 }
-export const AddArticleForm = (props: AddArticleFormProps) => {
+export const AddLangArticleForm = (props: AddArticleFormProps) => {
   const { primaryId, lang } = props
   const { user } = useCurrentUser()
   const [loading, setLoading] = React.useState<boolean>(false)

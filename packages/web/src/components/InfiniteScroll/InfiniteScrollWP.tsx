@@ -110,7 +110,7 @@ export const InfiniteScrollWP = React.forwardRef<
           loading={page.hasNextPage == true}
           className="!w-full !cursor-default"
         >
-          No More Posts
+          {page.hasNextPage ? "Loading..." : "No More Posts"}
         </Button>
       </div>
     </div>

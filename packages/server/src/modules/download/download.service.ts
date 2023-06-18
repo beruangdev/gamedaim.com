@@ -265,6 +265,14 @@ export async function getDownloadsSitemapByLang(
 export async function getDownloadPrimaryById(downloadPrimaryId: string) {
   return await db.downloadPrimary.findUnique({
     where: { id: downloadPrimaryId },
+    select: {
+      downloads: {
+        select: {
+          id: true,
+          language: true,
+        },
+      },
+    },
   })
 }
 
@@ -273,6 +281,11 @@ export async function getDownloadById(downloadId: string) {
     where: { id: downloadId },
     select: {
       id: true,
+      downloadPrimary: {
+        select: {
+          id: true,
+        },
+      },
       title: true,
       language: true,
       content: true,

@@ -24,18 +24,18 @@ export const metadata: Metadata = {
 }
 
 interface CreateArticlesDashboardProps {
-  params: { id: string }
+  params: { downloadId: string }
 }
 
 export default async function CreateDownloadsDashboard({
   params,
 }: CreateArticlesDashboardProps) {
-  const { id } = params
-  const { data } = await getDownloadByIdAction(id as string)
+  const { downloadId } = params
+  const { data } = await getDownloadByIdAction(downloadId as string)
 
   if (!data) {
     notFound()
   }
 
-  return <EditDownloadForm downloadId={id} />
+  return <EditDownloadForm downloadId={downloadId} />
 }

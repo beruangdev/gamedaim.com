@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 
 import { Image } from "@/components/Image"
@@ -24,65 +25,119 @@ import {
 } from "@/components/UI/Select"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
-import { postTopicWithPrimaryAction } from "@/lib/api/server/topic"
+import {
+  getTopicByIdAction,
+  getTopicPrimaryByIdAction,
+  putTopicAction,
+} from "@/lib/api/server/topic"
 import { LanguageTypeData, TopicTypeData } from "@/lib/data-types"
 
 interface FormValues {
   title: string
+  slug: string
   description?: string
   metaTitle?: string
   metaDescription?: string
   language: LanguageTypeData
   type: TopicTypeData
+  primaryId: string
 }
 
-export const AddNewTopicForm = () => {
+export const EditTopicForm = (props: { id: string }) => {
+  const { id } = props
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [selectFeaturedImageId, setSelectFeaturedImageId] =
     React.useState<string>("")
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
     React.useState<string>("")
+  const [topic, setTopic] = React.useState<FormValues & { id: string }>({
+    id: "",
+    title: "",
+    slug: "",
+    metaTitle: "",
+    metaDescription: "",
+    language: "id",
+    type: "ALL",
+    primaryId: "",
+  })
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    control,
-    reset,
-  } = useForm<FormValues>()
+  const router = useRouter()
 
-  const onSubmit = async (values: FormValues) => {
-    setLoading(true)
-
-    const mergedValues = {
-      ...values,
-      featuredImageId: selectFeaturedImageId,
-    }
-
-    const { data, error } = await postTopicWithPrimaryAction(
-      selectFeaturedImageId ? mergedValues : values,
-    )
-
+  const loadTopic = React.useCallback(async () => {
+    const { data, error } = await getTopicByIdAction(id as string)
     if (data) {
-      setSelectFeaturedImageId("")
-      setSelectedFeaturedImageUrl("")
-      reset()
-      toast({ variant: "success", description: "Create topic successfully" })
+      setTopic({
+        id: data.id,
+        title: data.title,
+        slug: data.slug,
+        description: data.description,
+        metaTitle: data.metaTitle,
+        metaDescription: data.metaDescription,
+        language: data.language,
+        type: data.type,
+        primaryId: data.topicPrimary.id,
+      })
+      setSelectFeaturedImageId(data.featuredImage?.id as string)
+      setSelectedFeaturedImageUrl(data.featuredImage?.url as string)
     } else {
       toast({ variant: "danger", description: error })
     }
-    setLoading(false)
-  }
+  }, [id])
 
   const handleUpdateMedia = (data: {
     id: React.SetStateAction<string>
     url: React.SetStateAction<string>
   }) => {
-    setSelectFeaturedImageId(data.id)
-    setSelectedFeaturedImageUrl(data.url)
-    toast({ variant: "success", description: "Image has been selected" })
+    setSelectFeaturedImageId(data.id as string)
+    setSelectedFeaturedImageUrl(data.url as string)
     setOpenModal(false)
+  }
+
+  const {
+    register,
+    formState: { errors },
+    reset,
+    control,
+    handleSubmit,
+  } = useForm<FormValues>()
+
+  React.useEffect(() => {
+    loadTopic()
+  }, [loadTopic])
+
+  React.useEffect(() => {
+    reset(topic)
+  }, [reset, topic])
+
+  const onSubmit = async (values: FormValues) => {
+    setLoading(true)
+    const mergedValues = {
+      ...values,
+      featuredImageId: selectFeaturedImageId,
+    }
+    const { data: primaryData } = await getTopicPrimaryByIdAction(
+      values.primaryId,
+    )
+    const otherLangTopic = primaryData?.topics.find(
+      (topicData) => topicData.id !== topic.id,
+    )
+    if (otherLangTopic?.language !== values.language) {
+      const { data } = await putTopicAction(topic.id, mergedValues)
+      if (data) {
+        toast({
+          variant: "success",
+          description: "Topic successfully Edited ",
+        })
+        router.push("/dashboard/topic")
+      }
+    } else {
+      toast({
+        variant: "danger",
+        description: "Topic with same language has been added ",
+      })
+    }
+    setLoading(false)
   }
 
   return (
@@ -102,6 +157,23 @@ export const AddNewTopicForm = () => {
         />
         {errors?.title && (
           <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+        )}
+      </FormControl>
+      <FormControl invalid={Boolean(errors.slug)}>
+        <FormLabel>
+          Slug
+          <RequiredIndicator />
+        </FormLabel>
+        <Input
+          type="text"
+          {...register("slug", {
+            required: "Slug is Required",
+          })}
+          className="max-w-xl"
+          placeholder="Enter Slug"
+        />
+        {errors?.slug && (
+          <FormErrorMessage>{errors.slug.message}</FormErrorMessage>
         )}
       </FormControl>
       <FormControl>
@@ -188,7 +260,7 @@ export const AddNewTopicForm = () => {
             open={openModal}
             setOpen={setOpenModal}
             triggerContent={
-              <div className="border-muted/30 relative mt-2 aspect-video h-[150px] cursor-pointer rounded-sm border-2 ">
+              <div className="border-muted/30 relative mt-2 aspect-video h-[150px] cursor-pointer rounded-sm border-2">
                 <Image
                   src={selectedFeaturedImageUrl}
                   className="object-cover"

@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Metadata } from "next"
 
-import { AddArticleForm } from "./form"
+import { AddLangArticleForm } from "./form"
 import { LanguageTypeData } from "@/lib/data-types"
 import { getArticlePrimaryByIdAction } from "@/lib/api/server/article"
 import { redirect } from "next/navigation"
@@ -40,7 +40,7 @@ export default async function CreateArticlesDashboard({
   }
   return (
     <>
-      <AddArticleForm primaryId={primaryId} lang={lang} />
+      <AddLangArticleForm primaryId={primaryId} lang={lang} />
     </>
   )
 }

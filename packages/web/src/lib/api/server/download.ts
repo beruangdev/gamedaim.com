@@ -114,7 +114,9 @@ export const getDownloadByIdAction = async (downloadId: string) => {
 }
 
 export const getDownloadPrimaryByIdAction = async (downloadId: string) => {
-  const [res, err] = await http<DownloadDataProps>("GET", {
+  const [res, err] = await http<{
+    downloads: { id: string; language: LanguageTypeData }[]
+  }>("GET", {
     url: `/download/primary/${downloadId}`,
   })
 
