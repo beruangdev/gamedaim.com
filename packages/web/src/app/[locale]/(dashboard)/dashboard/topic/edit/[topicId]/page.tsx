@@ -24,14 +24,14 @@ export const metadata: Metadata = {
 }
 
 interface EditTopicDashboardProps {
-  params: { id: string }
+  params: { topicId: string }
 }
 
 export default async function EditTopicDashboard(
   props: EditTopicDashboardProps,
 ) {
   const { params } = props
-  const { data } = await getTopicByIdAction(params.id as string)
+  const { data } = await getTopicByIdAction(params.topicId as string)
 
   if (!data) {
     notFound()

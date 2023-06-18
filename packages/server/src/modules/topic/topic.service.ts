@@ -121,6 +121,14 @@ export async function getTopicsSitemapByLang(
 export async function getTopicPrimaryById(topicPrimaryId: string) {
   return await db.topicPrimary.findUnique({
     where: { id: topicPrimaryId },
+    select: {
+      topics: {
+        select: {
+          id: true,
+          language: true,
+        },
+      },
+    },
   })
 }
 
@@ -129,6 +137,9 @@ export async function getTopicById(topicId: string) {
     where: { id: topicId },
     select: {
       id: true,
+      topicPrimary: {
+        select: { id: true },
+      },
       title: true,
       slug: true,
       language: true,
@@ -268,6 +279,7 @@ export async function getTopicDownloadsHandler(
           id: true,
           title: true,
           slug: true,
+          type: true,
           metaTitle: true,
           metaDescription: true,
           excerpt: true,
@@ -334,6 +346,30 @@ export async function getTopicBySlug(topicSlug: string) {
           featuredImage: {
             select: {
               url: true,
+            },
+          },
+        },
+      },
+      downloads: {
+        take: 6,
+        orderBy: {
+          updatedAt: "desc",
+        },
+        select: {
+          id: true,
+          excerpt: true,
+          title: true,
+          slug: true,
+          status: true,
+          featuredImage: {
+            select: {
+              url: true,
+            },
+          },
+          downloadFiles: {
+            select: {
+              price: true,
+              fileSize: true,
             },
           },
         },

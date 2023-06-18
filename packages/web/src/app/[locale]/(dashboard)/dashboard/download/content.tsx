@@ -195,7 +195,7 @@ const TableDownload = (props: TableDownloadProps) => {
         <Thead>
           <Tr isTitle>
             <Th>Title</Th>
-            {/* <Th>Author</Th> */}
+            <Th>Language</Th>
             <Th className="hidden md:table-cell">Published Date</Th>
             <Th className="hidden md:table-cell">Last Modified</Th>
             <Th className="hidden md:table-cell">Status</Th>
@@ -212,13 +212,20 @@ const TableDownload = (props: TableDownloadProps) => {
                   </span>
                 </div>
               </Td>
-              {/* <Td className="whitespace-nowrap">
-            <div className="flex">
-              <span className="font-medium">
-                {download.author.name}
-              </span>
-            </div>
-          </Td> */}
+              <Td className="whitespace-nowrap">
+                <div className="flex gap-2">
+                  <NextLink
+                    href={`/dashboard/download/edit/lang/en/${download.downloadPrimary.id}`}
+                  >
+                    En
+                  </NextLink>
+                  <NextLink
+                    href={`/dashboard/download/edit/lang/id/${download.downloadPrimary.id}`}
+                  >
+                    Id
+                  </NextLink>
+                </div>
+              </Td>
               <Td className="hidden md:table-cell">
                 {formatDate(download.createdAt, "LL")}
               </Td>
