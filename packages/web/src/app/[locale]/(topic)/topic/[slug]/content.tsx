@@ -95,7 +95,7 @@ export function TopicContent(props: TopicProps) {
           )}
         </div>
         <aside className="hidden w-4/12 px-4 lg:block">
-          <div className="border-theme-100 dark:border-theme-700 sticky top-8 rounded-xl border p-4">
+          <div className="border-border sticky top-8 rounded-xl border p-4">
             <div className="mb-4">
               <h4 className="text-transparent">
                 <span className="after:absolute after:left-1/2 after:top-[40px] after:ml-[-25px] after:h-[3px] after:w-[50px] after:border after:border-[#1e3799] after:bg-[#1e3799]">

@@ -22,7 +22,7 @@ export const ListPostFeatured = React.forwardRef<
   const [showArrow, setShowArrow] = React.useState<boolean>(false)
 
   const arrowClass =
-    "hidden justify-center content-center bg-white hover:bg-theme-800 hover:text-white p-2 cursor-pointer ring-0 absolute rounded-full"
+    "hidden justify-center content-center bg-background hover:bg-foreground/80 hover:text-foreground p-2 cursor-pointer ring-0 absolute rounded-full"
 
   const contentRef: React.RefObject<HTMLDivElement> =
     React.useRef<HTMLDivElement>(null)
@@ -96,7 +96,7 @@ export const ListPostFeatured = React.forwardRef<
         {listFeatured.map((featuredItem, i: number) => {
           return (
             <div
-              className={`featured-image inline-block whitespace-normal pr-[15px]`}
+              className={`inline-block whitespace-normal pr-[15px]`}
               key={featuredItem.slug}
             >
               <PostCardFeatured index={i} post={featuredItem} />
