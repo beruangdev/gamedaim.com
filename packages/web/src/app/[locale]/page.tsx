@@ -2,11 +2,14 @@ import * as React from "react"
 import { BreadcrumbJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 
 import env from "env"
-import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import { MainContainer } from "@/components/Container/MainContainer"
-import { IndexContent } from "./content"
+
+import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import { wpGetAllPosts } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
+import { IndexContent } from "./content"
+
+export const revalidate = 60
 
 export default async function IndexPage() {
   const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
