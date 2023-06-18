@@ -217,7 +217,22 @@ export interface TransactionDataProps {
   expired_at: number
   paid_at: number
 }
-
+export interface TopupProductProps {
+  total_amount: number
+  fee_amount: number
+  totalFee?: number
+  id: string
+  sku: string
+  account_id: string
+  server: string
+  refId: string
+  note: string
+  name: string
+  voucher?: VoucherDataProps | null
+  brands: string
+  amount: number
+  merchant_ref: string
+}
 export interface PaymentMethodsProps {
   fee_merchant: { flat: number | null; percent: number | null }
   name: string

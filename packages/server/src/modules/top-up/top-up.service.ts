@@ -18,3 +18,18 @@ export async function getPriceListByKey(priceListKey: string) {
     where: { key: priceListKey },
   })
 }
+
+export async function getTotalTopUpTransactions() {
+  return await db.topUpTransaction.count()
+}
+
+export async function updateTopUpTransactionStatus(
+  invoiceId: string,
+  data: { status: string },
+) {
+  return await db.topUpTransaction.update({
+    where: { invoiceId: invoiceId },
+    //@ts-ignore FIX: use enum
+    data: { status: data.status },
+  })
+}

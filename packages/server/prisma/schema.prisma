@@ -265,8 +265,8 @@ model TopUpRating {
   author    User        @relation(name: "TopUpRatingAuthors", fields: [authorId], references: [id])
   rating    Int
   brand     String
-  reviewId  String
-  reviews   TopUpReview @relation(name: "TopUpReviewRatings", fields: [reviewId], references: [id])
+  reviewId  String?
+  reviews   TopUpReview? @relation(name: "TopUpReviewRatings", fields: [reviewId], references: [id])
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }

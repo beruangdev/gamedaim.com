@@ -46,9 +46,7 @@ export const NextPicture = (props: ImageProps) => {
             priority={priority}
           />
         ) : (
-          <MdOutlineBrokenImage
-            className={"bg-theme-300 dark:text-theme-900 h-full w-full"}
-          />
+          <MdOutlineBrokenImage className={"bg-background h-full w-full"} />
         )}
       </div>
     </>

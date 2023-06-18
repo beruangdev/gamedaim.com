@@ -103,6 +103,8 @@ import {
   MdUpdate,
   MdUploadFile,
   MdVpnKey,
+  MdThumbUp,
+  MdThumbDown,
 } from "react-icons/md"
 import { SiNintendoswitch } from "react-icons/si"
 
@@ -194,6 +196,8 @@ export const Icon = {
   Trash: LuTrash,
   Trophy: BiTrophy,
   TV: BiTv,
+  ThumbUp: MdThumbUp,
+  ThumbDown: MdThumbDown,
   Twitter: LuTwitter,
   Update: MdUpdate,
   UploadFile: MdUploadFile,

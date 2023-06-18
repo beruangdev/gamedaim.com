@@ -15,17 +15,20 @@ export const getPaymentChannel = async () => {
     return { channel: null }
   }
 
-  const eWallet = res?.data.filter((data: { group: string }) =>
-    data.group.includes("E-Wallet"),
-  )
+  const eWallet =
+    res?.data.filter((data: { group: string }) =>
+      data.group.includes("E-Wallet"),
+    ) ?? []
 
-  const virtualAccount = res?.data.filter((data: { group: string }) =>
-    data.group.includes("Virtual Account"),
-  )
+  const virtualAccount =
+    res?.data.filter((data: { group: string }) =>
+      data.group.includes("Virtual Account"),
+    ) ?? []
 
-  const convenienceShop = res?.data.filter((data: { group: string }) =>
-    data.group.includes("Convenience Store"),
-  )
+  const convenienceShop =
+    res?.data.filter((data: { group: string }) =>
+      data.group.includes("Convenience Store"),
+    ) ?? []
 
   return { channel: { eWallet, virtualAccount, convenienceShop } }
 }

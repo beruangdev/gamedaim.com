@@ -97,11 +97,46 @@ const topUpTransactionStatusInput = {
 const createTopUpTransactionSchema = z.object({
   ...topUpTransactionInput,
   ...topUpTransactionStatusInput,
+  status: z
+    .enum(TOP_UP_STATUS_TYPE, {
+      required_error: "Top Up status is required",
+      invalid_type_error:
+        "your top up payment status type doesnt exist on available option.",
+    })
+    .optional(),
+  topUpProvider: z
+    .enum(TOP_UP_PROVIDER_TYPE, {
+      required_error: "Top Up Provider is required",
+      invalid_type_error:
+        "your top up status type doesnt exist on available option.",
+    })
+    .optional(),
+  paymentStatus: z
+    .enum(TOPUP_PAYMENT_STATUS_TYPE, {
+      required_error: "Top Up Payment Status is required",
+      invalid_type_error:
+        "your top up payment status type doesnt exist on available option.",
+    })
+    .optional(),
 })
 
 const updateTopUpTransactionSchema = z.object({
   ...topUpTransactionInput,
   ...topUpTransactionStatusInput,
+  topUpProvider: z
+    .enum(TOP_UP_PROVIDER_TYPE, {
+      required_error: "Top Up Provider is required",
+      invalid_type_error:
+        "your top up status type doesnt exist on available option.",
+    })
+    .optional(),
+  paymentStatus: z
+    .enum(TOPUP_PAYMENT_STATUS_TYPE, {
+      required_error: "Top Up Payment Status is required",
+      invalid_type_error:
+        "your top up payment status type doesnt exist on available option.",
+    })
+    .optional(),
 })
 
 const updateTopUpTransactionStatusSchema = z.object({
