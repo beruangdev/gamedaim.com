@@ -338,6 +338,30 @@ export async function getTopicBySlug(topicSlug: string) {
           },
         },
       },
+      downloads: {
+        take: 6,
+        orderBy: {
+          updatedAt: "desc",
+        },
+        select: {
+          id: true,
+          excerpt: true,
+          title: true,
+          slug: true,
+          status: true,
+          featuredImage: {
+            select: {
+              url: true,
+            },
+          },
+          downloadFiles: {
+            select: {
+              price: true,
+              fileSize: true,
+            },
+          },
+        },
+      },
       createdAt: true,
       updatedAt: true,
     },

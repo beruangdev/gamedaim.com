@@ -244,6 +244,7 @@ export async function searchUsers(searchUserQuery: string) {
         },
       ],
     },
+    take: 10,
     select: {
       id: true,
       email: true,
