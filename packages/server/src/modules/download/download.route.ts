@@ -8,6 +8,7 @@ import {
   getDownloadByAuthorUsernameAndLangHandler,
   getDownloadByIdHandler,
   getDownloadBySlugHandler,
+  getDownloadPrimaryByIdHandler,
   getDownloadsByLangHandler,
   getDownloadsByTypeAndLangHandler,
   getDownloadsDashboardByLangHandler,
@@ -161,6 +162,18 @@ async function downloadRoutes(server: FastifyInstance) {
       },
     },
     getDownloadsByTypeAndLangHandler,
+  )
+
+  server.get(
+    "/primary/:downloadPrimaryId",
+    {
+      schema: {
+        response: {
+          200: $ref("downloadsResponseSchema"),
+        },
+      },
+    },
+    getDownloadPrimaryByIdHandler,
   )
 
   server.get("/count/primary", getTotalDownloadPrimariesHandler)
