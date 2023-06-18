@@ -35,7 +35,11 @@ import {
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
-import { getDownloadByIdAction, putDownload } from "@/lib/api/server/download"
+import {
+  getDownloadByIdAction,
+  getDownloadPrimaryByIdAction,
+  putDownload,
+} from "@/lib/api/server/download"
 import {
   DownloadSchemaData,
   LanguageTypeData,
@@ -60,6 +64,7 @@ interface FormValues {
   officialWeb: string
   schemaType: DownloadSchemaData | ""
   type: string
+  primaryId: string
 }
 
 interface EditDownloadFormProps {
@@ -113,6 +118,7 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
     officialWeb: "",
     schemaType: "",
     type: "",
+    primaryId: "",
   })
 
   const {
@@ -149,6 +155,7 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
         officialWeb: data.officialWeb,
         schemaType: data.schemaType,
         type: data.type,
+        primaryId: data.downloadPrimary.id,
       })
       setSelectedDownloadFile(
         data.downloadFiles as unknown as SelectedDownloadFileProps[],
@@ -219,12 +226,24 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
         authorIds: authors,
       }
 
-      const { data } = await putDownload(downloadId, mergedValues)
-
-      if (data) {
+      const { data: primaryData } = await getDownloadPrimaryByIdAction(
+        values.primaryId,
+      )
+      const otherLangDownload = primaryData?.downloads.find(
+        (downloadData) => downloadData.id !== download.id,
+      )
+      if (otherLangDownload?.language !== values.language) {
+        const { data } = await putDownload(download.id, mergedValues)
+        if (data) {
+          toast({
+            variant: "success",
+            description: "Download successfully Edited ",
+          })
+        }
+      } else {
         toast({
-          variant: "success",
-          description: "Download Successfully updated",
+          variant: "danger",
+          description: "Download with same language has been added ",
         })
       }
     } else {

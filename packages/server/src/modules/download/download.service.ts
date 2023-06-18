@@ -273,6 +273,11 @@ export async function getDownloadById(downloadId: string) {
     where: { id: downloadId },
     select: {
       id: true,
+      downloadPrimary: {
+        select: {
+          id: true,
+        },
+      },
       title: true,
       language: true,
       content: true,

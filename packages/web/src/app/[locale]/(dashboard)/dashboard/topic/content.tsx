@@ -205,6 +205,7 @@ const TableTopic = (props: TableTopicProps) => {
         <Thead>
           <Tr isTitle>
             <Th>Title</Th>
+            <Th>Language</Th>
             <Th>Type</Th>
             <Th>Slug</Th>
             <Th className="hidden md:table-cell">Published Date</Th>
@@ -220,6 +221,20 @@ const TableTopic = (props: TableTopicProps) => {
                   <span className="line-clamp-3 font-medium">
                     {topic.title}
                   </span>
+                </div>
+              </Td>
+              <Td className="whitespace-nowrap">
+                <div className="flex gap-2">
+                  <NextLink
+                    href={`/dashboard/topic/edit/lang/en/${topic.topicPrimary.id}`}
+                  >
+                    En
+                  </NextLink>
+                  <NextLink
+                    href={`/dashboard/topic/edit/lang/id/${topic.topicPrimary.id}`}
+                  >
+                    Id
+                  </NextLink>
                 </div>
               </Td>
               <Td className="white-space-nowrap">

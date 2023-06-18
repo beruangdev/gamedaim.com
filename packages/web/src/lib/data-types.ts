@@ -259,6 +259,7 @@ export interface DownloadDataProps {
   authors: UserDataProps[]
   createdAt: string
   updatedAt: string
+  downloadPrimary: DownloadPrimaryDataProps
 }
 
 export interface DownloadFileDataProps {
