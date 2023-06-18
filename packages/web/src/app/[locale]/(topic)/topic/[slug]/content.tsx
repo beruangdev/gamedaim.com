@@ -1,29 +1,26 @@
 import * as React from "react"
+import NextLink from "next/link"
 
 import { Ad } from "@/components/Ad"
+import { Icon } from "@/components/UI/Icon"
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
 } from "@/components/UI/Breadcrumb"
-import { Icon } from "@/components/UI/Icon"
+import { ListArticleFeatured, ListDownload } from "@/components/List"
 import { ArticleCardSide } from "@/components/Card"
-import { InfiniteScrollTopic } from "@/components/InfiniteScroll"
 
 import { AdDataProps, ArticleDataProps, TopicDataProps } from "@/lib/data-types"
 
 interface TopicProps {
   topicArticle: TopicDataProps | null
-
+  topicDownload: TopicDataProps | null
   adsBelowHeader: AdDataProps[] | null
 }
 
-export function TopicArticleContent(props: TopicProps) {
-  const { topicArticle, adsBelowHeader } = props
-  const totalPage =
-    topicArticle &&
-    topicArticle._count.articles &&
-    Math.ceil(topicArticle._count.articles / 10)
+export function TopicContent(props: TopicProps) {
+  const { topicArticle, topicDownload, adsBelowHeader } = props
 
   return (
     <section className="flex w-full flex-col">
@@ -38,8 +35,8 @@ export function TopicArticleContent(props: TopicProps) {
             className="text-background"
             separator={
               <Icon.ChevronRight
-                className="text-background"
                 aria-label="Breadcrumb"
+                className="text-background"
               />
             }
           >
@@ -48,36 +45,57 @@ export function TopicArticleContent(props: TopicProps) {
                 Home
               </BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbItem>
-              <BreadcrumbLink className="text-background" href="/article">
-                Article
-              </BreadcrumbLink>
-            </BreadcrumbItem>
             <BreadcrumbItem currentPage>
-              <BreadcrumbLink href={`/${topicArticle?.slug}`}>
+              <BreadcrumbLink
+                className="text-background"
+                href={`/${topicArticle?.slug}`}
+              >
                 {topicArticle?.title}
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
         </div>
-        <div className="self-center">
-          <h1 className="text-background text-2xl">{topicArticle?.title}</h1>
-        </div>
+        {topicArticle && (
+          <div className="self-center">
+            <h1 className="text-background text-2xl">{topicArticle.title}</h1>
+          </div>
+        )}
       </div>
       <div className="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] lg:mx-auto lg:px-4 min-[1200px]:max-w-[1170px]">
-        <div className="flex w-full flex-col px-4 lg:w-8/12">
-          {topicArticle && totalPage && topicArticle.articles && (
-            <InfiniteScrollTopic
-              index={2}
-              id={topicArticle.slug}
-              posts={topicArticle.articles}
-              pageType="articles"
-              totalPage={totalPage}
-            />
+        <div className="flex w-full flex-col px-4 lg:mr-4 lg:w-2/3">
+          <div>
+            <div className={"my-2 flex flex-row justify-between"}>
+              <h2 className="text-xl">Article</h2>
+              {topicArticle && (
+                <NextLink
+                  aria-label="See More Articles"
+                  href={`/article/topic/${topicArticle.slug}`}
+                >
+                  <p className="text-primary">See more</p>
+                </NextLink>
+              )}
+            </div>
+            {topicArticle && topicArticle.articles && (
+              <ListArticleFeatured listFeatured={topicArticle.articles} />
+            )}
+          </div>
+          {topicDownload && topicDownload?.downloads && (
+            <div>
+              <div className={"my-2 flex flex-row justify-between"}>
+                <h2 className="text-xl">Downloads</h2>
+                <NextLink
+                  aria-label="See More Downloads"
+                  href={`/download/topic/${topicDownload.slug}`}
+                >
+                  <p className="text-primary">See more</p>
+                </NextLink>
+              </div>
+              <ListDownload listDownloads={topicDownload.downloads} />
+            </div>
           )}
         </div>
         <aside className="hidden w-4/12 px-4 lg:block">
-          <div className="border-border sticky top-8 rounded-xl border p-4">
+          <div className="border-theme-100 dark:border-theme-700 sticky top-8 rounded-xl border p-4">
             <div className="mb-4">
               <h4 className="text-transparent">
                 <span className="after:absolute after:left-1/2 after:top-[40px] after:ml-[-25px] after:h-[3px] after:w-[50px] after:border after:border-[#1e3799] after:bg-[#1e3799]">

@@ -64,6 +64,7 @@ interface FormValues {
 interface EditDownloadFormProps {
   primaryId: string
   lang: LanguageTypeData
+  downloadId: string | undefined
 }
 interface SelectedDownloadFileProps {
   id: string
@@ -73,7 +74,7 @@ interface SelectedDownloadFileProps {
   price: string
 }
 export const AddLangDownloadForm = (props: EditDownloadFormProps) => {
-  const { primaryId, lang } = props
+  const { primaryId, lang, downloadId } = props
   const { isOpen, onToggle } = useDisclosure()
 
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -116,7 +117,7 @@ export const AddLangDownloadForm = (props: EditDownloadFormProps) => {
   const valueLanguage = watch("language") as LanguageTypeData | undefined
 
   const loadDownload = async () => {
-    const { data } = await getDownloadByIdAction(primaryId)
+    const { data } = await getDownloadByIdAction(downloadId as string)
     if (data) {
       setSelectedDownloadFile(
         data.downloadFiles as unknown as SelectedDownloadFileProps[],
@@ -424,38 +425,6 @@ export const AddLangDownloadForm = (props: EditDownloadFormProps) => {
                       {errors?.type && (
                         <FormErrorMessage>
                           {errors.type.message}
-                        </FormErrorMessage>
-                      )}
-                    </FormControl>
-                  </div>
-                  <div className="my-2 flex flex-col px-4">
-                    <FormControl invalid={Boolean(errors.language)}>
-                      <FormLabel>Language</FormLabel>
-                      <Controller
-                        control={control}
-                        name="language"
-                        render={({ field }) => (
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            value={field.value}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a language" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>Language</SelectLabel>
-                                <SelectItem value="id">Indonesia</SelectItem>
-                                <SelectItem value="en">English</SelectItem>
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors?.language && (
-                        <FormErrorMessage>
-                          {errors.language.message}
                         </FormErrorMessage>
                       )}
                     </FormControl>

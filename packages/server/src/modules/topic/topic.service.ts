@@ -279,6 +279,7 @@ export async function getTopicDownloadsHandler(
           id: true,
           title: true,
           slug: true,
+          type: true,
           metaTitle: true,
           metaDescription: true,
           excerpt: true,

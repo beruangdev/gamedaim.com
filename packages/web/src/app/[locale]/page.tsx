@@ -1,16 +1,19 @@
 import * as React from "react"
-import NextLink from "next/link"
 import { BreadcrumbJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 
 import env from "env"
-import { Container } from "@/components/UI/Container"
-import { Footer } from "@/components/Footer"
-import { TopNav } from "@/components/Navigation"
 import { getSettingByKeyAction } from "@/lib/api/server/setting"
+import { MainContainer } from "@/components/Container/MainContainer"
+import { IndexContent } from "./content"
+import { wpGetAllPosts } from "@/lib/api/server/wp-posts"
+import { getAdsByPositionAction } from "@/lib/api/server/ad"
 
 export default async function IndexPage() {
   const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
-
+  const { posts, pageInfo } = await wpGetAllPosts()
+  const { data: adsBelowHeader } = await getAdsByPositionAction(
+    "HOME_BELOW_HEADER",
+  )
   return (
     <>
       <BreadcrumbJsonLd
@@ -33,12 +36,14 @@ export default async function IndexPage() {
           },
         ]}
       />
-      <TopNav />
-      <Container className="mt-20 min-h-screen px-2 lg:px-72">
-        <NextLink href="/dashboard">dashboard</NextLink>
-        <div className="text-success">Index</div>
-      </Container>
-      <Footer />
+
+      <MainContainer>
+        <IndexContent
+          adsBelowHeader={adsBelowHeader}
+          posts={posts}
+          pageInfo={pageInfo}
+        />
+      </MainContainer>
     </>
   )
 }

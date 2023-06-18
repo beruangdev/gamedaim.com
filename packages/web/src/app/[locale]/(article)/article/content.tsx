@@ -34,7 +34,14 @@ export function ArticleContent(props: ArticlesProps) {
             adsBelowHeader.map((ad: AdDataProps) => {
               return <Ad ad={ad} />
             })}
-          <Breadcrumb separator={<Icon.ChevronRight aria-label="Breadcrumb" />}>
+          <Breadcrumb
+            separator={
+              <Icon.ChevronRight
+                className="text-background"
+                aria-label="Breadcrumb"
+              />
+            }
+          >
             <BreadcrumbItem bold>
               <BreadcrumbLink className="text-background" href="/">
                 Home

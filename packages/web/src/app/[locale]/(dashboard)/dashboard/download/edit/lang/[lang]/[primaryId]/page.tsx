@@ -35,15 +35,22 @@ export default async function CreateDownloadsDashboard({
 }: CreateDownloadsDashboardProps) {
   const { primaryId, lang } = params
   const { data } = await getDownloadPrimaryByIdAction(primaryId)
-  const selectedDownload = data?.downloads.find(
+  const otherLangDownload = data?.downloads.find(
     (download) => download.language === lang,
   )
-  if (selectedDownload) {
-    redirect(`/dashboard/download/edit/${selectedDownload.id}`)
+  const selectedDownload = data?.downloads.find(
+    (download) => download.language !== lang,
+  )
+  if (otherLangDownload) {
+    redirect(`/dashboard/download/edit/${otherLangDownload.id}`)
   }
   return (
     <>
-      <AddLangDownloadForm primaryId={primaryId} lang={lang} />
+      <AddLangDownloadForm
+        primaryId={primaryId}
+        lang={lang}
+        downloadId={selectedDownload?.id}
+      />
     </>
   )
 }
