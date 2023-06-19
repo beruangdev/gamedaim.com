@@ -4,9 +4,11 @@ import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
 
+import { Image } from "@/components/Image"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
+import { AddLanguageAction } from "@/components/Action"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs"
 import {
@@ -205,7 +207,22 @@ const TableTopic = (props: TableTopicProps) => {
         <Thead>
           <Tr isTitle>
             <Th>Title</Th>
-            <Th>Language</Th>
+            <Th>
+              <div className="relative h-3 w-4">
+                <Image
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAARVBMVEXfAgDPAADskYrvh4Dsd27qa2PoYVi9AADmV03kTULiQzfeMyf2vrryq6ftoJvMGA/8/Pz5+fn39/fz8/Pm5ubg4ODt7u3lScs2AAAAR0lEQVR4AQXBsRGDQBAAMe39e0gcuP86CTEgBSAgIwipzYiMdBmJjITNMJJYd58jhBPf+kEiaCARaFIiWEyA58Gf3bJwI3gBwHkHZeHbupcAAAAASUVORK5CYII="
+                  alt="Indonesia"
+                />
+              </div>
+            </Th>
+            <Th>
+              <div className="relative h-3 w-4">
+                <Image
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAAmVBMVEViZsViZMJiYrf9gnL8eWrlYkjgYkjZYkj8/PujwPybvPz4+PetraBEgfo+fvo3efkydfkqcvj8Y2T8UlL8Q0P8MzP9k4Hz8/Lu7u4DdPj9/VrKysI9fPoDc/EAZ7z7IiLHYkjp6ekCcOTk5OIASbfY/v21takAJrT5Dg6sYkjc3Nn94t2RkYD+y8KeYkjs/v7l5fz0dF22YkjWvcOLAAAAgElEQVR4AR2KNULFQBgGZ5J13KGGKvc/Cw1uPe62eb9+Jr1EUBFHSgxxjP2Eca6AfUSfVlUfBvm1Ui1bqafctqMndNkXpb01h5TLx4b6TIXgwOCHfjv+/Pz+5vPRw7txGWT2h6yO0/GaYltIp5PT1dEpLNPL/SdWjYjAAZtvRPgHJX4Xio+DSrkAAAAASUVORK5CYII="
+                  alt="English"
+                />
+              </div>
+            </Th>
             <Th>Type</Th>
             <Th>Slug</Th>
             <Th className="hidden md:table-cell">Published Date</Th>
@@ -214,67 +231,95 @@ const TableTopic = (props: TableTopicProps) => {
           </Tr>
         </Thead>
         <Tbody>
-          {topics.map((topic: TopicDataProps) => (
-            <Tr key={topic.id}>
-              <Td className="max-w-[120px]">
-                <div className="flex">
-                  <span className="line-clamp-3 font-medium">
-                    {topic.title}
-                  </span>
-                </div>
-              </Td>
-              <Td className="whitespace-nowrap">
-                <div className="flex gap-2">
-                  <NextLink
-                    href={`/dashboard/topic/edit/lang/en/${topic.topicPrimary.id}`}
-                  >
-                    En
-                  </NextLink>
-                  <NextLink
-                    href={`/dashboard/topic/edit/lang/id/${topic.topicPrimary.id}`}
-                  >
-                    Id
-                  </NextLink>
-                </div>
-              </Td>
-              <Td className="white-space-nowrap">
-                <div className="flex">
-                  <span className="font-medium">{topic.type}</span>
-                </div>
-              </Td>
-              <Td className="whitespace-nowrap">
-                <div className="flex">
-                  <span className="font-medium">{topic.slug}</span>
-                </div>
-              </Td>
-              <Td className="hidden whitespace-nowrap md:table-cell">
-                <div className="flex">
-                  <span className="font-medium">
-                    {formatDate(topic.createdAt, "LL")}
-                  </span>
-                </div>
-              </Td>
-              <Td className="hidden whitespace-nowrap md:table-cell">
-                <div className="flex">
-                  <span className="font-medium">
-                    {formatDate(topic.createdAt, "LL")}
-                  </span>
-                </div>
-              </Td>
-              <Td align="right">
-                <ActionDashboard
-                  viewLink={`/topic/${topic.slug}`}
-                  onDelete={() => {
-                    handleDeleteTopic(
-                      topic.id,
-                      searchQuery ? updateResultTopics : updateTopics,
-                    )
-                  }}
-                  editLink={`/dashboard/topic/edit/${topic.id}`}
-                />
-              </Td>
-            </Tr>
-          ))}
+          {topics.map((topic: TopicDataProps) => {
+            const topicIndo = topic.topicPrimary.topics.find(
+              (lang) => lang.language === "id",
+            )
+            const topicEnglish = topic.topicPrimary.topics.find(
+              (lang) => lang.language === "en",
+            )
+            return (
+              <Tr key={topic.id}>
+                <Td className="max-w-[120px]">
+                  <div className="flex">
+                    <span className="line-clamp-3 font-medium">
+                      {topic.title}
+                    </span>
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex justify-between gap-2">
+                    <AddLanguageAction
+                      language={topicIndo?.language}
+                      triggerLink={`/dashboard/topic/edit/lang/id/${topic.topicPrimary.id}`}
+                      content={
+                        <>
+                          {topicIndo ? (
+                            <p>{topicIndo.title}</p>
+                          ) : (
+                            <p>Add Translations</p>
+                          )}
+                        </>
+                      }
+                    />
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex justify-between gap-2">
+                    <AddLanguageAction
+                      language={topicEnglish?.language}
+                      triggerLink={`/dashboard/topic/edit/lang/en/${topic.topicPrimary.id}`}
+                      content={
+                        <>
+                          {topicEnglish ? (
+                            <p>{topicEnglish.title}</p>
+                          ) : (
+                            <p>Add Translations</p>
+                          )}
+                        </>
+                      }
+                    />
+                  </div>
+                </Td>
+                <Td className="white-space-nowrap">
+                  <div className="flex">
+                    <span className="font-medium">{topic.type}</span>
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex">
+                    <span className="font-medium">{topic.slug}</span>
+                  </div>
+                </Td>
+                <Td className="hidden whitespace-nowrap md:table-cell">
+                  <div className="flex">
+                    <span className="font-medium">
+                      {formatDate(topic.createdAt, "LL")}
+                    </span>
+                  </div>
+                </Td>
+                <Td className="hidden whitespace-nowrap md:table-cell">
+                  <div className="flex">
+                    <span className="font-medium">
+                      {formatDate(topic.createdAt, "LL")}
+                    </span>
+                  </div>
+                </Td>
+                <Td align="right">
+                  <ActionDashboard
+                    viewLink={`/topic/${topic.slug}`}
+                    onDelete={() => {
+                      handleDeleteTopic(
+                        topic.id,
+                        searchQuery ? updateResultTopics : updateTopics,
+                      )
+                    }}
+                    editLink={`/dashboard/topic/edit/${topic.id}`}
+                  />
+                </Td>
+              </Tr>
+            )
+          })}
         </Tbody>
       </Table>
       {page && !searchQuery && (

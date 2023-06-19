@@ -34,13 +34,18 @@ export default async function CreateTopicsDashboard({
 }: CreateTopicsDashboardProps) {
   const { primaryId, lang } = params
   const { data } = await getTopicPrimaryByIdAction(primaryId)
-  const selectedTopic = data?.topics.find((topic) => topic.language === lang)
-  if (selectedTopic) {
-    redirect(`/dashboard/topic/edit/${selectedTopic.id}`)
+  const otherLangTopic = data?.topics.find((topic) => topic.language === lang)
+  if (otherLangTopic) {
+    redirect(`/dashboard/topic/edit/${otherLangTopic.id}`)
   }
+  const mainTopic = data?.topics.find((topic) => topic.language !== lang)
   return (
     <>
-      <AddNewLangTopicForm primaryId={primaryId} lang={lang} />
+      <AddNewLangTopicForm
+        primaryId={primaryId}
+        lang={lang}
+        topicType={mainTopic?.type}
+      />
     </>
   )
 }

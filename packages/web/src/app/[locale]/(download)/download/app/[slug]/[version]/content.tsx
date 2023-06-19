@@ -1,5 +1,7 @@
 import * as React from "react"
 
+import { DownloadButtonAction } from "@/app/[locale]/(download)/download/download-action"
+
 import { Ad } from "@/components/Ad"
 import {
   Breadcrumb,
@@ -15,8 +17,6 @@ import {
   DownloadDataProps,
   DownloadFileDataProps,
 } from "@/lib/data-types"
-
-import { DownloadButtonAction } from "./action"
 
 interface DownloadAppVersionProps {
   download: DownloadDataProps | null

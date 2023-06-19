@@ -218,6 +218,11 @@ export interface WpResGetAllTagsProps {
   }
 }
 
+export interface WpMenusProps {
+  url: string
+  label: string
+}
+
 export interface WpResMenusProps {
   menu: {
     menuItems: { edges: { node: { url: string; label: string } }[] }

@@ -4,6 +4,8 @@ import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
 
+import { AddLanguageAction } from "@/components/Action"
+import { Image } from "@/components/Image"
 import { Badge } from "@/components/UI/Badge"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Input } from "@/components/UI/Form"
@@ -210,8 +212,23 @@ const TableArticle = (props: TableArticleProps) => {
         <Thead>
           <Tr isTitle>
             <Th>Title</Th>
-            <Th>Language</Th>
-            {/* <Th>Author</Th> */}
+            <Th>
+              <div className="relative h-3 w-4">
+                <Image
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAARVBMVEXfAgDPAADskYrvh4Dsd27qa2PoYVi9AADmV03kTULiQzfeMyf2vrryq6ftoJvMGA/8/Pz5+fn39/fz8/Pm5ubg4ODt7u3lScs2AAAAR0lEQVR4AQXBsRGDQBAAMe39e0gcuP86CTEgBSAgIwipzYiMdBmJjITNMJJYd58jhBPf+kEiaCARaFIiWEyA58Gf3bJwI3gBwHkHZeHbupcAAAAASUVORK5CYII="
+                  alt="Indonesia"
+                />
+              </div>
+            </Th>
+            <Th>
+              <div className="relative h-3 w-4">
+                <Image
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAAmVBMVEViZsViZMJiYrf9gnL8eWrlYkjgYkjZYkj8/PujwPybvPz4+PetraBEgfo+fvo3efkydfkqcvj8Y2T8UlL8Q0P8MzP9k4Hz8/Lu7u4DdPj9/VrKysI9fPoDc/EAZ7z7IiLHYkjp6ekCcOTk5OIASbfY/v21takAJrT5Dg6sYkjc3Nn94t2RkYD+y8KeYkjs/v7l5fz0dF22YkjWvcOLAAAAgElEQVR4AR2KNULFQBgGZ5J13KGGKvc/Cw1uPe62eb9+Jr1EUBFHSgxxjP2Eca6AfUSfVlUfBvm1Ui1bqafctqMndNkXpb01h5TLx4b6TIXgwOCHfjv+/Pz+5vPRw7txGWT2h6yO0/GaYltIp5PT1dEpLNPL/SdWjYjAAZtvRPgHJX4Xio+DSrkAAAAASUVORK5CYII="
+                  alt="English"
+                />
+              </div>
+            </Th>
+
             <Th className="hidden md:table-cell">Published Date</Th>
             <Th className="hidden md:table-cell">Last Modified</Th>
             <Th className="hidden md:table-cell">Status</Th>
@@ -219,57 +236,85 @@ const TableArticle = (props: TableArticleProps) => {
           </Tr>
         </Thead>
         <Tbody>
-          {articles.map((article: ArticleDataProps) => (
-            <Tr key={article.id}>
-              <Td className="max-w-[120px]">
-                <div>
-                  <span className="line-clamp-3 font-medium">
-                    {article.title}
-                  </span>
-                </div>
-              </Td>
-              <Td className="whitespace-nowrap">
-                <div className="flex gap-2">
-                  <NextLink
-                    href={`/dashboard/article/edit/lang/en/${article.articlePrimary.id}`}
-                  >
-                    En
-                  </NextLink>
-                  <NextLink
-                    href={`/dashboard/article/edit/lang/id/${article.articlePrimary.id}`}
-                  >
-                    Id
-                  </NextLink>
-                </div>
-              </Td>
-              <Td className="hidden md:table-cell">
-                {formatDate(article.createdAt, "LL")}
-              </Td>
-              <Td className="hidden md:table-cell">
-                {formatDate(article.updatedAt, "LL")}
-              </Td>
-              <Td className="hidden whitespace-nowrap md:table-cell">
-                <div className="flex">
-                  <span className="font-medium">
-                    <Badge variant="outline">{article.status}</Badge>
-                  </span>
-                </div>
-              </Td>
-              <Td align="right">
-                <ActionDashboard
-                  viewLink={`/article/${article.slug}`}
-                  onDelete={() =>
-                    handleDeleteArticle(
-                      article.id,
-                      searchQuery ? updateResultArticles : updateArticles,
-                    )
-                  }
-                  editLink={`/dashboard/article/edit/${article.id}`}
-                  content={article.title}
-                />
-              </Td>
-            </Tr>
-          ))}
+          {articles.map((article: ArticleDataProps) => {
+            const articleIndo = article.articlePrimary.articles.find(
+              (lang) => lang.language === "id",
+            )
+            const articleEnglish = article.articlePrimary.articles.find(
+              (lang) => lang.language === "en",
+            )
+            return (
+              <Tr key={article.id}>
+                <Td className="max-w-[120px]">
+                  <div>
+                    <span className="line-clamp-3 font-medium">
+                      {article.title}
+                    </span>
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex justify-between gap-2">
+                    <AddLanguageAction
+                      language={articleIndo?.language}
+                      triggerLink={`/dashboard/article/edit/lang/id/${article.articlePrimary.id}`}
+                      content={
+                        <>
+                          {articleIndo ? (
+                            <p>{articleIndo.title}</p>
+                          ) : (
+                            <p>Add Translations</p>
+                          )}
+                        </>
+                      }
+                    />
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex justify-between gap-2">
+                    <AddLanguageAction
+                      language={articleEnglish?.language}
+                      triggerLink={`/dashboard/article/edit/lang/en/${article.articlePrimary.id}`}
+                      content={
+                        <>
+                          {articleEnglish ? (
+                            <p>{articleEnglish.title}</p>
+                          ) : (
+                            <p>Add Translations</p>
+                          )}
+                        </>
+                      }
+                    />
+                  </div>
+                </Td>
+                <Td className="hidden md:table-cell">
+                  {formatDate(article.createdAt, "LL")}
+                </Td>
+                <Td className="hidden md:table-cell">
+                  {formatDate(article.updatedAt, "LL")}
+                </Td>
+                <Td className="hidden whitespace-nowrap md:table-cell">
+                  <div className="flex">
+                    <span className="font-medium">
+                      <Badge variant="outline">{article.status}</Badge>
+                    </span>
+                  </div>
+                </Td>
+                <Td align="right">
+                  <ActionDashboard
+                    viewLink={`/article/${article.slug}`}
+                    onDelete={() =>
+                      handleDeleteArticle(
+                        article.id,
+                        searchQuery ? updateResultArticles : updateArticles,
+                      )
+                    }
+                    editLink={`/dashboard/article/edit/${article.id}`}
+                    content={article.title}
+                  />
+                </Td>
+              </Tr>
+            )
+          })}
         </Tbody>
       </Table>
       {page && !searchQuery && (

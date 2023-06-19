@@ -180,6 +180,275 @@
     animation-duration: 400ms;
   }
 
+  .list-price {
+    @apply relative;
+  }
+
+  input[type="radio"]:checked + .item-price {
+    background-color: rgb(203 213 225);
+  }
+
+  .item-price .price-check {
+    @apply hidden;
+  }
+
+  input[type="radio"]:checked + .item-price .price-check {
+    @apply block;
+  }
+
+  .dark input[type="radio"]:checked + .item-price {
+    background-color: rgb(122 122 122);
+  }
+
+  .breadcrumb-topup ol {
+    @apply grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 10px;
+  }
+
+  .img-skeleton {
+    @apply bg-[url('/image/imgloader.gif')] bg-cover;
+  }
+
+  .post-card-thumbnail:hover img {
+    @apply scale-150;
+  }
+
+  .article-body {
+    @apply text-lg leading-7;
+  }
+
+  .article-divider:not(:first-child):before {
+    @apply block h-[35px] w-full;
+    content: "";
+    background: rgba(0, 0, 0, 0.01)
+      url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAE0lEQVQYV2NkwAIYqSy4YMGC/wAIQwLlE7lczAAAAABJRU5ErkJggg==);
+    margin: 0 0 50px;
+  }
+
+  .article-body h1,
+  .article-body h2,
+  .article-body h3,
+  .article-body h4,
+  .article-body h5,
+  .article-body h6,
+  .download-body h1,
+  .download-body h2,
+  .download-body h3,
+  .download-body h4,
+  .download-body h5,
+  .download-body h6 {
+    @apply text-foreground my-4 font-bold;
+  }
+
+  .article-body h1,
+  .download-body h1 {
+    @apply text-2xl md:text-4xl;
+  }
+
+  .article-body h2,
+  .download-body h2 {
+    @apply text-xl md:text-3xl;
+  }
+
+  .article-body h3,
+  .download-body h3 {
+    @apply text-lg md:text-2xl;
+  }
+
+  .article-body h4,
+  .download-body h4 {
+    @apply text-base md:text-xl;
+  }
+
+  .article-body a,
+  .download-body a {
+    @apply text-primary/80 hover:text-primary/90 duration-200;
+  }
+
+  .article-body {
+    @apply pt-4;
+  }
+
+  .article-body p,
+  .download-body p {
+    @apply text-foreground text-base leading-[24px] md:text-lg md:leading-[32px];
+  }
+
+  .article-body p:not(:last-child) {
+    @apply mb-6;
+  }
+
+  .article-body img,
+  .download-body img {
+    @apply h-auto max-h-full max-w-full rounded-md;
+  }
+
+  .wp-block-quote,
+  .article-body blockquote,
+  .download-body blockquote {
+    @apply border-border bg-primary/20 my-4 rounded-sm border-l-4 p-4 italic;
+  }
+
+  .article-body li,
+  .download-body li {
+    @apply mb-2 ml-6 text-base md:ml-12 md:text-lg;
+  }
+
+  .article-body ul,
+  .download-body ul {
+    position: relative;
+  }
+
+  .article-body ul li {
+    @apply text-foreground/90 ml-12 list-disc;
+  }
+
+  .article-body ol li {
+    @apply text-foreground/90 ml-12 list-decimal;
+  }
+
+  .article-body figure,
+  .download-body figure {
+    @apply my-4;
+  }
+
+  .article-body iframe,
+  .download-body iframe {
+    @apply relative m-0 aspect-video h-auto w-full rounded-md align-baseline;
+  }
+
+  .article-body figcaption,
+  .download-body figcapiton {
+    @apply text-center text-xs italic;
+  }
+
+  .article-body hr,
+  .download-body hr {
+    @apply text-foreground/40 mx-4 mb-4;
+  }
+
+  .article-body .IRPP_kangoo .ctaText {
+    @apply dark:text-[#ffffff9c];
+  }
+
+  .article-body .IRPP_kangoo:hover .ctaText,
+  .article-body .IRPP_kangoo:hover .postTitle {
+    @apply opacity-60 transition-opacity duration-200;
+  }
+
+  .article-body .wp-block-table .has-fixed-layout {
+    @apply w-full;
+    table-layout: fixed;
+  }
+
+  .article-body .wp-block-table th,
+  .article-body .wp-block-table td {
+    @apply border-foreground/80 border p-3;
+  }
+
+  .article-body .wp-block-button {
+    @apply border-border bg-background text-background relative m-0 inline-flex h-9 min-w-[2.5rem] flex-shrink-0 cursor-pointer select-none appearance-none items-center justify-center whitespace-nowrap rounded-xl border px-4 align-middle text-base font-medium leading-tight shadow-sm outline-none transition-colors duration-75 ease-out focus:outline-none focus:ring-4 focus:ring-purple-300 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none dark:focus:ring-purple-800;
+  }
+
+  #ez-toc-container.ez-toc-transparent {
+    background: none;
+  }
+
+  div#ez-toc-container {
+    @apply w-full;
+  }
+
+  div#ez-toc-container {
+    @apply pr-5;
+  }
+
+  #ez-toc-container {
+    background: #f9f9f9;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    display: table;
+    margin-bottom: 1em;
+    padding: 10px;
+    position: relative;
+    width: auto;
+  }
+
+  #ez-toc-container > [type="checkbox"],
+  .cssicon,
+  .cssiconcheckbox {
+    @apply hidden;
+  }
+
+  .article-body p.ez-toc-title {
+    margin-bottom: unset;
+    cursor: pointer;
+  }
+
+  #ez-toc-container [type="checkbox"] {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    height: 30px;
+    opacity: 0;
+  }
+
+  .ez-toc-title::after {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 5px;
+    display: inline-block;
+    border: 10px solid transparent;
+    border-left: 10px solid black;
+  }
+
+  .ez-toc-title.open-list::after {
+    border-left: 10px solid transparent;
+    border-top: 10px solid black;
+  }
+
+  p.ez-toc-title {
+    position: relative;
+    padding-left: 25px;
+  }
+
+  #ez-toc-container .ez-toc-list.ez-toc-list-level-1 {
+    max-height: 0px;
+    overflow: hidden;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  #ez-toc-container
+    .ez-toc-title.open-list
+    ~ nav
+    .ez-toc-list.ez-toc-list-level-1 {
+    max-height: 100%;
+    margin: 10px 0px;
+  }
+
+  .ad-inline {
+    @apply py-2;
+  }
+
+  .dashboard-sidenav.open-sidenav ~ .dashboard-mainmenu {
+    @apply pl-[270px] lg:pl-[70px];
+  }
+
+  .dashboard-sidenav.open-sidenav.open-sidenav {
+    @apply w-[250px] lg:w-[55px];
+  }
+
+  .dashboard-mainmenu {
+    @apply w-full;
+  }
+
   .article-container {
     @apply space-y-2;
   }
@@ -210,7 +479,7 @@
 
   .article-container pre,
   .ProseMirror pre {
-    @apply rounded-lg bg-black px-3 py-2 font-mono text-white;
+    @apply bg-foreground text-background rounded-lg px-3 py-2 font-mono;
   }
 
   .article-container code,
