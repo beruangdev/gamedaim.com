@@ -5,7 +5,6 @@ import dynamic from "next/dynamic"
 import NextLink from "next/link"
 
 import { AddLanguageAction } from "@/components/Action"
-import { Image } from "@/components/Image"
 import { Badge } from "@/components/UI/Badge"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Input } from "@/components/UI/Form"
@@ -214,21 +213,14 @@ const TableArticle = (props: TableArticleProps) => {
             <Th>Title</Th>
             <Th>
               <div className="relative h-3 w-4">
-                <Image
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAARVBMVEXfAgDPAADskYrvh4Dsd27qa2PoYVi9AADmV03kTULiQzfeMyf2vrryq6ftoJvMGA/8/Pz5+fn39/fz8/Pm5ubg4ODt7u3lScs2AAAAR0lEQVR4AQXBsRGDQBAAMe39e0gcuP86CTEgBSAgIwipzYiMdBmJjITNMJJYd58jhBPf+kEiaCARaFIiWEyA58Gf3bJwI3gBwHkHZeHbupcAAAAASUVORK5CYII="
-                  alt="Indonesia"
-                />
+                <Icon.IndonesiaFlag />
               </div>
             </Th>
             <Th>
               <div className="relative h-3 w-4">
-                <Image
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAAmVBMVEViZsViZMJiYrf9gnL8eWrlYkjgYkjZYkj8/PujwPybvPz4+PetraBEgfo+fvo3efkydfkqcvj8Y2T8UlL8Q0P8MzP9k4Hz8/Lu7u4DdPj9/VrKysI9fPoDc/EAZ7z7IiLHYkjp6ekCcOTk5OIASbfY/v21takAJrT5Dg6sYkjc3Nn94t2RkYD+y8KeYkjs/v7l5fz0dF22YkjWvcOLAAAAgElEQVR4AR2KNULFQBgGZ5J13KGGKvc/Cw1uPe62eb9+Jr1EUBFHSgxxjP2Eca6AfUSfVlUfBvm1Ui1bqafctqMndNkXpb01h5TLx4b6TIXgwOCHfjv+/Pz+5vPRw7txGWT2h6yO0/GaYltIp5PT1dEpLNPL/SdWjYjAAZtvRPgHJX4Xio+DSrkAAAAASUVORK5CYII="
-                  alt="English"
-                />
+                <Icon.USAFlag />
               </div>
             </Th>
-
             <Th className="hidden md:table-cell">Published Date</Th>
             <Th className="hidden md:table-cell">Last Modified</Th>
             <Th className="hidden md:table-cell">Status</Th>
