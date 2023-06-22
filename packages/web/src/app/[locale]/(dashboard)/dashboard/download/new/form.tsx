@@ -432,7 +432,9 @@ export const AddDownloadForms = () => {
                         name="schemaType"
                         render={({ field }) => (
                           <Select
-                            onValueChange={field.onChange}
+                            onValueChange={(value: DownloadSchemaData) =>
+                              field.onChange(value)
+                            }
                             defaultValue={field.value}
                             value={field.value}
                           >
