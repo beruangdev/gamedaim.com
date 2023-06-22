@@ -135,7 +135,7 @@ export const EditAdForm = (props: { id: string }) => {
             <Select
               defaultValue={field.value}
               value={field.value}
-              onValueChange={field.onChange}
+              onValueChange={(value: AdPositionData) => field.onChange(value)}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select a position" />
@@ -203,7 +203,7 @@ export const EditAdForm = (props: { id: string }) => {
             <Select
               defaultValue={field.value}
               value={field.value}
-              onValueChange={field.onChange}
+              onValueChange={(value: AdTypeData) => field.onChange(value)}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select a type" />

@@ -10,13 +10,12 @@ import { Icon } from "@/components/UI/Icon"
 import { Image } from "@/components/Image"
 import { ListDownload } from "@/components/List"
 import { DownloadCardSide } from "@/components/Card"
+import { DownloadButtonAction } from "@/components/Action"
 import {
   AdDataProps,
   DownloadDataProps,
   DownloadFileDataProps,
 } from "@/lib/data-types"
-
-import { DownloadButtonAction } from "./action"
 
 interface DownloadGameVersionProps {
   download: DownloadDataProps | null

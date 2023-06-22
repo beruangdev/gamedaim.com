@@ -195,7 +195,15 @@ export async function getDownloadsByLang(
         },
       },
       downloadPrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+          downloads: {
+            select: {
+              title: true,
+              language: true,
+            },
+          },
+        },
       },
     },
   })
@@ -229,7 +237,15 @@ export async function getDownloadsDashboardByLang(
         },
       },
       downloadPrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+          downloads: {
+            select: {
+              title: true,
+              language: true,
+            },
+          },
+        },
       },
     },
   })
@@ -647,7 +663,15 @@ export async function searchDownloadsDashboardByLang(
         },
       },
       downloadPrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+          downloads: {
+            select: {
+              title: true,
+              language: true,
+            },
+          },
+        },
       },
     },
   })
