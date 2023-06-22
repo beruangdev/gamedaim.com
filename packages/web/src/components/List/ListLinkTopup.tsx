@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { Button } from "@/components/UI/Button"
 import { PriceListPrePaidProps } from "@/lib/data-types"

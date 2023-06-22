@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { ListCardShop, ListLinkTopup } from "@/components/List"
 import { PriceListPrePaidProps } from "@/lib/data-types"
