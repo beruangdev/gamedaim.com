@@ -80,9 +80,9 @@ export const SidebarDashboard = React.forwardRef<
       </Sidebar.Toggle>
       {currentUser?.role === "ADMIN" && (
         <>
-          <Sidebar.Item icon={<Icon.Comment />} href="/dashboard/comment">
+          {/* <Sidebar.Item icon={<Icon.Comment />} href="/dashboard/comment">
             Comments
-          </Sidebar.Item>
+          </Sidebar.Item> */}
           <Sidebar.Toggle icon={<Icon.Users />} title="Users">
             <Sidebar.ToggleItem href="/dashboard/user">
               All users

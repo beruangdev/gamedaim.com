@@ -15,8 +15,6 @@ import {
   WpAuthorsDataProps,
   WpFeaturedImageDataProps,
   WpSinglePostDataProps,
-  WpCategoriesDataProps,
-  WpTagsDataProps,
   WpMapPostDataProps,
   WpResAllPostsProps,
   WpResPostProps,
@@ -307,7 +305,7 @@ export function wpMapPostData(post: WpMapPostDataProps) {
   let featuredImageNode
   let tagsNode
   let contentNode
-  if (post.author) {
+  if (post && post.author) {
     authorNode = {
       ...post.author.node,
     }
@@ -354,14 +352,23 @@ export function wpMapPostData(post: WpMapPostDataProps) {
     }
   }
 
-  const data: WpSinglePostDataProps = {
-    ...post,
-    author: (authorNode as WpAuthorsDataProps) || {},
-    categories: categoriesNode as WpCategoriesDataProps[],
-    tags: (tagsNode as WpTagsDataProps[]) || [],
-    featuredImage: (featuredImageNode as WpFeaturedImageDataProps) || {},
-    content: (contentNode as string) || "",
+  let data: WpSinglePostDataProps = {
+    ...(post as unknown as WpSinglePostDataProps),
   }
-
+  if (authorNode) {
+    data.author = authorNode as WpAuthorsDataProps
+  }
+  if (contentNode) {
+    data.content = contentNode as string
+  }
+  if (tagsNode) {
+    data.tags = tagsNode
+  }
+  if (categoriesNode) {
+    data.categories = categoriesNode
+  }
+  if (featuredImageNode) {
+    data.featuredImage = featuredImageNode
+  }
   return data
 }
