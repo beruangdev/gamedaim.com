@@ -1,11 +1,11 @@
 import * as React from "react"
 import { MainContainer } from "@/components/Container/MainContainer"
 
-interface DashboardLayoutProps {
+interface ArticlesLayoutProps {
   children: React.ReactNode
 }
 
-export default function DashboardLayout(props: DashboardLayoutProps) {
+export default function ArticlesLayout(props: ArticlesLayoutProps) {
   const { children } = props
 
   return <MainContainer>{children}</MainContainer>

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import NextLink from "next/link"
-import { ThumbnailTopUp } from "@/components/Picture"
+import { ThumbnailTopUp } from "@/components/Image"
 import { slugify } from "@/utils/helper"
 import { getTopUpTransactionCounter } from "@/lib/api/server/top-up"
 
@@ -47,8 +47,8 @@ export const ShopCard = React.forwardRef<HTMLDivElement, ShopCardProps>(
           />
 
           <div className="flex max-w-[200px] flex-col items-center p-2">
-            <p className="text-base">{title}</p>
-            <p className="text-sm">{`${transactionCounter} Tranksaksi`}</p>
+            <h2>{title}</h2>
+            <p>{`${transactionCounter} Transaksi`}</p>
           </div>
         </NextLink>
       </div>

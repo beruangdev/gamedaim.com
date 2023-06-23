@@ -116,7 +116,7 @@ export const getTopicByIdAction = async (topicId: string) => {
 
 export const getTopicPrimaryByIdAction = async (topicId: string) => {
   const [res, err] = await http<{
-    topics: { id: string; language: LanguageTypeData }[]
+    topics: { id: string; language: LanguageTypeData; type: TopicTypeData }[]
   }>("GET", {
     url: `/topic/primary/${topicId}`,
   })

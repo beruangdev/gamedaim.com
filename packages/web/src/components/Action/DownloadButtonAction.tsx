@@ -11,45 +11,36 @@ interface DownloadButtonActionProps {
 export const DownloadButtonAction = (props: DownloadButtonActionProps) => {
   const { downloadLink, fileSize } = props
   const [showCountdown, setShowCountdown] = React.useState(false)
-  const [countdownInterval, setCountdownInterval] = React.useState<
-    number | null
-  >(null)
   const [difference, setDifference] = React.useState<number>(10)
 
   const handleDownloadClick = () => {
     setShowCountdown(true)
-    setCountdownInterval(
-      //@ts-ignore
-      setInterval(() => {
-        setDifference((prevDifference): number => prevDifference - 1)
-        setShowCountdown(false)
-        setCountdownInterval(null)
-        window.open(downloadLink, "_blank")
-        setDifference(10)
-      }, 10000),
-    )
+
+    const countdownInterval = setInterval(() => {
+      setDifference((prevDifference) => prevDifference - 1)
+    }, 1000)
+
+    setTimeout(() => {
+      clearInterval(countdownInterval)
+      window.open(downloadLink, "_blank")
+      setShowCountdown(false)
+      setDifference(10)
+    }, 10000)
   }
-  React.useEffect(() => {
-    return () => {
-      if (countdownInterval) {
-        clearInterval(countdownInterval)
-      }
-    }
-  }, [countdownInterval])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-5">
       <Button
         aria-label="Download"
+        className="w-44"
         onClick={handleDownloadClick}
         disabled={showCountdown}
       >
         Download ({fileSize})
       </Button>
       {showCountdown && (
-        <div className="bg-success/30 text-foreground p-7">
-          Link download akan terbuka pada
-          {difference} detik
+        <div className="bg-success/10 text-foreground p-7">
+          {`Link download akan terbuka pada ${difference} detik`}
         </div>
       )}
     </div>

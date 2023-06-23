@@ -1,12 +1,14 @@
+import { AxiosError } from "axios"
 import { addPropertiesPrices, slugify } from "@/utils/helper"
-import { http } from "../../http"
+import { http } from "@/lib/http"
 import {
+  ErrorResponse,
   PriceListPostPaidProps,
   PriceListPrePaidProps,
   StatusPostPaidTopUpProps,
   StatusPrePaidTopUpProps,
   TransactionDataProps,
-} from "../../data-types"
+} from "@/lib/data-types"
 
 export const postProductsPrePaid = async () => {
   const [res, err] = await http<{ value: PriceListPrePaidProps[] }>("POST", {
@@ -19,10 +21,10 @@ export const postProductsPrePaid = async () => {
 
   if (err !== null) {
     console.log(err)
-    return { data: null }
+    return { data: null, error: err }
   }
 
-  return { data: res?.value }
+  return { data: res?.value, error: null }
 }
 
 export const postProductsPostPaid = async () => {
@@ -33,13 +35,12 @@ export const postProductsPostPaid = async () => {
       "Content-Type": "application/json",
     },
   })
-
   if (err !== null) {
     console.log(err)
-    return { data: null }
+    return { data: null, error: err }
   }
 
-  return { data: res?.value }
+  return { data: res?.value, error: null }
 }
 
 export const getProductsPrePaid = async () => {
@@ -49,25 +50,30 @@ export const getProductsPrePaid = async () => {
 
   if (err !== null) {
     console.log(err)
-    return { data: null }
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return { data: res?.value }
+  return { data: res?.value, error: null }
 }
-
 export const getProductsPostPaid = async () => {
   const [res, err] = await http<{ value: PriceListPostPaidProps[] }>("GET", {
     url: `/top-up/digiflazz/price-list-postpaid/data`,
   })
-
   if (err !== null) {
     console.log(err)
-    return { data: null }
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return { data: res?.value }
+  return { data: res?.value, error: null }
 }
-
 export const postTopUpTransactions = async (value: unknown) => {
   const [res, err] = await http<{
     data: StatusPostPaidTopUpProps & StatusPrePaidTopUpProps
@@ -81,12 +87,15 @@ export const postTopUpTransactions = async (value: unknown) => {
 
   if (err !== null) {
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
-
 export const updateStatusTopUpByMerchantRef = async (
   route: string,
   value: unknown,
@@ -100,15 +109,19 @@ export const updateStatusTopUpByMerchantRef = async (
 
   if (err !== null) {
     console.log(err)
-    return
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
   }
 
-  return res
+  return { data: res, error: null }
 }
 
 export const getPriceListPrePaid = async () => {
   const [res, err] = await http<{
-    data: PriceListPrePaidProps[] & { message: string }
+    value: PriceListPrePaidProps[] & { message: string }
   }>("POST", {
     url: "/top-up/digiflazz/price-list-prepaid",
     headers: {
@@ -116,31 +129,18 @@ export const getPriceListPrePaid = async () => {
     },
     data: null,
   })
-
   if (err !== null) {
     console.log(err)
     return {
-      allPrices: null,
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
     }
   }
 
-  let allPrices: PriceListPrePaidProps[] = []
-  if (res) {
-    if (Array.isArray(res?.data)) {
-      await postProductsPrePaid()
-      allPrices = res?.data as PriceListPrePaidProps[]
-    } else {
-      const { data } = await getProductsPrePaid()
-      allPrices = data as PriceListPrePaidProps[]
-    }
-  } else {
-    const { data } = await getProductsPrePaid()
-    allPrices = data as PriceListPrePaidProps[]
-  }
+  const allPrices = res?.value
 
-  return {
-    allPrices: allPrices,
-  }
+  return { data: allPrices, error: null }
 }
 
 export const getPriceListPostPaid = async () => {
@@ -153,14 +153,14 @@ export const getPriceListPostPaid = async () => {
     },
     data: null,
   })
-
   if (err !== null) {
     console.log(err)
     return {
-      allPrices: null,
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
     }
   }
-
   let allPrices: PriceListPostPaidProps[] = []
   if (res) {
     if (Array.isArray(res?.data)) {
@@ -175,14 +175,12 @@ export const getPriceListPostPaid = async () => {
     allPrices = data as PriceListPostPaidProps[]
   }
 
-  return {
-    allPrices: allPrices,
-  }
+  return { data: allPrices, error: null }
 }
 
 export const getPriceListBySlug = async (slug: string) => {
-  const { allPrices: prePaid } = await getPriceListPrePaid()
-  const { allPrices: postPaid } = await getPriceListPostPaid()
+  const { data: prePaid } = await getPriceListPrePaid()
+  const { data: postPaid } = await getPriceListPostPaid()
   const allPrices = [
     ...(prePaid as PriceListPrePaidProps[]),
     ...(postPaid as PriceListPostPaidProps[]),
@@ -197,7 +195,7 @@ export const getPriceListBySlug = async (slug: string) => {
 }
 
 export const getBrandsPrePaid = async () => {
-  const { allPrices: prePaid } = await getPriceListPrePaid()
+  const { data: prePaid } = await getPriceListPrePaid()
   let prePaidByBrand: PriceListPrePaidProps[] = []
   if (prePaid && Array.isArray(prePaid)) {
     prePaidByBrand = Array.from(
@@ -214,7 +212,7 @@ export const getBrandsPrePaid = async () => {
 }
 
 export const getBrandsPostPaid = async () => {
-  const { allPrices: postPaid } = await getPriceListPostPaid()
+  const { data: postPaid } = await getPriceListPostPaid()
   let postPaidByBrand: PriceListPostPaidProps[] = []
   if (postPaid && Array.isArray(postPaid)) {
     postPaidByBrand = Array.from(
@@ -243,7 +241,7 @@ export const getAllBrandTopUp = async () => {
 }
 
 export const getProductBySlug = async (slug: string) => {
-  const { allPrices } = await getPriceListPrePaid()
+  const { data: allPrices } = await getPriceListPrePaid()
   const filteredProduct =
     allPrices && allPrices.filter((product) => product.brand === slug)
   return {
@@ -252,7 +250,7 @@ export const getProductBySlug = async (slug: string) => {
 }
 
 export const getTopUpByBrand = async (slug: string) => {
-  const { allPrices } = await getPriceListPrePaid()
+  const { data: allPrices } = await getPriceListPrePaid()
   const getPricesbyBrand = Array.from(
     new Set(allPrices?.map((item: PriceListPrePaidProps) => item.brand)),
   ).map((brand) => {
@@ -266,7 +264,7 @@ export const getTopUpByBrand = async (slug: string) => {
 }
 
 export const getAllTopUpProduct = async () => {
-  const { allPrices } = await getPriceListPrePaid()
+  const { data: allPrices } = await getPriceListPrePaid()
   const getPricesbyBrand = Array.from(
     new Set(allPrices?.map((item: PriceListPrePaidProps) => item.brand)),
   ).map((brand) => {
@@ -284,30 +282,23 @@ interface TransactionCounter {
   transactions: number
 }
 
-export const getTopUpTransactionCounter = async (
-  brand: string,
-): Promise<{ counter: TransactionCounter | null }> => {
+export const getTopUpTransactionCounter = async (brand: string) => {
   const [res, err] = await http<TransactionCounter>("GET", {
     url: `/transaction/counter/${brand}`,
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
     },
   })
-
   if (err !== null) {
     return {
       counter: null,
+      error: err,
     }
   }
 
-  return {
-    counter: res || null,
-  }
+  return { data: res, error: null }
 }
-
-export const postTopUpTransactionCounter = async (
-  brand: string,
-): Promise<{ counter: TransactionCounter | null }> => {
+export const postTopUpTransactionCounter = async (brand: string) => {
   const [res, err] = await http<TransactionCounter>("POST", {
     url: `/transaction/counter/`,
     headers: {
@@ -315,37 +306,32 @@ export const postTopUpTransactionCounter = async (
     },
     data: { brand: brand },
   })
-
   if (err !== null) {
     console.log(err)
     return {
-      counter: null,
+      data: null,
+      error: err,
     }
   }
 
-  return {
-    counter: res || null,
-  }
+  return { data: res, error: null }
 }
 
-export const checkBalance = async (): Promise<{
-  balance: { deposit: number } | null
-}> => {
+export const checkBalance = async () => {
   const [res, err] = await http<{ data: { deposit: number } }>("POST", {
     url: "/top-up/digiflazz/check-balance",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
     },
   })
-
   if (err !== null) {
     console.log(err)
     return {
-      balance: null,
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
     }
   }
 
-  return {
-    balance: res?.data || null,
-  }
+  return { data: res?.data, error: null }
 }

@@ -7,6 +7,7 @@ import NextLink from "next/link"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
+import { AddLanguageAction } from "@/components/Action"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs"
 import {
@@ -205,7 +206,16 @@ const TableTopic = (props: TableTopicProps) => {
         <Thead>
           <Tr isTitle>
             <Th>Title</Th>
-            <Th>Language</Th>
+            <Th>
+              <div className="relative h-3 w-4">
+                <Icon.IndonesiaFlag />
+              </div>
+            </Th>
+            <Th>
+              <div className="relative h-3 w-4">
+                <Icon.USAFlag />
+              </div>
+            </Th>
             <Th>Type</Th>
             <Th>Slug</Th>
             <Th className="hidden md:table-cell">Published Date</Th>
@@ -214,67 +224,95 @@ const TableTopic = (props: TableTopicProps) => {
           </Tr>
         </Thead>
         <Tbody>
-          {topics.map((topic: TopicDataProps) => (
-            <Tr key={topic.id}>
-              <Td className="max-w-[120px]">
-                <div className="flex">
-                  <span className="line-clamp-3 font-medium">
-                    {topic.title}
-                  </span>
-                </div>
-              </Td>
-              <Td className="whitespace-nowrap">
-                <div className="flex gap-2">
-                  <NextLink
-                    href={`/dashboard/topic/edit/lang/en/${topic.topicPrimary.id}`}
-                  >
-                    En
-                  </NextLink>
-                  <NextLink
-                    href={`/dashboard/topic/edit/lang/id/${topic.topicPrimary.id}`}
-                  >
-                    Id
-                  </NextLink>
-                </div>
-              </Td>
-              <Td className="white-space-nowrap">
-                <div className="flex">
-                  <span className="font-medium">{topic.type}</span>
-                </div>
-              </Td>
-              <Td className="whitespace-nowrap">
-                <div className="flex">
-                  <span className="font-medium">{topic.slug}</span>
-                </div>
-              </Td>
-              <Td className="hidden whitespace-nowrap md:table-cell">
-                <div className="flex">
-                  <span className="font-medium">
-                    {formatDate(topic.createdAt, "LL")}
-                  </span>
-                </div>
-              </Td>
-              <Td className="hidden whitespace-nowrap md:table-cell">
-                <div className="flex">
-                  <span className="font-medium">
-                    {formatDate(topic.createdAt, "LL")}
-                  </span>
-                </div>
-              </Td>
-              <Td align="right">
-                <ActionDashboard
-                  viewLink={`/topic/${topic.slug}`}
-                  onDelete={() => {
-                    handleDeleteTopic(
-                      topic.id,
-                      searchQuery ? updateResultTopics : updateTopics,
-                    )
-                  }}
-                  editLink={`/dashboard/topic/edit/${topic.id}`}
-                />
-              </Td>
-            </Tr>
-          ))}
+          {topics.map((topic: TopicDataProps) => {
+            const topicIndo = topic.topicPrimary.topics.find(
+              (lang) => lang.language === "id",
+            )
+            const topicEnglish = topic.topicPrimary.topics.find(
+              (lang) => lang.language === "en",
+            )
+            return (
+              <Tr key={topic.id}>
+                <Td className="max-w-[120px]">
+                  <div className="flex">
+                    <span className="line-clamp-3 font-medium">
+                      {topic.title}
+                    </span>
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex justify-between gap-2">
+                    <AddLanguageAction
+                      language={topicIndo?.language}
+                      triggerLink={`/dashboard/topic/edit/lang/id/${topic.topicPrimary.id}`}
+                      content={
+                        <>
+                          {topicIndo ? (
+                            <p>{topicIndo.title}</p>
+                          ) : (
+                            <p>Add Translations</p>
+                          )}
+                        </>
+                      }
+                    />
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex justify-between gap-2">
+                    <AddLanguageAction
+                      language={topicEnglish?.language}
+                      triggerLink={`/dashboard/topic/edit/lang/en/${topic.topicPrimary.id}`}
+                      content={
+                        <>
+                          {topicEnglish ? (
+                            <p>{topicEnglish.title}</p>
+                          ) : (
+                            <p>Add Translations</p>
+                          )}
+                        </>
+                      }
+                    />
+                  </div>
+                </Td>
+                <Td className="white-space-nowrap">
+                  <div className="flex">
+                    <span className="font-medium">{topic.type}</span>
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex">
+                    <span className="font-medium">{topic.slug}</span>
+                  </div>
+                </Td>
+                <Td className="hidden whitespace-nowrap md:table-cell">
+                  <div className="flex">
+                    <span className="font-medium">
+                      {formatDate(topic.createdAt, "LL")}
+                    </span>
+                  </div>
+                </Td>
+                <Td className="hidden whitespace-nowrap md:table-cell">
+                  <div className="flex">
+                    <span className="font-medium">
+                      {formatDate(topic.createdAt, "LL")}
+                    </span>
+                  </div>
+                </Td>
+                <Td align="right">
+                  <ActionDashboard
+                    viewLink={`/topic/${topic.slug}`}
+                    onDelete={() => {
+                      handleDeleteTopic(
+                        topic.id,
+                        searchQuery ? updateResultTopics : updateTopics,
+                      )
+                    }}
+                    editLink={`/dashboard/topic/edit/${topic.id}`}
+                  />
+                </Td>
+              </Tr>
+            )
+          })}
         </Tbody>
       </Table>
       {page && !searchQuery && (

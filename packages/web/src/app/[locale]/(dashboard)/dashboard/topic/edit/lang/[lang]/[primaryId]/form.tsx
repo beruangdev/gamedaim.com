@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { Image } from "@/components/Image"
 import { ModalSelectMedia } from "@/components/Modal"
@@ -13,15 +13,6 @@ import {
   Input,
   RequiredIndicator,
 } from "@/components/UI/Form"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/UI/Select"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { postTopicAction } from "@/lib/api/server/topic"
@@ -40,10 +31,11 @@ interface FormValues {
 interface AddNewLangTopicFormProps {
   primaryId: string
   lang: LanguageTypeData
+  topicType: TopicTypeData | undefined
 }
 
 export const AddNewLangTopicForm = (props: AddNewLangTopicFormProps) => {
-  const { primaryId, lang } = props
+  const { primaryId, lang, topicType } = props
 
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
@@ -56,12 +48,13 @@ export const AddNewLangTopicForm = (props: AddNewLangTopicFormProps) => {
     register,
     formState: { errors },
     handleSubmit,
-    control,
+
     reset,
   } = useForm<FormValues>({
     defaultValues: {
       topicPrimaryId: primaryId,
       language: lang,
+      type: topicType,
     },
   })
 
@@ -115,40 +108,6 @@ export const AddNewLangTopicForm = (props: AddNewLangTopicFormProps) => {
         />
         {errors?.title && (
           <FormErrorMessage>{errors.title.message}</FormErrorMessage>
-        )}
-      </FormControl>
-      <FormControl>
-        <FormLabel>
-          Type
-          <RequiredIndicator />
-        </FormLabel>
-        <Controller
-          control={control}
-          name="type"
-          render={({ field }) => (
-            <Select
-              defaultValue={field.value}
-              value={field.value}
-              onValueChange={field.onChange}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Type</SelectLabel>
-                  <SelectItem value="ALL">ALL</SelectItem>
-                  <SelectItem value="ARTICLE">ARTICLE</SelectItem>
-                  <SelectItem value="DOWNLOAD">DOWNLOAD</SelectItem>
-                  <SelectItem value="REVIEW">REVIEW</SelectItem>
-                  <SelectItem value="TUTORIAL">TUTORIAL</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        />
-        {errors?.type && (
-          <FormErrorMessage>{errors.type.message}</FormErrorMessage>
         )}
       </FormControl>
       <FormControl invalid={Boolean(errors.description)}>

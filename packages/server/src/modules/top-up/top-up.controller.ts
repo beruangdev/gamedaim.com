@@ -59,7 +59,9 @@ export async function topUpDigiflazzPriceListPrePaidHandler(
       })
     }
 
-    const savedPriceList = await getPriceListByKey("topUpListPricePrePaid")
+    const savedPriceList = await getPriceListByKey(
+      "digiflazzTopUpListPricePrePaid",
+    )
 
     return reply.code(201).send(savedPriceList)
   } catch (e) {

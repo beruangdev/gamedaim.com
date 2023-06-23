@@ -18,10 +18,16 @@ export default function ShopPageContent({
   ).map((category) => {
     return prePaidBrands.filter((item) => item.category === category)[0]
   })
+<<<<<<< HEAD
   const showTopUpByCategory = groupTopUpByCategory(filteredPrices)
 
   const [listBanner, setListBanner] = React.useState<BannerProps[]>([])
   const activeBanner = listBanner.filter((list) => list.active === true)
+=======
+
+  const showTopUpByCategory = groupTopUpByCategory(filteredPrices)
+
+>>>>>>> 1f70e1cae7f19fef0a4c67ff2aa41f46fe32d926
   const [activeTab, setActiveTab] = React.useState<string>("Games")
 
   function activatePcTab(category: string) {

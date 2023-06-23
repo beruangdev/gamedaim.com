@@ -4,6 +4,7 @@ import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
 
+import { AddLanguageAction } from "@/components/Action"
 import { Badge } from "@/components/UI/Badge"
 import { Button, IconButton } from "@/components/UI/Button"
 import { Input } from "@/components/UI/Form"
@@ -195,7 +196,16 @@ const TableDownload = (props: TableDownloadProps) => {
         <Thead>
           <Tr isTitle>
             <Th>Title</Th>
-            <Th>Language</Th>
+            <Th>
+              <div className="relative h-3 w-4">
+                <Icon.IndonesiaFlag />
+              </div>
+            </Th>
+            <Th>
+              <div className="relative h-3 w-4">
+                <Icon.USAFlag />
+              </div>
+            </Th>
             <Th className="hidden md:table-cell">Published Date</Th>
             <Th className="hidden md:table-cell">Last Modified</Th>
             <Th className="hidden md:table-cell">Status</Th>
@@ -203,57 +213,86 @@ const TableDownload = (props: TableDownloadProps) => {
           </Tr>
         </Thead>
         <Tbody>
-          {downloads.map((download: DownloadDataProps) => (
-            <Tr key={download.id}>
-              <Td className="max-w-[120px]">
-                <div>
-                  <span className="line-clamp-3 font-medium">
-                    {download.title}
-                  </span>
-                </div>
-              </Td>
-              <Td className="whitespace-nowrap">
-                <div className="flex gap-2">
-                  <NextLink
-                    href={`/dashboard/download/edit/lang/en/${download.downloadPrimary.id}`}
-                  >
-                    En
-                  </NextLink>
-                  <NextLink
-                    href={`/dashboard/download/edit/lang/id/${download.downloadPrimary.id}`}
-                  >
-                    Id
-                  </NextLink>
-                </div>
-              </Td>
-              <Td className="hidden md:table-cell">
-                {formatDate(download.createdAt, "LL")}
-              </Td>
-              <Td className="hidden md:table-cell">
-                {formatDate(download.updatedAt, "LL")}
-              </Td>
-              <Td className="hidden whitespace-nowrap md:table-cell">
-                <div className="flex">
-                  <span className="font-medium">
-                    <Badge variant="outline">{download.status}</Badge>
-                  </span>
-                </div>
-              </Td>
-              <Td align="right">
-                <ActionDashboard
-                  viewLink={`/download/${download.type}/${download.slug}`}
-                  onDelete={() =>
-                    handleDeleteDownload(
-                      download.id,
-                      searchQuery ? updateResultDownloads : updateDownloads,
-                    )
-                  }
-                  editLink={`/dashboard/download/edit/${download.id}`}
-                  content={download.title}
-                />
-              </Td>
-            </Tr>
-          ))}
+          {downloads.map((download: DownloadDataProps) => {
+            const downloadIndo = download.downloadPrimary.downloads.find(
+              (lang) => lang.language === "id",
+            )
+            const downloadEnglish = download.downloadPrimary.downloads.find(
+              (lang) => lang.language === "en",
+            )
+
+            return (
+              <Tr key={download.id}>
+                <Td className="max-w-[120px]">
+                  <div>
+                    <span className="line-clamp-3 font-medium">
+                      {download.title}
+                    </span>
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex justify-between gap-2">
+                    <AddLanguageAction
+                      language={downloadIndo?.language}
+                      triggerLink={`/dashboard/download/edit/lang/id/${download.downloadPrimary.id}`}
+                      content={
+                        <>
+                          {downloadIndo ? (
+                            <p>{downloadIndo.title}</p>
+                          ) : (
+                            <p>Add Translations</p>
+                          )}
+                        </>
+                      }
+                    />
+                  </div>
+                </Td>
+                <Td className="whitespace-nowrap">
+                  <div className="flex justify-between gap-2">
+                    <AddLanguageAction
+                      language={downloadEnglish?.language}
+                      triggerLink={`/dashboard/download/edit/lang/en/${download.downloadPrimary.id}`}
+                      content={
+                        <>
+                          {downloadEnglish ? (
+                            <p>{downloadEnglish.title}</p>
+                          ) : (
+                            <p>Add Translations</p>
+                          )}
+                        </>
+                      }
+                    />
+                  </div>
+                </Td>
+                <Td className="hidden md:table-cell">
+                  {formatDate(download.createdAt, "LL")}
+                </Td>
+                <Td className="hidden md:table-cell">
+                  {formatDate(download.updatedAt, "LL")}
+                </Td>
+                <Td className="hidden whitespace-nowrap md:table-cell">
+                  <div className="flex">
+                    <span className="font-medium">
+                      <Badge variant="outline">{download.status}</Badge>
+                    </span>
+                  </div>
+                </Td>
+                <Td align="right">
+                  <ActionDashboard
+                    viewLink={`/download/${download.type}/${download.slug}`}
+                    onDelete={() =>
+                      handleDeleteDownload(
+                        download.id,
+                        searchQuery ? updateResultDownloads : updateDownloads,
+                      )
+                    }
+                    editLink={`/dashboard/download/edit/${download.id}`}
+                    content={download.title}
+                  />
+                </Td>
+              </Tr>
+            )
+          })}
         </Tbody>
       </Table>
       {page && !searchQuery && (

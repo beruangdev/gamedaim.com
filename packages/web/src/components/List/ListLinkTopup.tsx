@@ -1,6 +1,8 @@
+"use client"
+
 import * as React from "react"
-import { PriceListPrePaidProps } from "@/lib/data-types"
 import { Button } from "@/components/UI/Button"
+import { PriceListPrePaidProps } from "@/lib/data-types"
 
 interface ListLinkTopUpProps {
   ListLink: PriceListPrePaidProps[]
@@ -20,8 +22,8 @@ export const ListLinkTopup = React.forwardRef<
           <Button
             key={i}
             aria-label={`Show ${link.category}`}
-            variant={active === link.category ? "default" : "outline"}
-            className="dark:border-theme-600 border-theme-300 h-[unset] rounded-lg focus:ring-0"
+            variant={active === link.category ? "info" : "outline"}
+            className="border-border h-[unset] rounded-lg focus:ring-0"
             onClick={() => {
               chooseTab(link.category)
             }}
