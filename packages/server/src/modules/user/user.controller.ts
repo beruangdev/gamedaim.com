@@ -230,11 +230,11 @@ export async function loginFacebookHandler(
       expiresIn: "7d",
     })
 
-    // if (request.method == "GET") {
-    //   const redirect_uri =
-    //     env.NODE_ENV == "production" ? "/" : "http://global.localhost:3000/"
-    //   return reply.redirect(redirect_uri)
-    // }
+    if (request.method == "GET") {
+      const redirect_uri =
+        env.NODE_ENV == "production" ? "/" : "http://global.localhost:3000/"
+      return reply.redirect(redirect_uri)
+    }
 
     return { user, accessToken }
   } catch (error) {

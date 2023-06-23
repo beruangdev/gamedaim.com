@@ -3,18 +3,18 @@ import { WpCategoriesDataProps } from "@/lib/wp-data-types"
 
 export function slugify(text: string) {
   return text
-    .toString() // Cast to string (optional)
-    .normalize("NFKD") // The normalize() using NFKD method returns the Unicode Normalization Form of a given string.
-    .replace(/[\u0300-\u036f]/g, "") // remove all previously split accents
-    .toLowerCase() // Convert the string to lowercase letters
-    .trim() // Remove whitespace from both sides of a string (optional)
-    .replace(/\s+/g, "-") // Replace spaces with -
-    .replace(/[^\w-]+/g, "") // Remove all non-word chars
-    .replace(/_/g, "-") // Replace _ with -
-    .replace(/--+/g, "-") // Replace multiple - with single -
-    .replace(/-$/g, "") // Remove trailing -
+    .toString()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/_/g, "-")
+    .replace(/--+/g, "-")
+    .replace(/-$/g, "")
 }
-//check if path includes one of routes for authentication
+
 export function findAuthPage(path: string, routes: string[]) {
   return routes.some(function (element) {
     return path.includes(element)
@@ -101,7 +101,6 @@ type FunctionReturn = {
 }
 
 export const parseAndSplitHTMLString = (markup: string): FunctionReturn => {
-  //   const sanitizedMarkup = sanitizeHTMLString(markup)
   const markupList = parseHTMLString(markup)
 
   const { firstHalfHTMLString, secondHalfHTMLString } =
@@ -252,11 +251,11 @@ export function removeCharsBeforeNumberTopUpPrice(text: string) {
     cleanText = cleanText.replace("AU2", "")
   }
 
-  const regex = /\D*(\d.*)/ // mencocokan setiap karakter non-digit sebelum angka
+  const regex = /\D*(\d.*)/
   const matches = cleanText.match(regex)
 
   if (matches && matches.length > 1) {
-    const cleanString = matches[1] // menghilangkan spasi pada karakter setelah angka
+    const cleanString = matches[1]
     return cleanString
   }
 

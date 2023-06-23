@@ -15,7 +15,6 @@ export const AddTopUpServerForm = React.forwardRef<
   const [queryServerTopUp, setQueryServerTopUp] = React.useState("")
 
   React.useEffect(() => {
-    // Cek apakah ada data query yang tersimpan di local storage saat komponen dimuat
     const savedQuery = localStorage.getItem(`queryServer-${brand}`)
     if (savedQuery) {
       addTopUpServer(savedQuery)

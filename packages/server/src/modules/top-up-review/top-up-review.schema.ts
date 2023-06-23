@@ -65,6 +65,10 @@ const createTopUpReplySchema = z.object({
   ...topUpReplyInput,
   reviewId: z.string(),
 })
+
+const createTopUpRatingSchema = z.object({
+  ...ratingInput,
+})
 const topUpCreateRatingSchema = z.object({
   ...ratingInput,
 })
@@ -81,6 +85,12 @@ const topUpUpdateRatingSchema = z.object({
 })
 
 const topUpReviewResponse = {
+  ...topUpReplyInput,
+  ...topUpReviewGenerated,
+  author: authorSchema.optional(),
+}
+
+const topUpReplyResponse = {
   ...topUpReviewInput,
   ...topUpReviewGenerated,
   ratings: z
@@ -100,17 +110,32 @@ const topUpReviewResponseSchema = z.object({
   replies: z.array(z.object(topUpReviewResponse)).optional(),
 })
 
+const topUpReplyResponseSchema = z.object({
+  ...topUpReplyResponse,
+})
+
 const topUpRatingResponseSchema = z.object({
   ...ratingInput,
   ...topUpReviewGenerated,
   author: authorSchema.optional(),
 })
 
+const topUpRatingTotalResponseSchema = z.array(
+  z.object({
+    _count: z.object({
+      rating: z.number(),
+    }),
+    rating: z.number(),
+    brand: z.string(),
+  }),
+)
+
 const topUpReviewsResponseSchema = z.array(topUpReviewResponseSchema)
 const topUpRatingsResponseSchema = z.array(topUpRatingResponseSchema)
 
 export type CreateTopUpReviewInput = z.infer<typeof createTopUpReviewSchema>
 export type CreateTopUpReplyInput = z.infer<typeof createTopUpReplySchema>
+export type CreateTopUpRatingSchema = z.infer<typeof createTopUpRatingSchema>
 export type CreateRatingSchema = z.infer<typeof topUpCreateRatingSchema>
 export type UpdateTopUpReviewInput = z.infer<typeof updateTopUpReviewSchema>
 export type UpdateTopUpReplyInput = z.infer<typeof updateTopUpReplySchema>
@@ -119,14 +144,17 @@ export type UpdateRatingInput = z.infer<typeof topUpUpdateRatingSchema>
 const models = {
   topUpReviewResponseSchema,
   topUpRatingResponseSchema,
+  topUpReplyResponseSchema,
   topUpReviewsResponseSchema,
   topUpRatingsResponseSchema,
   createTopUpReviewSchema,
   createTopUpReplySchema,
+  createTopUpRatingSchema,
   topUpCreateRatingSchema,
   updateTopUpReviewSchema,
   updateTopUpReplySchema,
   topUpUpdateRatingSchema,
+  topUpRatingTotalResponseSchema,
 }
 
 export const { schemas: topUpReviewSchemas, $ref } = buildJsonSchemas(models, {

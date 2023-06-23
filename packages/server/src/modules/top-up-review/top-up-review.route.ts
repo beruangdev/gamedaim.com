@@ -38,9 +38,9 @@ async function reviewRoutes(server: FastifyInstance) {
       preHandler: [server.authenticate],
       schema: {
         body: $ref("updateTopUpReviewSchema"),
-        // response: {
-        //   201: $ref("topUpReviewResponseSchema"),
-        // },
+        response: {
+          200: $ref("topUpReviewResponseSchema"),
+        },
       },
     },
     updateTopUpReviewHandler,
@@ -58,9 +58,9 @@ async function reviewRoutes(server: FastifyInstance) {
       preHandler: [server.authenticate],
       schema: {
         body: $ref("createTopUpReplySchema"),
-        // response: {
-        //   201: $ref("topUpReplyResponseSchema"),
-        // },
+        response: {
+          201: $ref("topUpReplyResponseSchema"),
+        },
       },
     },
     createTopUpReplyHandler,
@@ -71,9 +71,9 @@ async function reviewRoutes(server: FastifyInstance) {
       preHandler: [server.authenticate],
       schema: {
         body: $ref("updateTopUpReplySchema"),
-        // response: {
-        //   201: $ref("topUpReplyResponseSchema"),
-        // },
+        response: {
+          201: $ref("topUpReplyResponseSchema"),
+        },
       },
     },
     updateTopUpReplyHandler,
@@ -90,12 +90,12 @@ async function reviewRoutes(server: FastifyInstance) {
     "/rating",
     {
       preHandler: [server.authenticate],
-      // schema: {
-      //   body: $ref("createTopUpReviewSchema"),
-      //   response: {
-      //     201: $ref("topUpReviewResponseSchema"),
-      //   },
-      // },
+      schema: {
+        body: $ref("createTopUpRatingSchema"),
+        response: {
+          201: $ref("topUpRatingResponseSchema"),
+        },
+      },
     },
     createTopUpRatingHandler,
   )
@@ -143,7 +143,7 @@ async function reviewRoutes(server: FastifyInstance) {
     {
       schema: {
         response: {
-          // 200: $ref("topUpReviewsResponseSchema"),
+          200: $ref("topUpReviewsResponseSchema"),
         },
       },
     },
@@ -154,7 +154,7 @@ async function reviewRoutes(server: FastifyInstance) {
     {
       schema: {
         response: {
-          // 200: $ref("topUpReviewsResponseSchema"),
+          200: $ref("topUpRatingTotalResponseSchema"),
         },
       },
     },
