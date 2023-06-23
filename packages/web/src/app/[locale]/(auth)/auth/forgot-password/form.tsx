@@ -54,26 +54,22 @@ export const ForgotPasswordForm: React.FunctionComponent = () => {
     <>
       {isSend ? (
         <div className="my-12">
-          <Alert>
+          <Alert className="my-12" variant="success">
             Email is send. You will receive an email message with instructions
             on how to reset your password.
           </Alert>
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div
-            className="text-muted border-muted bg-muted my-8 flex rounded-lg border p-4 text-sm"
-            role="alert"
-          >
+          <Alert className="my-12" variant="warning">
             <Icon.Alert className="mr-3 inline h-5 w-5 flex-shrink-0"></Icon.Alert>
-            <span className="sr-only">Info</span>
             <div>
               <span className="font-medium">
                 Please enter your email address. You will receive an email
                 message with instructions on how to reset your password.
               </span>
             </div>
-          </div>
+          </Alert>
 
           <div className="space-y-4">
             <FormControl invalid={Boolean(errors.email)}>

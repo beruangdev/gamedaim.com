@@ -4,7 +4,7 @@ import { PaymentMethodsProps, TransactionDataProps } from "@/lib/data-types"
 
 export const getPaymentChannel = async () => {
   const [res, err] = await http<{ data: PaymentMethodsProps[] }>("GET", {
-    url: `/top-up/tripay/channel`,
+    url: `/payment/tripay/channel`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -35,7 +35,7 @@ export const getPaymentChannel = async () => {
 
 export const getTransactionByInvoiceId = async (invoiceId: string) => {
   const [res, err] = await http<TransactionDataProps>("GET", {
-    url: `/top-up/top-up/transaction/${invoiceId}`,
+    url: `/top-up-transaction/${invoiceId}`,
     headers: {
       "Content-Type": "application/json",
     },

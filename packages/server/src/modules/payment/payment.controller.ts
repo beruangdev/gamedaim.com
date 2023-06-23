@@ -36,7 +36,7 @@ export async function paymentTripayGetPaymentChannelHandler(
     const paymentChannel = await tripay.paymentChannel()
     return reply.code(201).send(paymentChannel)
   } catch (e) {
-    console.log(e)
+    // console.log(e)
     return reply.code(500).send(e)
   }
 }

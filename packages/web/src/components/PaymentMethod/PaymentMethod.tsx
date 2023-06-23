@@ -22,9 +22,7 @@ export const PaymentMethod = React.forwardRef<
   return (
     <div
       className={`${
-        active === title
-          ? "bg-green-50/25 dark:bg-green-900/25"
-          : "dark:bg-theme-900 bg-white"
+        active === title ? "bg-success/25" : "bg-background"
       } flex h-full w-full items-center rounded-[8px] shadow-md`}
       onClick={onSelect}
       ref={ref}
@@ -38,11 +36,11 @@ export const PaymentMethod = React.forwardRef<
         />
         <FormLabel
           className={`${
-            active === title ? "ring-2 ring-green-500" : ""
+            active === title ? "ring-success/50 ring-2" : ""
           } item-price relative flex h-full w-full cursor-pointer items-center justify-between gap-2 overflow-hidden rounded-md p-4 hover:shadow-lg`}
         >
           {active === title && (
-            <div className="absolute right-0 top-0 rounded-bl-full bg-green-600 p-1 pb-2 pl-2 text-white opacity-50">
+            <div className="bg-success/60 absolute right-0 top-0 rounded-bl-full p-1 pb-2 pl-2 text-white opacity-50">
               <MdOutlineCheck aria-label="Checked" />
             </div>
           )}
@@ -53,9 +51,9 @@ export const PaymentMethod = React.forwardRef<
               title="Payment method icon"
             />
 
-            <p className="text-theme-500 dark:text-theme-200">{title}</p>
+            <p>{title}</p>
           </div>
-          <h3 className="dark:text-theme-100 text-sm font-medium">{amount}</h3>
+          <h3 className="text-sm font-medium">{amount}</h3>
         </FormLabel>
       </div>
       <div></div>

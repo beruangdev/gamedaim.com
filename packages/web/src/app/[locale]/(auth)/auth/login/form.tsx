@@ -141,16 +141,19 @@ export const LoginForm: React.FunctionComponent = () => {
             <FormErrorMessage>{errors.password.message}</FormErrorMessage>
           )}
         </FormControl>
-        <Button type="submit" loading={loading} className="!mt-6 w-full">
-          Login
-        </Button>
+        <div className="mt-6 w-full">
+          <Button type="submit" loading={loading} className="w-full">
+            Login
+          </Button>
+        </div>
         <div className="flex flex-col space-y-2 py-3">
           <Button
             disabled={true}
             loading={loading}
             onClick={handleGoogleLogin}
             type="button"
-            className="border-muted bg-muted text-muted inline-flex items-center justify-center rounded-lg border px-5 py-3 text-center text-sm font-medium focus:outline-none focus:ring-4"
+            variant="secondary"
+            className="inline-flex border px-5 py-3 text-sm font-medium focus:outline-none focus:ring-4"
           >
             <Icon.Google className="-ml-1 mr-2 h-6 w-6" />
             Sign in with Google
@@ -160,7 +163,8 @@ export const LoginForm: React.FunctionComponent = () => {
             loading={loading}
             type="button"
             onClick={handleFacebookLogin}
-            className="border-muted bg-muted text-muted inline-flex items-center justify-center rounded-lg border px-5 py-3 text-center text-sm font-medium focus:outline-none focus:ring-4"
+            variant="secondary"
+            className="inline-flex border px-5 py-3 text-sm font-medium focus:outline-none focus:ring-4"
           >
             <Icon.Facebook className="text-primary -ml-1 mr-2 h-6 w-6" />
             Sign in with Facebook

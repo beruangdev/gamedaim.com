@@ -129,6 +129,7 @@ export const getPriceListPrePaid = async () => {
     },
     data: null,
   })
+
   if (err !== null) {
     console.log(err)
     return {

@@ -19,6 +19,7 @@ import {
   validityTokenAction,
 } from "@/lib/api/server/user"
 import { Icon } from "@/components/UI/Icon"
+import { Alert } from "@/components/UI/Alert"
 
 interface FormValues {
   password: string
@@ -92,18 +93,10 @@ export const ResetPasswordForm: React.FunctionComponent = () => {
   return (
     <>
       {errorMessage ? (
-        <div className="my-12">
-          <div
-            className="text-danger border-danger bg-danger my-8 flex rounded-lg border p-4 text-sm"
-            role="alert"
-          >
-            <Icon.Alert className="mr-3 inline h-5 w-5 flex-shrink-0"></Icon.Alert>
-            <span className="sr-only">Danger</span>
-            <div>
-              <span className="font-medium">{errorMessage}</span>
-            </div>
-          </div>
-        </div>
+        <Alert className="my-12" variant="warning">
+          <Icon.Alert className="mr-3 inline h-5 w-5 flex-shrink-0"></Icon.Alert>
+          {errorMessage}
+        </Alert>
       ) : (
         ""
       )}

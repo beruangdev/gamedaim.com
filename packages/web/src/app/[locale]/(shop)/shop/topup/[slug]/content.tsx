@@ -257,7 +257,7 @@ const FormTopUp = (props: FormTopUpProps) => {
           }
 
           const [tripayResponse] = await http<TripayResponse>("POST", {
-            url: "/top-up/tripay/transaction/create/closed",
+            url: "/payment/tripay/transaction/create/closed",
             data: {
               payment_method: payment.code,
               amount: totalAmount,
