@@ -124,7 +124,7 @@ export async function paymentTripayCreateClosedTransactionHandler(
       expired_time,
     } = request.body
 
-    const generatedMerchatRef = JSON.stringify(uniqueSlug).toUpperCase()
+    const generatedMerchatRef = JSON.stringify(uniqueSlug)
 
     const transaction = await tripay.createClosedTransaction({
       method: payment_method,
@@ -153,7 +153,7 @@ export async function paymentTripayCreateOpenTransactionHandler(
   try {
     const { method, customer_name } = request.body
 
-    const generatedMerchatRef = JSON.stringify(uniqueSlug).toUpperCase()
+    const generatedMerchatRef = JSON.stringify(uniqueSlug)
 
     const transaction = await tripay.createOpenTransaction({
       method,
