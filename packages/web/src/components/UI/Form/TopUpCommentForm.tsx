@@ -119,23 +119,23 @@ const TopUpReviewItem = ({
 
   return (
     <div className="mb-6 flex gap-2">
-      <Icon.Account className="h-8 w-8 text-gray-400" />
+      <Icon.Account className="text-muted h-8 w-8" />
       <div className="flex flex-1 flex-col">
-        <div className="mb-2 rounded-lg bg-gray-100 px-3 py-2 dark:bg-gray-700">
+        <div className="bg-foreground/10 mb-2 rounded-lg px-3 py-2">
           <div className="flex items-center gap-3">
-            <h5 className="text-base font-bold">{topUpReview.author?.name}</h5>
+            <h5>{topUpReview.author?.name}</h5>
             {Number(rating) === 5 && (
               <div className="flex items-center gap-1">
-                <div className="h-fit rounded-full bg-gray-200 p-1">
-                  <Icon.ThumbUp className="h-3 w-3 text-green-500" />
+                <div className="bg-foreground h-fit rounded-full p-1">
+                  <Icon.ThumbUp className="text-success h-3 w-3" />
                 </div>
                 <p>puas</p>
               </div>
             )}
             {Number(rating) === -5 && (
               <div className="flex items-center gap-1">
-                <div className="h-fit rounded-full bg-gray-200 p-1">
-                  <Icon.ThumbDown className="h-3 w-3 text-red-500" />
+                <div className="bg-foreground h-fit rounded-full p-1">
+                  <Icon.ThumbDown className="text-danger h-3 w-3" />
                 </div>
                 <p>tidak puas</p>
               </div>
@@ -150,7 +150,6 @@ const TopUpReviewItem = ({
                       aria-label="Show Menu"
                       id="dropdownMenuIconButton"
                       data-dropdown-toggle="dropdownDots"
-                      className="text-theme-900 focus:ring-theme-50 dark:focus:ring-theme-600 inline-flex items-center rounded-lg p-2 text-center text-sm font-medium focus:outline-none focus:ring-4 dark:text-white"
                       type="button"
                       variant="ghost"
                     >
@@ -161,39 +160,32 @@ const TopUpReviewItem = ({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <div className="devide-y divide-theme-100 dark:divide-theme-600">
-                      <div className="text-theme-700 dark:text-theme-200 flex flex-col py-1 text-sm">
-                        <DropdownMenuItem className="">
-                          <Button
-                            variant="ghost"
-                            aria-label="Edit"
-                            onClick={() => {
-                              setIsEditing(true)
-                            }}
-                            className="text-theme-700 hover:bg-theme-100 dark:text-theme-200 dark:hover:bg-theme-600 flex w-full items-center justify-start gap-2 px-4 py-2 text-sm dark:hover:text-white"
-                          >
-                            <Icon.Edit aria-label="Edit" className="h-5 w-5" />
-                            Edit
-                          </Button>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="">
-                          <Button
-                            variant="ghost"
-                            aria-label="Delete"
-                            onClick={() => {
-                              handleDeleteTopUpReview(topUpReview.id)
-                            }}
-                            className="text-theme-700 hover:bg-theme-100 dark:text-theme-200 dark:hover:bg-theme-600 flex items-center justify-start gap-2 px-4 py-2 text-sm  dark:hover:text-white"
-                          >
-                            <Icon.Delete
-                              aria-label="Delete"
-                              className="h-5 w-5"
-                            />
-                            Delete
-                          </Button>
-                        </DropdownMenuItem>
-                      </div>
-                    </div>
+                    <DropdownMenuItem className="p-0">
+                      <Button
+                        variant="ghost"
+                        aria-label="Edit"
+                        onClick={() => {
+                          setIsEditing(true)
+                        }}
+                        className="w-full justify-start"
+                      >
+                        <Icon.Edit aria-label="Edit" className="h-5 w-5" />
+                        Edit
+                      </Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="p-0">
+                      <Button
+                        variant="ghost"
+                        aria-label="Delete"
+                        onClick={() => {
+                          handleDeleteTopUpReview(topUpReview.id)
+                        }}
+                        className="w-full justify-start"
+                      >
+                        <Icon.Delete aria-label="Delete" className="h-5 w-5" />
+                        Delete
+                      </Button>
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
@@ -233,7 +225,7 @@ const TopUpReviewItem = ({
         </div>
         <div className="mb-3">
           {topUpReview?.replies?.map((topUpReply: TopUpReplyProps) => (
-            <div className="border-l-2 pl-2 dark:border-gray-600">
+            <div className="border-l-2 pl-2">
               <TopUpReplyItem
                 key={topUpReply.id}
                 reviewId={topUpReview.id}
@@ -271,10 +263,10 @@ function TopUpReplyItem({
   return (
     <div className="flex">
       <div className="flex basis-1/12 justify-center py-2">
-        <Icon.Account className="h-8 w-8 text-gray-400" />
+        <Icon.Account className="text-muted h-8 w-8" />
       </div>
       <div className="flex-1">
-        <div className="mb-2 rounded-lg bg-gray-100 px-3 py-2 dark:bg-gray-700">
+        <div className="bg-foreground/10 mb-2 rounded-lg px-3 py-2">
           <div className="flex items-start gap-3">
             <h5 className="text-base font-bold">{topUpReply.author?.name}</h5>
             <div className="ml-auto">
@@ -286,7 +278,6 @@ function TopUpReplyItem({
                       aria-label="Show Menu"
                       id="dropdownMenuIconButton"
                       data-dropdown-toggle="dropdownDots"
-                      className="text-theme-900 focus:ring-theme-50 dark:focus:ring-theme-600 inline-flex items-center rounded-lg p-2 text-center text-sm font-medium focus:outline-none focus:ring-4 dark:text-white"
                       type="button"
                       variant="ghost"
                     >
@@ -297,42 +288,35 @@ function TopUpReplyItem({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <div className="devide-y divide-theme-100 dark:divide-theme-600">
-                      <div className="text-theme-700 dark:text-theme-200 flex flex-col py-1 text-sm">
-                        <DropdownMenuItem className="">
-                          <Button
-                            variant="ghost"
-                            aria-label="Edit"
-                            onClick={() => {
-                              setIsEditing(true)
-                            }}
-                            className="text-theme-700 hover:bg-theme-100 dark:text-theme-200 dark:hover:bg-theme-600 flex w-full items-center justify-start gap-2 px-4 py-2 text-sm dark:hover:text-white"
-                          >
-                            <Icon.Edit aria-label="Edit" className="h-5 w-5" />
-                            Edit
-                          </Button>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="">
-                          <Button
-                            variant="ghost"
-                            aria-label="Delete"
-                            onClick={() => {
-                              handleDeleteTopUpReply({
-                                reviewId,
-                                replyId: topUpReply.id,
-                              })
-                            }}
-                            className="flex items-center justify-start gap-2 px-4 py-2 text-sm"
-                          >
-                            <Icon.Delete
-                              aria-label="Delete"
-                              className="h-5 w-5"
-                            />
-                            Delete
-                          </Button>
-                        </DropdownMenuItem>
-                      </div>
-                    </div>
+                    <DropdownMenuItem className="p-0">
+                      <Button
+                        variant="ghost"
+                        aria-label="Edit"
+                        onClick={() => {
+                          setIsEditing(true)
+                        }}
+                        className="w-full justify-start"
+                      >
+                        <Icon.Edit aria-label="Edit" className="h-5 w-5" />
+                        Edit
+                      </Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="p-0">
+                      <Button
+                        variant="ghost"
+                        aria-label="Delete"
+                        onClick={() => {
+                          handleDeleteTopUpReply({
+                            reviewId,
+                            replyId: topUpReply.id,
+                          })
+                        }}
+                        className="w-full justify-start"
+                      >
+                        <Icon.Delete aria-label="Delete" className="h-5 w-5" />
+                        Delete
+                      </Button>
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
@@ -380,8 +364,8 @@ const ReviewForm = ({
   topUpReviewRef: React.RefObject<HTMLTextAreaElement>
 }) => {
   return (
-    <div className="flex gap-2 rounded-lg bg-yellow-100/50 px-6 py-8">
-      <Icon.Account className="h-10 w-10" />
+    <div className="bg-warning-foreground flex gap-2 rounded-lg px-6 py-8">
+      <Icon.Account className="text-muted h-10 w-10" />
       <form
         className="flex flex-1 flex-col gap-3"
         method="post"
@@ -403,13 +387,13 @@ const ReviewForm = ({
                 id="rating-like"
                 name="rating"
                 value="5"
-                className="peer hidden"
+                className="peer/like hidden"
               />
               <label
                 htmlFor="rating-like"
-                className="inline-flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white px-6 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-green-600 peer-checked:text-green-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-green-500"
+                className="bg-background/10 hover:bg-background/20 peer-checked/like:bg-background/60 inline-flex cursor-pointer rounded-lg px-6 py-2"
               >
-                <Icon.ThumbUp className="h-4 w-4 text-green-500" />
+                <Icon.ThumbUp className="text-success h-4 w-4" />
               </label>
             </li>
             <li>
@@ -419,23 +403,18 @@ const ReviewForm = ({
                 id="rating-dislike"
                 name="rating"
                 value="-5"
-                className="peer hidden"
+                className="peer/dislike hidden"
               />
               <label
                 htmlFor="rating-dislike"
-                className="inline-flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white px-6 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-red-600 peer-checked:text-red-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-red-500"
+                className="bg-background/10 hover:bg-background/20 peer-checked/dislike:bg-background/60 inline-flex cursor-pointer rounded-lg px-6 py-2"
               >
-                <Icon.ThumbDown className="h-4 w-4 text-red-500" />
+                <Icon.ThumbDown className="text-danger h-4 w-4" />
               </label>
             </li>
           </ul>
           <div>
-            <Button
-              size="sm"
-              type="submit"
-              loading={loading}
-              className="bg-orange-600"
-            >
+            <Button size="sm" type="submit" loading={loading} variant="warning">
               SEND
             </Button>
           </div>
@@ -471,8 +450,8 @@ const TopUpReplyForm = ({
     setLoading(false)
   }
   return (
-    <div className="flex gap-2 rounded-lg bg-yellow-100/50 p-4 dark:bg-gray-900/40">
-      <Icon.Account className="h-10 w-10 text-gray-400" />
+    <div className="bg-warning-foreground flex gap-2 rounded-lg p-4">
+      <Icon.Account className="text-muted h-10 w-10" />
       <form
         className="flex flex-1 gap-3"
         method="post"
@@ -490,7 +469,8 @@ const TopUpReplyForm = ({
           size="sm"
           type="submit"
           loading={loading}
-          className="mt-2 bg-orange-600"
+          className="mt-2"
+          variant="warning"
         >
           BALAS
         </Button>
@@ -516,48 +496,48 @@ const RatingCard = ({
 }) => {
   const likePercentage = Number(totalRatings.likePercentage.toFixed(2)) || 0
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border dark:border-gray-600">
-      <div className="flex items-center justify-center bg-emerald-600 py-9">
-        <p className="text-7xl font-bold text-white">{likePercentage}%</p>
+    <div className="flex flex-col overflow-hidden rounded-xl border">
+      <div className="bg-success flex items-center justify-center py-9">
+        <p className="text-7xl font-bold">{likePercentage}%</p>
       </div>
       <div className="flex flex-col items-center py-3">
         <p className="font-bold">{likePercentage}% pembeli merasa puas</p>
         <p>
           {totalRatings.total} rating . {totalRatings.totalComments} ulasan
         </p>
-        <hr className="my-4 h-px w-full border-0 bg-gray-100 dark:bg-gray-600" />
+        <hr className="bg-foreground/10 my-4 h-px w-full border-0" />
 
         <p className="mb-7 font-bold">BERIKAN RATINGMU</p>
 
         <div className="mb-6 flex items-center gap-20">
           <button
             type="button"
-            className="h-fit rounded-full bg-gray-200 px-6 py-2"
+            className="bg-foreground h-fit rounded-full px-6 py-2"
             onClick={() => {
               handleRatingPost({ rating: 5 })
             }}
           >
-            <Icon.ThumbUp className="h-6 w-6 text-green-500" />
+            <Icon.ThumbUp className="text-success h-6 w-6" />
           </button>
           <button
             type="button"
-            className="h-fit rounded-full bg-gray-200 px-6 py-2"
+            className="bg-foreground h-fit rounded-full px-6 py-2"
             onClick={() => {
               handleRatingPost({ rating: -5 })
             }}
           >
-            <Icon.ThumbDown className="h-6 w-6 text-red-500" />
+            <Icon.ThumbDown className="text-danger h-6 w-6" />
           </button>
         </div>
 
         <div className="mb-3 flex w-full items-center gap-4 px-6">
-          <div className="h-fit rounded-full bg-gray-200 p-1">
-            <Icon.ThumbUp className="h-3 w-3 text-green-500" />
+          <div className="bg-foreground h-fit rounded-full p-1">
+            <Icon.ThumbUp className="text-success h-3 w-3" />
           </div>
 
-          <div className="flex-1 overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-300">
+          <div className="bg-foreground flex-1 overflow-hidden rounded-lg ">
             <div
-              className={`h-3 w-0 rounded-lg bg-green-600`}
+              className={`bg-success h-3 w-0 rounded-lg`}
               style={{
                 width: `${totalRatings.likePercentage}%`,
               }}
@@ -568,13 +548,13 @@ const RatingCard = ({
         </div>
 
         <div className="mb-3 flex w-full items-center gap-4 px-6">
-          <div className="h-fit rounded-full bg-gray-200 p-1">
-            <Icon.ThumbDown className="h-3 w-3 text-red-500" />
+          <div className="bg-foreground h-fit rounded-full p-1">
+            <Icon.ThumbDown className="text-danger h-3 w-3" />
           </div>
 
-          <div className="flex-1 overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-300">
+          <div className="bg-foreground flex-1 overflow-hidden rounded-lg">
             <div
-              className="h-3 w-0 rounded-lg bg-red-500"
+              className="bg-danger h-3 w-0 rounded-lg"
               style={{
                 width: `${totalRatings.dislikePercentage}%`,
               }}

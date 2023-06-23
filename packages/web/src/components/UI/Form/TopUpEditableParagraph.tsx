@@ -2,6 +2,7 @@ import * as React from "react"
 import { FaRegTimesCircle } from "react-icons/fa"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "../Icon"
+import { Textarea } from "../Textarea"
 
 interface TopUpEditableParagraphProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -62,13 +63,13 @@ export const TopUpEditableParagraph = React.forwardRef<
   return (
     <div ref={ref} className="flex space-x-1">
       {isEditing ? (
-        <textarea
+        <Textarea
           rows={currentRows < 1 ? 1 : currentRows > 3 ? 3 : currentRows}
           value={text}
           onChange={handleChange}
           ref={inputRef}
-          className="text-theme-900 bg-theme-50 border-theme-300 focus:ring-theme-500 focus:border-theme-500 dark:bg-theme-700 dark:border-theme-600 dark:placeholder-theme-400 dark:focus:ring-theme-500 dark:focus:border-theme-500 inline-block grow rounded-lg border p-2.5 text-base dark:text-white"
           placeholder="Write comment…"
+          variant="solid"
         />
       ) : (
         <p style={{ whiteSpace: "pre-line" }} onDoubleClick={handleDoubleClick}>

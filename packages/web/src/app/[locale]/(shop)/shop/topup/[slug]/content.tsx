@@ -390,7 +390,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   <Button
                     aria-label="Petunjuk"
                     onClick={() => setOpenInfo(!openInfo)}
-                    className="rounded-full bg-[#F39C12]"
+                    className="bg-warning rounded-full"
                   >
                     <Icon.Help aria-label="Petunjuk" className="mr-2" />
                     Petunjuk
@@ -640,7 +640,7 @@ const FormTopUp = (props: FormTopUpProps) => {
         <Button
           aria-label="Order Sekarang"
           onClick={handleSubmit(handleOpenModalTopUp)}
-          className="bg-[#F39C12]"
+          className="bg-warning"
         >
           Order Sekarang
         </Button>
@@ -651,7 +651,7 @@ const FormTopUp = (props: FormTopUpProps) => {
           <>
             <div>
               <div>
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-700">
+                <div className="bg-success mx-auto flex h-12 w-12 items-center justify-center rounded-full">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -659,7 +659,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                     stroke-width="1.5"
                     stroke="currentColor"
                     aria-hidden="true"
-                    className="h-6 w-6 text-emerald-500"
+                    className="text-success/50 h-6 w-6"
                   >
                     <path
                       stroke-linecap="round"
@@ -705,7 +705,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   loading={loadingModal}
                   aria-label="Order Sekarang"
                   onClick={handleSubmit(onSubmit)}
-                  className="bg-[#F39C12]"
+                  className="bg-warning"
                 >
                   Order Sekarang
                 </Button>
