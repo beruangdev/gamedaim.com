@@ -1,17 +1,12 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 
 import { digiflazz } from "@/utils/digiflazz"
-import { getTopUpTransactions } from "../top-up-transaction/top-up-transaction.service"
 import {
   TopUpDigiflazzCratePlnCheckInput,
   TopUpDigiflazzCreateDepositInput,
   TopUpDigiflazzCreateTransactionInput,
 } from "./top-up.schema"
-import {
-  getPriceListByKey,
-  getTotalTopUpTransactions,
-  savePriceList,
-} from "./top-up.service"
+import { getPriceListByKey, savePriceList } from "./top-up.service"
 
 export async function topUpDigiflazzCheckBalanceHandler(
   _request: FastifyRequest,
@@ -132,34 +127,6 @@ export async function topUpDigiflazzPlnCheckHandler(
     const deposit = await digiflazz.cekIdPln(customerNo)
 
     return reply.code(201).send(deposit)
-  } catch (e) {
-    console.log(e)
-    return reply.code(500).send(e)
-  }
-}
-
-export async function getTransactionsHandler(
-  request: FastifyRequest<{ Params: { transactionPage: number } }>,
-  reply: FastifyReply,
-) {
-  try {
-    const perPage = 10
-    const transactionPage = Number(request.params.transactionPage || 1)
-
-    const transactions = await getTopUpTransactions(transactionPage, perPage)
-    return reply.code(201).send(transactions)
-  } catch (e) {
-    return reply.code(500).send(e)
-  }
-}
-
-export async function getTotalTopUpTransactionsHandler(
-  _request: FastifyRequest,
-  reply: FastifyReply,
-) {
-  try {
-    const topUpTransactions = await getTotalTopUpTransactions()
-    return reply.code(201).send(topUpTransactions)
   } catch (e) {
     console.log(e)
     return reply.code(500).send(e)

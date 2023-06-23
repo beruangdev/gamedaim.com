@@ -1,9 +1,7 @@
 import { FastifyInstance } from "fastify"
 import { $ref } from "./top-up.schema"
 
-import { getTotalTopUpTransactionsHandler } from "../top-up-transaction/top-up-transaction.controller"
 import {
-  getTransactionsHandler,
   topUpDigiflazzCheckBalanceHandler,
   topUpDigiflazzDepositHandler,
   topUpDigiflazzListPostPaidHandler,
@@ -54,10 +52,6 @@ async function topupRoutes(server: FastifyInstance) {
     },
     topUpDigiflazzPlnCheckHandler,
   )
-
-  server.get("/transactions/page/:transactionPage", getTransactionsHandler)
-
-  server.get("/count", getTotalTopUpTransactionsHandler)
 }
 
 export default topupRoutes
