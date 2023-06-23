@@ -22,9 +22,9 @@ export const ShopCard = React.forwardRef<HTMLDivElement, ShopCardProps>(
 
     React.useEffect(() => {
       const getTransactionCounter = async () => {
-        const { counter } = await getTopUpTransactionCounter(brand)
-        if (counter !== null) {
-          setTransactionCounter(counter.transactions)
+        const { data, error } = await getTopUpTransactionCounter(brand)
+        if (data !== null) {
+          setTransactionCounter(data.transactions)
         }
       }
       getTransactionCounter()

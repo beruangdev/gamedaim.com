@@ -291,7 +291,7 @@ export const getTopUpTransactionCounter = async (brand: string) => {
   })
   if (err !== null) {
     return {
-      counter: null,
+      data: null,
       error: err,
     }
   }
