@@ -151,11 +151,13 @@ export async function paymentTripayCreateOpenTransactionHandler(
   reply: FastifyReply,
 ) {
   try {
-    const { method, customer_name, merchant_ref } = request.body
+    const { method, customer_name } = request.body
+
+    const generatedMerchatRef = JSON.stringify(uniqueSlug).toUpperCase()
 
     const transaction = await tripay.createOpenTransaction({
       method,
-      merchant_ref,
+      merchant_ref: generatedMerchatRef,
       customer_name,
     })
 
