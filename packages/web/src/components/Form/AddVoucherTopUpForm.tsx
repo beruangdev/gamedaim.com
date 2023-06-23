@@ -1,11 +1,12 @@
 "use client"
 
+import * as React from "react"
+
+import { FormControl, FormLabel, Input } from "@/components/UI/Form"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 import { getVoucherByCode } from "@/lib/api/server/vouchers"
 import { VoucherDataProps } from "@/lib/data-types"
-import * as React from "react"
-import { FormControl, FormLabel, Input } from "../UI/Form"
-import { Button } from "../UI/Button"
-import { Icon } from "../UI/Icon"
 
 interface AddVoucherTopUpProps extends React.HTMLAttributes<HTMLDivElement> {
   normalPrice: number

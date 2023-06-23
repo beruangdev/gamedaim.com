@@ -1,10 +1,10 @@
 import * as React from "react"
 
-import { slugify } from "@/utils/helper"
-import { FormLabel, Input } from "../UI/Form"
-import { Icon } from "../UI/Icon"
-import { IconTopUp } from "../Image"
+import { FormLabel, Input } from "@/components/UI/Form"
+import { Icon } from "@/components/UI/Icon"
+import { IconTopUp } from "@/components/Image"
 
+import { slugify } from "@/utils/helper"
 interface InputProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string
   name: string
@@ -23,9 +23,7 @@ export const SelectPriceForm = React.forwardRef<HTMLDivElement, InputProps>(
         ref={ref}
         onClick={onSelect}
         className={`${
-          active === label
-            ? "bg-green-50/25 dark:bg-green-900/25"
-            : "dark:bg-theme-900 bg-white"
+          active === label ? "bg-success/25" : "bg-background"
         } list-price relative cursor-pointer rounded-[8px] shadow-md`}
       >
         <Input
@@ -36,11 +34,11 @@ export const SelectPriceForm = React.forwardRef<HTMLDivElement, InputProps>(
         />
         <FormLabel
           className={`${
-            active === label ? "ring-2 ring-green-500" : ""
+            active === label ? "ring-success ring-2" : ""
           } item-price relative flex h-full w-full cursor-pointer items-center gap-2 overflow-hidden rounded-md p-4 hover:shadow-lg`}
         >
           {active === label && (
-            <div className="absolute right-0 top-0 rounded-bl-full bg-green-600 p-1 pb-2 pl-2 text-white opacity-50 dark:bg-green-700">
+            <div className="text-background bg-success absolute right-0 top-0 rounded-bl-full p-1 pb-2 pl-2 opacity-50">
               <Icon.Check aria-label="Checked" />
             </div>
           )}

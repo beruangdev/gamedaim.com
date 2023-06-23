@@ -1,9 +1,10 @@
 "use client"
 
-import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import * as React from "react"
-import { Icon } from "../UI/Icon"
-import { Image } from "./Image"
+
+import { Icon } from "@/components/UI/Icon"
+import { Image } from "@/components/Image"
+import { getSettingByKeyAction } from "@/lib/api/server/setting"
 
 interface IconTopUpProps {
   url: string

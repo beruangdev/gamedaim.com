@@ -1,4 +1,8 @@
 "use client"
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { useForm, SubmitHandler } from "react-hook-form"
+import env from "env"
 
 import {
   AddTopUpServerForm,
@@ -19,8 +23,10 @@ import { Icon } from "@/components/UI/Icon"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { methodsEWallet, methodsMart, methodsVA } from "@/data/payment-methods"
+
 import useCartStore from "@/hooks/use-cart"
 import useStore from "@/hooks/use-store"
+
 import {
   PaymentMethodsProps,
   PriceListPrePaidProps,
@@ -38,10 +44,6 @@ import {
   removeCharsBeforeNumberTopUpPrice,
   slugify,
 } from "@/utils/helper"
-import env from "env"
-import { useRouter } from "next/navigation"
-import * as React from "react"
-import { useForm, SubmitHandler } from "react-hook-form"
 
 interface FormData {
   buyer_sku_code: string
@@ -129,7 +131,7 @@ export function TopUpProductContent(props: TopUpPageProps) {
           </div>
         </div>
       </div>
-      <hr className="border-theme-100 dark:border-theme-700 border-t" />
+      <hr className="border-t" />
       {/* <div className="mx-auto flex w-full flex-col space-y-4 px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
         <TopUpCommentForm brand={topUp.brand} />
       </div> */}
@@ -695,7 +697,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   </svg>
                 </div>
                 <div className="mt-3 text-center sm:mt-5">
-                  <h3 className="text-lg font-semibold leading-6 text-white">
+                  <h3 className="text-background text-lg font-semibold leading-6">
                     Create Order
                   </h3>
                   <p className="pt-4">
