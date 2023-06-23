@@ -78,6 +78,24 @@ export const SidebarDashboard = React.forwardRef<
           Add new
         </Sidebar.ToggleItem>
       </Sidebar.Toggle>
+      {currentUser?.role === "ADMIN" && (
+        <>
+          {/* <Sidebar.Item icon={<Icon.Comment />} href="/dashboard/comment">
+            Comments
+          </Sidebar.Item> */}
+          <Sidebar.Toggle icon={<Icon.Users />} title="Users">
+            <Sidebar.ToggleItem href="/dashboard/user">
+              All users
+            </Sidebar.ToggleItem>
+            <Sidebar.ToggleItem href="/dashboard/user/new">
+              Add new
+            </Sidebar.ToggleItem>
+          </Sidebar.Toggle>
+          <Sidebar.Item icon={<Icon.Settings />} href="/dashboard/setting">
+            Settings
+          </Sidebar.Item>
+        </>
+      )}
       <Sidebar.Item icon={<Icon.Shop />} href="/dashboard/shop">
         Shop
       </Sidebar.Item>
