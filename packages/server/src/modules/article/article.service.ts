@@ -146,6 +146,12 @@ export async function getArticlesByLang(
       articlePrimary: {
         select: {
           id: true,
+          articles: {
+            select: {
+              title: true,
+              language: true,
+            },
+          },
         },
       },
     },
@@ -185,7 +191,15 @@ export async function getArticlesDashboardByLang(
         },
       },
       articlePrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+          articles: {
+            select: {
+              title: true,
+              language: true,
+            },
+          },
+        },
       },
     },
   })
@@ -429,7 +443,9 @@ export async function searchArticlesByLang(
         },
       },
       articlePrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+        },
       },
     },
   })
@@ -466,7 +482,15 @@ export async function searchArticlesDashboardByLang(
         },
       },
       articlePrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+          articles: {
+            select: {
+              title: true,
+              language: true,
+            },
+          },
+        },
       },
     },
   })

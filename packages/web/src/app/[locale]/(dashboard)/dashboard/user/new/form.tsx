@@ -37,7 +37,7 @@ interface FormValues {
   about?: string
   meta_title?: string
   meta_description?: string
-  role: UserDataRole
+  role: UserDataRole | string
 }
 
 export const AddNewUserForm = () => {

@@ -63,7 +63,15 @@ export async function getTopicsByLang(
         },
       },
       topicPrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+          topics: {
+            select: {
+              title: true,
+              language: true,
+            },
+          },
+        },
       },
     },
     skip: (topicPage - 1) * perPage,
@@ -93,7 +101,15 @@ export async function getTopicsDashboardByLang(
       createdAt: true,
       updatedAt: true,
       topicPrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+          topics: {
+            select: {
+              title: true,
+              language: true,
+            },
+          },
+        },
       },
     },
   })
@@ -126,6 +142,7 @@ export async function getTopicPrimaryById(topicPrimaryId: string) {
         select: {
           id: true,
           language: true,
+          type: true,
         },
       },
     },
@@ -457,7 +474,9 @@ export async function searchTopicsByLang(
         },
       },
       topicPrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+        },
       },
     },
   })
@@ -493,7 +512,15 @@ export async function searchTopicsDashboardByLang(
       createdAt: true,
       updatedAt: true,
       topicPrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+          topics: {
+            select: {
+              title: true,
+              language: true,
+            },
+          },
+        },
       },
     },
   })
@@ -534,7 +561,9 @@ export async function searchTopicsByLangAndType(
         },
       },
       topicPrimary: {
-        select: { id: true },
+        select: {
+          id: true,
+        },
       },
     },
   })

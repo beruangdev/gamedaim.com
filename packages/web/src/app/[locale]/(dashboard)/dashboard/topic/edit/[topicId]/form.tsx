@@ -188,7 +188,7 @@ export const EditTopicForm = (props: { id: string }) => {
             <Select
               defaultValue={field.value}
               value={field.value}
-              onValueChange={field.onChange}
+              onValueChange={(value: LanguageTypeData) => field.onChange(value)}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select a language" />
@@ -219,7 +219,7 @@ export const EditTopicForm = (props: { id: string }) => {
             <Select
               defaultValue={field.value}
               value={field.value}
-              onValueChange={field.onChange}
+              onValueChange={(value: TopicTypeData) => field.onChange(value)}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select a type" />
