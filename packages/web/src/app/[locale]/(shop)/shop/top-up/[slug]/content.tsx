@@ -24,16 +24,12 @@ import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { methodsEWallet, methodsMart, methodsVA } from "@/data/payment-methods"
 
-import useCartStore from "@/hooks/use-cart"
-import useStore from "@/hooks/use-store"
-
 import {
   PaymentMethodsProps,
   PriceListPrePaidProps,
   SettingDataProps,
   VoucherDataProps,
 } from "@/lib/data-types"
-import { http } from "@/lib/http"
 import {
   addMarginTopUp,
   changePriceToIDR,
@@ -44,6 +40,8 @@ import {
   removeCharsBeforeNumberTopUpPrice,
   slugify,
 } from "@/utils/helper"
+import useCart from "@/hooks/use-cart"
+import { postTripayTransactionClosed } from "@/lib/api/server/payment"
 
 interface FormData {
   buyer_sku_code: string
@@ -159,7 +157,7 @@ const FormTopUp = (props: FormTopUpProps) => {
   const { products, topUp, channel, margin, emailTopUp, merchanTopUp } = props
 
   const router = useRouter()
-  const addToCart = useStore(useCartStore, (state) => state.addToCart)
+  const [, addItemToCart] = useCart()
   const [showListEWallet, setShowListEWallet] = React.useState<boolean>(false)
   const [showListVA, setShowListVA] = React.useState<boolean>(false)
   const [selectedPriceName, setSelectedPriceName] = React.useState<string>("")
@@ -293,47 +291,42 @@ const FormTopUp = (props: FormTopUpProps) => {
             topUpServer,
           )
           const totalAmount = fixedPrice > 0 ? fixedPrice : totalPrice
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const [res] = await http<{ data: any }>("POST", {
-            url: "/payment/tripay/transaction/create/closed",
-            data: {
-              payment_method: payment.code,
-              amount: totalAmount,
-              payment_provider: "tripay",
-              customer_name: data.customer_name,
-              customer_email: data.customer_email,
-              customer_phone: data.customer_phone,
-              account_id: accountId,
-              voucher_code: "no voucher",
-              discount_amount: 0,
-              fee_amount: totalAmount && totalAmount - amount.price,
-              total_amount: totalAmount,
-              sku: amount.buyer_sku_code,
-              order_items: [
-                {
-                  sku: amount.buyer_sku_code,
-                  name: amount.product_name,
-                  price: totalAmount,
-                  quantity: 1,
-                  subtotal: 1,
-                  product_url: "no product_url",
-                  image_url: "no image_url",
-                },
-              ],
-              note: data.note,
-              callback_url: env.API,
-              return_url: `https://${env.DOMAIN}/shop/topup/transaction`,
-              expired_time: 0,
-            },
+          const { data: tripayRes } = await postTripayTransactionClosed({
+            payment_method: payment.code,
+            amount: totalAmount,
+            payment_provider: "tripay",
+            customer_name: data.customer_name,
+            customer_email: data.customer_email,
+            customer_phone: data.customer_phone,
+            account_id: accountId,
+            voucher_code: "no voucher",
+            discount_amount: 0,
+            fee_amount: totalAmount && totalAmount - amount.price,
+            total_amount: totalAmount,
+            sku: amount.buyer_sku_code,
+            order_items: [
+              {
+                sku: amount.buyer_sku_code,
+                name: amount.product_name,
+                price: totalAmount,
+                quantity: 1,
+                subtotal: 1,
+                product_url: "no product_url",
+                image_url: "no image_url",
+              },
+            ],
+            note: data.note,
+            callback_url: env.API,
+            return_url: `https://${env.DOMAIN}/shop/top-up/transaction`,
+            expired_time: 0,
           })
-          console.log(res)
 
-          if (res?.data.success === true) {
+          if (tripayRes && tripayRes.success) {
             const dataId = {
-              id: res.data.data.merchant_ref,
+              id: tripayRes.data.merchant_ref as string,
               sku: amount.buyer_sku_code,
-              merchant_ref: res.data.data.merchant_ref,
-              refId: res.data.data.reference,
+              merchant_ref: tripayRes.data.merchant_ref as string,
+              refId: tripayRes.data.reference,
               server: "",
               name: data.customer_name,
               brands: topUp.brand,
@@ -345,10 +338,10 @@ const FormTopUp = (props: FormTopUpProps) => {
               voucher: fixedPrice > 0 ? voucherTopUp : null,
             }
 
-            addToCart && addToCart(dataId)
+            addItemToCart(dataId)
             router.push(
-              "/shop/topup/transaction?tripay_reference=" +
-                res.data.data.reference,
+              "/shop/top-up/transaction?tripay_reference=" +
+                tripayRes.data.reference,
             )
           }
         } catch (error) {
@@ -366,7 +359,7 @@ const FormTopUp = (props: FormTopUpProps) => {
       fixedPrice,
       totalPrice,
       voucherTopUp,
-      addToCart,
+      addItemToCart,
       router,
     ],
   )
