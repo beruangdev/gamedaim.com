@@ -64,7 +64,7 @@ export function VouchersDashboardContent() {
         <div>
           <NextLink
             aria-label="Add New Voucher"
-            href="/dashboard/shop/vouchers/new"
+            href="/dashboard/shop/voucher/new"
           >
             <Button aria-label="Add New Voucher">
               <Icon.Add />
@@ -91,7 +91,7 @@ export function VouchersDashboardContent() {
         </form>
       </div>
       <div className="mb-[80px] mt-6 rounded">
-        {vouchersData.length > 0 ? (
+        {vouchersData && vouchersData.length > 0 ? (
           <>
             <Table className="!table-fixed border-collapse border-spacing-0">
               <Thead>
@@ -104,26 +104,25 @@ export function VouchersDashboardContent() {
                 </Tr>
               </Thead>
               <Tbody>
-                {vouchersData &&
-                  vouchersData.map((voucher: VoucherDataProps) => (
-                    <Tr key={voucher.id}>
-                      <Td className="line-clamp-3 max-w-[120px]">
-                        <div className="flex">
-                          <span className="font-medium">{voucher.name}</span>
-                        </div>
-                      </Td>
-                      <Td>{voucher.voucherCode}</Td>
-                      <Td>{formatDate(voucher.createdAt, "LL")}</Td>
-                      <Td>{formatDate(voucher.updatedAt, "LL")}</Td>
-                      <Td align="right">
-                        <ActionDashboard
-                          onDelete={() => handleDelete(voucher)}
-                          editLink={`/dashboard/shop/vouchers/${voucher.id}`}
-                          content={voucher.name}
-                        />
-                      </Td>
-                    </Tr>
-                  ))}
+                {vouchersData.map((voucher: VoucherDataProps) => (
+                  <Tr key={voucher.id}>
+                    <Td className="line-clamp-3 max-w-[120px]">
+                      <div className="flex">
+                        <span className="font-medium">{voucher.name}</span>
+                      </div>
+                    </Td>
+                    <Td>{voucher.voucherCode}</Td>
+                    <Td>{formatDate(voucher.createdAt, "LL")}</Td>
+                    <Td>{formatDate(voucher.updatedAt, "LL")}</Td>
+                    <Td align="right">
+                      <ActionDashboard
+                        onDelete={() => handleDelete(voucher)}
+                        editLink={`/dashboard/shop/vouchers/${voucher.id}`}
+                        content={voucher.name}
+                      />
+                    </Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
             {page && !searchQuery && (
