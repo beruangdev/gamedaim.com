@@ -62,7 +62,7 @@ const updateVoucherSchema = z.object({
 const voucherResponseSchema = z.object({
   ...voucherInput,
   ...voucherGenerated,
-  voucher_code: z.string(),
+  voucherCode: z.string(),
 })
 
 const vouchersResponseSchema = z.array(voucherResponseSchema)
