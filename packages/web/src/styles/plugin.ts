@@ -29,6 +29,7 @@ export const stylePlugin = plugin(
         "--warning-foreground": "46 92% 95%",
         "--danger": "0 72% 51%",
         "--danger-foreground": "0 86% 97%",
+        "--shop": "36.8 90.36% 51.18%",
         "--ring": "215 20.2% 65.1%",
         "--radius": "0.5rem",
       },
@@ -57,6 +58,7 @@ export const stylePlugin = plugin(
         "--warning-foreground": "46 92% 95%",
         "--danger": "0 63% 31%",
         "--danger-foreground": "210 40% 98%",
+        "--shop": "36.8 90.36% 51.18%",
         "--ring": "216 34% 17%",
         "--radius": "0.5rem",
       },
@@ -93,6 +95,7 @@ export const stylePlugin = plugin(
           ring: "hsl(var(--ring))",
           background: "hsl(var(--background))",
           foreground: "hsl(var(--foreground))",
+          shop: "hsl(var(--shop))",
           primary: {
             DEFAULT: "hsl(var(--primary))",
             foreground: "hsl(var(--primary-foreground))",

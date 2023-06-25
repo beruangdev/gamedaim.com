@@ -108,7 +108,7 @@ export function CheckTransactionContent() {
                         Invoice Number
                       </div>
                       <div className="col-span-5 md:col-span-4">
-                        <button
+                        <Button
                           onClick={() =>
                             copyToClipboard(transaction.invoice_id)
                           }
@@ -119,7 +119,7 @@ export function CheckTransactionContent() {
                             {transaction.invoice_id}
                           </div>
                           <Icon.Copy />
-                        </button>
+                        </Button>
                         <span className="hidden print:block">
                           {transaction.invoice_id}
                         </span>
@@ -171,12 +171,12 @@ export function CheckTransactionContent() {
                   <dt className="font-medium">Fee</dt>
                   <dd>{changePriceToIDR(transaction?.fee_amount)}</dd>
                 </div>
-                <div className="text-primary-500 flex items-center justify-between">
+                <div className="text-primary flex items-center justify-between">
                   <dt className="text-xl font-bold print:text-sm md:text-2xl">
                     Total Payment
                   </dt>
                   <dd className="font-semibold">
-                    <button
+                    <Button
                       onClick={() => copyToClipboard(transaction.amount)}
                       type="button"
                       className="flex items-center space-x-2 rounded-md border px-2.5 py-1 text-xl print:hidden md:text-2xl"
@@ -185,7 +185,7 @@ export function CheckTransactionContent() {
                         {changePriceToIDR(transaction.amount)}
                       </div>
                       <Icon.Copy />
-                    </button>
+                    </Button>
                     <span className="hidden print:block">
                       {changePriceToIDR(transaction.amount)}
                     </span>

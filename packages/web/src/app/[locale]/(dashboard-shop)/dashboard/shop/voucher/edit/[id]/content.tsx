@@ -2,9 +2,10 @@
 
 import * as React from "react"
 
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { Button } from "@/components/UI/Button"
-import { Checkbox } from "@/components/UI/Checkbox"
+
+import { toast } from "@/components/UI/Toast"
 import {
   FormControl,
   FormErrorMessage,
@@ -13,9 +14,9 @@ import {
   RequiredIndicator,
 } from "@/components/UI/Form"
 import { Textarea } from "@/components/UI/Textarea"
-import { toast } from "@/components/UI/Toast"
-
-import { postVoucher } from "@/lib/api/server/vouchers"
+import { Button } from "@/components/UI/Button"
+import { Checkbox } from "@/components/UI/Checkbox"
+import { getVoucherById, putVoucher } from "@/lib/api/server/vouchers"
 
 interface FormValues {
   name: string
@@ -25,31 +26,73 @@ interface FormValues {
   voucherAmount: number
   description: string
   expiration: string
-  active: string
+  active: boolean
 }
-export function CreateVouchersDashboardShopContent() {
+
+export function EditVoucherDashboardShopContent(props: { voucherId: string }) {
+  const { voucherId } = props
   const [loading, setLoading] = React.useState<boolean>(false)
+
+  const [voucher, setVoucher] = React.useState<FormValues & { id: string }>({
+    id: "",
+    name: "",
+    discountPercentage: 0,
+    discountMax: 0,
+    voucherAmount: 0,
+    description: "",
+    expiration: "",
+    active: true,
+    voucherCode: "",
+  })
+
+  const router = useRouter()
+
+  const loadVoucher = async () => {
+    const { data } = await getVoucherById(voucherId as string)
+    if (data) {
+      setVoucher({
+        name: data.name,
+        discountPercentage: data.discountPercentage,
+        discountMax: data.discountMax,
+        voucherAmount: data.VoucherAmount,
+        description: data.description,
+        expiration: data.expiration.substring(0, 10),
+        active: data.active,
+        id: data.id,
+        voucherCode: data.voucherCode,
+      })
+    }
+  }
 
   const {
     register,
     formState: { errors },
-    handleSubmit,
     reset,
+    handleSubmit,
   } = useForm<FormValues>()
+
+  React.useEffect(() => {
+    loadVoucher()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [voucherId])
+
+  React.useEffect(() => {
+    reset(voucher)
+  }, [reset, voucher])
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
+
     const isoDate = new Date(values.expiration).toISOString()
-    const { data } = await postVoucher({
+    const mergedValues = {
       ...values,
       expiration: isoDate,
-      active: values.active === "on" ? true : false,
-    })
-    if (data) {
-      reset()
-      toast({ variant: "success", description: "Voucher Successfully created" })
     }
-
+    const { data } = await putVoucher(voucher.id, mergedValues)
+    if (data) {
+      toast({ variant: "success", description: "Voucher updated successfully" })
+      router.push(`/dashboard/shop/voucher`)
+    }
     setLoading(false)
   }
 
@@ -63,7 +106,6 @@ export function CreateVouchersDashboardShopContent() {
               <RequiredIndicator />
             </FormLabel>
             <Input
-              id="voucher-title"
               type="text"
               {...register("name", {
                 required: "Title is Required",
@@ -76,16 +118,10 @@ export function CreateVouchersDashboardShopContent() {
             )}
           </FormControl>
           <FormControl invalid={Boolean(errors.voucherCode)}>
-            <FormLabel>
-              Voucher Code
-              <RequiredIndicator />
-            </FormLabel>
+            <FormLabel>Voucher Code</FormLabel>
             <Input
               type="text"
-              id="voucher-code"
-              {...register("voucherCode", {
-                required: "Voucher Code is Required",
-              })}
+              {...register("voucherCode")}
               className="max-w-xl"
               placeholder="Enter Voucher Code"
             />
@@ -108,7 +144,6 @@ export function CreateVouchersDashboardShopContent() {
           <FormControl invalid={Boolean(errors.discountPercentage)}>
             <FormLabel>Discount Percentage</FormLabel>
             <Input
-              id="voucher-discount-percentage"
               type="number"
               {...register("discountPercentage")}
               className="max-w-xl"
@@ -124,7 +159,6 @@ export function CreateVouchersDashboardShopContent() {
             <FormLabel>Discount Max</FormLabel>
             <Input
               type="number"
-              id="voucher-discount-max"
               {...register("discountMax")}
               className="max-w-xl"
               placeholder="Enter Discount Max"
@@ -137,7 +171,6 @@ export function CreateVouchersDashboardShopContent() {
             <FormLabel>Voucher Amount</FormLabel>
             <Input
               type="number"
-              id="voucher-discount-amount"
               {...register("voucherAmount")}
               className="max-w-xl"
               placeholder="Enter Voucher Amount"
@@ -152,7 +185,6 @@ export function CreateVouchersDashboardShopContent() {
             <FormLabel>Expiration</FormLabel>
             <Input
               type="date"
-              id="voucher-expiration"
               {...register("expiration")}
               className="max-w-xl"
               placeholder="Enter Expiration"
@@ -163,7 +195,7 @@ export function CreateVouchersDashboardShopContent() {
           </FormControl>
           <FormControl invalid={Boolean(errors.active)}>
             <FormLabel>Active</FormLabel>
-            <Checkbox {...register("active")} />
+            <Checkbox checked={voucher.active} {...register("active")} />
           </FormControl>
           <Button aria-label="Submit" type="submit" loading={loading}>
             Submit

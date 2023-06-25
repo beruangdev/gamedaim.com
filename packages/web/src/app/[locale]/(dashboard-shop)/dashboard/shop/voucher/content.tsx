@@ -117,7 +117,7 @@ export function VouchersDashboardContent() {
                     <Td align="right">
                       <ActionDashboard
                         onDelete={() => handleDelete(voucher)}
-                        editLink={`/dashboard/shop/vouchers/${voucher.id}`}
+                        editLink={`/dashboard/shop/voucher/edit/${voucher.id}`}
                         content={voucher.name}
                       />
                     </Td>

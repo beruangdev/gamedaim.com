@@ -120,7 +120,7 @@ export function TopUpProductContent(props: TopUpPageProps) {
                     <li>Klik Order Now &amp; lakukan Pembayaran</li>
                     <li>Tunggu 1 detik pesanan masuk otomatis ke akun Anda</li>
                   </ol>
-                  <p className="text-bold text-center text-lg text-[#F39C12]">
+                  <p className="text-bold text-shop text-center text-lg">
                     Top Up Buka 24 Jam
                   </p>
                 </div>
@@ -422,7 +422,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   <Button
                     aria-label="Petunjuk"
                     onClick={() => setOpenInfo(true)}
-                    className="rounded-full bg-[#F39C12]"
+                    className="bg-shop rounded-full"
                   >
                     <Icon.Help aria-label="Petunjuk" className="mr-2" />
                     Petunjuk
@@ -672,22 +672,8 @@ const FormTopUp = (props: FormTopUpProps) => {
           <>
             <div>
               <div>
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                    className="h-6 w-6 text-emerald-500"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M4.5 12.75l6 6 9-13.5"
-                    ></path>
-                  </svg>
+                <div className="bg-success mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+                  <Icon.Check />
                 </div>
                 <div className="mt-3 text-center sm:mt-5">
                   <h3 className="text-background text-lg font-semibold leading-6">
@@ -698,7 +684,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                     valid and appropriate.
                   </p>
                   <div className="mt-2">
-                    <div className="bg-murky-700 my-4 grid grid-cols-3 gap-4 rounded-md p-4 text-left">
+                    <div className="my-4 grid grid-cols-3 gap-4 rounded-md p-4 text-left">
                       <div>ID</div>
                       <div className="col-span-2">{`: ${queryAccountId}`}</div>
                       <div>Item</div>
@@ -726,7 +712,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   loading={loadingModal}
                   aria-label="Order Sekarang"
                   onClick={handleSubmit(onSubmit)}
-                  className="bg-[#F39C12]"
+                  className="bg-shop"
                 >
                   Order Sekarang
                 </Button>
@@ -738,12 +724,12 @@ const FormTopUp = (props: FormTopUpProps) => {
           <Button
             aria-label="Order Sekarang"
             onClick={handleSubmit(handleOpenModalTopUp)}
-            className="bg-[#F39C12]"
+            className="bg-shop"
           >
             Order Sekarang
           </Button>
         }
-        title={"ASUS"}
+        title={"Create Order"}
         onOpenChange={setOpenModalTopUp}
         open={openModalTopUp}
       />
