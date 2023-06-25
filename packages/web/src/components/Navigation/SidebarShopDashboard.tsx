@@ -52,10 +52,10 @@ export const SidebarShopDashboard = React.forwardRef<
             icon={<Icon.Discount aria-label="Voucher" />}
             title="Voucher"
           >
-            <Sidebar.ToggleItem href="/dashboard/shop/vouchers">
+            <Sidebar.ToggleItem href="/dashboard/shop/voucher">
               All Vouchers
             </Sidebar.ToggleItem>
-            <Sidebar.ToggleItem href="/dashboard/shop/vouchers/new">
+            <Sidebar.ToggleItem href="/dashboard/shop/voucher/new">
               Add new voucher
             </Sidebar.ToggleItem>
           </Sidebar.Toggle>

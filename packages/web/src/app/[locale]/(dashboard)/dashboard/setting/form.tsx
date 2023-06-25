@@ -187,14 +187,13 @@ export function SettingForm() {
 
   React.useEffect(() => {
     resetTitle(title)
-    resetTitle(tagline)
     resetDescription(description)
     resetMetaTitle(metaTitle)
     resetMetaDescription(metaDescription)
     resetDomain(domain)
     resetEmail(email)
     resetSupportEmail(supportEmail)
-    resetTagline(supportEmail)
+    resetTagline(tagline)
     resetFacebook(facebook)
     resetInstagram(instagram)
     resetPinterest(pinterest)

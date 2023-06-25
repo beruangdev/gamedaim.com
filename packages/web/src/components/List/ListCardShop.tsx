@@ -16,7 +16,7 @@ export const ListCardShop = React.forwardRef<HTMLDivElement, ListCardShopProps>(
             return (
               <ShopCard
                 key={i}
-                url={`/shop/topup/${list.slug}`}
+                url={`/shop/top-up/${list.slug}`}
                 title={list.brand}
                 brand={list.brand}
               />

@@ -27,7 +27,7 @@ export function AdDashboardContent() {
 
   React.useEffect(() => {
     setIsLoading(false)
-    if (page > lastPage) {
+    if (page !== 1 && page > lastPage) {
       setPage((old) => Math.max(old - 1, 0))
     }
   }, [lastPage, page])

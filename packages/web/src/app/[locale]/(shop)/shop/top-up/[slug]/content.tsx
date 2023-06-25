@@ -24,16 +24,12 @@ import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
 import { methodsEWallet, methodsMart, methodsVA } from "@/data/payment-methods"
 
-import useCartStore from "@/hooks/use-cart"
-import useStore from "@/hooks/use-store"
-
 import {
   PaymentMethodsProps,
   PriceListPrePaidProps,
   SettingDataProps,
   VoucherDataProps,
 } from "@/lib/data-types"
-import { http } from "@/lib/http"
 import {
   addMarginTopUp,
   changePriceToIDR,
@@ -44,6 +40,8 @@ import {
   removeCharsBeforeNumberTopUpPrice,
   slugify,
 } from "@/utils/helper"
+import useCart from "@/hooks/use-cart"
+import { postTripayTransactionClosed } from "@/lib/api/server/payment"
 
 interface FormData {
   buyer_sku_code: string
@@ -122,7 +120,7 @@ export function TopUpProductContent(props: TopUpPageProps) {
                     <li>Klik Order Now &amp; lakukan Pembayaran</li>
                     <li>Tunggu 1 detik pesanan masuk otomatis ke akun Anda</li>
                   </ol>
-                  <p className="text-bold text-center text-lg text-[#F39C12]">
+                  <p className="text-bold text-shop text-center text-lg">
                     Top Up Buka 24 Jam
                   </p>
                 </div>
@@ -159,7 +157,7 @@ const FormTopUp = (props: FormTopUpProps) => {
   const { products, topUp, channel, margin, emailTopUp, merchanTopUp } = props
 
   const router = useRouter()
-  const addToCart = useStore(useCartStore, (state) => state.addToCart)
+  const [, addItemToCart] = useCart()
   const [showListEWallet, setShowListEWallet] = React.useState<boolean>(false)
   const [showListVA, setShowListVA] = React.useState<boolean>(false)
   const [selectedPriceName, setSelectedPriceName] = React.useState<string>("")
@@ -293,47 +291,42 @@ const FormTopUp = (props: FormTopUpProps) => {
             topUpServer,
           )
           const totalAmount = fixedPrice > 0 ? fixedPrice : totalPrice
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const [res] = await http<{ data: any }>("POST", {
-            url: "/payment/tripay/transaction/create/closed",
-            data: {
-              payment_method: payment.code,
-              amount: totalAmount,
-              payment_provider: "tripay",
-              customer_name: data.customer_name,
-              customer_email: data.customer_email,
-              customer_phone: data.customer_phone,
-              account_id: accountId,
-              voucher_code: "no voucher",
-              discount_amount: 0,
-              fee_amount: totalAmount && totalAmount - amount.price,
-              total_amount: totalAmount,
-              sku: amount.buyer_sku_code,
-              order_items: [
-                {
-                  sku: amount.buyer_sku_code,
-                  name: amount.product_name,
-                  price: totalAmount,
-                  quantity: 1,
-                  subtotal: 1,
-                  product_url: "no product_url",
-                  image_url: "no image_url",
-                },
-              ],
-              note: data.note,
-              callback_url: env.API,
-              return_url: `https://${env.DOMAIN}/shop/topup/transaction`,
-              expired_time: 0,
-            },
+          const { data: tripayRes } = await postTripayTransactionClosed({
+            payment_method: payment.code,
+            amount: totalAmount,
+            payment_provider: "tripay",
+            customer_name: data.customer_name,
+            customer_email: data.customer_email,
+            customer_phone: data.customer_phone,
+            account_id: accountId,
+            voucher_code: "no voucher",
+            discount_amount: 0,
+            fee_amount: totalAmount && totalAmount - amount.price,
+            total_amount: totalAmount,
+            sku: amount.buyer_sku_code,
+            order_items: [
+              {
+                sku: amount.buyer_sku_code,
+                name: amount.product_name,
+                price: totalAmount,
+                quantity: 1,
+                subtotal: 1,
+                product_url: "no product_url",
+                image_url: "no image_url",
+              },
+            ],
+            note: data.note,
+            callback_url: env.API,
+            return_url: `https://${env.DOMAIN}/shop/top-up/transaction`,
+            expired_time: 0,
           })
-          console.log(res)
 
-          if (res?.data.success === true) {
+          if (tripayRes && tripayRes.success) {
             const dataId = {
-              id: res.data.data.merchant_ref,
+              id: tripayRes.data.merchant_ref as string,
               sku: amount.buyer_sku_code,
-              merchant_ref: res.data.data.merchant_ref,
-              refId: res.data.data.reference,
+              merchant_ref: tripayRes.data.merchant_ref as string,
+              refId: tripayRes.data.reference,
               server: "",
               name: data.customer_name,
               brands: topUp.brand,
@@ -345,10 +338,10 @@ const FormTopUp = (props: FormTopUpProps) => {
               voucher: fixedPrice > 0 ? voucherTopUp : null,
             }
 
-            addToCart && addToCart(dataId)
+            addItemToCart(dataId)
             router.push(
-              "/shop/topup/transaction?tripay_reference=" +
-                res.data.data.reference,
+              "/shop/top-up/transaction?tripay_reference=" +
+                tripayRes.data.reference,
             )
           }
         } catch (error) {
@@ -366,7 +359,7 @@ const FormTopUp = (props: FormTopUpProps) => {
       fixedPrice,
       totalPrice,
       voucherTopUp,
-      addToCart,
+      addItemToCart,
       router,
     ],
   )
@@ -429,7 +422,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   <Button
                     aria-label="Petunjuk"
                     onClick={() => setOpenInfo(true)}
-                    className="rounded-full bg-[#F39C12]"
+                    className="bg-shop rounded-full"
                   >
                     <Icon.Help aria-label="Petunjuk" className="mr-2" />
                     Petunjuk
@@ -679,22 +672,8 @@ const FormTopUp = (props: FormTopUpProps) => {
           <>
             <div>
               <div>
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                    className="h-6 w-6 text-emerald-500"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M4.5 12.75l6 6 9-13.5"
-                    ></path>
-                  </svg>
+                <div className="bg-success mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+                  <Icon.Check />
                 </div>
                 <div className="mt-3 text-center sm:mt-5">
                   <h3 className="text-background text-lg font-semibold leading-6">
@@ -705,7 +684,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                     valid and appropriate.
                   </p>
                   <div className="mt-2">
-                    <div className="bg-murky-700 my-4 grid grid-cols-3 gap-4 rounded-md p-4 text-left">
+                    <div className="my-4 grid grid-cols-3 gap-4 rounded-md p-4 text-left">
                       <div>ID</div>
                       <div className="col-span-2">{`: ${queryAccountId}`}</div>
                       <div>Item</div>
@@ -733,7 +712,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   loading={loadingModal}
                   aria-label="Order Sekarang"
                   onClick={handleSubmit(onSubmit)}
-                  className="bg-[#F39C12]"
+                  className="bg-shop"
                 >
                   Order Sekarang
                 </Button>
@@ -745,12 +724,12 @@ const FormTopUp = (props: FormTopUpProps) => {
           <Button
             aria-label="Order Sekarang"
             onClick={handleSubmit(handleOpenModalTopUp)}
-            className="bg-[#F39C12]"
+            className="bg-shop"
           >
             Order Sekarang
           </Button>
         }
-        title={"ASUS"}
+        title={"Create Order"}
         onOpenChange={setOpenModalTopUp}
         open={openModalTopUp}
       />

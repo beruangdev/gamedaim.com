@@ -2,6 +2,28 @@ import { PaymentMethodsProps, TransactionDataProps } from "@/lib/data-types"
 import { http } from "@/lib/http"
 import { getSettingByKeyAction } from "./setting"
 
+export const postTripayTransactionClosed = async (value: unknown) => {
+  const [res, err] = await http<{
+    data: TransactionDataProps
+    success: boolean
+  }>("POST", {
+    url: "/payment/tripay/transaction/create/closed",
+    data: value,
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: err,
+    }
+  }
+  return {
+    data: res,
+    error: null,
+  }
+}
+
 export const getPaymentChannel = async () => {
   const [res, err] = await http<{ data: PaymentMethodsProps[] }>("GET", {
     url: `/payment/tripay/channel`,

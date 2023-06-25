@@ -93,7 +93,7 @@ export const Footer = React.forwardRef<HTMLDivElement, FooterProps>(
                     </li>
                     <li>
                       <NextLink
-                        href="/shop/topup/transactions"
+                        href="/shop/top-up/transactions"
                         className="hover:underline"
                       >
                         Check Transaction
