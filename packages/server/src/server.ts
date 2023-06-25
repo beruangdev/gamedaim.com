@@ -37,6 +37,8 @@ import topUpTransactionRoutes from "@/modules/top-up-transaction/top-up-transact
 import { topUpTransactionSchemas } from "@/modules/top-up-transaction/top-up-transaction.schema"
 import userRoutes from "@/modules/user/user.route"
 import { userSchemas } from "@/modules/user/user.schema"
+import voucherRoutes from "@/modules/voucher/voucher.route"
+import { voucherSchemas } from "@/modules/voucher/voucher.schema"
 import viewCounterRoutes from "@/modules/view-counter/view-counter.route"
 import { viewCounterSchemas } from "@/modules/view-counter/view-counter.schema"
 import wpCommentRoutes from "@/modules/wp-comment/wp-comment.route"
@@ -110,6 +112,7 @@ function buildServer() {
     ...topUpTransactionSchemas,
     ...transactionCounterSchemas,
     ...userSchemas,
+    ...voucherSchemas,
     ...viewCounterSchemas,
     ...wpCommentSchemas,
   ]) {
@@ -149,6 +152,7 @@ function buildServer() {
   server.register(transactionCounterRoutes, {
     prefix: "api/transaction-counter",
   })
+  server.register(voucherRoutes, { prefix: "api/voucher" })
   server.register(viewCounterRoutes, { prefix: "api/view-counter" })
   server.register(wpCommentRoutes, { prefix: "api/wp-comment" })
 
