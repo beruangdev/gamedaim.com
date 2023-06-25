@@ -15,6 +15,7 @@ import { changePriceToIDR } from "@/utils/helper"
 
 import { TransactionDataProps } from "@/lib/data-types"
 import { getTransactionByInvoiceId } from "@/lib/api/server/payment"
+import { Icon } from "@/components/UI/Icon"
 interface FormData {
   queryInvoice: string
 }
@@ -82,19 +83,7 @@ export function CheckTransactionContent() {
               className="bg-primary text-background inline-flex items-center justify-center space-x-2 rounded-md px-4 py-2 !pl-3 !pr-4 text-sm font-medium duration-300 disabled:cursor-not-allowed disabled:opacity-75"
               type="submit"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-                className="h-5 w-5"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
+              <Icon.Search />
               <span>Find Transactions</span>
             </Button>
           </div>
@@ -129,21 +118,7 @@ export function CheckTransactionContent() {
                           <div className="max-w-[172px] truncate md:w-auto">
                             {transaction.invoice_id}
                           </div>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            aria-hidden="true"
-                            className="h-5 w-4"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
-                            ></path>
-                          </svg>
+                          <Icon.Copy />
                         </button>
                         <span className="hidden print:block">
                           {transaction.invoice_id}
@@ -204,26 +179,12 @@ export function CheckTransactionContent() {
                     <button
                       onClick={() => copyToClipboard(transaction.amount)}
                       type="button"
-                      className="border-murky-400 hover:bg-murky-700 !text-primary-500 flex items-center space-x-2 rounded-md border px-2.5 py-1 text-xl print:hidden md:text-2xl"
+                      className="flex items-center space-x-2 rounded-md border px-2.5 py-1 text-xl print:hidden md:text-2xl"
                     >
                       <div className="max-w-[172px] truncate md:w-auto">
                         {changePriceToIDR(transaction.amount)}
                       </div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                        className="h-5 w-4"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
-                        ></path>
-                      </svg>
+                      <Icon.Copy />
                     </button>
                     <span className="hidden print:block">
                       {changePriceToIDR(transaction.amount)}
