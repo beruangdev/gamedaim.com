@@ -261,3 +261,173 @@ export function removeCharsBeforeNumberTopUpPrice(text: string) {
 
   return cleanText
 }
+
+export function getServerTopUp(brand: string) {
+  switch (brand) {
+    case "GARENA":
+      return { isTopUpServer: false }
+    case "MOBILE LEGENDS":
+      return { isTopUpServer: true }
+    case "POINT BLANK":
+      return { isTopUpServer: false }
+    case "FREE FIRE":
+      return { isTopUpServer: false }
+    case "ARENA OF VALOR":
+      return { isTopUpServer: false }
+    case "Ragnarok M: Eternal Love":
+      return { isTopUpServer: true }
+    case "PUBG MOBILE":
+      return { isTopUpServer: false }
+    case "AU2 MOBILE":
+      return { isTopUpServer: false }
+    case "Call of Duty MOBILE":
+      return { isTopUpServer: false }
+    case "Eternal City":
+      return { isTopUpServer: false }
+    case "Laplace M":
+      return { isTopUpServer: false }
+    case "Lords Mobile":
+      return { isTopUpServer: false }
+    case "MangaToon":
+      return { isTopUpServer: false }
+    case "Valorant":
+      return { isTopUpServer: false }
+    case "Genshin Impact":
+      return { isTopUpServer: true }
+    case "League of Legends Wild Rift":
+      return { isTopUpServer: false }
+    case "Tower of Fantasy":
+      return { isTopUpServer: true }
+    case "TELKOMSEL":
+      return { isTopUpServer: false }
+    case "GO PAY":
+      return { isTopUpServer: false }
+    case "OVO":
+      return { isTopUpServer: false }
+    case "DANA":
+      return { isTopUpServer: false }
+    default:
+      return { isTopUpServer: false }
+  }
+}
+
+export function getBrandDetails(
+  brand: string,
+  id: string,
+  server: string | undefined,
+) {
+  switch (brand) {
+    case "GARENA":
+      return { accountId: `${id}` }
+    case "MOBILE LEGENDS":
+      return { accountId: `${id}${server}` }
+    case "POINT BLANK":
+      return { accountId: `${id}` }
+    case "FREE FIRE":
+      return { accountId: `${id}` }
+    case "ARENA OF VALOR":
+      return { accountId: `${id}` }
+    case "Ragnarok M: Eternal Love":
+      return { accountId: `${id}${server}` }
+    case "PUBG MOBILE":
+      return { accountId: `${id}` }
+    case "AU2 MOBILE":
+      return { accountId: `${id}` }
+    case "Call of Duty MOBILE":
+      return { accountId: `${id}` }
+    case "Eternal City":
+      return { accountId: `${id}` }
+    case "Laplace M":
+      return { accountId: `${id}` }
+    case "Lords Mobile":
+      return { accountId: `${id}` }
+    case "MangaToon":
+      return { accountId: `${id}` }
+    case "Valorant":
+      return { accountId: `${id}` }
+    case "Genshin Impact":
+      return { accountId: `${server}${id}` }
+    case "League of Legends Wild Rift":
+      return { accountId: `${id}` }
+    case "Tower of Fantasy":
+      return { accountId: `${id}|${server}` }
+    case "TELKOMSEL":
+      return { accountId: `${id}` }
+    case "GO PAY":
+      return { accountId: `${id}` }
+    case "OVO":
+      return { accountId: `${id}` }
+    case "DANA":
+      return { accountId: `${id}` }
+    default:
+      return { accountId: `${id}` }
+  }
+}
+
+export const getTotalPrice = (
+  price: number,
+  feeplat: number | null,
+  feepercent: number | null,
+) => {
+  const flatprice = feeplat !== null ? feeplat + price : price
+  const getpercent = feepercent !== null ? (price * feepercent) / 100 : 0
+  const totalFee = feeplat !== null ? feeplat : 0 + Math.round(getpercent)
+  const totalPrice = flatprice + Math.round(getpercent)
+  return { totalPayment: totalPrice, totalFee: totalFee }
+}
+
+export const changePriceToIDR = (price: number) => {
+  const priceIdr = price.toLocaleString("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  })
+  return priceIdr
+}
+
+export const addMarginTopUp = (price: number, margin: number) => {
+  const getmargin = (price * margin) / 100
+  const totalPrice = price + Math.round(getmargin)
+
+  return totalPrice
+}
+
+interface PaymentMethods {
+  id: string
+  minamount: number
+  maxamount: number
+}
+export function filterPaymentsByPrice(
+  paymentMethods: PaymentMethods[],
+  id: string,
+  amount: number,
+) {
+  const paymentMethod = paymentMethods.find(
+    (method: { id: string }) => method.id === id,
+  )
+  let filterpayment
+  if (paymentMethod) {
+    filterpayment =
+      amount > paymentMethod.minamount && amount < paymentMethod.maxamount
+  }
+
+  return filterpayment
+}
+
+export function removeCharsBeforeNumberTopUpPrice(text: string) {
+  let cleanText = text
+
+  if (cleanText.includes("AU2")) {
+    cleanText = cleanText.replace("AU2", "")
+  }
+
+  const regex = /\D*(\d.*)/ // mencocokan setiap karakter non-digit sebelum angka
+  const matches = cleanText.match(regex)
+
+  if (matches && matches.length > 1) {
+    const cleanString = matches[1] // menghilangkan spasi pada karakter setelah angka
+    return cleanString
+  }
+
+  return cleanText
+}

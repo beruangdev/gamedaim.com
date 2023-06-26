@@ -118,10 +118,6 @@ const paymentTripayCreateClosedTransactionInput = {
     invalid_type_error:
       "your payment code type doesnt exist on available option.",
   }),
-  merchant_ref: z.string({
-    required_error: "Merchant Ref is required",
-    invalid_type_error: "Merchant Ref must be a string",
-  }),
   customer_name: z.string({
     required_error: "Customer Name is required",
     invalid_type_error: "Customer Name must be a string",
@@ -160,10 +156,6 @@ const paymentTripayCreateOpenTransactionInput = {
     required_error: "Method is required",
     invalid_type_error:
       "your payment code type doesnt exist on available option.",
-  }),
-  merchant_ref: z.string({
-    required_error: "Merchant Ref is required",
-    invalid_type_error: "Merchant Ref must be a string",
   }),
   customer_name: z.string({
     required_error: "Customer Name is required",

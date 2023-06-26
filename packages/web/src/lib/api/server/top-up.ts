@@ -285,7 +285,7 @@ interface TransactionCounter {
 
 export const getTopUpTransactionCounter = async (brand: string) => {
   const [res, err] = await http<TransactionCounter>("GET", {
-    url: `/transaction/counter/${brand}`,
+    url: `/transaction-counter/${brand}`,
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
     },

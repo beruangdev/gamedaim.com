@@ -49,7 +49,7 @@ export const DashboardContainer = React.forwardRef<
         </NextLink>
         <NextLink
           className="text-foreground flex h-12 basis-1/3 cursor-pointer flex-col items-center justify-around text-center"
-          href="/dashboard/articles"
+          href="/dashboard/article"
         >
           <Button
             variant="ghost"

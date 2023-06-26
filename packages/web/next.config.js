@@ -11,6 +11,7 @@ const nextConfig = {
       "dev-assets.gamedaim.com",
       "assets.caragame.id",
       "gamedaim.com",
+      "secure.gravatar.com",
       "caragame.id",
     ],
   },

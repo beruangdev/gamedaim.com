@@ -7,6 +7,7 @@ import {
   PaymentTripayFeeCalculatorInput,
   PaymentTripayPaymentInstructionInput,
 } from "./payment.schema"
+import { uniqueSlug } from "@/utils/slug"
 
 export async function paymentTripayGetPaymentInstructionHandler(
   request: FastifyRequest<{ Body: PaymentTripayPaymentInstructionInput }>,
@@ -114,7 +115,6 @@ export async function paymentTripayCreateClosedTransactionHandler(
     const {
       payment_method,
       amount,
-      merchant_ref,
       customer_name,
       customer_email,
       customer_phone,
@@ -124,9 +124,11 @@ export async function paymentTripayCreateClosedTransactionHandler(
       expired_time,
     } = request.body
 
+    const generatedMerchatRef = uniqueSlug()
+
     const transaction = await tripay.createClosedTransaction({
       method: payment_method,
-      merchant_ref: merchant_ref,
+      merchant_ref: generatedMerchatRef,
       amount,
       customer_name,
       customer_email,
@@ -149,11 +151,13 @@ export async function paymentTripayCreateOpenTransactionHandler(
   reply: FastifyReply,
 ) {
   try {
-    const { method, customer_name, merchant_ref } = request.body
+    const { method, customer_name } = request.body
+
+    const generatedMerchatRef = uniqueSlug()
 
     const transaction = await tripay.createOpenTransaction({
       method,
-      merchant_ref,
+      merchant_ref: generatedMerchatRef,
       customer_name,
     })
 

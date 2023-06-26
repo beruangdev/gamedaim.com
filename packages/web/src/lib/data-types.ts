@@ -583,7 +583,22 @@ export interface BannerProps {
   url: string
   active: boolean
 }
-
+export interface TopupProductProps {
+  total_amount: number
+  fee_amount: number
+  totalFee?: number
+  id: string
+  sku: string
+  account_id: string
+  server: string
+  refId: string
+  note: string
+  name: string
+  voucher?: VoucherDataProps | null
+  brands: string
+  amount: number
+  merchant_ref: string
+}
 export type UserDataRole = "USER" | "PRO_USER" | "AUTHOR" | "ADMIN"
 
 export type PostStatusData = "PUBLISHED" | "DRAFT" | "REJECTED" | "IN_REVIEW"
