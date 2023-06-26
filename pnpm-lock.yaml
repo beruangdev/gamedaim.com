@@ -379,6 +379,9 @@ importers:
       lowlight:
         specifier: ^2.9.0
         version: 2.9.0
+      nanoid:
+        specifier: 3.3.6
+        version: 3.3.6
       next:
         specifier: ^13.4.7
         version: 13.4.7(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)

@@ -1,6 +1,11 @@
 import { PriceListPrePaidProps } from "@/lib/data-types"
 import { WpCategoriesDataProps } from "@/lib/wp-data-types"
+import { customAlphabet } from "nanoid"
 
+export const uniqueSlug = customAlphabet(
+  "1234567890abcdefghijklmnopqrstuvwxyz",
+  5,
+)
 //check if path includes one of routes for authentication
 export function findAuthPage(path: string, routes: string[]) {
   return routes.some(function (element) {
