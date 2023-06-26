@@ -123,6 +123,7 @@ export function ProductMediasDashboardContent(props: ProductMediasProps) {
                   {currentPage !== 1 && (
                     <Button
                       aria-label="Last Page"
+                      size={null}
                       onClick={() =>
                         setCurrentPage((old) => Math.max(old - 1, 0))
                       }
@@ -135,6 +136,7 @@ export function ProductMediasDashboardContent(props: ProductMediasProps) {
                   {currentPage !== lastPage && (
                     <Button
                       aria-label="Next Page"
+                      size={null}
                       onClick={() => {
                         setCurrentPage((old) => old + 1)
                       }}

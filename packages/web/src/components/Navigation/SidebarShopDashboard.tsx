@@ -77,7 +77,7 @@ export const SidebarShopDashboard = React.forwardRef<
         {currentUser?.role === "ADMIN" && (
           <Sidebar.Item
             icon={<Icon.Settings aria-label="Dashboard" />}
-            href="/dashboard/shop/settings"
+            href="/dashboard/shop/setting"
           >
             Settings
           </Sidebar.Item>

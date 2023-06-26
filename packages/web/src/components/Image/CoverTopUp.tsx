@@ -18,9 +18,10 @@ export const CoverTopUp = (props: CoverTopUpProps) => {
 
   React.useEffect(() => {
     const getCoverTopUp = async () => {
-      const { data } = await getSettingByKeyAction(`cover-${url}`)
+      const { data } = await getSettingByKeyAction(`${url}-image`)
       if (data) {
-        setCoverTopUpUrl(data.value)
+        const parsedData = JSON.parse(data.value)
+        setCoverTopUpUrl(parsedData.coverImage)
       }
       setLoading(false)
     }

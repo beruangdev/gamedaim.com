@@ -18,9 +18,10 @@ export const IconTopUp = (props: IconTopUpProps) => {
 
   React.useEffect(() => {
     const getIconTopUp = async () => {
-      const { data } = await getSettingByKeyAction(`icon-${url}`)
+      const { data } = await getSettingByKeyAction(`${url}-image`)
       if (data) {
-        setIconTopUpUrl(data.value)
+        const parsedData = JSON.parse(data.value)
+        setIconTopUpUrl(parsedData.iconImage)
       }
       setLoading(false)
     }

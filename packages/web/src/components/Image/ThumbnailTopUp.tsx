@@ -10,6 +10,7 @@ interface ThumbnailTopUpProps {
   url: string
   className: string
 }
+
 export const ThumbnailTopUp = (props: ThumbnailTopUpProps) => {
   const { url, className } = props
   const [thumbnailTopUpUrl, setThumbnailTopUpUrl] = React.useState("")
@@ -18,9 +19,10 @@ export const ThumbnailTopUp = (props: ThumbnailTopUpProps) => {
 
   React.useEffect(() => {
     const getThumbnailTopUp = async () => {
-      const { data } = await getSettingByKeyAction(`thumbnail-${url}`)
+      const { data } = await getSettingByKeyAction(`${url}-image`)
       if (data) {
-        setThumbnailTopUpUrl(data.value)
+        const parsedData = JSON.parse(data.value)
+        setThumbnailTopUpUrl(parsedData.thumbnailImage)
       }
       setLoading(false)
     }
