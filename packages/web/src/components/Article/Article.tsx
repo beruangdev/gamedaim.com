@@ -171,30 +171,26 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                 })}
             </section>
           </div>
-          <section className="mx-4 my-6 md:mx-12" id="tag">
-            {tags && (
-              <ButtonGroup className="space-x-2">
-                {tags.map((tag: { slug: string; name: string }) => {
-                  return (
-                    <Button
-                      aria-label={tag.name}
-                      size="sm"
-                      className="mx-1"
-                      key={tag.slug}
+          <section className="mx-4 my-6 space-x-3 md:mx-12" id="tag">
+            {tags &&
+              tags.map((tag: { slug: string; name: string }) => {
+                return (
+                  <Button
+                    variant="outline"
+                    aria-label={tag.name}
+                    size="sm"
+                    key={tag.slug}
+                  >
+                    <NextLink
+                      aria-label={tag.slug}
+                      href={wpTagPathBySlug(tag.slug)}
                     >
-                      <NextLink
-                        aria-label={tag.slug}
-                        href={wpTagPathBySlug(tag.slug)}
-                      >
-                        {tag.name}
-                      </NextLink>
-                    </Button>
-                  )
-                })}
-              </ButtonGroup>
-            )}
+                      {tag.name}
+                    </NextLink>
+                  </Button>
+                )
+              })}
           </section>
-
           <section className="mb-20">
             {isMain === true && (
               <>
