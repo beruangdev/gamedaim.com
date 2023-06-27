@@ -28,7 +28,7 @@ export function TransactionsDashboardContent() {
     },
   })
 
-  const { data: count } = useSWR(`/top-up/count`, fetcher, {
+  const { data: count } = useSWR(`/top-up-transaction/count`, fetcher, {
     onSuccess: (data) => {
       setTotalTransactions(data)
     },
@@ -59,25 +59,25 @@ export function TransactionsDashboardContent() {
             <Tbody>
               {data &&
                 transactions.map((transaction: TransactionDataProps) => (
-                  <Tr key={transaction.reference}>
+                  <Tr key={transaction.invoiceId}>
                     <Td className="line-clamp-3 max-w-[120px]">
                       <div>
                         <span className="font-medium">
-                          {transaction.customer_name}
+                          {transaction.customerName}
                         </span>
                       </div>
                     </Td>
                     <Td className="whitespace-nowrap">
                       <div className="flex">
                         <span className="font-medium">
-                          {transaction.customer_phone}
+                          {transaction.customerPhone}
                         </span>
                       </div>
                     </Td>
                     <Td className="whitespace-nowrap">
                       <div className="flex">
                         <span className="font-medium">
-                          {transaction.account_id}
+                          {transaction.accountId}
                         </span>
                       </div>
                     </Td>
@@ -89,7 +89,7 @@ export function TransactionsDashboardContent() {
                     <Td className="whitespace-nowrap">
                       <div className="flex">
                         <span className="font-medium">
-                          {transaction.payment_method}
+                          {transaction.paymentMethod}
                         </span>
                       </div>
                     </Td>
@@ -103,14 +103,14 @@ export function TransactionsDashboardContent() {
                     <Td className="whitespace-nowrap">
                       <div className="flex">
                         <span className="font-medium">
-                          {transaction.status}
+                          {transaction.paymentStatus}
                         </span>
                       </div>
                     </Td>
                     <Td className="w-auto">
                       <div className="flex">
                         <span className="font-medium">
-                          {transaction.invoice_id}
+                          {transaction.invoiceId}
                         </span>
                       </div>
                     </Td>
@@ -145,6 +145,7 @@ export function TransactionsDashboardContent() {
             {data && page !== lastPage && (
               <Button
                 aria-label="Next Page"
+                size={null}
                 onClick={() => {
                   setPage((old) => old + 1)
                 }}

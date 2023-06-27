@@ -11,17 +11,21 @@ import {
   Input,
 } from "@/components/UI/Form"
 import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import { Badge } from "@/components/UI/Badge"
+
 import { changePriceToIDR } from "@/utils/helper"
 
 import { TransactionDataProps } from "@/lib/data-types"
 import { getTransactionByInvoiceId } from "@/lib/api/server/payment"
-import { Icon } from "@/components/UI/Icon"
+
 interface FormData {
   queryInvoice: string
 }
 export function CheckTransactionContent() {
   const [transaction, setTransaction] =
     React.useState<TransactionDataProps | null>(null)
+  console.log(transaction)
 
   const {
     register,
@@ -102,26 +106,24 @@ export function CheckTransactionContent() {
                         Account Data
                       </div>
                       <div className="col-span-5 md:col-span-4">
-                        {transaction.account_id}
+                        {transaction.accountId}
                       </div>
                       <div className="col-span-3 flex items-center md:col-span-4">
                         Invoice Number
                       </div>
                       <div className="col-span-5 md:col-span-4">
                         <Button
-                          onClick={() =>
-                            copyToClipboard(transaction.invoice_id)
-                          }
+                          onClick={() => copyToClipboard(transaction.invoiceId)}
                           type="button"
                           className="flex items-center space-x-2 rounded-md border px-2.5 py-1 print:hidden"
                         >
                           <div className="max-w-[172px] truncate md:w-auto">
-                            {transaction.invoice_id}
+                            {transaction.invoiceId}
                           </div>
                           <Icon.Copy />
                         </Button>
                         <span className="hidden print:block">
-                          {transaction.invoice_id}
+                          {transaction.invoiceId}
                         </span>
                       </div>
                       <div className="col-span-3 md:col-span-4">
@@ -129,20 +131,30 @@ export function CheckTransactionContent() {
                       </div>
                       <div className="col-span-5 md:col-span-4">
                         <span className="inline-flex rounded-sm px-2 text-xs font-semibold leading-5 print:p-0">
-                          {transaction.status}
+                          <Badge
+                            variant={
+                              transaction.paymentStatus === "PAID"
+                                ? "success"
+                                : transaction.paymentStatus === "UNPAID"
+                                ? "danger"
+                                : "warning"
+                            }
+                          >
+                            {transaction.paymentStatus}
+                          </Badge>
                         </span>
                       </div>
 
                       <div className="col-span-3 md:col-span-4">Message</div>
                       <div className="col-span-5 md:col-span-4">
-                        {transaction.status !== "PAID"
+                        {transaction.paymentStatus !== "PAID"
                           ? "Menunggu pembayaran..."
                           : "Pembayaran berhasil"}
                       </div>
                     </div>
                   </div>
                 </dl>
-                <div className="mt-8 print:hidden">
+                {/* <div className="mt-8 print:hidden">
                   {transaction.checkout_url && (
                     <a
                       aria-label="Lanjutkan Pembayaran"
@@ -154,7 +166,7 @@ export function CheckTransactionContent() {
                       </Button>
                     </a>
                   )}
-                </div>
+                </div> */}
               </div>
             </div>
             <div>
@@ -163,13 +175,13 @@ export function CheckTransactionContent() {
                   <dt className="font-medium">Subtotal</dt>
                   <dd>
                     {changePriceToIDR(
-                      transaction.amount - transaction?.fee_amount,
+                      transaction.amount - transaction.feeAmount,
                     )}
                   </dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="font-medium">Fee</dt>
-                  <dd>{changePriceToIDR(transaction?.fee_amount)}</dd>
+                  <dd>{changePriceToIDR(transaction.feeAmount)}</dd>
                 </div>
                 <div className="text-primary flex items-center justify-between">
                   <dt className="text-xl font-bold print:text-sm md:text-2xl">

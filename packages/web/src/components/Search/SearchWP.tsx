@@ -206,7 +206,7 @@ export const SearchWP = () => {
           </Button>
         </div>
         {showSearchMobile && (
-          <div className="bg-background absolute right-[-101px] top-[60px] block w-[100vw] rounded-md p-5 shadow-lg md:hidden">
+          <div className="bg-background absolute right-[-123px] top-[60px] block w-[100vw] rounded-md p-5 shadow-lg md:hidden">
             <SearchNavForm handleSearch={(e) => handleSearch(e)} />
             {searched && searchQuery && (
               <div className="mt-4 max-h-[350px] overflow-y-scroll">

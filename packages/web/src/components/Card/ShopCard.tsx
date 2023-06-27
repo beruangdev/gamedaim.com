@@ -49,8 +49,12 @@ export const ShopCard = React.forwardRef<HTMLDivElement, ShopCardProps>(
           />
 
           <div className="flex max-w-[200px] flex-col items-center p-2">
-            <h4>{title}</h4>
-            {transactionCounter && <p>{`${transactionCounter} Tranksaksi`}</p>}
+            <h1 className="line-clamp-2 text-base font-semibold">{title}</h1>
+            {transactionCounter ? (
+              <p className="text-sm">{`${transactionCounter} Tranksaksi`}</p>
+            ) : (
+              ""
+            )}
           </div>
         </NextLink>
       </div>

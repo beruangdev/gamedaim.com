@@ -81,7 +81,7 @@ export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
               <div className="relative max-md:ml-auto md:ml-4 md:mr-auto lg:w-[40%] xl:w-[50%]">
                 <SearchWP />
               </div>
-              <div className="grow-1 ml-auto flex flex-row space-x-2">
+              <div className="grow-1 flex flex-row space-x-2">
                 <div className="hidden space-x-2 lg:block">
                   {facebook && facebook?.data?.value && (
                     <NextLink

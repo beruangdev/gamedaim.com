@@ -620,6 +620,7 @@ export async function searchDownloads(
       content: true,
       excerpt: true,
       slug: true,
+      type: true,
       featuredImage: {
         select: {
           id: true,
