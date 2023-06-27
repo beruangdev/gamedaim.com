@@ -29,7 +29,7 @@ export const DownloadButtonAction = (props: DownloadButtonActionProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex w-full flex-col gap-5">
       <Button
         aria-label="Download"
         className="w-44"
@@ -39,7 +39,7 @@ export const DownloadButtonAction = (props: DownloadButtonActionProps) => {
         Download ({fileSize})
       </Button>
       {showCountdown && (
-        <div className="bg-success/10 text-foreground p-7">
+        <div className="bg-success/10 text-foreground w-full p-7">
           {`Link download akan terbuka pada ${difference} detik`}
         </div>
       )}

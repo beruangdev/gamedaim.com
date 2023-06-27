@@ -112,7 +112,9 @@ export function TopUpProductContent(props: TopUpPageProps) {
                     />
                   </div>
                   <div>
-                    <h3>{topUp.brand}</h3>
+                    <h3 className="line-clamp-2 text-xl font-semibold">
+                      {topUp.brand}
+                    </h3>
                   </div>
                 </div>
                 <div>

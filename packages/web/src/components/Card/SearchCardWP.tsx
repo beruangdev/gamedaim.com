@@ -12,7 +12,7 @@ export const SearchCardWP = (props: SearchResultProps) => {
   return (
     <>
       <NextLink aria-label={title} href={url} className="mb-2 w-full">
-        <div className="hover:bg-primary flex flex-row">
+        <div className="hover:bg-primary hover:text-background flex flex-row">
           <div className="relative aspect-[1/1] h-[50px] w-auto max-w-[unset] overflow-hidden rounded-md">
             <Image src={imgUrl} className="object-cover" alt={title} />
           </div>
