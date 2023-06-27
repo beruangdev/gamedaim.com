@@ -9,12 +9,13 @@ import { FormErrorMessage, FormLabel, Input } from "@/components/UI/Form"
 import { Icon } from "@/components/UI/Icon"
 import { TopicDataProps, LanguageTypeData } from "@/lib/data-types"
 import {
+  getTopicPrimaryByIdAction,
   postTopicWithPrimaryAction,
   searchTopicsByLangAndTopicTypeAction,
 } from "@/lib/api/server/topic"
 
 interface FormValues {
-  title: string
+  topicTitle: string
   content: string
   excerpt?: string
   meta_title?: string
@@ -38,10 +39,6 @@ interface AddTopicsProps extends React.HTMLAttributes<HTMLDivElement> {
       }[]
     >
   >
-}
-
-interface FormValues {
-  title: string
 }
 
 export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
@@ -97,10 +94,12 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
       async (value: FormValues) => {
         const { data } = await searchTopicsByLangAndTopicTypeAction(
           locale,
-          value.title,
+          value.topicTitle,
           topicType,
         )
-        const searchResult = data?.find((topic) => topic.title === value.title)
+        const searchResult = data?.find(
+          (topic) => topic.title === value.topicTitle,
+        )
 
         if (searchResult) {
           if (
@@ -119,21 +118,34 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
         } else {
           const { data } = await postTopicWithPrimaryAction({
             ...value,
+            title: value.topicTitle,
             type: topicType,
             language: locale,
           })
 
           if (data) {
-            addSelectedTopics((prev) => [
-              ...prev,
-              { ...data, title: value.title },
-            ])
-            addTopics((prev: string[]) => [...prev, data.id])
-            reset()
-            toast({
-              variant: "success",
-              description: "Topic Successfully created",
-            })
+            const { data: topicDatas } = await getTopicPrimaryByIdAction(
+              data.id,
+            )
+            if (topicDatas) {
+              const topicById = topicDatas.topics.find(
+                (topicData) => topicData.language === locale,
+              ) as TopicDataProps
+
+              addSelectedTopics((prev) => [
+                ...prev,
+                { ...topicById, title: value.topicTitle },
+              ])
+              addTopics((prev: string[]) => [...prev, topicById?.id])
+              reset()
+              toast({
+                variant: "success",
+                description: "Topic Successfully created",
+              })
+              if (!topicById) {
+                toast({ variant: "danger", description: "Something wrong" })
+              }
+            }
           }
         }
       },
@@ -151,7 +163,7 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
     const handleFormSubmit = React.useCallback(
       (event: { preventDefault: () => void }) => {
         event.preventDefault()
-        setValue("title", inputValue)
+        setValue("topicTitle", inputValue)
         handleSubmit(onSubmit)()
       },
       [handleSubmit, inputValue, onSubmit, setValue],
@@ -162,10 +174,11 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
       preventDefault: () => void
     }) => {
       if (event.key === "Enter") {
-        setValue("title", inputValue)
+        setValue("topicTitle", inputValue)
         event.preventDefault()
         handleSubmit(onSubmit)()
         setInputValue("")
+        setSearchResults([])
       }
     }
 
@@ -239,11 +252,11 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
               })}
             <Input
               type="text"
-              {...register("title", {
+              {...register("topicTitle", {
                 required: selectedTopics.length === 0 && "Topic is Required",
               })}
               className="h-auto w-full min-w-[50px] max-w-full shrink grow basis-0 border-none !bg-transparent p-0 focus:border-none focus:ring-0"
-              name="title"
+              name="topicTitle"
               onKeyDown={handleKeyDown}
               id="searchTopic"
               value={inputValue}
@@ -252,8 +265,8 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
               onSubmit={handleFormSubmit}
             />
 
-            {errors?.title && (
-              <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+            {errors?.topicTitle && (
+              <FormErrorMessage>{errors.topicTitle.message}</FormErrorMessage>
             )}
           </div>
           {searchResults.length > 0 && (

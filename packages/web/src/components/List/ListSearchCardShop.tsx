@@ -20,7 +20,7 @@ export const ListSearchCardShop = (props: SearchCardProps) => {
               key={index}
               className="mb-2 w-full"
             >
-              <div className="hover:bg-primary flex flex-row">
+              <div className="hover:bg-primary hover:text-background flex flex-row">
                 <ThumbnailTopUp
                   url={slugify(list.brand)}
                   className="relative mr-2 h-[50px] w-[50px] overflow-hidden rounded-lg"

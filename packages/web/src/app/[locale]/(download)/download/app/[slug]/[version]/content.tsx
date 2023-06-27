@@ -76,7 +76,7 @@ export function DownloadAppVersion(props: DownloadAppVersionProps) {
                     </div>
 
                     <p>{download?.developer}</p>
-                    <div className={"inline-flex space-x-2 pt-12"}>
+                    <div className={"inline-flex w-full space-x-2 pt-12"}>
                       <DownloadButtonAction
                         downloadLink={downloadFile?.downloadLink as string}
                         fileSize={downloadFile?.fileSize as string}

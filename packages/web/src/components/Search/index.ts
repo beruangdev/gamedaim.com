@@ -2,4 +2,4 @@
 
 export * from "./SearchNavbar"
 export * from "./SearchDownload"
-export * from "./SearchWP"
+export * from "./Search"

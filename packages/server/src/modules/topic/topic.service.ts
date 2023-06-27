@@ -143,6 +143,7 @@ export async function getTopicPrimaryById(topicPrimaryId: string) {
           id: true,
           language: true,
           type: true,
+          title: true,
         },
       },
     },
