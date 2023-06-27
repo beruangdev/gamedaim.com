@@ -321,8 +321,11 @@ export const EditDownloadForm = (props: EditDownloadFormProps) => {
                             <SelectContent>
                               <SelectGroup>
                                 <SelectLabel>Language</SelectLabel>
-                                <SelectItem value="id">Indonesia</SelectItem>
-                                <SelectItem value="en">English</SelectItem>
+                                <SelectItem value={download.language}>
+                                  {download.language === "id"
+                                    ? "Indonesia"
+                                    : download.language === "en" && "English"}
+                                </SelectItem>
                               </SelectGroup>
                             </SelectContent>
                           </Select>

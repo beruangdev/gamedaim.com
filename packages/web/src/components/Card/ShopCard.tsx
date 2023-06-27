@@ -25,7 +25,7 @@ export const ShopCard = React.forwardRef<HTMLDivElement, ShopCardProps>(
     React.useEffect(() => {
       const getTransactionCounter = async () => {
         const { data: counter } = await getTopUpTransactionCounter(brand)
-        if (counter !== null) {
+        if (counter) {
           setTransactionCounter(counter?.transactions)
         }
       }
@@ -49,8 +49,8 @@ export const ShopCard = React.forwardRef<HTMLDivElement, ShopCardProps>(
           />
 
           <div className="flex max-w-[200px] flex-col items-center p-2">
-            <h2>{title}</h2>
-            <p>{`${transactionCounter} Tranksaksi`}</p>
+            <h4>{title}</h4>
+            {transactionCounter && <p>{`${transactionCounter} Tranksaksi`}</p>}
           </div>
         </NextLink>
       </div>

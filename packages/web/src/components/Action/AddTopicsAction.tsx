@@ -120,6 +120,7 @@ export const AddTopicsAction = React.forwardRef<HTMLDivElement, AddTopicsProps>(
           const { data } = await postTopicWithPrimaryAction({
             ...value,
             type: topicType,
+            language: locale,
           })
 
           if (data) {
