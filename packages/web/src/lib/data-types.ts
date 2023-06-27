@@ -166,7 +166,7 @@ export interface TopUpRatingDataProps {
   updatedAt: string
 }
 
-export interface TopUpTransactionDataProps {
+export interface TopUpTransactionDataTripayProps {
   id: string
   invoiceId: string
   amount: number
@@ -287,7 +287,7 @@ export interface VoucherDataProps {
   voucherCode: string
   discountPercentage: number
   discountMax: number
-  VoucherAmount: number
+  voucherAmount: number
   description: string
   expiration: string
   active: boolean
@@ -391,7 +391,7 @@ export interface StatusPostPaidTopUpProps {
     }[]
   }
 }
-export interface TransactionDataProps {
+export interface TransactionDataTripayProps {
   fee_amount: number
   account_id: string
   invoice_id: string
@@ -429,26 +429,58 @@ export interface TransactionDataProps {
   paid_at: number
 }
 
+export interface TransactionDataProps {
+  id: string
+  invoiceId: string
+  amount: number
+  paymentMethod: string
+  paymentProvider: string
+  topUpProvider: string
+  sku: string
+  accountId: string
+  customerName: string
+  customerEmail: string
+  customerPhone: string
+  voucherCode: string
+  discountAmount: number
+  feeAmount: number
+  totalAmount: number
+  note: string
+  status: string
+  paymentStatus: string
+  createdAt: string
+  updatedAt: string
+}
+
 export interface BannerProps {
   index: number
   url: string
   active: boolean
 }
 export interface TopupProductProps {
-  total_amount: number
-  fee_amount: number
-  totalFee?: number
-  id: string
   sku: string
-  account_id: string
   server: string
-  refId: string
   note: string
-  name: string
+  productName: string
   voucher?: VoucherDataProps | null
   brands: string
   amount: number
-  merchant_ref: string
+  merchantRef: string
+  invoiceId: string
+  accountId: string
+  customerName: string
+  customerEmail: string
+  customerPhone: string
+  voucherCode: string
+  discountAmount: number
+  feeAmount: number
+  totalAmount: number
+
+  topUpProvider: string
+  paymentMethod: string
+  paymentProvider: string
+  status: string
+  paymentStatus: string
 }
 export type UserDataRole = "USER" | "PRO_USER" | "AUTHOR" | "ADMIN"
 

@@ -29,7 +29,7 @@ import {
 import { Icon } from "@/components/UI/Icon"
 import { Textarea } from "@/components/UI/Textarea"
 
-import { postTopUpTransactions } from "@/lib/api/server/top-up"
+import { postTopUpTransactionsDigiflazz } from "@/lib/api/server/top-up"
 
 import {
   PriceListPostPaidProps,
@@ -91,7 +91,7 @@ export function ManualTopUpsDashboardShopContent(props: ManualTopUpProps) {
               cmd: "pay-pasca",
             },
     }
-    const { data } = await postTopUpTransactions(methods.data)
+    const { data } = await postTopUpTransactionsDigiflazz(methods.data)
 
     if (data) {
       setStatusTopUp(data.data)
@@ -117,40 +117,39 @@ export function ManualTopUpsDashboardShopContent(props: ManualTopUpProps) {
               name="sku"
               render={({ field }) => (
                 <Popover>
-                  <PopoverTrigger asChild>
+                  <PopoverTrigger className="w-[290px]" asChild>
                     <FormControl>
                       <Button
                         variant="outline"
                         type="button"
                         role="combobox"
                         className={`
-                          "w-[200px] justify-between",
+                          "w-[inherit] justify-between",
                           ${!field.value && "text-muted-foreground"},
                         `}
                       >
                         {field.value
                           ? allPrices.find(
                               (price) => field.value === price.buyer_sku_code,
-                            )?.buyer_sku_code
+                            )?.product_name
                           : "Select Sku"}
-                        <Icon.Check className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
+                  <PopoverContent>
                     <Command>
                       <CommandInput
                         placeholder="Search sku..."
                         className="h-9"
                       />
                       <CommandEmpty>No sku found.</CommandEmpty>
-                      <CommandGroup>
+                      <CommandGroup className="h-40 overflow-auto">
                         {allPrices.map((price) => (
                           <CommandItem
                             value={price.buyer_sku_code}
-                            key={price.brand}
-                            onSelect={(value) => {
-                              setValue("sku", value)
+                            key={price.buyer_sku_code}
+                            onSelect={() => {
+                              setValue("sku", price.buyer_sku_code)
                             }}
                           >
                             {price.product_name}

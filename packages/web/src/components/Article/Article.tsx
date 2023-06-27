@@ -180,6 +180,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                     aria-label={tag.name}
                     size="sm"
                     key={tag.slug}
+                    className="mb-2 rounded-full uppercase"
                   >
                     <NextLink
                       aria-label={tag.slug}

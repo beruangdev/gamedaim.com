@@ -7,6 +7,7 @@ import useSWR from "swr"
 import env from "env"
 
 import { UserMenu } from "@/components/Menu"
+import { SearchWP } from "@/components/Search"
 import { IconButton } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { ThemeSwitcher } from "@/components/Theme"
@@ -77,10 +78,10 @@ export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
                   </div>
                 </div>
               </div>
-              {/* <div className="relative max-md:ml-auto md:ml-4 md:mr-auto lg:w-[40%] xl:w-[50%]">
-            <SearchWP />
-          </div> */}
-              <div className="grow-1 ml-auto flex flex-row space-x-2">
+              <div className="relative max-md:ml-auto md:ml-4 md:mr-auto lg:w-[40%] xl:w-[50%]">
+                <SearchWP />
+              </div>
+              <div className="grow-1 flex flex-row space-x-2">
                 <div className="hidden space-x-2 lg:block">
                   {facebook && facebook?.data?.value && (
                     <NextLink

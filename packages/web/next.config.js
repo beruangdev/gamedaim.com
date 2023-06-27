@@ -13,6 +13,7 @@ const nextConfig = {
       "gamedaim.com",
       "secure.gravatar.com",
       "caragame.id",
+      "assets.tripay.co.id",
     ],
   },
   headers() {

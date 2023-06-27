@@ -196,8 +196,11 @@ export const EditTopicForm = (props: { id: string }) => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Language</SelectLabel>
-                  <SelectItem value="id">Indonesia</SelectItem>
-                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value={topic.language}>
+                    {topic.language === "id"
+                      ? "Indonesia"
+                      : topic.language === "en" && "English"}
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>

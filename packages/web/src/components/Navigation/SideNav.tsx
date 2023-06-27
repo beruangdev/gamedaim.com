@@ -126,6 +126,6 @@ function getIcons(item: string, styles: string | undefined) {
     case "Tutorial":
       return <Icon.CheckSquare aria-label="Tutorial" className={styles} />
     default:
-      return <Icon.News aria-label="Berita" className={styles} />
+      break
   }
 }

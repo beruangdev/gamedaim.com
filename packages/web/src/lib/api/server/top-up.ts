@@ -7,7 +7,7 @@ import {
   PriceListPrePaidProps,
   StatusPostPaidTopUpProps,
   StatusPrePaidTopUpProps,
-  TransactionDataProps,
+  TransactionDataTripayProps,
 } from "@/lib/data-types"
 
 export const postProductsPrePaid = async () => {
@@ -74,7 +74,7 @@ export const getProductsPostPaid = async () => {
 
   return { data: res?.value, error: null }
 }
-export const postTopUpTransactions = async (value: unknown) => {
+export const postTopUpTransactionsDigiflazz = async (value: unknown) => {
   const [res, err] = await http<{
     data: StatusPostPaidTopUpProps & StatusPrePaidTopUpProps
   }>("POST", {
@@ -96,14 +96,37 @@ export const postTopUpTransactions = async (value: unknown) => {
 
   return { data: res, error: null }
 }
+
+export const postTopUpTransactions = async (value: unknown) => {
+  const [res, err] = await http<{
+    data: StatusPostPaidTopUpProps & StatusPrePaidTopUpProps
+  }>("POST", {
+    url: "/top-up-transaction/",
+    data: value,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
 export const updateStatusTopUpByMerchantRef = async (
-  route: string,
+  invoiceId: string,
   value: unknown,
 ) => {
   const [res, err] = await http<{
-    data: TransactionDataProps
+    data: TransactionDataTripayProps
   }>("PUT", {
-    url: `/top-up/tripay/transaction/${route}`,
+    url: `/top-up-transaction/status/${invoiceId}`,
     data: value,
   })
 

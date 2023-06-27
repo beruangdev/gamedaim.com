@@ -32,7 +32,7 @@ const useCart = (): [
 
   const removeItemFromCart = (itemId: string): void => {
     setCartItems((prevCartItems) =>
-      prevCartItems.filter((item) => item.id !== itemId),
+      prevCartItems.filter((item) => item.invoiceId !== itemId),
     )
   }
 

@@ -72,7 +72,6 @@ export function UploadProductMediaDashboardContent(
       }
 
       const { data } = await postSettingAction(keyData)
-      console.log(data)
 
       if (data) {
         toast({ variant: "success", description: "Sukses" })
