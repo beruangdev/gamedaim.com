@@ -25,7 +25,6 @@ interface FormData {
 export function CheckTransactionContent() {
   const [transaction, setTransaction] =
     React.useState<TransactionDataProps | null>(null)
-  console.log(transaction)
 
   const {
     register,
@@ -54,7 +53,7 @@ export function CheckTransactionContent() {
     }
   }, [])
   return (
-    <div className="mx-auto flex w-full flex-col space-y-4 px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
+    <div className="mx-auto flex min-h-[600px] w-full flex-col space-y-4 px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
       <div>
         <form
           onSubmit={(e) => e.preventDefault()}

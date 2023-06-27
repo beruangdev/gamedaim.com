@@ -6,10 +6,8 @@ import env from "env"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { getTopicArticlesBySlugAction } from "@/lib/api/server/topic"
 import { TopicArticleContent } from "./content"
-import { getArticlesBySlugAction } from "@/lib/api/server/article"
 import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import { BreadcrumbJsonLd } from "next-seo"
-import article from "next-seo/lib/jsonld/article"
 
 export const revalidate = 60
 
