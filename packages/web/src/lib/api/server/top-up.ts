@@ -121,7 +121,7 @@ export const updateStatusTopUpByMerchantRef = async (
 
 export const getPriceListPrePaid = async () => {
   const [res, err] = await http<{
-    value: PriceListPrePaidProps[] & { message: string }
+    value: PriceListPrePaidProps[]
   }>("POST", {
     url: "/top-up/digiflazz/price-list-prepaid",
     headers: {
@@ -146,7 +146,7 @@ export const getPriceListPrePaid = async () => {
 
 export const getPriceListPostPaid = async () => {
   const [res, err] = await http<{
-    data: PriceListPostPaidProps[] & { message: string }
+    value: PriceListPostPaidProps[]
   }>("POST", {
     url: "/top-up/digiflazz/price-list-postpaid",
     headers: {
@@ -162,20 +162,7 @@ export const getPriceListPostPaid = async () => {
         ?.message as string,
     }
   }
-  let allPrices: PriceListPostPaidProps[] = []
-  if (res) {
-    if (Array.isArray(res?.data)) {
-      await postProductsPostPaid()
-      allPrices = res?.data as PriceListPostPaidProps[]
-    } else {
-      const { data } = await getProductsPostPaid()
-      allPrices = data as PriceListPostPaidProps[]
-    }
-  } else {
-    const { data } = await getProductsPostPaid()
-    allPrices = data as PriceListPostPaidProps[]
-  }
-
+  const allPrices = res?.value
   return { data: allPrices, error: null }
 }
 
@@ -189,7 +176,7 @@ export const getPriceListBySlug = async (slug: string) => {
   const priceBySlugDatas = allPrices.find((price: { brand: string }) => {
     const brand = slugify(price.brand)
     return brand.includes(slug)
-  })
+  }) as PriceListPrePaidProps | PriceListPostPaidProps
   return {
     priceBySlug: priceBySlugDatas,
   }

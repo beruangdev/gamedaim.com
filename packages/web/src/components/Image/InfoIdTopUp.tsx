@@ -16,9 +16,10 @@ export const InfoIdTopUp = (props: InfoIdTopUpProps) => {
   const [imageError, setImageError] = React.useState(false)
   React.useEffect(() => {
     const getInfoIdTopUp = async () => {
-      const { data } = await getSettingByKeyAction(`info-id-${url}`)
+      const { data } = await getSettingByKeyAction(`${url}-image`)
       if (data) {
-        setInfoIdTopUpUrl(data.value)
+        const parsedData = JSON.parse(data.value)
+        setInfoIdTopUpUrl(parsedData.infoIdImage)
       }
       setLoading(false)
     }
