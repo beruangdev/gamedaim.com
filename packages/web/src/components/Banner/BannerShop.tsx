@@ -38,7 +38,7 @@ export const BannerShop = () => {
               aria-label="Prev"
               id="prev"
               variant="outline"
-              className={`${arrowClass} left-[5%] z-[49]`}
+              className={`${arrowClass} left-[5%] z-[20]`}
             >
               <Icon.ArrowBack aria-label="Prev" />
             </Button>
@@ -46,7 +46,7 @@ export const BannerShop = () => {
               aria-label="Next"
               id="next"
               variant="outline"
-              className={`${arrowClass} right-[5%] z-[49]`}
+              className={`${arrowClass} right-[5%] z-[20]`}
             >
               <Icon.ArrowForward aria-label="Next" />
             </Button>
