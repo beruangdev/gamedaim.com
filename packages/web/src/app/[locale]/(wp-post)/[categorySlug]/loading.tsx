@@ -1,7 +1,6 @@
 import { Skeleton } from "@/components/UI/Skeleton"
 
 export default function LoadingIndex() {
-  // You can add any UI inside Loading, including a Skeleton.
   return (
     <div className="mt-10 w-full lg:px-4">
       <div className="flex w-full">
