@@ -7,7 +7,7 @@ export default function LoadingIndex() {
         <div className="relative ml-auto mr-auto grow px-3">
           <div className="h-full">
             <div className="-ml-4 -mr-4 flex h-full flex-row flex-nowrap items-center">
-              <div id="drawer">
+              <div>
                 <Skeleton className="h-4 w-4" />
               </div>
               <div className="flex min-w-0 max-w-full flex-shrink-0 flex-grow-0 basis-auto flex-col pl-4 pr-4">
@@ -80,14 +80,14 @@ export default function LoadingIndex() {
                   <Skeleton className="mt-4 hidden h-20 w-40 md:block" />
                 </div>
               </div>
-              <div className="mb-[30px] flex w-full">
+              <div className="mb-[30px] flex w-full justify-between lg:justify-start">
                 <Skeleton className=" order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
                 <div className="order-1 mr-3 flex flex-col md:order-2 md:mr-[unset]">
                   <Skeleton className="h-8 w-40" />
                   <Skeleton className="mt-4 h-20 w-40" />
                 </div>
               </div>
-              <div className="mb-[30px] flex w-full">
+              <div className="mb-[30px] flex w-full justify-between lg:justify-start">
                 <Skeleton className=" order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
                 <div className="order-1 mr-3 flex flex-col md:order-2 md:mr-[unset]">
                   <Skeleton className="h-8 w-40" />
