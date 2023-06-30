@@ -119,7 +119,7 @@ const TopUpReviewItem = ({
 
   return (
     <div className="mb-6 flex gap-2">
-      <Icon.Account className="text-muted h-8 w-8" />
+      <Icon.Account className="text-foreground h-8 w-8" />
       <div className="flex flex-1 flex-col">
         <div className="bg-foreground/10 mb-2 rounded-lg px-3 py-2">
           <div className="flex items-center gap-3">
@@ -263,7 +263,7 @@ function TopUpReplyItem({
   return (
     <div className="flex">
       <div className="flex basis-1/12 justify-center py-2">
-        <Icon.Account className="text-muted h-8 w-8" />
+        <Icon.Account className="text-foreground h-8 w-8" />
       </div>
       <div className="flex-1">
         <div className="bg-foreground/10 mb-2 rounded-lg px-3 py-2">
@@ -364,8 +364,8 @@ const ReviewForm = ({
   topUpReviewRef: React.RefObject<HTMLTextAreaElement>
 }) => {
   return (
-    <div className="bg-warning-foreground flex gap-2 rounded-lg px-6 py-8">
-      <Icon.Account className="text-muted h-10 w-10" />
+    <div className="bg-foreground/10 flex gap-2 rounded-lg px-6 py-8">
+      <Icon.Account className="text-foreground h-10 w-10" />
       <form
         className="flex flex-1 flex-col gap-3"
         method="post"
@@ -391,7 +391,7 @@ const ReviewForm = ({
               />
               <label
                 htmlFor="rating-like"
-                className="bg-background/10 hover:bg-background/20 peer-checked/like:bg-background/60 inline-flex cursor-pointer rounded-lg px-6 py-2"
+                className="hover:bg-background/30 peer-checked/like:bg-background/60 inline-flex cursor-pointer rounded-lg px-6 py-2"
               >
                 <Icon.ThumbUp className="text-success h-4 w-4" />
               </label>
@@ -407,7 +407,7 @@ const ReviewForm = ({
               />
               <label
                 htmlFor="rating-dislike"
-                className="bg-background/10 hover:bg-background/20 peer-checked/dislike:bg-background/60 inline-flex cursor-pointer rounded-lg px-6 py-2"
+                className="hover:bg-background/30 peer-checked/dislike:bg-background/60 inline-flex cursor-pointer rounded-lg px-6 py-2"
               >
                 <Icon.ThumbDown className="text-danger h-4 w-4" />
               </label>
@@ -450,8 +450,8 @@ const TopUpReplyForm = ({
     setLoading(false)
   }
   return (
-    <div className="bg-warning-foreground flex gap-2 rounded-lg p-4">
-      <Icon.Account className="text-muted h-10 w-10" />
+    <div className="bg-foreground/10 flex gap-2 rounded-lg p-4">
+      <Icon.Account className="text-foreground h-10 w-10" />
       <form
         className="flex flex-1 gap-3"
         method="post"

@@ -45,6 +45,7 @@ import {
 import useCart from "@/hooks/use-cart"
 import { postTripayTransactionClosed } from "@/lib/api/server/payment"
 import { postTopUpTransactions } from "@/lib/api/server/top-up"
+import { TopUpCommentForm } from "@/components/UI/Form/TopUpCommentForm"
 
 interface FormData {
   buyer_sku_code: string
@@ -76,6 +77,7 @@ interface TopUpPageProps {
 
 export function TopUpProductContent(props: TopUpPageProps) {
   const { settingsSite, products, topUp, channel, margin } = props
+  console.log("🚀 ~ file: content.tsx:79 ~ TopUpProductContent ~ props:", props)
 
   const cleanedText = topUp && topUp.product_name.replace(/\d+(\.\d+)?/g, "")
 
@@ -140,9 +142,9 @@ export function TopUpProductContent(props: TopUpPageProps) {
         </div>
       </div>
       <hr className="border-t" />
-      {/* <div className="mx-auto flex w-full flex-col space-y-4 px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
-        <TopUpCommentForm brand={topUp.brand} />
-      </div> */}
+      <div className="mx-auto flex w-full flex-col space-y-4 px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
+        <TopUpCommentForm brand={topUp?.brand ?? ""} />
+      </div>
     </div>
   )
 }

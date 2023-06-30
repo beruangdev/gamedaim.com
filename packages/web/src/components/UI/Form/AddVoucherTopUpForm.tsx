@@ -47,13 +47,13 @@ export const AddVoucherTopUp = React.forwardRef<
     async (event: React.MouseEvent) => {
       event.preventDefault()
 
-      const voucher = await getVoucherByCode(voucherQuery)
+      const { data: voucher } = await getVoucherByCode(voucherQuery)
 
       if (
         voucher &&
         voucher.length > 0 &&
         currentTime < new Date(voucher[0].expiration).getTime() &&
-        voucher[0].VoucherAmount > 0
+        voucher[0].voucherAmount > 0
       ) {
         setVoucherCode(voucher[0])
       } else {
@@ -80,7 +80,7 @@ export const AddVoucherTopUp = React.forwardRef<
       currentTime > new Date(voucherCode?.expiration).getTime()
     ) {
       status = "Voucher Sudah Kadaluarsa"
-    } else if (isSubmitted && voucherCode && voucherCode?.VoucherAmount === 0) {
+    } else if (isSubmitted && voucherCode && voucherCode?.voucherAmount === 0) {
       status = "Voucher telah habis"
     } else if (
       isSubmitted &&

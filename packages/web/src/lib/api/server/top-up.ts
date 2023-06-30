@@ -270,7 +270,9 @@ export const getTopUpByBrand = async (slug: string) => {
     )[0]
   }) as PriceListPrePaidProps[]
   const filteredPrices = getPricesbyBrand.map(addPropertiesPrices)
-  const getDataBySlug = filteredPrices.find((price) => price.slug === slug)
+  const getDataBySlug = filteredPrices.find(
+    (price) => price.slug === slug.toLocaleLowerCase(),
+  )
   return { topUp: getDataBySlug }
 }
 
