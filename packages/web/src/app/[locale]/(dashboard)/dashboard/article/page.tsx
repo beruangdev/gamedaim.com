@@ -22,9 +22,5 @@ export const metadata: Metadata = {
 }
 
 export default function ArticlesDashboard() {
-  return (
-    <>
-      <ArticleDashboardContent />
-    </>
-  )
+  return <ArticleDashboardContent />
 }

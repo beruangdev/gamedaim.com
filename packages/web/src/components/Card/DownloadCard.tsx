@@ -53,7 +53,7 @@ export const DownloadCard = React.forwardRef<HTMLDivElement, DownloadCardProps>(
               size={null}
               variant="outline"
               aria-label="Operating System"
-              className="absolute right-[5px] top-[5px] h-10 w-10 rounded-full p-[1px]"
+              className="bg-background absolute right-[5px] top-[5px] h-10 w-10 rounded-full p-[1px]"
             >
               {icon}
             </Button>
