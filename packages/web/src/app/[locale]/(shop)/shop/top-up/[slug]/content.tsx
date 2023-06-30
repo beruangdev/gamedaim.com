@@ -77,7 +77,6 @@ interface TopUpPageProps {
 
 export function TopUpProductContent(props: TopUpPageProps) {
   const { settingsSite, products, topUp, channel, margin } = props
-  console.log("🚀 ~ file: content.tsx:79 ~ TopUpProductContent ~ props:", props)
 
   const cleanedText = topUp && topUp.product_name.replace(/\d+(\.\d+)?/g, "")
 
