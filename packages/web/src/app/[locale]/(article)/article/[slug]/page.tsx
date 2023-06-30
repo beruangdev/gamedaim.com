@@ -105,6 +105,7 @@ export default async function ArticleSlugPage({
           },
         ]}
       />
+
       <SingleArticleContent
         article={article}
         articles={articles}
