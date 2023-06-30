@@ -42,13 +42,18 @@ export const DownloadCard = React.forwardRef<HTMLDivElement, DownloadCardProps>(
               href={`/download/${type.toLowerCase()}/${slug}`}
             >
               <div className="relative h-[185px] w-[200px]">
-                <Image src={featuredImage?.url as string} alt={title} />
+                <Image
+                  src={featuredImage?.url as string}
+                  className="object-cover"
+                  alt={title}
+                />
               </div>
             </NextLink>
             <Button
               size={null}
+              variant="outline"
               aria-label="Operating System"
-              className="bg-primary absolute right-[5px] top-[5px] h-10 w-10 rounded-full p-[1px]"
+              className="absolute right-[5px] top-[5px] h-10 w-10 rounded-full p-[1px]"
             >
               {icon}
             </Button>

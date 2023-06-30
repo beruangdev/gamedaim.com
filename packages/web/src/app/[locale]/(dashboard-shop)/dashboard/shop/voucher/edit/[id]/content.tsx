@@ -54,7 +54,7 @@ export function EditVoucherDashboardShopContent(props: { voucherId: string }) {
         name: data.name,
         discountPercentage: data.discountPercentage,
         discountMax: data.discountMax,
-        voucherAmount: data.VoucherAmount,
+        voucherAmount: data.voucherAmount,
         description: data.description,
         expiration: data.expiration.substring(0, 10),
         active: data.active,

@@ -19,7 +19,7 @@ export const Footer = React.forwardRef<HTMLDivElement, FooterProps>(
 
     return (
       <footer
-        className={`${className} bg-background/70 border-border mt-12 flex flex-col border border-t`}
+        className={`${className} bg-background/70 border-border relative mt-12 flex flex-col border border-t`}
         ref={ref}
         {...rest}
       >

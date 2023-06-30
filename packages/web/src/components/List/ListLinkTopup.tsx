@@ -23,7 +23,7 @@ export const ListLinkTopup = React.forwardRef<
             key={i}
             aria-label={`Show ${link.category}`}
             variant={active === link.category ? "info" : "outline"}
-            className="border-border h-[unset] rounded-lg focus:ring-0"
+            className="border-border bg-shop hover:bg-shop/70 focus:bg-shop h-[unset] rounded-lg focus:ring-0"
             onClick={() => {
               chooseTab(link.category)
             }}

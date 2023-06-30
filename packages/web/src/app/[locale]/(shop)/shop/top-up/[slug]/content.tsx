@@ -22,6 +22,8 @@ import {
 import { Icon } from "@/components/UI/Icon"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
+import { BannerTopup } from "@/components/Banner"
+
 import { methodsEWallet, methodsMart, methodsVA } from "@/data/payment-methods"
 
 import {
@@ -42,6 +44,7 @@ import {
 } from "@/utils/helper"
 import useCart from "@/hooks/use-cart"
 import { postTripayTransactionClosed } from "@/lib/api/server/payment"
+import { postTopUpTransactions } from "@/lib/api/server/top-up"
 
 interface FormData {
   buyer_sku_code: string
@@ -78,6 +81,12 @@ export function TopUpProductContent(props: TopUpPageProps) {
 
   return (
     <div className="mx-auto flex w-full flex-col space-y-4 px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
+      <div>
+        <BannerTopup
+          url={`/shop/topup/${topUp?.slug}`}
+          brand={topUp?.brand as string}
+        />
+      </div>
       <div className="flex flex-col lg:flex-row lg:space-x-2">
         <div className="order-2 w-full lg:order-1 lg:w-2/3">
           {products && topUp && channel && margin && settingsSite && (
@@ -95,7 +104,6 @@ export function TopUpProductContent(props: TopUpPageProps) {
           <div className="sticky top-[70px] w-full rounded border p-4">
             {topUp && (
               <>
-                {" "}
                 <div className="mb-2 flex gap-2">
                   <div>
                     <ThumbnailTopUp
@@ -104,7 +112,9 @@ export function TopUpProductContent(props: TopUpPageProps) {
                     />
                   </div>
                   <div>
-                    <h1>{topUp.brand}</h1>
+                    <h3 className="line-clamp-2 text-xl font-semibold">
+                      {topUp.brand}
+                    </h3>
                   </div>
                 </div>
                 <div>
@@ -292,12 +302,10 @@ const FormTopUp = (props: FormTopUpProps) => {
           )
           const totalAmount = fixedPrice > 0 ? fixedPrice : totalPrice
           const { data: tripayRes } = await postTripayTransactionClosed({
+            ...data,
             payment_method: payment.code,
             amount: totalAmount,
             payment_provider: "tripay",
-            customer_name: data.customer_name,
-            customer_email: data.customer_email,
-            customer_phone: data.customer_phone,
             account_id: accountId,
             voucher_code: "no voucher",
             discount_amount: 0,
@@ -315,7 +323,6 @@ const FormTopUp = (props: FormTopUpProps) => {
                 image_url: "no image_url",
               },
             ],
-            note: data.note,
             callback_url: env.API,
             return_url: `https://${env.DOMAIN}/shop/top-up/transaction`,
             expired_time: 0,
@@ -323,29 +330,42 @@ const FormTopUp = (props: FormTopUpProps) => {
 
           if (tripayRes && tripayRes.success) {
             const dataId = {
-              id: tripayRes.data.merchant_ref as string,
+              invoiceId: tripayRes.data.merchant_ref as string,
               sku: amount.buyer_sku_code,
-              merchant_ref: tripayRes.data.merchant_ref as string,
-              refId: tripayRes.data.reference,
+              merchantRef: tripayRes.data.reference,
               server: "",
-              name: data.customer_name,
+              productName: amount.product_name,
+              customerName: data.customer_name,
+              customerEmail: data.customer_email,
+              customerPhone: data.customer_phone,
+              voucherCode: voucherTopUp?.voucherCode || "",
+              discountAmount: fixedPrice > 0 ? totalPrice - fixedPrice : 0,
+              paymentMethod: payment.code,
+              paymentProvider: "TRIPAY",
+              status: "PROCESSING",
+              paymentStatus: tripayRes.data.status,
+              topUpProvider: "DIGIFLAZZ",
               brands: topUp.brand,
               amount: totalAmount,
-              fee_amount: totalAmount && totalAmount - amount.price,
-              total_amount: totalAmount,
-              account_id: accountId,
+              feeAmount: totalAmount && totalAmount - amount.price,
+              totalAmount: totalAmount,
+              accountId: accountId,
               note: data.note as string,
               voucher: fixedPrice > 0 ? voucherTopUp : null,
             }
+            const { data: postData } = await postTopUpTransactions(dataId)
 
             addItemToCart(dataId)
-            router.push(
-              "/shop/top-up/transaction?tripay_reference=" +
-                tripayRes.data.reference,
-            )
+            if (postData) {
+              router.push(
+                "/shop/top-up/transaction?tripay_reference=" +
+                  tripayRes.data.reference,
+              )
+            }
           }
         } catch (error) {
           console.log(error)
+          toast({ variant: "danger", description: "Something wrong" })
         }
       }
       setLoadingModal(false)
@@ -372,7 +392,9 @@ const FormTopUp = (props: FormTopUpProps) => {
       >
         <div className="flex flex-col gap-2 rounded border p-4">
           <div>
-            <h1>Masukkan Data Akun</h1>
+            <h1 className="line-clamp-2 text-xl font-semibold">
+              Masukkan Data Akun
+            </h1>
           </div>
           <div className="flex gap-2">
             <FormControl>
@@ -422,7 +444,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   <Button
                     aria-label="Petunjuk"
                     onClick={() => setOpenInfo(true)}
-                    className="bg-shop rounded-full"
+                    className="bg-shop hover:bg-shop/70 rounded-full"
                   >
                     <Icon.Help aria-label="Petunjuk" className="mr-2" />
                     Petunjuk
@@ -437,7 +459,9 @@ const FormTopUp = (props: FormTopUpProps) => {
         </div>
         <div className="rounded border p-4">
           <div>
-            <h1>Pilih Nominal</h1>
+            <h1 className="line-clamp-2 text-xl font-semibold">
+              Pilih Nominal
+            </h1>
           </div>
           <div className="grid grid-cols-2 gap-4">
             {products.map((price: PriceListPrePaidProps) => {
@@ -463,7 +487,9 @@ const FormTopUp = (props: FormTopUpProps) => {
         </div>
         <div className="flex flex-col gap-4 rounded border p-4">
           <div>
-            <h2>Pilih Pembayaran</h2>
+            <h1 className="line-clamp-2 text-xl font-semibold">
+              Pilih Pembayaran
+            </h1>
           </div>
           {amount &&
             channel.eWallet &&
@@ -474,7 +500,9 @@ const FormTopUp = (props: FormTopUpProps) => {
                   className="mb-2 w-full cursor-pointer p-2"
                   onClick={handleEWalletClick}
                 >
-                  <h2>E-Wallet</h2>
+                  <h2 className="line-clamp-2 text-xl font-semibold">
+                    E-Wallet
+                  </h2>
                 </div>
                 <div
                   className={`grid-cols-2 gap-4 transition-all md:grid-cols-3 ${
@@ -526,7 +554,9 @@ const FormTopUp = (props: FormTopUpProps) => {
                   className="mb-2 w-full cursor-pointer p-2"
                   onClick={handleVAClick}
                 >
-                  <h2>Virtual Account</h2>
+                  <h2 className="line-clamp-2 text-xl font-semibold">
+                    Virtual Account
+                  </h2>
                 </div>
                 <div
                   className={`grid-cols-2 gap-4 transition-all md:grid-cols-3  ${
@@ -578,7 +608,9 @@ const FormTopUp = (props: FormTopUpProps) => {
                   className="mb-2 w-full cursor-pointer p-2"
                   onClick={handleMartClick}
                 >
-                  <h2>Convenience Shop</h2>
+                  <h2 className="line-clamp-2 text-xl font-semibold">
+                    Convenience Shop
+                  </h2>
                 </div>
                 <div
                   className={`grid-cols-2 gap-4 transition-all md:grid-cols-3  ${
@@ -712,7 +744,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   loading={loadingModal}
                   aria-label="Order Sekarang"
                   onClick={handleSubmit(onSubmit)}
-                  className="bg-shop"
+                  className="bg-shop hover:bg-shop/70"
                 >
                   Order Sekarang
                 </Button>
@@ -724,7 +756,7 @@ const FormTopUp = (props: FormTopUpProps) => {
           <Button
             aria-label="Order Sekarang"
             onClick={handleSubmit(handleOpenModalTopUp)}
-            className="bg-shop"
+            className="bg-shop hover:bg-shop/70"
           >
             Order Sekarang
           </Button>

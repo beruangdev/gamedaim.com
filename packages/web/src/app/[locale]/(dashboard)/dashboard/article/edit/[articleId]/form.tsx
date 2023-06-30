@@ -267,8 +267,11 @@ export const EditArticleForm = (props: { articleId: string }) => {
                               <SelectContent>
                                 <SelectGroup>
                                   <SelectLabel>Language</SelectLabel>
-                                  <SelectItem value="id">Indonesia</SelectItem>
-                                  <SelectItem value="en">English</SelectItem>
+                                  <SelectItem value={article.language}>
+                                    {article.language === "id"
+                                      ? "Indonesia"
+                                      : article.language === "en" && "English"}
+                                  </SelectItem>
                                 </SelectGroup>
                               </SelectContent>
                             </Select>

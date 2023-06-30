@@ -162,7 +162,7 @@ export const AddArticleForm = () => {
           <div>
             <Button
               aria-label="Publish"
-              type="submit"
+              type="button"
               onClick={handleSubmit(onSubmit)}
               variant="ghost"
               loading={loading}

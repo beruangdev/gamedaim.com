@@ -551,38 +551,6 @@ export const AddDownloadForms = () => {
                       )}
                     </FormControl>
                   </div>
-                  <div className="my-2 flex flex-col px-4">
-                    <FormControl invalid={Boolean(errors.language)}>
-                      <FormLabel>Language</FormLabel>
-                      <Controller
-                        control={control}
-                        name="language"
-                        render={({ field }) => (
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            value={field.value}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a language" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>Language</SelectLabel>
-                                <SelectItem value="id">Indonesia</SelectItem>
-                                <SelectItem value="en">English</SelectItem>
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors?.language && (
-                        <FormErrorMessage>
-                          {errors.language.message}
-                        </FormErrorMessage>
-                      )}
-                    </FormControl>
-                  </div>
                 </div>
               </ScrollArea>
             </div>

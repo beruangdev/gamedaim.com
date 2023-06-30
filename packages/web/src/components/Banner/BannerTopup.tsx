@@ -1,12 +1,12 @@
 import * as React from "react"
-import { MdChevronRight } from "react-icons/md"
-import { CoverTopUp } from "@/components/Picture"
-import { slugify } from "@/utils/helper"
+import { CoverTopUp } from "@/components/Image"
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
 } from "@/components/UI/Breadcrumb"
+import { Icon } from "@/components/UI/Icon"
+import { slugify } from "@/utils/helper"
 
 interface BannerTopUpProps extends React.HTMLAttributes<HTMLDivElement> {
   url: string
@@ -23,11 +23,11 @@ export const BannerTopup = React.forwardRef<HTMLDivElement, BannerTopUpProps>(
         ref={ref}
       >
         <CoverTopUp url={slugify(brand)} className="relative h-full w-full" />
-        <div className="absolute flex h-full w-full items-center justify-center bg-[#0000008f]">
+        <div className="bg-foreground/20 absolute flex h-full w-full items-center justify-center">
           <Breadcrumb
-            className="breadcrumb-topup text-foreground"
+            className="breadcrumb-topup text-background"
             separator={
-              <MdChevronRight
+              <Icon.ChevronRight
                 aria-label="Breadcrumb"
                 className="text-background"
               />

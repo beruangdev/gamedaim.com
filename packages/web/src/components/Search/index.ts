@@ -2,3 +2,4 @@
 
 export * from "./SearchNavbar"
 export * from "./SearchDownload"
+export * from "./Search"

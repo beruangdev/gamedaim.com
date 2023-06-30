@@ -46,7 +46,7 @@ export const ShareButton = React.forwardRef<HTMLDivElement, ShareButtonProps>(
           <IconButton
             aria-label={text}
             variant={variant}
-            className={cn(className, "mb-0 h-10 w-12 md:mb-1")}
+            className={cn(className, "mb-0 h-10 w-12 text-white md:mb-1")}
           >
             {icon}
           </IconButton>

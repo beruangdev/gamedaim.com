@@ -70,7 +70,9 @@ export function AdDashboardContent() {
                       </Td>
                       <Td className="white-space-nowrap">
                         <div className="flex">
-                          <span className="font-medium">{ad.position}</span>
+                          <span className="line-clamp-3 break-words font-medium">
+                            {ad.position}
+                          </span>
                         </div>
                       </Td>
                       <Td className="white-space-nowrap">

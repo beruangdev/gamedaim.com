@@ -39,7 +39,6 @@ export default async function IndexPage() {
           },
         ]}
       />
-
       <MainContainer>
         <IndexContent
           adsBelowHeader={adsBelowHeader}

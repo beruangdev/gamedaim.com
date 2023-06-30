@@ -1,10 +1,14 @@
-import { PaymentMethodsProps, TransactionDataProps } from "@/lib/data-types"
+import {
+  PaymentMethodsProps,
+  TransactionDataProps,
+  TransactionDataTripayProps,
+} from "@/lib/data-types"
 import { http } from "@/lib/http"
 import { getSettingByKeyAction } from "./setting"
 
 export const postTripayTransactionClosed = async (value: unknown) => {
   const [res, err] = await http<{
-    data: TransactionDataProps
+    data: TransactionDataTripayProps
     success: boolean
   }>("POST", {
     url: "/payment/tripay/transaction/create/closed",

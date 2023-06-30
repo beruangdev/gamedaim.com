@@ -9,17 +9,17 @@ import env from "env"
 import { ThumbnailTopUp } from "@/components/Image"
 import { Button } from "@/components/UI/Button"
 import { toast } from "@/components/UI/Toast"
-
+import { Icon } from "@/components/UI/Icon"
+import { Badge } from "@/components/UI/Badge"
 import useCart from "@/hooks/use-cart"
 import {
-  postTopUpTransactions,
+  postTopUpTransactionsDigiflazz,
   updateStatusTopUpByMerchantRef,
 } from "@/lib/api/server/top-up"
 import { putVoucher } from "@/lib/api/server/vouchers"
 import { TopupProductProps } from "@/lib/data-types"
 import { fetcher } from "@/lib/http"
 import { changePriceToIDR, copyToClipboard, slugify } from "@/utils/helper"
-import { Icon } from "@/components/UI/Icon"
 
 export function DetailTransactionContent() {
   const [cartItems] = useCart()
@@ -29,7 +29,7 @@ export function DetailTransactionContent() {
   const [isPaid, setIsPaid] = React.useState<boolean>(false)
   const [statusTransaction, setStatusTransaction] = React.useState("Pending")
   const datasTopUp: TopupProductProps = cartItems.find(
-    (item) => item.refId === tripay_reference,
+    (item) => item.merchantRef === tripay_reference,
   ) as TopupProductProps
 
   const { data: transaction } = useSWR(
@@ -49,42 +49,14 @@ export function DetailTransactionContent() {
 
   React.useEffect(() => {
     if (statusTransaction === "Success") {
-      postTopUpTransactions(datasTopUp?.brands)
+      postTopUpTransactionsDigiflazz(datasTopUp?.brands)
     }
   }, [datasTopUp?.brands, statusTransaction])
 
   React.useEffect(() => {
     const statusData = {
-      account_id: datasTopUp?.account_id,
-      method: transaction?.data.payment_method,
-      merchant_ref: transaction?.data.merchant_ref,
-      amount: transaction?.data.amount,
-      payment_provider: "tripay",
-      payment_method: transaction?.data.payment_method,
-      customer_name: transaction?.data.customer_name,
-      customer_email: transaction?.data.customer_email,
-      customer_phone: transaction?.data.customer_phone,
-      customer_no: datasTopUp?.account_id,
-      fee_amount: datasTopUp?.fee_amount,
-      sku: datasTopUp?.sku,
-      total_amount: datasTopUp?.total_amount,
-      order_items: [
-        {
-          sku: datasTopUp?.sku,
-          name: transaction?.data.order_items[0].name,
-          customerNo: datasTopUp?.account_id,
-          price: transaction?.data.order_items[0].price,
-          quantity: transaction?.data.order_items[0].quantity,
-          subtotal: transaction?.data.order_items[0].subtotal,
-          product_url: transaction?.data.order_items[0].product_url,
-          image_url: transaction?.data.order_items[0].image_url,
-        },
-      ],
-      callback_url: env.API,
-      return_url: `https://${env.DOMAIN}/shop/top-up/transactions}`,
-      expired_time: transaction?.data.expired_time,
-      note: "TopUp",
-      status: transaction?.data.status,
+      status: "SUCCESS",
+      paymentStatus: transaction?.data.status,
     }
 
     const topupTransactions = async () => {
@@ -92,12 +64,12 @@ export function DetailTransactionContent() {
         data: {
           sku: datasTopUp?.sku,
           testing: env.NODE_ENV === "development" ? true : false,
-          customerNo: `${datasTopUp?.account_id}`,
-          refId: datasTopUp?.merchant_ref,
+          customerNo: `${datasTopUp?.accountId}`,
+          refId: datasTopUp?.merchantRef,
           msg: "TopUp",
         },
       }
-      const { data } = await postTopUpTransactions(methods.data)
+      const { data } = await postTopUpTransactionsDigiflazz(methods.data)
 
       if (data?.data.status === "Sukses") {
         setStatusTransaction("Success")
@@ -113,9 +85,9 @@ export function DetailTransactionContent() {
     if (
       isPaid &&
       statusTransaction !== "Success" &&
-      datasTopUp?.refId === tripay_reference
+      datasTopUp?.invoiceId === tripay_reference
     ) {
-      updateStatusTopUpByMerchantRef(datasTopUp?.merchant_ref, statusData)
+      updateStatusTopUpByMerchantRef(datasTopUp?.invoiceId, statusData)
       const interval = setInterval(() => {
         topupTransactions()
       }, 2000)
@@ -125,17 +97,14 @@ export function DetailTransactionContent() {
     transaction?.data,
     isPaid,
     datasTopUp?.sku,
-    datasTopUp?.id,
-    datasTopUp?.server,
-    datasTopUp?.refId,
-    datasTopUp?.merchant_ref,
     tripay_reference,
-    datasTopUp?.account_id,
-    datasTopUp?.note,
     datasTopUp?.brands,
-    datasTopUp?.fee_amount,
-    datasTopUp?.total_amount,
     statusTransaction,
+    datasTopUp?.accountId,
+    datasTopUp?.feeAmount,
+    datasTopUp?.totalAmount,
+    datasTopUp?.invoiceId,
+    datasTopUp?.merchantRef,
   ])
 
   React.useEffect(() => {
@@ -143,7 +112,7 @@ export function DetailTransactionContent() {
       const UpdateVoucher = async () => {
         await putVoucher(datasTopUp?.voucher?.id as string, {
           ...datasTopUp?.voucher,
-          voucher_amount: (datasTopUp?.voucher?.VoucherAmount as number) - 1,
+          voucher_amount: (datasTopUp?.voucher?.voucherAmount as number) - 1,
         })
       }
       UpdateVoucher()
@@ -198,18 +167,7 @@ export function DetailTransactionContent() {
               </p>
             </div>
           </div>
-          {/* <div className="mt-8 flex flex-col items-end justify-between gap-8 print:flex-row md:flex-row">
-      <dl className="w-full text-left text-sm font-medium md:w-auto">
-        <dt className=">
-          This order will expire on
-        </dt>
-        <dd className="mt-2">
-          <div className="rounded-md bg-rose-500 px-4 py-2 text-center print:p-0 print:text-left">
-            2 hours, 9 minutes, 17 seconds left
-          </div>
-        </dd>
-      </dl>
-    </div> */}
+
           <div className="mt-10 border-t">
             <div className="flex flex-col gap-x-8 border-b py-12 md:flex-row">
               <div className="-mt-2 flex gap-8 md:mt-0">
@@ -235,9 +193,7 @@ export function DetailTransactionContent() {
                       <div className="grid grid-cols-3 gap-4 pb-2">
                         <div>Account Data</div>
                         <div className="col-span-2">
-                          <p className="break-words">
-                            {datasTopUp?.account_id}
-                          </p>
+                          <p className="break-words">{datasTopUp?.accountId}</p>
                         </div>
                       </div>
                     </div>
@@ -272,19 +228,17 @@ export function DetailTransactionContent() {
                       </div>
                       <div className="col-span-5 md:col-span-4">
                         <Button
-                          onClick={() =>
-                            copyToClipboard(transaction.data.merchant_ref)
-                          }
+                          onClick={() => copyToClipboard(datasTopUp.invoiceId)}
                           type="button"
                           className="border-border flex items-center space-x-2 rounded-md border px-2.5 py-1 print:hidden"
                         >
                           <div className="max-w-[172px] truncate md:w-auto">
-                            {transaction.data.merchant_ref}
+                            {datasTopUp.invoiceId}
                           </div>
                           <Icon.Copy />
                         </Button>
                         <span className="hidden print:block">
-                          {transaction?.data.merchant_ref}
+                          {datasTopUp.invoiceId}
                         </span>
                       </div>
                       <div className="col-span-3 md:col-span-4">
@@ -292,7 +246,17 @@ export function DetailTransactionContent() {
                       </div>
                       <div className="col-span-5 md:col-span-4">
                         <span className="inline-flex rounded-sm px-2 text-xs font-semibold leading-5 print:p-0">
-                          {statusTransaction}
+                          <Badge
+                            variant={
+                              statusTransaction === "SUCCESS"
+                                ? "success"
+                                : statusTransaction === ("FAILED" || "ERROR")
+                                ? "danger"
+                                : "warning"
+                            }
+                          >
+                            {statusTransaction}
+                          </Badge>
                         </span>
                       </div>
                       <div className="col-span-3 md:col-span-4">
@@ -300,7 +264,17 @@ export function DetailTransactionContent() {
                       </div>
                       <div className="col-span-5 md:col-span-4">
                         <span className="inline-flex rounded-sm px-2 text-xs font-semibold leading-5 print:p-0">
-                          {transaction.data.status}
+                          <Badge
+                            variant={
+                              transaction.data.status === "PAID"
+                                ? "success"
+                                : transaction.data.status === "UNPAID"
+                                ? "danger"
+                                : "warning"
+                            }
+                          >
+                            {transaction.data.status}
+                          </Badge>
                         </span>
                       </div>
                       {transaction.data.pay_code && (
@@ -354,13 +328,13 @@ export function DetailTransactionContent() {
                   <dt className="font-medium">Subtotal</dt>
                   <dd>
                     {changePriceToIDR(
-                      transaction.data.amount - datasTopUp?.fee_amount,
+                      transaction.data.amount - datasTopUp?.feeAmount,
                     )}
                   </dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="font-medium">Fee</dt>
-                  <dd>{changePriceToIDR(datasTopUp?.fee_amount)}</dd>
+                  <dd>{changePriceToIDR(datasTopUp?.feeAmount)}</dd>
                 </div>
                 <div className="flex items-center justify-between">
                   <dt className="text-xl font-bold print:text-sm md:text-2xl">
