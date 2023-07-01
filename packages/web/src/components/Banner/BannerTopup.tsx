@@ -16,7 +16,6 @@ interface BannerTopUpProps extends React.HTMLAttributes<HTMLDivElement> {
 export const BannerTopup = React.forwardRef<HTMLDivElement, BannerTopUpProps>(
   (props, ref) => {
     const { url, brand } = props
-    console.log("🚀 ~ file: BannerTopup.tsx:19 ~ props:", props)
 
     return (
       <div

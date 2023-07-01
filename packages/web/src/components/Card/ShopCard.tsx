@@ -17,8 +17,9 @@ export const ShopCard = React.forwardRef<HTMLDivElement, ShopCardProps>(
   (props, ref) => {
     const { url, title, brand, ...rest } = props
 
-    const [transactionCounter, setTransactionCounter] =
-      React.useState<number>(0)
+    const [transactionCounter, setTransactionCounter] = React.useState<
+      number | undefined
+    >(undefined)
 
     React.useEffect(() => {
       const getTransactionCounter = async () => {
