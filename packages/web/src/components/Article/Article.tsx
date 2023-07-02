@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import * as React from "react"
+// import { renderToStaticMarkup } from "react-dom/server"
 
 import NextLink from "next/link"
 
@@ -17,7 +19,6 @@ import {
   WpTagsDataProps,
 } from "@/lib/wp-data-types"
 import {
-  parseAndSplitHTMLString,
   splitUriWP,
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
@@ -51,6 +52,8 @@ interface PostProps {
   adsSingleArticleBelow: AdDataProps[] | null
   adsSingleArticleInline: AdDataProps[] | null
   adsSingleArticlePopUp: AdDataProps[] | null
+  firstContent: React.ReactNode | null
+  secondContent: React.ReactNode | null
 }
 
 export const Article = React.forwardRef<HTMLDivElement, PostProps>(
@@ -63,9 +66,10 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       adsSingleArticleAbove,
       adsSingleArticleBelow,
       adsSingleArticleInline,
+      firstContent,
+      secondContent,
     } = props
     const {
-      content,
       title,
       authorName,
       authorUrl,
@@ -87,7 +91,8 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       primaryData = primary
     }
 
-    const { firstHalf, secondHalf } = parseAndSplitHTMLString(content)
+    // const firstHalfContent = parseHTMLToReact(firstHalf)
+    // const secondHalfContent = parseHTMLString(secondHalf, title)
 
     return (
       <>
@@ -157,13 +162,14 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                 adsSingleArticleAbove.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
-              <div dangerouslySetInnerHTML={{ __html: firstHalf }} />
+              {firstContent}
+
               {adsSingleArticleInline &&
                 adsSingleArticleInline.length > 0 &&
                 adsSingleArticleInline.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
-              <div dangerouslySetInnerHTML={{ __html: secondHalf }} />
+              {secondContent}
               {adsSingleArticleBelow &&
                 adsSingleArticleBelow.length > 0 &&
                 adsSingleArticleBelow.map((ad: AdDataProps) => {

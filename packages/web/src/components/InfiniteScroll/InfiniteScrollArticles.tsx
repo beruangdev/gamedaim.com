@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Article } from "@/components/Article"
+import { Article, TransformContent } from "@/components/Article"
 import { Button } from "@/components/UI/Button"
 import { wpGetInfiniteScollArticles } from "@/lib/api/server/wp-posts"
 
@@ -12,7 +12,20 @@ import {
   WpSinglePostDataProps,
 } from "@/lib/wp-data-types"
 import { AdDataProps } from "@/lib/data-types"
-import { wpPrimaryCategorySlug } from "@/utils/helper"
+import { parseAndSplitHTMLString, wpPrimaryCategorySlug } from "@/utils/helper"
+
+interface ParsedContentProps {
+  firstContent: React.ReactElement<
+    unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    string | React.JSXElementConstructor<any>
+  >
+  secondContent: React.ReactElement<
+    unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    string | React.JSXElementConstructor<any>
+  >
+}
 
 interface PostProps {
   posts: WpSinglePostDataProps[]
@@ -38,6 +51,9 @@ export function InfiniteScrollArticles(props: PostProps) {
     categories as WpCategoriesDataProps[],
   )
   const [articles, setArticles] = React.useState<WpSinglePostDataProps[]>([])
+  const [parsedContents, SetParsedContents] = React.useState<
+    ParsedContentProps[]
+  >([])
   const [hasNextPage, setHasNextPage] = React.useState(true)
   const [endCursor, setEndCursor] = React.useState("")
   const LoaderRef = React.useRef(null)
@@ -51,6 +67,13 @@ export function InfiniteScrollArticles(props: PostProps) {
           primary.id,
           endCursor,
         )) as unknown as WpInfinitePostsProps
+        const { firstHalf, secondHalf } = parseAndSplitHTMLString(
+          data.posts[0]?.content as string,
+        )
+
+        const firstContent = await TransformContent(firstHalf as string)
+        const secondContent = await TransformContent(secondHalf as string)
+        SetParsedContents((list) => [...list, { firstContent, secondContent }])
         setArticles((list) => [...list, ...data.posts])
         setEndCursor(data.pageInfo.endCursor)
         setHasNextPage(data.pageInfo.hasNextPage)
@@ -105,6 +128,8 @@ export function InfiniteScrollArticles(props: PostProps) {
             adsSingleArticleInline={adsSingleArticleInline}
             adsSingleArticlePopUp={adsSingleArticlePopUp}
             isWP={true}
+            firstContent={parsedContents[i].firstContent}
+            secondContent={parsedContents[i].secondContent}
           />
         )
       })}
