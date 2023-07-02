@@ -7,7 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 dayjs.extend(relativeTime)
 
 import { AxiosError } from "axios"
-import { TopUpEditableParagraph } from "./TopUpEditableParagraph"
+import { EditableParagraph } from "@/components/UI/Form/EditableParagraph"
 import { Button } from "@/components/UI/Button"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
@@ -199,10 +199,10 @@ const TopUpReviewItem = ({
               setIsEditing(true)
             }}
           >
-            <TopUpEditableParagraph
+            <EditableParagraph
               id={topUpReview.id}
               text={topUpReview.content}
-              onSave={({ text }) => {
+              onSave={({ text }: { text: string }) => {
                 handleUpdateTopUpReview({
                   reviewId: topUpReview.id,
                   content: text,
@@ -331,10 +331,10 @@ function TopUpReplyItem({
                 setIsEditing(true)
               }}
             >
-              <TopUpEditableParagraph
+              <EditableParagraph
                 id={topUpReply.id}
                 text={topUpReply.content}
-                onSave={({ text }) => {
+                onSave={({ text }: { text: string }) => {
                   handleUpdateTopUpReply({
                     reviewId,
                     replyId: topUpReply.id,

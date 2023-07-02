@@ -118,6 +118,17 @@ export interface UserDataProps {
   createdAt: string
   updatedAt: string
 }
+export type CommentType = "article" | "download" | "wp-post" | string
+
+export interface CommentDataProps {
+  id: string
+  content: string
+  article?: ArticleDataProps
+  download?: DownloadDataProps
+  author: UserDataProps | null
+  createdAt: string
+  updatedAt: string
+}
 
 export interface WpCommentDataProps {
   id: string

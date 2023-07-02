@@ -3,8 +3,7 @@ import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { Textarea } from "@/components/UI/Textarea"
 
-interface TopUpEditableParagraphProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface EditableParagraphProps extends React.HTMLAttributes<HTMLDivElement> {
   id: string
   text: string
   onSave: (arg: { id: string; text: string }) => void
@@ -12,9 +11,9 @@ interface TopUpEditableParagraphProps
   isEditing?: boolean
 }
 
-export const TopUpEditableParagraph = React.forwardRef<
+export const EditableParagraph = React.forwardRef<
   HTMLDivElement,
-  TopUpEditableParagraphProps
+  EditableParagraphProps
 >((props, ref) => {
   const {
     id,
