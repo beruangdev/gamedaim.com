@@ -4,19 +4,20 @@ import { Metadata } from "next"
 
 import { Separator } from "@/components/UI/Separator"
 
-import { LoginForm } from "./form"
+import { ForgotPasswordForm } from "./form"
+import { Icon } from "@/components/UI/Icon"
 
 export const metadata: Metadata = {
-  title: "Login",
-  description: "Login",
+  title: "Forgot Password",
+  description: "Forgot Password",
 }
 
-export default function Login() {
+export default function ForgotPassword() {
   return (
     <>
       <div>
-        <h1 className="text-center text-2xl">Login</h1>
-        <LoginForm />
+        <h1 className="text-center text-2xl">Forgot Password</h1>
+        <ForgotPasswordForm />
         <Separator className="my-4" />
         <p className="text-center">
           Need an account?&nbsp;
@@ -25,9 +26,9 @@ export default function Login() {
           </NextLink>
         </p>
         <p className="mt-8 text-center">
-          Forgot Password?&nbsp;
-          <NextLink className="font-semibold" href="/auth/forgot-password">
-            Reset here
+          <NextLink className="font-light" href="/auth/login">
+            <Icon.ArrowLeft className="mr-2 inline-block h-5 w-5" /> Go to login
+            page
           </NextLink>
         </p>
       </div>

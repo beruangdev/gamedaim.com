@@ -152,6 +152,7 @@ export const getPriceListPrePaid = async () => {
     },
     data: null,
   })
+
   if (err !== null) {
     console.log(err)
     return {
@@ -269,7 +270,9 @@ export const getTopUpByBrand = async (slug: string) => {
     )[0]
   }) as PriceListPrePaidProps[]
   const filteredPrices = getPricesbyBrand.map(addPropertiesPrices)
-  const getDataBySlug = filteredPrices.find((price) => price.slug === slug)
+  const getDataBySlug = filteredPrices.find(
+    (price) => price.slug === slug.toLocaleLowerCase(),
+  )
   return { topUp: getDataBySlug }
 }
 
@@ -301,7 +304,7 @@ export const getTopUpTransactionCounter = async (brand: string) => {
   })
   if (err !== null) {
     return {
-      counter: null,
+      data: null,
       error: err,
     }
   }

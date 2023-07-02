@@ -45,6 +45,67 @@ export const loginUserAction = async (values: unknown) => {
   return { data: res, error: null }
 }
 
+export const sendResetPasswordAction = async (values: unknown) => {
+  const [res, err] = await http<UserDataProps>("POST", {
+    url: "/user/reset-password",
+    data: values,
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
+
+export const validityTokenAction = async (values: unknown) => {
+  const [res, err] = await http("POST", {
+    url: "/user/validity-token",
+    data: values,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
+
+export const sendVerificationTokenAction = async (email: string) => {
+  const [res, err] = await http<LoginUserResponse>("POST", {
+    url: "/user/send-verification-token",
+    data: {
+      email,
+      baseURL: window.location.origin,
+    },
+  })
+
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: (err as AxiosError<ErrorResponse>)?.response?.data
+        ?.message as string,
+    }
+  }
+
+  return { data: res, error: null }
+}
+
 export const putUserByAdminAction = async (userId: string, values: unknown) => {
   const [res, err] = await http<UserDataProps>("PUT", {
     url: `/user/update-by-admin/${userId}`,

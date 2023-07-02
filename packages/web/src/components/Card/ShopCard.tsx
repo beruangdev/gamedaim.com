@@ -3,9 +3,8 @@
 import * as React from "react"
 import NextLink from "next/link"
 import { ThumbnailTopUp } from "@/components/Image"
-
-import { getTopUpTransactionCounter } from "@/lib/api/server/top-up"
 import { slugify } from "@/utils/helper"
+import { getTopUpTransactionCounter } from "@/lib/api/server/top-up"
 
 interface ShopCardProps {
   url: string
@@ -20,7 +19,7 @@ export const ShopCard = React.forwardRef<HTMLDivElement, ShopCardProps>(
 
     const [transactionCounter, setTransactionCounter] = React.useState<
       number | undefined
-    >(0)
+    >(undefined)
 
     React.useEffect(() => {
       const getTransactionCounter = async () => {

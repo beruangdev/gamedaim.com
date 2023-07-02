@@ -21,6 +21,8 @@ import {
 
 import { formatDate } from "@/utils/date"
 import { parseAndSplitHTMLString } from "@/utils/helper"
+import { CommentForm } from "@/components/Form/CommentForm"
+import { useCurrentUser } from "@/hooks/use-current-user"
 
 interface DownloadAppProps {
   download: DownloadDataProps | null
@@ -38,7 +40,7 @@ export function DownloadAppSlugContent(props: DownloadAppProps) {
     adsAboveContentData,
     adsBelowContentData,
   } = props
-
+  const { user } = useCurrentUser()
   const fileVersion =
     download && download.downloadFiles.length > 0
       ? download?.downloadFiles[0]
@@ -46,6 +48,7 @@ export function DownloadAppSlugContent(props: DownloadAppProps) {
   const { firstHalf, secondHalf } = parseAndSplitHTMLString(
     download?.content || "",
   )
+
   return (
     <div className="mx-auto flex w-full flex-row max-[991px]:px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
       <div className="flex w-full flex-col overflow-x-hidden px-4 lg:mr-4">
@@ -201,6 +204,21 @@ export function DownloadAppSlugContent(props: DownloadAppProps) {
                   )}
               </div>
             </div>
+
+            {download && (
+              <div className="mb-5" id="comment">
+                {user?.id ? (
+                  <CommentForm postId={download.id} postType="download" />
+                ) : (
+                  <NextLink href="/auth/login">
+                    <Button type="button">
+                      <Icon.Login className="-ml-1 mr-2 h-4 w-4" /> Login for
+                      comment
+                    </Button>
+                  </NextLink>
+                )}
+              </div>
+            )}
 
             <div className="w-full px-4">
               <div className={"my-2 flex flex-row justify-start"}>
