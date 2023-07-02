@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Article, TransformContent } from "@/components/Article"
+import { Article } from "@/components/Article"
 import { Button } from "@/components/UI/Button"
 import { wpGetInfiniteScollArticles } from "@/lib/api/server/wp-posts"
 
@@ -13,6 +13,7 @@ import {
 } from "@/lib/wp-data-types"
 import { AdDataProps } from "@/lib/data-types"
 import { parseAndSplitHTMLString, wpPrimaryCategorySlug } from "@/utils/helper"
+import { transformContent } from "@/hooks/use-transform-content"
 
 interface ParsedContentProps {
   firstContent: React.ReactElement<
@@ -71,8 +72,14 @@ export function InfiniteScrollArticles(props: PostProps) {
           data.posts[0]?.content as string,
         )
 
-        const firstContent = await TransformContent(firstHalf as string)
-        const secondContent = await TransformContent(secondHalf as string)
+        const firstContent = await transformContent(
+          firstHalf as string,
+          data.posts[0].title,
+        )
+        const secondContent = await transformContent(
+          secondHalf as string,
+          data.posts[0].title,
+        )
         SetParsedContents((list) => [...list, { firstContent, secondContent }])
         setArticles((list) => [...list, ...data.posts])
         setEndCursor(data.pageInfo.endCursor)

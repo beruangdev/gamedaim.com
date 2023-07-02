@@ -1,10 +1,11 @@
 import * as React from "react"
 
-import { Article, TransformContent } from "@/components/Article"
+import { Article } from "@/components/Article"
 import { Ad } from "@/components/Ad"
 import { ArticleCardSide } from "@/components/Card"
 import { AdDataProps, ArticleDataProps } from "@/lib/data-types"
 import { parseAndSplitHTMLString } from "@/utils/helper"
+import { transformContent } from "@/hooks/use-transform-content"
 
 interface SingleArticleProps {
   article: ArticleDataProps | null
@@ -47,8 +48,14 @@ export default async function SingleArticleContent(props: SingleArticleProps) {
     article?.content as string,
   )
 
-  const firstContent = await TransformContent(firstHalf as string)
-  const secondContent = await TransformContent(secondHalf as string)
+  const firstContent = await transformContent(
+    firstHalf as string,
+    article?.title as string,
+  )
+  const secondContent = await transformContent(
+    secondHalf as string,
+    article?.title as string,
+  )
   return (
     <div className="mx-auto flex w-full md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
       {adsBelowHeader &&
