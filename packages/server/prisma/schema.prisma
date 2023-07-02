@@ -9,31 +9,41 @@ datasource db {
 }
 
 model User {
-  id                  String             @id @unique @default(uuid())
-  email               String             @unique
-  username            String             @unique
-  name                String?
-  phoneNumber         String?
-  profilePictureId    String?
-  about               String?
-  password            String
-  metaTitle           String?
-  metaDescription     String?
-  role                UserRole           @default(USER)
-  articleAuthors      Article[]          @relation("ArticleAuthors")
-  articleEditors      Article[]          @relation("ArticleEditors")
-  articleComments     ArticleComment[]   @relation("CommentAuthors")
-  downloadAuthors     Download[]         @relation("DownloadAuthors")
-  downloadFileAuthors DownloadFile[]     @relation("DownloadFileAuthors")
-  downloadComments    DownloadComment[]  @relation("DownloadCommentAuthors")
-  topUpReviews        TopUpReview[]      @relation("TopUpReviewAuthors")
-  topUpComments       TopUpReviewReply[] @relation("TopUpReviewReplyAuthors")
-  topUpRatings        TopUpRating[]      @relation("TopUpRatingAuthors")
-  medias              Media[]            @relation("MediaAuthors")
-  profilePicture      Media?             @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
-  wpComments          WpComment[]        @relation("WpCommentAuthors")
-  createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
+  id                   String                    @id @unique @default(uuid())
+  email                String                    @unique
+  username             String                    @unique
+  name                 String?
+  phoneNumber          String?
+  profilePictureId     String?
+  about                String?
+  password             String
+  metaTitle            String?
+  metaDescription      String?
+  role                 UserRole                  @default(USER)
+  articleAuthors       Article[]                 @relation("ArticleAuthors")
+  articleEditors       Article[]                 @relation("ArticleEditors")
+  articleComments      ArticleComment[]          @relation("CommentAuthors")
+  downloadAuthors      Download[]                @relation("DownloadAuthors")
+  downloadFileAuthors  DownloadFile[]            @relation("DownloadFileAuthors")
+  downloadComments     DownloadComment[]         @relation("DownloadCommentAuthors")
+  topUpReviews         TopUpReview[]             @relation("TopUpReviewAuthors")
+  topUpComments        TopUpReviewReply[]        @relation("TopUpReviewReplyAuthors")
+  topUpRatings         TopUpRating[]             @relation("TopUpRatingAuthors")
+  medias               Media[]                   @relation("MediaAuthors")
+  profilePicture       Media?                    @relation("UserProfilePictures", fields: [profilePictureId], references: [id])
+  wpComments           WpComment[]               @relation("WpCommentAuthors")
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
+  userPasswordResetRequest UserPasswordResetRequest?
+}
+
+model UserPasswordResetRequest {
+  id        String   @id @unique @default(uuid())
+  userId    String   @unique
+  user      User?    @relation(fields: [userId], references: [id])
+  token     String   @unique @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ArticlePrimary {
@@ -255,8 +265,8 @@ model TopUpRating {
   author    User        @relation(name: "TopUpRatingAuthors", fields: [authorId], references: [id])
   rating    Int
   brand     String
-  reviewId  String
-  reviews   TopUpReview @relation(name: "TopUpReviewRatings", fields: [reviewId], references: [id])
+  reviewId  String?
+  reviews   TopUpReview? @relation(name: "TopUpReviewRatings", fields: [reviewId], references: [id])
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }

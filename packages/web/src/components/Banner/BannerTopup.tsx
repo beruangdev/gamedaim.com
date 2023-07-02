@@ -22,7 +22,10 @@ export const BannerTopup = React.forwardRef<HTMLDivElement, BannerTopUpProps>(
         className="relative flex h-[200px] w-full items-center justify-center overflow-hidden"
         ref={ref}
       >
-        <CoverTopUp url={slugify(brand)} className="relative h-full w-full" />
+        <CoverTopUp
+          url={slugify(brand ?? "")}
+          className="relative h-full w-full"
+        />
         <div className="bg-foreground/20 absolute flex h-full w-full items-center justify-center">
           <Breadcrumb
             className="breadcrumb-topup text-background"

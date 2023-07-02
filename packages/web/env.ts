@@ -31,6 +31,15 @@ const env: EnvProps = {
   MENU_PRIMARY: process.env.NEXT_PUBLIC_MENU_PRIMARY as string,
   MENU_FOOTER: process.env.NEXT_PUBLIC_MENU_FOOTER as string,
   SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN as string,
+  GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
+  GOOGLE_CLIENT_SECRET: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET as string,
+  GOOGLE_OAUTH_ENDPOINT: process.env
+    .NEXT_PUBLIC_GOOGLE_OAUTH_ENDPOINT as string,
+  GOOGLE_REDIRECT: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_REDIRECT as string,
+  FACEBOOK_CLIENT_ID: process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_ID as string,
+  FACEBOOK_CLIENT_SECRET: process.env
+    .NEXT_PUBLIC_FACEBOOK_CLIENT_SECRET as string,
+  FACEBOOK_REDIRECT: process.env.NEXT_PUBLIC_FACEBOOK_OAUTH_REDIRECT as string,
 }
 
 export default env

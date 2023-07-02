@@ -20,6 +20,8 @@ import {
 } from "@/lib/data-types"
 import { formatDate } from "@/utils/date"
 import { parseAndSplitHTMLString } from "@/utils/helper"
+import { CommentForm } from "@/components/Form/CommentForm"
+import { useCurrentUser } from "@/hooks/use-current-user"
 
 interface DownloadGameProps {
   download: DownloadDataProps | null
@@ -37,7 +39,7 @@ export function DownloadGameSlugContent(props: DownloadGameProps) {
     adsAboveContentData,
     adsBelowContentData,
   } = props
-
+  const { user } = useCurrentUser()
   const fileVersion =
     download && download.downloadFiles.length > 0
       ? download?.downloadFiles[0]
@@ -176,6 +178,21 @@ export function DownloadGameSlugContent(props: DownloadGameProps) {
                 value={download?.license}
               />
             </div>
+
+            {download && (
+              <div className="mb-5" id="comment">
+                {user?.id ? (
+                  <CommentForm postId={download.id} postType="download" />
+                ) : (
+                  <NextLink href="/auth/login">
+                    <Button type="button">
+                      <Icon.Login className="-ml-1 mr-2 h-4 w-4" /> Login for
+                      comment
+                    </Button>
+                  </NextLink>
+                )}
+              </div>
+            )}
 
             <div id="all-version" className="mb-5 space-y-2">
               <h2>All version</h2>

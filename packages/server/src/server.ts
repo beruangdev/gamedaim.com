@@ -33,6 +33,8 @@ import transactionCounterRoutes from "@/modules/transaction-counter/transaction-
 import { transactionCounterSchemas } from "@/modules/transaction-counter/transaction-counter.schema"
 import topUpRoutes from "@/modules/top-up/top-up.route"
 import { topUpSchemas } from "@/modules/top-up/top-up.schema"
+import topUpReviewRoutes from "@/modules/top-up-review/top-up-review.route"
+import { topUpReviewSchemas } from "@/modules/top-up-review/top-up-review.schema"
 import topUpTransactionRoutes from "@/modules/top-up-transaction/top-up-transaction.route"
 import { topUpTransactionSchemas } from "@/modules/top-up-transaction/top-up-transaction.schema"
 import userRoutes from "@/modules/user/user.route"
@@ -109,6 +111,7 @@ function buildServer() {
     ...settingSchemas,
     ...topicSchemas,
     ...topUpSchemas,
+    ...topUpReviewSchemas,
     ...topUpTransactionSchemas,
     ...transactionCounterSchemas,
     ...userSchemas,
@@ -148,6 +151,7 @@ function buildServer() {
   server.register(userRoutes, { prefix: "api/user" })
   server.register(topicRoutes, { prefix: "api/topic" })
   server.register(topUpRoutes, { prefix: "api/top-up" })
+  server.register(topUpReviewRoutes, { prefix: "api/top-up-review" })
   server.register(topUpTransactionRoutes, { prefix: "api/top-up-transaction" })
   server.register(transactionCounterRoutes, {
     prefix: "api/transaction-counter",

@@ -3,11 +3,11 @@ import { $ref } from "./top-up.schema"
 
 import {
   topUpDigiflazzCheckBalanceHandler,
-  topUpDigiflazzPriceListPrePaidHandler,
-  topUpDigiflazzListPostPaidHandler,
   topUpDigiflazzDepositHandler,
-  topUpDigiflazzTransactionHandler,
+  topUpDigiflazzListPostPaidHandler,
   topUpDigiflazzPlnCheckHandler,
+  topUpDigiflazzPriceListPrePaidHandler,
+  topUpDigiflazzTransactionHandler,
 } from "./top-up.controller"
 
 async function topupRoutes(server: FastifyInstance) {

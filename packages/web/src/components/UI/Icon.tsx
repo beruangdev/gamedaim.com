@@ -9,6 +9,7 @@ import {
   BiTrophy,
   BiTv,
 } from "react-icons/bi"
+import { BsArrowLeft } from "react-icons/bs"
 import {
   FaAndroid,
   FaApple,
@@ -22,12 +23,14 @@ import {
   FaPinterestP,
   FaPlaystation,
   FaRedditAlien,
+  FaRegTimesCircle,
   FaTelegramPlane,
   FaWhatsapp,
   FaWindows,
   FaXbox,
   FaYoutube,
 } from "react-icons/fa"
+import { FcGoogle } from "react-icons/fc"
 import { ImBook } from "react-icons/im"
 import { IoGameController } from "react-icons/io5"
 import {
@@ -36,6 +39,7 @@ import {
   LuLoader2,
   LuTrash,
   LuTwitter,
+  LuAlertCircle,
 } from "react-icons/lu"
 import {
   MdAccessTime,
@@ -102,6 +106,8 @@ import {
   MdUpdate,
   MdUploadFile,
   MdVpnKey,
+  MdThumbUp,
+  MdThumbDown,
 } from "react-icons/md"
 import { SiNintendoswitch } from "react-icons/si"
 
@@ -610,7 +616,9 @@ export const Icon = {
   Android: FaAndroid,
   Apple: FaApple,
   AppleAlt: FaAppleAlt,
+  Alert: LuAlertCircle,
   ArrowBack: MdOutlineArrowBack,
+  ArrowLeft: BsArrowLeft,
   ArrowForward: MdOutlineArrowForward,
   Article: MdOutlineArticle,
   Balance: MdOutlineBalance,
@@ -650,6 +658,7 @@ export const Icon = {
   FormatStrikethrough: MdFormatStrikethrough,
   FormatUnderlined: MdFormatUnderlined,
   Game: IoGameController,
+  Google: FcGoogle,
   GamedaimShop: GamedaimShop,
   Help: MdHelpOutline,
   Home: MdOutlineHome,
@@ -689,6 +698,9 @@ export const Icon = {
   Trash: LuTrash,
   Trophy: BiTrophy,
   TV: BiTv,
+  ThumbUp: MdThumbUp,
+  ThumbDown: MdThumbDown,
+  TimesCircle: FaRegTimesCircle,
   Twitter: LuTwitter,
   Update: MdUpdate,
   UploadFile: MdUploadFile,

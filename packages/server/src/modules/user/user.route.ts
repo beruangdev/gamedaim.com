@@ -9,11 +9,16 @@ import {
   getUserByUsernameHandler,
   getUsersByRoleHandler,
   getUsersHandler,
+  loginFacebookHandler,
+  loginGoogleHandler,
   loginHandler,
   registerUserHandler,
+  resetPasswordHandler,
   searchUsersHandler,
+  sendVerificationCodeHandler,
   updateUserByAdminHandler,
   updateUserHandler,
+  validityTokenHandler,
 } from "./user.controller"
 import { $ref } from "./user.schema"
 
@@ -43,6 +48,16 @@ async function userRoutes(server: FastifyInstance) {
     },
     loginHandler,
   )
+
+  server.get("/google/oauth", {}, loginGoogleHandler)
+  server.post("/google/oauth", {}, loginGoogleHandler)
+
+  server.get("/facebook/oauth", {}, loginFacebookHandler)
+  server.post("/facebook/oauth", {}, loginFacebookHandler)
+
+  server.post("/send-verification-token", {}, sendVerificationCodeHandler)
+  server.post("/validity-token", {}, validityTokenHandler)
+  server.post("/reset-password", {}, resetPasswordHandler)
 
   server.put(
     "/:userId",

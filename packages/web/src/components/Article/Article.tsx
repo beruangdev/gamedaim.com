@@ -2,8 +2,6 @@
 "use client"
 
 import * as React from "react"
-// import { renderToStaticMarkup } from "react-dom/server"
-
 import NextLink from "next/link"
 
 import { Button, ButtonGroup } from "@/components/UI/Button"
@@ -23,6 +21,9 @@ import {
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
 } from "@/utils/helper"
+import { useCurrentUser } from "@/hooks/use-current-user"
+import { Icon } from "@/components/UI/Icon"
+import { CommentForm } from "@/components/Form/CommentForm"
 
 interface PostProps {
   postData: {
@@ -91,8 +92,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       primaryData = primary
     }
 
-    // const firstHalfContent = parseHTMLToReact(firstHalf)
-    // const secondHalfContent = parseHTMLString(secondHalf, title)
+    const { user } = useCurrentUser()
 
     return (
       <>
@@ -197,6 +197,24 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                   </Button>
                 )
               })}
+          </section>
+          <section className="mb-5" id="comment">
+            {user?.id ? (
+              <CommentForm
+                postId={postData?.postId || postData.id}
+                postType={isWP ? "wp-post" : "article"}
+              />
+            ) : (
+              <NextLink href="/auth/login">
+                <Button aria-label="Login" type="button">
+                  <Icon.Login
+                    aria-label="Login"
+                    className="-ml-1 mr-2 h-4 w-4"
+                  />{" "}
+                  Login for comment
+                </Button>
+              </NextLink>
+            )}
           </section>
           <section className="mb-20">
             {isMain === true && (

@@ -59,7 +59,6 @@ export const getPaymentChannel = async () => {
 export const getTransactionByInvoiceId = async (invoiceId: string) => {
   const [res, err] = await http<TransactionDataProps>("GET", {
     url: `/top-up-transaction/${invoiceId}`,
-
     headers: {
       "Content-Type": "application/json",
     },

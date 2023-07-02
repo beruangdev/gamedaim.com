@@ -2,8 +2,8 @@ import { FastifyReply, FastifyRequest } from "fastify"
 
 import { digiflazz } from "@/utils/digiflazz"
 import {
-  TopUpDigiflazzCreateDepositInput,
   TopUpDigiflazzCratePlnCheckInput,
+  TopUpDigiflazzCreateDepositInput,
   TopUpDigiflazzCreateTransactionInput,
 } from "./top-up.schema"
 import { getPriceListByKey, savePriceList } from "./top-up.service"
