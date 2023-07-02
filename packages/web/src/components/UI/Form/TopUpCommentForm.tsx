@@ -8,16 +8,16 @@ dayjs.extend(relativeTime)
 
 import { AxiosError } from "axios"
 import { TopUpEditableParagraph } from "./TopUpEditableParagraph"
-import { Button } from "../Button"
-import { Textarea } from "../Textarea"
-import { toast } from "../Toast"
+import { Button } from "@/components/UI/Button"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../DropdownMenu"
-import { Icon } from "../Icon"
+} from "@/components/UI/DropdownMenu"
+import { Icon } from "@/components/UI/Icon"
 
 interface TopUpReviewProps {
   id: string

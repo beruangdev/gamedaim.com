@@ -1,8 +1,7 @@
 import * as React from "react"
-import { FaRegTimesCircle } from "react-icons/fa"
 import { Button } from "@/components/UI/Button"
-import { Icon } from "../Icon"
-import { Textarea } from "../Textarea"
+import { Icon } from "@/components/UI/Icon"
+import { Textarea } from "@/components/UI/Textarea"
 
 interface TopUpEditableParagraphProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -87,7 +86,7 @@ export const TopUpEditableParagraph = React.forwardRef<
               if (onCancel) onCancel()
             }}
           >
-            <FaRegTimesCircle aria-label="Edit" />
+            <Icon.TimesCircle aria-label="Edit" />
           </Button>
           <Button
             aria-label="Save"
