@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -67,6 +67,8 @@
     "@tiptap/extension-underline": "2.0.3",
     "@tiptap/extension-youtube": "2.0.3",
     "@tiptap/react": "2.0.3",
+    "@types/parameterize": "^1.0.1",
+    "@types/parse5": "^7.0.0",
     "axios": "^1.4.0",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
@@ -87,8 +89,14 @@
     "react-hook-form": "7.45.1",
     "react-icons": "^4.10.1",
     "react-image-file-resizer": "^0.4.8",
+    "rehype-parse": "^8.0.4",
+    "rehype-react": "^7.2.0",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.2",
+    "remark-react": "^9.0.1",
     "swr": "^2.1.5",
     "tailwind-merge": "^1.13.2",
+    "unified": "^10.1.2",
     "zustand": "^4.3.8"
   },
   "devDependencies": {

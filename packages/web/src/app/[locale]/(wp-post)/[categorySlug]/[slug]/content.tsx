@@ -8,8 +8,9 @@ import { AdDataProps } from "@/lib/data-types"
 import { Ad } from "@/components/Ad"
 import { Article } from "@/components/Article"
 import { InfiniteScrollArticles } from "@/components/InfiniteScroll"
-import { wpPrimaryCategorySlug } from "@/utils/helper"
+import { parseAndSplitHTMLString, wpPrimaryCategorySlug } from "@/utils/helper"
 import { PostCardSide } from "@/components/Card"
+import { transformContent } from "@/hooks/use-transform-content"
 
 interface PostProps {
   posts: WpSinglePostDataProps[] | null
@@ -20,7 +21,7 @@ interface PostProps {
   adsSingleArticleInline: AdDataProps[] | null
   adsSingleArticlePopUp: AdDataProps[] | null
 }
-export function PostContent(props: PostProps) {
+export async function PostContent(props: PostProps) {
   const {
     posts,
     post,
@@ -57,7 +58,18 @@ export function PostContent(props: PostProps) {
       tags: post.tags,
     }
   }
+  const { firstHalf, secondHalf } = parseAndSplitHTMLString(
+    post?.content as string,
+  )
 
+  const firstContent = await transformContent(
+    firstHalf as string,
+    postData?.title as string,
+  )
+  const secondContent = await transformContent(
+    secondHalf as string,
+    postData?.title as string,
+  )
   return (
     <div className="mx-auto flex w-full md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
       {adsBelowHeader &&
@@ -76,6 +88,8 @@ export function PostContent(props: PostProps) {
             adsSingleArticleBelow={adsSingleArticleBelow}
             adsSingleArticleInline={adsSingleArticleInline}
             adsSingleArticlePopUp={adsSingleArticlePopUp}
+            firstContent={firstContent}
+            secondContent={secondContent}
           />
         )}
         {posts && post && (

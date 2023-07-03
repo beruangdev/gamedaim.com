@@ -4,6 +4,8 @@ import { Article } from "@/components/Article"
 import { Ad } from "@/components/Ad"
 import { ArticleCardSide } from "@/components/Card"
 import { AdDataProps, ArticleDataProps } from "@/lib/data-types"
+import { parseAndSplitHTMLString } from "@/utils/helper"
+import { transformContent } from "@/hooks/use-transform-content"
 
 interface SingleArticleProps {
   article: ArticleDataProps | null
@@ -15,7 +17,7 @@ interface SingleArticleProps {
   adsSingleArticlePopUp: AdDataProps[] | null
 }
 
-export default function SingleArticleContent(props: SingleArticleProps) {
+export default async function SingleArticleContent(props: SingleArticleProps) {
   const {
     article,
     articles,
@@ -42,7 +44,18 @@ export default function SingleArticleContent(props: SingleArticleProps) {
     date: article.createdAt,
     slug: article.slug,
   }
+  const { firstHalf, secondHalf } = parseAndSplitHTMLString(
+    article?.content as string,
+  )
 
+  const firstContent = await transformContent(
+    firstHalf as string,
+    article?.title as string,
+  )
+  const secondContent = await transformContent(
+    secondHalf as string,
+    article?.title as string,
+  )
   return (
     <div className="mx-auto flex w-full md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
       {adsBelowHeader &&
@@ -60,6 +73,8 @@ export default function SingleArticleContent(props: SingleArticleProps) {
             adsSingleArticleBelow={adsSingleArticleBelow}
             adsSingleArticleInline={adsSingleArticleInline}
             adsSingleArticlePopUp={adsSingleArticlePopUp}
+            firstContent={firstContent}
+            secondContent={secondContent}
           />
         )}
       </section>
