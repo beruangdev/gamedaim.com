@@ -20,7 +20,7 @@ interface IndexPageProps {
 export default async function IndexPage({ params }: IndexPageProps) {
   const locale = params.locale
 
-  const { posts, pageInfo } = await wpGetAllPosts()
+  const { posts, pageInfo } = await wpGetAllPosts(locale.toLocaleUpperCase())
   const { data: adsBelowHeader } = await getAdsByPositionAction(
     "HOME_BELOW_HEADER",
   )
@@ -53,6 +53,7 @@ export default async function IndexPage({ params }: IndexPageProps) {
           adsBelowHeader={adsBelowHeader}
           posts={posts}
           pageInfo={pageInfo}
+          locale={locale}
         />
       </MainContainer>
     </>

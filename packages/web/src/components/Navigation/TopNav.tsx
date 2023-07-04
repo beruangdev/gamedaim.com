@@ -40,7 +40,7 @@ export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
 
     return (
       <header
-        className="bg-background fixed left-auto top-0 z-[49] -my-0 mx-auto box-border flex h-16 w-full items-center border-none px-2 py-0 align-baseline opacity-10 shadow-lg outline-none"
+        className="bg-background fixed left-auto top-0 z-[49] -my-0 mx-auto box-border flex h-16 w-full items-center border-none px-2 py-0 align-baseline shadow-lg outline-none"
         ref={ref}
         {...rest}
       >

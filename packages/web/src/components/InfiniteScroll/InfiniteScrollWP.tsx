@@ -14,7 +14,7 @@ import {
   WpInfinitePostsProps,
   WpSinglePostDataProps,
 } from "@/lib/wp-data-types"
-
+import { LanguageTypeData } from "@/lib/data-types"
 import { WPPageInfoProps } from "@/lib/wp-data-types"
 import { splitUriWP } from "@/utils/helper"
 
@@ -23,13 +23,14 @@ interface InfiniteScrollWPProps extends React.HTMLAttributes<HTMLDivElement> {
   posts: WpSinglePostDataProps[]
   pageInfo: WPPageInfoProps
   pageType: "home" | "category" | "author" | "tag"
+  language: LanguageTypeData
 }
 
 export const InfiniteScrollWP = React.forwardRef<
   HTMLDivElement,
   InfiniteScrollWPProps
 >((props, ref) => {
-  const { id, posts, pageInfo, pageType, ...rest } = props
+  const { id, posts, pageInfo, language, pageType, ...rest } = props
 
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
   const [page, setPage] = React.useState<WPPageInfoProps>(pageInfo)
@@ -43,6 +44,7 @@ export const InfiniteScrollWP = React.forwardRef<
           const data = (await wpGetPostsByCategorySlug(
             id as string,
             page.endCursor,
+            language.toLocaleUpperCase(),
           )) as unknown as WpInfinitePostsProps
           setList((list) => [...list, ...data.posts])
           setPage(data.pageInfo)
@@ -50,6 +52,7 @@ export const InfiniteScrollWP = React.forwardRef<
           const data = (await wpGetPostsByAuthorSlug(
             id as string,
             page.endCursor,
+            language.toLocaleUpperCase(),
           )) as unknown as WpInfinitePostsProps
           setList((list) => [...list, ...data.posts])
           setPage(data.pageInfo)
@@ -63,13 +66,14 @@ export const InfiniteScrollWP = React.forwardRef<
         } else {
           const data = (await wpGetAllPostsLoadMore(
             page.endCursor,
+            language.toLocaleUpperCase(),
           )) as unknown as WpInfinitePostsProps
           setList((list) => [...list, ...data.posts])
           setPage(data.pageInfo)
         }
       }
     },
-    [id, page.endCursor, page.hasNextPage, pageType],
+    [id, language, page.endCursor, page.hasNextPage, pageType],
   )
 
   React.useEffect(() => {

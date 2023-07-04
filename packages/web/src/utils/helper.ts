@@ -70,9 +70,14 @@ export const parseAndSplitHTMLString = (markup: string): FunctionReturn => {
 }
 
 export const splitUriWP = (uri: string) => {
-  let regex = /^\/(\w+)\/(\w+)\/(.*)$/
-  const match: RegExpMatchArray | null = uri.match(regex)
-  const newUri = match && match.length > 2 ? `/${match[1]}/${match[3]}` : uri
+  let newString = uri
+  if (newString.includes("https://global.gamedaim.com")) {
+    newString = newString.replace("https://global.gamedaim.com", "")
+  }
+  const regex = /^\/(\w+)\/(\w+)\/(.*)$/
+  const match: RegExpMatchArray | null = newString.match(regex)
+  const newUri =
+    match && match.length > 2 ? `/${match[1]}/${match[3]}` : newString
   return newUri
 }
 
