@@ -13,5 +13,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "tests/a.txt,tests/b.txt"
-          target: your_server_target_folder_path
+          target: "/www"
