@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "AdPosition" ADD VALUE 'DOWNLOADING_PAGE';
