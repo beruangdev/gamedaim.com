@@ -22,7 +22,7 @@ import { http } from "@/lib/http"
 dayjs.extend(relativeTime)
 
 export interface CommentProps extends CommentDataProps {
-  wpPostSlug?: number
+  wpPostSlug?: string
 }
 
 interface CommentFormProps extends React.HTMLAttributes<HTMLDivElement> {
