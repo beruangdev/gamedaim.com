@@ -1,6 +1,6 @@
 import * as React from "react"
 import { notFound } from "next/navigation"
-import { Metadata } from "next"
+import { type Metadata } from "next"
 
 import env from "env"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
