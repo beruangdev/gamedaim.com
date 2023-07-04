@@ -70,7 +70,7 @@ export async function getWpCommentByIdHandler(
   }
 }
 
-export async function getWpCommentByPostIdHandler(
+export async function getWpCommentByPostSlugHandler(
   request: FastifyRequest<{
     Params: { wpPostSlug: string }
   }>,
