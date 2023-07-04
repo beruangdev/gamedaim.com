@@ -1,14 +1,15 @@
 import * as React from "react"
 import { notFound } from "next/navigation"
+import { type Metadata } from "next"
 
+import env from "env"
 import {
   getDownloadsByLangAction,
   getDownloadsBySlugAction,
 } from "@/lib/api/server/download"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
-import { LanguageTypeData } from "@/lib/data-types"
-
 import { DownloadAppSlugContent } from "./content"
+import { type LanguageTypeData } from "@/lib/data-types"
 
 interface DownloadAppSlugProps {
   params: {
@@ -18,6 +19,30 @@ interface DownloadAppSlugProps {
 }
 
 export const revalidate = 60
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string; locale: LanguageTypeData }
+}): Promise<Metadata> {
+  const { locale, slug } = params
+
+  const { data: download } = await getDownloadsBySlugAction(slug as string)
+
+  return {
+    title: download?.metaTitle || download?.title,
+    description: download?.metaDescription || download?.excerpt,
+    openGraph: {
+      title: download?.metaTitle || download?.title,
+      description: download?.metaDescription || download?.excerpt,
+      url:
+        locale === "id"
+          ? `${env.SITE_URL}/download/app/${slug}`
+          : `${env.EN_SITE_URL}/download/app/${slug}`,
+      locale: locale,
+    },
+  }
+}
 
 export default async function DownloadAppSlugPage({
   params,

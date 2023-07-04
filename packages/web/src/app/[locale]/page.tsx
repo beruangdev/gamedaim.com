@@ -4,21 +4,22 @@ import { BreadcrumbJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 import env from "env"
 import { MainContainer } from "@/components/Container/MainContainer"
 
-import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import { wpGetAllPosts } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { IndexContent } from "./content"
-import { LanguageTypeData } from "@/lib/data-types"
+import { type LanguageTypeData } from "@/lib/data-types"
 
 export const revalidate = 60
 
-export default async function IndexPage({
-  params,
-}: {
-  params: { locale: LanguageTypeData }
-}) {
-  const { locale } = params
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
+interface IndexPageProps {
+  params: {
+    locale: LanguageTypeData
+  }
+}
+
+export default async function IndexPage({ params }: IndexPageProps) {
+  const locale = params.locale
+
   const { posts, pageInfo } = await wpGetAllPosts(locale.toLocaleUpperCase())
   const { data: adsBelowHeader } = await getAdsByPositionAction(
     "HOME_BELOW_HEADER",
@@ -30,17 +31,19 @@ export default async function IndexPage({
         itemListElements={[
           {
             position: 1,
-            name: siteDomain?.value || env.DOMAIN,
-            item: `https://${siteDomain?.value || env.DOMAIN}`,
+            name: locale === "id" ? env.DOMAIN : env.EN_SUBDOMAIN,
+            item: locale === "id" ? env.SITE_URL : env.EN_SITE_URL,
           },
         ]}
       />
       <SiteLinksSearchBoxJsonLd
         useAppDir={true}
-        url={`https://${siteDomain?.value || env.DOMAIN}/`}
+        url={locale === "id" ? env.SITE_URL : env.EN_SITE_URL}
         potentialActions={[
           {
-            target: `https://${siteDomain?.value || env.DOMAIN}/search?q`,
+            target: `${
+              locale === "id" ? env.SITE_URL : env.EN_SITE_URL
+            }/search?q`,
             queryInput: "search_term_string",
           },
         ]}

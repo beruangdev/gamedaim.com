@@ -3,7 +3,11 @@ import * as React from "react"
 import { Article } from "@/components/Article"
 import { Ad } from "@/components/Ad"
 import { ArticleCardSide } from "@/components/Card"
-import { AdDataProps, ArticleDataProps } from "@/lib/data-types"
+import {
+  AdDataProps,
+  ArticleDataProps,
+  LanguageTypeData,
+} from "@/lib/data-types"
 import { parseAndSplitHTMLString } from "@/utils/helper"
 import { transformContent } from "@/hooks/use-transform-content"
 
@@ -15,6 +19,7 @@ interface SingleArticleProps {
   adsSingleArticleBelow: AdDataProps[] | null
   adsSingleArticleInline: AdDataProps[] | null
   adsSingleArticlePopUp: AdDataProps[] | null
+  locale: LanguageTypeData
 }
 
 export default async function SingleArticleContent(props: SingleArticleProps) {
@@ -26,6 +31,7 @@ export default async function SingleArticleContent(props: SingleArticleProps) {
     adsSingleArticleBelow,
     adsSingleArticleInline,
     adsSingleArticlePopUp,
+    locale,
   } = props
 
   const articleData = article && {
@@ -75,6 +81,7 @@ export default async function SingleArticleContent(props: SingleArticleProps) {
             adsSingleArticlePopUp={adsSingleArticlePopUp}
             firstContent={firstContent}
             secondContent={secondContent}
+            locale={locale}
           />
         )}
       </section>

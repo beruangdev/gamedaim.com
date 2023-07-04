@@ -3,6 +3,8 @@
 import * as React from "react"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { AxiosError } from "axios"
+
 import { Button } from "@/components/UI/Button"
 import { Image } from "@/components/Image"
 import {
@@ -12,22 +14,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/UI/DropdownMenu"
 import { EditableParagraph } from "@/components/UI/Form/EditableParagraph"
-import { http } from "@/lib/http"
 import { CommentDataProps, CommentType, ErrorResponse } from "@/lib/data-types"
-import { AxiosError } from "axios"
 import { useCurrentUser } from "@/hooks/use-current-user"
 import { toast } from "@/components/UI/Toast"
 import { Icon } from "@/components/UI/Icon"
-import { Textarea } from "../UI/Textarea"
+import { Textarea } from "@/components/UI/Textarea"
+import { http } from "@/lib/http"
 
 dayjs.extend(relativeTime)
 
 export interface CommentProps extends CommentDataProps {
-  wpPostId?: number
+  wpPostSlug?: string
 }
 
 interface CommentFormProps extends React.HTMLAttributes<HTMLDivElement> {
-  postId: string | number
+  postId: string
   postType?: CommentType
 }
 
@@ -51,7 +52,7 @@ export const CommentForm = React.forwardRef<HTMLDivElement, CommentFormProps>(
         : "comment"
 
     const route = {
-      get: `${route_namespace}/by-post/${postId}`,
+      get: `${route_namespace}/${postType}/${postId}`,
       post: route_namespace,
       delete: (commentId: string) => {
         return `${route_namespace}/${commentId}`
@@ -90,7 +91,7 @@ export const CommentForm = React.forwardRef<HTMLDivElement, CommentFormProps>(
     const resolveTypeIdName = () => {
       switch (postType) {
         case "wp-post":
-          return "wpPostId"
+          return "wpPostSlug"
         case "download":
           return "downloadId"
         default:
@@ -228,7 +229,7 @@ export const CommentForm = React.forwardRef<HTMLDivElement, CommentFormProps>(
         )}
 
         <div
-          className={`scrollbar bg-foreground fixed right-0 top-0 z-[999] h-screen w-full translate-x-full overflow-y-auto p-4 transition-transform md:max-w-[27rem] ${
+          className={`scrollbar bg-background fixed right-0 top-0 z-[999] h-screen w-full translate-x-full overflow-y-auto p-4 transition-transform md:max-w-[27rem] ${
             showComments && "transform-none"
           }`}
           tabIndex={-1}
@@ -236,7 +237,7 @@ export const CommentForm = React.forwardRef<HTMLDivElement, CommentFormProps>(
           <div className="mb-4">
             <h5
               id="drawer-label"
-              className="text-background/50 inline-flex items-center text-lg font-semibold"
+              className="text-foreground inline-flex items-center text-lg font-semibold"
             >
               <Icon.Comment
                 aria-label="Comments"
@@ -247,7 +248,7 @@ export const CommentForm = React.forwardRef<HTMLDivElement, CommentFormProps>(
             <button
               aria-label="Close Menu"
               type="button"
-              className="text-background/50 hover:bg-background/20 hover:text-background/90 absolute right-2.5 top-2.5 inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm"
+              className="text-foreground hover:bg-background/20 hover:text-foreground/70 absolute right-2.5 top-2.5 inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm"
               onClick={() => {
                 setShowComments(!showComments)
               }}
@@ -301,13 +302,13 @@ export const CommentForm = React.forwardRef<HTMLDivElement, CommentFormProps>(
                       ) : (
                         <Icon.Account
                           aria-label={comment.author?.name}
-                          className="text-background/40 h-10 w-10"
+                          className="text-foreground h-10 w-10"
                         />
                       )}
 
                       <div className="space-y-0.5 text-left text-sm font-medium">
                         <div>{comment.author?.name}</div>
-                        <div className="text-background/50 text-xs">
+                        <div className="text-foreground text-xs">
                           {created_at}
                         </div>
                       </div>

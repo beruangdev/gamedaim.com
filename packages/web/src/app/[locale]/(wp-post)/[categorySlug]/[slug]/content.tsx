@@ -4,7 +4,7 @@ import {
   WpCategoriesDataProps,
   WpSinglePostDataProps,
 } from "@/lib/wp-data-types"
-import { AdDataProps } from "@/lib/data-types"
+import { AdDataProps, LanguageTypeData } from "@/lib/data-types"
 import { Ad } from "@/components/Ad"
 import { Article } from "@/components/Article"
 import { InfiniteScrollArticles } from "@/components/InfiniteScroll"
@@ -20,6 +20,7 @@ interface PostProps {
   adsSingleArticleBelow: AdDataProps[] | null
   adsSingleArticleInline: AdDataProps[] | null
   adsSingleArticlePopUp: AdDataProps[] | null
+  locale: LanguageTypeData
 }
 export async function PostContent(props: PostProps) {
   const {
@@ -30,6 +31,7 @@ export async function PostContent(props: PostProps) {
     adsSingleArticleBelow,
     adsSingleArticleInline,
     adsSingleArticlePopUp,
+    locale,
   } = props
 
   let categories
@@ -90,12 +92,14 @@ export async function PostContent(props: PostProps) {
             adsSingleArticlePopUp={adsSingleArticlePopUp}
             firstContent={firstContent}
             secondContent={secondContent}
+            locale={locale}
           />
         )}
         {posts && post && (
           <InfiniteScrollArticles
             posts={posts}
             post={post}
+            locale={locale}
             adsBelowHeader={adsBelowHeader || []}
             adsSingleArticleAbove={adsSingleArticleAbove || []}
             adsSingleArticleBelow={adsSingleArticleBelow || []}

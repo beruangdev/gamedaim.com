@@ -10,7 +10,6 @@ import {
 } from "@/lib/api/server/article"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { LanguageTypeData } from "@/lib/data-types"
-import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import SingleArticleContent from "./content"
 
 export const revalidate = 60
@@ -18,11 +17,12 @@ export const revalidate = 60
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string; locale: LanguageTypeData }
 }): Promise<Metadata> {
   const { slug } = params
 
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
+  const locale = params.locale
+
   const { data: article } = await getArticlesBySlugAction(slug as string)
 
   return {
@@ -31,9 +31,11 @@ export async function generateMetadata({
     openGraph: {
       title: article?.title,
       description: article?.metaDescription || article?.excerpt,
-      url: `https://${siteDomain?.value || env.DOMAIN}/article/${
-        article?.slug
-      }`,
+      url:
+        locale === "id"
+          ? `${env.SITE_URL}/article/${article?.slug}`
+          : `${env.EN_SITE_URL}/article/${article?.slug}`,
+
       locale: article?.language,
     },
   }
@@ -51,7 +53,6 @@ export default async function ArticleSlugPage({
 }: ArticleSlugPageProps) {
   const { locale, slug } = params
   const { data: article } = await getArticlesBySlugAction(slug as string)
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
 
   if (!article) {
     notFound()
@@ -81,33 +82,39 @@ export default async function ArticleSlugPage({
         itemListElements={[
           {
             position: 1,
-            name: siteDomain?.value || env.DOMAIN,
-            item: `https://${siteDomain?.value || env.DOMAIN}`,
+            name: locale === "id" ? env.DOMAIN : env.EN_SUBDOMAIN,
+            item: locale === "id" ? env.SITE_URL : env.EN_SITE_URL,
           },
           {
             position: 2,
             name: "Article",
-            item: `https://${siteDomain?.value || env.DOMAIN}/article`,
+            item:
+              locale === "id"
+                ? `${env.SITE_URL}/article`
+                : `${env.EN_SITE_URL}/article`,
           },
           {
             position: 3,
             name: article?.topics[0]?.title,
-            item: `https://${siteDomain?.value || env.DOMAIN}/article/topic/${
-              article?.topics[0]?.slug
-            }`,
+            item:
+              locale === "id"
+                ? `${env.SITE_URL}/article/topic/${article?.topics[0].slug}`
+                : `${env.EN_SITE_URL}/article/topic/${article?.topics[0].slug}`,
           },
           {
             position: 4,
             name: article?.metaTitle || article?.title,
-            item: `https://${siteDomain?.value || env.DOMAIN}/article/${
-              article?.slug
-            }`,
+            item:
+              locale === "id"
+                ? `${env.SITE_URL}/article/${article?.slug}`
+                : `${env.EN_SITE_URL}/article/${article?.slug}`,
           },
         ]}
       />
 
       <SingleArticleContent
         article={article}
+        locale={locale}
         articles={articles}
         adsBelowHeader={adsBelowHeader}
         adsSingleArticleAbove={adsSingleArticleAbove}

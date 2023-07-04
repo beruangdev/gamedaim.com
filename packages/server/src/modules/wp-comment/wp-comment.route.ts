@@ -7,7 +7,7 @@ import {
   getWpCommentsHandler,
   searchWpCommentsHandler,
   updateWpCommentHandler,
-  getWpCommentByPostIdHandler,
+  getWpCommentByPostSlugHandler,
 } from "./wp-comment.controller"
 import { $ref } from "./wp-comment.schema"
 
@@ -65,7 +65,7 @@ async function wpCommentRoutes(server: FastifyInstance) {
   )
 
   server.get(
-    "/by-post/:wpPostId",
+    "/wp-post/:wpPostSlug",
     {
       schema: {
         response: {
@@ -73,7 +73,7 @@ async function wpCommentRoutes(server: FastifyInstance) {
         },
       },
     },
-    getWpCommentByPostIdHandler,
+    getWpCommentByPostSlugHandler,
   )
 
   server.put(

@@ -48,7 +48,6 @@ export const getSettingsSiteAction = async () => {
   const { data: siteMetaDescription } = await getSettingByKeyAction(
     "siteMetaDescription",
   )
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
   const { data: emailShop } = await getSettingByKeyAction("emailShop")
 
   return {
@@ -57,7 +56,6 @@ export const getSettingsSiteAction = async () => {
     siteDescription,
     siteMetaTitle,
     siteMetaDescription,
-    siteDomain,
     emailShop,
   }
 }

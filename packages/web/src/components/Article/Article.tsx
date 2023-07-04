@@ -10,7 +10,11 @@ import { Ad } from "@/components/Ad"
 import { ArticleInfo } from "@/components/ArticleInfo"
 import { StickyShare } from "@/components/Share"
 
-import { AdDataProps, ArticleDataProps } from "@/lib/data-types"
+import {
+  AdDataProps,
+  ArticleDataProps,
+  LanguageTypeData,
+} from "@/lib/data-types"
 import {
   WpCategoriesDataProps,
   WpSinglePostDataProps,
@@ -55,6 +59,7 @@ interface PostProps {
   adsSingleArticlePopUp: AdDataProps[] | null
   firstContent: React.ReactNode | null
   secondContent: React.ReactNode | null
+  locale: LanguageTypeData
 }
 
 export const Article = React.forwardRef<HTMLDivElement, PostProps>(
@@ -69,6 +74,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       adsSingleArticleInline,
       firstContent,
       secondContent,
+      locale,
     } = props
     const {
       title,
@@ -152,6 +158,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
           )}
           <div className="flex">
             <StickyShare
+              locale={locale}
               title={title}
               categorySlug={isWP ? (primaryData?.slug as string) : "article"}
               postSlug={slug}
@@ -201,7 +208,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
           <section className="mb-5" id="comment">
             {user?.id ? (
               <CommentForm
-                postId={postData?.postId || postData.id}
+                postId={isWP ? postData?.slug : postData.id}
                 postType={isWP ? "wp-post" : "article"}
               />
             ) : (

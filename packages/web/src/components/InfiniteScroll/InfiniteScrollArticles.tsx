@@ -11,7 +11,7 @@ import {
   WpInfinitePostsProps,
   WpSinglePostDataProps,
 } from "@/lib/wp-data-types"
-import { AdDataProps } from "@/lib/data-types"
+import { AdDataProps, LanguageTypeData } from "@/lib/data-types"
 import { parseAndSplitHTMLString, wpPrimaryCategorySlug } from "@/utils/helper"
 import { transformContent } from "@/hooks/use-transform-content"
 
@@ -32,6 +32,7 @@ interface PostProps {
   posts: WpSinglePostDataProps[]
   post: WpSinglePostDataProps
   adsBelowHeader: AdDataProps[]
+  locale: LanguageTypeData
   adsSingleArticleAbove: AdDataProps[]
   adsSingleArticleBelow: AdDataProps[]
   adsSingleArticleInline: AdDataProps[]
@@ -45,6 +46,7 @@ export function InfiniteScrollArticles(props: PostProps) {
     adsSingleArticleBelow,
     adsSingleArticleInline,
     adsSingleArticlePopUp,
+    locale,
   } = props
 
   const { categories } = post
@@ -127,6 +129,7 @@ export function InfiniteScrollArticles(props: PostProps) {
         return (
           <Article
             key={i}
+            locale={locale}
             posts={posts}
             ref={articleRef}
             postData={postDatas}

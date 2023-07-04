@@ -1,24 +1,23 @@
 import * as React from "react"
 import { notFound } from "next/navigation"
-import { Metadata } from "next"
+import { type Metadata } from "next"
 
 import env from "env"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { getTopicArticlesBySlugAction } from "@/lib/api/server/topic"
 import { TopicArticleContent } from "./content"
-import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import { BreadcrumbJsonLd } from "next-seo"
+import { type LanguageTypeData } from "@/lib/data-types"
 
 export const revalidate = 60
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string; locale: LanguageTypeData }
 }): Promise<Metadata> {
-  const { slug } = params
+  const { slug, locale } = params
 
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
   const { data: topicArticle } = await getTopicArticlesBySlugAction(slug, 1)
 
   return {
@@ -27,9 +26,10 @@ export async function generateMetadata({
     openGraph: {
       title: topicArticle?.title,
       description: topicArticle?.metaDescription || topicArticle?.description,
-      url: `https://${siteDomain?.value || env.DOMAIN}/article/topic/${
-        topicArticle?.slug
-      }`,
+      url:
+        locale === "id"
+          ? `${env.SiTE_URL}/article/topic/${topicArticle?.slug}`
+          : `${env.EN_SiTE_URL}/article/topic/${topicArticle?.slug}`,
       locale: topicArticle?.language,
     },
   }
@@ -38,11 +38,10 @@ export async function generateMetadata({
 export default async function TopicArticlePage({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string; locale: LanguageTypeData }
 }) {
-  const { slug } = params
+  const { slug, locale } = params
   const { data: topicArticle } = await getTopicArticlesBySlugAction(slug, 1)
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
 
   if (!topicArticle) {
     notFound()
@@ -57,20 +56,22 @@ export default async function TopicArticlePage({
         itemListElements={[
           {
             position: 1,
-            name: siteDomain?.value || env.DOMAIN,
-            item: `https://${siteDomain?.value || env.DOMAIN}`,
+            name: locale === "id" ? env.DOMAIN : env.EN_SUBDOMAIN,
           },
           {
             position: 2,
-            name: "Article",
-            item: `https://${siteDomain?.value || env.DOMAIN}/article`,
+            name:
+              locale === "id"
+                ? `${env.SITE_URL}/article`
+                : `${env.EN_SITE_URL}/article`,
           },
           {
             position: 4,
             name: topicArticle?.metaTitle || topicArticle?.title,
-            item: `https://${siteDomain?.value || env.DOMAIN}/article/topic/${
-              topicArticle?.slug
-            }`,
+            item:
+              locale === "id"
+                ? `${env.SITE_URL}/article/topic/${topicArticle?.slug}`
+                : `${env.EN_SITE_URL}/article/topic/${topicArticle?.slug}`,
           },
         ]}
       />
