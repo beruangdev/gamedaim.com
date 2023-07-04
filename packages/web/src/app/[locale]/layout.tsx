@@ -7,16 +7,20 @@ import env from "env"
 import { Toaster } from "@/components/UI/Toast"
 import { ThemeProvider } from "@/components/Theme"
 import { getSettingByKeyAction } from "@/lib/api/server/setting"
+import { type LanguageTypeData } from "@/lib/data-types"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  locale,
+}: {
+  locale: LanguageTypeData
+}): Promise<Metadata> {
   const { data: siteTitle } = await getSettingByKeyAction("siteTitle")
   const { data: siteTagline } = await getSettingByKeyAction("siteTagline")
   const { data: siteDescription } = await getSettingByKeyAction(
     "siteDescription",
   )
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
   const { data: twitterUsername } = await getSettingByKeyAction(
     "twitterUsername",
   )
@@ -28,16 +32,16 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: siteDescription?.value || env.ABOUT,
     alternates: {
-      canonical: `https:/${siteDomain?.value}/`,
+      canonical: locale === "id" ? env.SITE_URL : env.EN_SITE_URL,
       languages: {
-        id: `https://${siteDomain?.value || env.DOMAIN}`,
-        en: `https://global.${siteDomain?.value || env.DOMAIN}`,
+        id: env.SITE_URL,
+        en: env.EN_SITE_URL,
       },
     },
     openGraph: {
       title: siteTitle?.value || env.SITE_TITLE,
       description: siteDescription?.value || env.ABOUT,
-      url: `https://${siteDomain?.value || env.DOMAIN}`,
+      url: locale === "id" ? env.SITE_URL : env.EN_SITE_URL,
       siteName: siteTitle?.value || env.SITE_TITLE,
       images: [
         {
@@ -63,6 +67,13 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       title: twitterUsername?.value || env.TWITTER_USERNAME,
       card: "summary_large_image",
+      images: [
+        {
+          url: env.LOGO_OG_URL,
+          width: env.LOGO_OG_WIDTH,
+          height: env.LOGO_OG_HEIGHT,
+        },
+      ],
     },
     icons: {
       shortcut: "/favicon.ico",

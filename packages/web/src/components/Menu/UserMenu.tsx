@@ -32,27 +32,13 @@ export const UserMenu = () => {
       <DropdownMenuContent className="bg-background w-56">
         {params?.locale && params.locale === "id" ? (
           <DropdownMenuItem asChild>
-            <NextLink
-              href={
-                env.NODE_ENV !== "development"
-                  ? `http://global.${env.DOMAIN}`
-                  : `http://global.localhost:3000`
-              }
-              locale="en"
-            >
+            <NextLink href={env.EN_SITE_URL} locale="en">
               Switch to English
             </NextLink>
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem asChild>
-            <NextLink
-              href={
-                env.NODE_ENV !== "development"
-                  ? `http://${env.DOMAIN}`
-                  : `http://localhost:3000`
-              }
-              locale="id"
-            >
+            <NextLink href={env.SITE_URL} locale="id">
               Switch to Bahasa
             </NextLink>
           </DropdownMenuItem>

@@ -325,7 +325,7 @@ const FormTopUp = (props: FormTopUpProps) => {
               },
             ],
             callback_url: env.API,
-            return_url: `https://${env.DOMAIN}/shop/top-up/transaction`,
+            return_url: `${env.SITE_URL}/shop/top-up/transaction`,
             expired_time: 0,
           })
 

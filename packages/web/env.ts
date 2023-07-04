@@ -1,3 +1,5 @@
+import { getProtocol } from "@/utils/protocol"
+
 interface EnvProps {
   [key: string]: string
 }
@@ -5,7 +7,10 @@ interface EnvProps {
 const env: EnvProps = {
   NODE_ENV: process.env.NODE_ENV || "development",
   API: process.env.NEXT_PUBLIC_API || "http://localhost:8000",
-  DOMAIN: process.env.NEXT_PUBLIC_DOMAIN || "localhost",
+  DOMAIN: process.env.NEXT_PUBLIC_DOMAIN || "localhost:3000",
+  EN_SUBDOMAIN: process.env.NEXT_PUBLIC_EN_SUBDOMAIN || "global.localhost:3000",
+  SITE_URL: getProtocol() + process.env.NEXT_PUBLIC_DOMAIN,
+  EN_SITE_URL: getProtocol() + process.env.NEXT_PUBLIC_EN_SUBDOMAIN,
   ADSENSE_CLIENT_ID: process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID as string,
   SITE_TITLE: process.env.NEXT_PUBLIC_SITE_TITLE as string,
   SITE_COLOR: process.env.NEXT_PUBLIC_SITE_COLOR as string,

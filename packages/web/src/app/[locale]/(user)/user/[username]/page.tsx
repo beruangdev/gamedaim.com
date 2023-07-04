@@ -6,20 +6,20 @@ import { HiOutlineCalendar, HiOutlineUser } from "react-icons/hi"
 import env from "env"
 import { ArticleCardVertical } from "@/components/Card"
 import { Image } from "@/components/Image"
-import { ArticleDataProps } from "@/lib/data-types"
+import { ArticleDataProps, LanguageTypeData } from "@/lib/data-types"
 import { formatDate } from "@/utils/date"
 import { getUserByUsernameAction } from "@/lib/api/server/user"
-import { getSettingByKeyAction } from "@/lib/api/server/setting"
 
 interface UserPageProps {
   params: {
     username: string
+    locale: LanguageTypeData
   }
 }
 
 export default async function UserPage({ params }: UserPageProps) {
+  const { locale } = params
   const { data: user } = await getUserByUsernameAction(params.username)
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
 
   return (
     <>
@@ -28,15 +28,15 @@ export default async function UserPage({ params }: UserPageProps) {
         itemListElements={[
           {
             position: 1,
-            name: siteDomain?.value || env.DOMAIN,
-            item: `https://${siteDomain?.value || env.DOMAIN}`,
+            name: locale === "id" ? env.DOMAIN : env.EN_SUBDOMAIN,
           },
           {
             position: 2,
             name: user?.name,
-            item: `https://${siteDomain?.value || env.DOMAIN}/user/${
-              user?.username
-            }`,
+            item:
+              locale === "id"
+                ? `${env.SITE_URL}/user/${user?.username}`
+                : `${env.EN_SITE_URL}/user/${user?.username}`,
           },
         ]}
       />
