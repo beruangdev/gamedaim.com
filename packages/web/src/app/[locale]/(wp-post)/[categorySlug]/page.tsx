@@ -1,5 +1,8 @@
 import * as React from "react"
 import { notFound } from "next/navigation"
+import { Metadata } from "next"
+import env from "env"
+import { BreadcrumbJsonLd } from "next-seo"
 
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { wpGetPostsByCategorySlug } from "@/lib/api/server/wp-posts"
@@ -7,9 +10,6 @@ import { wpGetCategoryBySlug } from "@/lib/api/server/wp-categories"
 import { WpCategoriesDataProps } from "@/lib/wp-data-types"
 import { LanguageTypeData } from "@/lib/data-types"
 import { CategoryContent } from "./content"
-import { Metadata } from "next"
-import env from "env"
-import { BreadcrumbJsonLd } from "next-seo"
 
 export const revalidate = 60
 

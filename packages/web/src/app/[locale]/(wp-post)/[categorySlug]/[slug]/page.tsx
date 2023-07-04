@@ -1,15 +1,16 @@
 import * as React from "react"
 import { notFound } from "next/navigation"
+import env from "env"
+import { ArticleJsonLd, BreadcrumbJsonLd } from "next-seo"
+import { Metadata } from "next"
 
 import { wpGetAllPosts, wpGetPostBySlug } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { LanguageTypeData } from "@/lib/data-types"
 
 import { PostContent } from "./content"
-import env from "env"
-import { Metadata } from "next"
+
 import { splitUriWP, wpPrimaryCategorySlug } from "@/utils/helper"
-import { BreadcrumbJsonLd } from "next-seo"
 import { WpCategoriesDataProps } from "@/lib/wp-data-types"
 
 export const revalidate = 60
@@ -97,7 +98,31 @@ export default async function PostPage({ params }: PostPageProps) {
           },
         ]}
       />
-
+      <ArticleJsonLd
+        useAppDir={true}
+        url={
+          locale === "id"
+            ? `${env.SITE_URL}/${primary.slug}/${post.slug}`
+            : `${env.EN_SITE_URL}/${primary.slug}/${post.slug}`
+        }
+        title={post.title}
+        images={[post.featuredImage.sourceUrl]}
+        datePublished={post.date}
+        dateModified={post.modified}
+        authorName={[
+          {
+            name: post.author.name,
+            url:
+              locale === "id"
+                ? `${env.SITE_URL}/author/${post.author.slug}`
+                : `${env.EN_SITE_URL}/author/${post.author.slug}`,
+          },
+        ]}
+        publisherName={env.SITE_TITTLE}
+        publisherLogo={env.LOGO_URL}
+        description={post.excerpt}
+        isAccessibleForFree={true}
+      />
       <PostContent
         locale={locale}
         posts={posts}
