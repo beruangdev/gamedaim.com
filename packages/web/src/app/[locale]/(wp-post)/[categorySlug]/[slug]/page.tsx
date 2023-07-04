@@ -5,15 +5,16 @@ import { wpGetAllPosts, wpGetPostBySlug } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 
 import { PostContent } from "./content"
+import { type LanguageTypeData } from "@/lib/data-types"
 
 export const revalidate = 60
 
 interface PostPageProps {
-  params: { slug: string; categorySlug: string }
+  params: { slug: string; categorySlug: string; locale: LanguageTypeData }
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = params
+  const { slug, locale } = params
   const { posts } = await wpGetAllPosts()
   const { post } = await wpGetPostBySlug(slug as string)
 
@@ -37,6 +38,7 @@ export default async function PostPage({ params }: PostPageProps) {
   )
   return (
     <PostContent
+      locale={locale}
       posts={posts}
       post={post}
       adsBelowHeader={adsBelowHeader}
