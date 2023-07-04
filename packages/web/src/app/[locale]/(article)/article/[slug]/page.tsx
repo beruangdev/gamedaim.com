@@ -1,7 +1,7 @@
 import * as React from "react"
-import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { BreadcrumbJsonLd } from "next-seo"
+import { ArticleJsonLd, BreadcrumbJsonLd } from "next-seo"
+import { type Metadata } from "next"
 
 import env from "env"
 import {
@@ -35,7 +35,6 @@ export async function generateMetadata({
         locale === "id"
           ? `${env.SITE_URL}/article/${article?.slug}`
           : `${env.EN_SITE_URL}/article/${article?.slug}`,
-
       locale: article?.language,
     },
   }
@@ -111,7 +110,31 @@ export default async function ArticleSlugPage({
           },
         ]}
       />
-
+      <ArticleJsonLd
+        useAppDir={true}
+        url={
+          locale === "id"
+            ? `${env.DOMAIN}/${article.slug}`
+            : `${env.EN_SITE_URL}/${article.slug}`
+        }
+        title={article.metaTitle || article.title}
+        images={[article.featuredImage.url]}
+        datePublished={article.createdAt}
+        dateModified={article.createdAt}
+        authorName={[
+          {
+            name: article.authors[0].name,
+            url:
+              locale === "id"
+                ? `${env.SITE_URL}/user/${article.authors[0].username}`
+                : `${env.EN_SITE_URL}/user/${article.authors[0].username}`,
+          },
+        ]}
+        publisherName={env.SITE_TITTLE}
+        publisherLogo={env.LOGO_URL}
+        description={article.metaDescription || article.excerpt}
+        isAccessibleForFree={true}
+      />
       <SingleArticleContent
         article={article}
         locale={locale}
