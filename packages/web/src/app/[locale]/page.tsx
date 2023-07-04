@@ -8,12 +8,18 @@ import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import { wpGetAllPosts } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { IndexContent } from "./content"
+import { LanguageTypeData } from "@/lib/data-types"
 
 export const revalidate = 60
 
-export default async function IndexPage() {
+export default async function IndexPage({
+  params,
+}: {
+  params: { locale: LanguageTypeData }
+}) {
+  const { locale } = params
   const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
-  const { posts, pageInfo } = await wpGetAllPosts()
+  const { posts, pageInfo } = await wpGetAllPosts(locale.toLocaleUpperCase())
   const { data: adsBelowHeader } = await getAdsByPositionAction(
     "HOME_BELOW_HEADER",
   )
@@ -44,6 +50,7 @@ export default async function IndexPage() {
           adsBelowHeader={adsBelowHeader}
           posts={posts}
           pageInfo={pageInfo}
+          locale={locale}
         />
       </MainContainer>
     </>

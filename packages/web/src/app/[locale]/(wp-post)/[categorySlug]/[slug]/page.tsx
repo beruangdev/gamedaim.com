@@ -3,18 +3,19 @@ import { notFound } from "next/navigation"
 
 import { wpGetAllPosts, wpGetPostBySlug } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
+import { LanguageTypeData } from "@/lib/data-types"
 
 import { PostContent } from "./content"
 
 export const revalidate = 60
 
 interface PostPageProps {
-  params: { slug: string; categorySlug: string }
+  params: { slug: string; categorySlug: string; locale: LanguageTypeData }
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = params
-  const { posts } = await wpGetAllPosts()
+  const { slug, locale } = params
+  const { posts } = await wpGetAllPosts(locale.toLocaleUpperCase())
   const { post } = await wpGetPostBySlug(slug as string)
 
   if (!post) {

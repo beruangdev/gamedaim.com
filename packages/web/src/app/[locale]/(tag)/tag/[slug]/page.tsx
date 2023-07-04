@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { wpGetTagBySlug } from "@/lib/api/server/wp-tags"
 import { wpGetPostsByTagSlug } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
+import { LanguageTypeData } from "@/lib/data-types"
 import { TagContent } from "./content"
 
 export const revalidate = 60
@@ -11,9 +12,9 @@ export const revalidate = 60
 export default async function TagPage({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string; locale: LanguageTypeData }
 }) {
-  const { slug } = params
+  const { slug, locale } = params
   const { tag } = await wpGetTagBySlug(slug)
   if (!tag) {
     notFound()
@@ -28,6 +29,7 @@ export default async function TagPage({
       tag={tag}
       posts={posts}
       pageInfo={pageInfo}
+      locale={locale}
     />
   )
 }

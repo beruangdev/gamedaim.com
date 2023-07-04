@@ -17,7 +17,7 @@ import {
   WpSinglePostDataProps,
   WpTagsDataProps,
 } from "@/lib/wp-data-types"
-import { AdDataProps } from "@/lib/data-types"
+import { AdDataProps, LanguageTypeData } from "@/lib/data-types"
 import { splitUriWP } from "@/utils/helper"
 
 interface TagProps {
@@ -25,10 +25,11 @@ interface TagProps {
   posts: WpSinglePostDataProps[] | null | undefined
   pageInfo: WPPageInfoProps | null | undefined
   adsBelowHeader: AdDataProps[] | null
+  locale: LanguageTypeData
 }
 
 export function TagContent(props: TagProps) {
-  const { posts, pageInfo, tag, adsBelowHeader } = props
+  const { posts, pageInfo, tag, adsBelowHeader, locale } = props
 
   return (
     <section className="flex w-full flex-col">
@@ -80,6 +81,7 @@ export function TagContent(props: TagProps) {
               posts={posts}
               id={tag?.slug}
               pageInfo={pageInfo}
+              language={locale}
             />
           )}
         </div>

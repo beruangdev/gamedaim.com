@@ -1,62 +1,62 @@
 export const QUERY_WP_ALL_POSTS = `
-  query AllPosts {
-    posts(first: 20) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      edges {
-        node {
-          author {
+query AllPosts($language: LanguageCodeFilterEnum = ALL) {
+  posts(first: 20, where: {language: $language}) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    edges {
+      node {
+        author {
+          node {
+            avatar {
+              height
+              url
+              width
+            }
+            id
+            name
+            slug
+            uri
+          }
+        }
+        id
+        categories {
+          edges {
             node {
-              avatar {
-                height
-                url
-                width
-              }
+              categoryId
               id
               name
               slug
-              uri
-            }
-          }
-          id
-          categories {
-            edges {
-              node {
-                categoryId
-                id
-                name
-                slug
-                parent {
-                  node {
-                    id
-                  }
+              parent {
+                node {
+                  id
                 }
               }
             }
           }
-          date
-          excerpt
-          featuredImage {
-            node {
-              altText
-              caption
-              sourceUrl
-              srcSet
-              sizes
-              id
-            }
-          }
-          modified
-          postId
-          title
-          slug
-          uri
         }
+        date
+        excerpt
+        featuredImage {
+          node {
+            altText
+            caption
+            sourceUrl
+            srcSet
+            sizes
+            id
+          }
+        }
+        modified
+        postId
+        title
+        slug
+        uri
       }
     }
   }
+}
 `
 
 export const QUERY_WP_ALL_SLUG = `
@@ -88,64 +88,64 @@ query AllSlug($after: String) {
 `
 
 export const QUERY_WP_ALL_POSTS_LOAD_MORE = `
-  query AllPosts($after : String) {
-    posts(first: 10, after: $after) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      edges {
-        node {
-          author {
+query AllPosts($after: String, $language: LanguageCodeFilterEnum = ALL) {
+  posts(first: 10, after: $after, where: {language: $language}) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    edges {
+      node {
+        author {
+          node {
+            avatar {
+              height
+              url
+              width
+            }
+            id
+            name
+            slug
+            uri
+          }
+        }
+        id
+        categories {
+          edges {
             node {
-              avatar {
-                height
-                url
-                width
-              }
+              categoryId
               id
               name
               slug
-              uri
-            }
-          }
-          id
-          categories {
-            edges {
-              node {
-                categoryId
-                id
-                name
-                slug
-                parent {
-                  node {
-                    id
-                  }
+              parent {
+                node {
+                  id
                 }
               }
             }
           }
-          date
-          excerpt
-          featuredImage {
-            node {
-              altText
-              caption
-              sourceUrl
-              srcSet
-              sizes
-              id
-            }
-          }
-          modified
-          postId
-          title
-          slug
-          uri
         }
+        date
+        excerpt
+        featuredImage {
+          node {
+            altText
+            caption
+            sourceUrl
+            srcSet
+            sizes
+            id
+          }
+        }
+        modified
+        postId
+        title
+        slug
+        uri
       }
     }
   }
+}
 `
 
 export const QUERY_WP_POST_BY_SLUG = `
@@ -244,75 +244,78 @@ export const QUERY_WP_POST_BY_SLUG = `
 `
 
 export const QUERY_WP_POSTS_BY_CATEGORY_SLUG = `
-  query PostsByCategoryId($categoryId: String, $after: String) {
-    posts(where: { categoryName: $categoryId }, after: $after, first: 10) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      edges {
-        node {
-          author {
+query PostsByCategoryId($categoryId: String, $after: String) {
+  posts(
+    where: {categoryName: $categoryId}
+    after: $after
+    first: 10
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    edges {
+      node {
+        author {
+          node {
+            avatar {
+              height
+              url
+              width
+            }
+            id
+            name
+            slug
+            uri
+          }
+        }
+        id
+        categories {
+          edges {
             node {
-              avatar {
-                height
-                url
-                width
-              }
+              categoryId
               id
               name
               slug
-              uri
-            }
-          }
-          id
-          categories {
-            edges {
-              node {
-                categoryId
-                id
-                name
-                slug
-                parent {
-                  node {
-                    id
-                  }
+              parent {
+                node {
+                  id
                 }
               }
             }
           }
-          tags {
-            edges {
-              node {
-                tagId
-                id
-                name
-                slug
-                
-              }
-            }
-          }
-          date
-          excerpt
-          featuredImage {
-            node {
-              altText
-              caption
-              id
-              sizes
-              sourceUrl
-              srcSet
-            }
-          }
-          modified
-          postId
-          title
-          slug
-          uri
         }
+        tags {
+          edges {
+            node {
+              tagId
+              id
+              name
+              slug
+            }
+          }
+        }
+        date
+        excerpt
+        featuredImage {
+          node {
+            altText
+            caption
+            id
+            sizes
+            sourceUrl
+            srcSet
+          }
+        }
+        modified
+        postId
+        title
+        slug
+        uri
       }
     }
   }
+}
 `
 
 export const QUERY_WP_POSTS_BY_TAG_SLUG = `
@@ -380,64 +383,64 @@ export const QUERY_WP_POSTS_BY_TAG_SLUG = `
 `
 
 export const QUERY_WP_POSTS_BY_AUTHOR_SLUG = `
-  query PostByAuthorSlug($slug: String, $after: String) {
-    posts(where: { authorName: $slug }, first: 10, after: $after) {
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-      edges {
-        node {
-          categories {
-            edges {
-              node {
-                categoryId
-                id
-                name
-                slug
-                parent {
-                  node {
-                    id
-                  }
+query PostByAuthorSlug($slug: String, $after: String, $language: LanguageCodeFilterEnum = ID) {
+  posts(where: {authorName: $slug, language: $language}, first: 10, after: $after) {
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+    edges {
+      node {
+        categories {
+          edges {
+            node {
+              categoryId
+              id
+              name
+              slug
+              parent {
+                node {
+                  id
                 }
               }
             }
           }
-          date
-          author {
-            node {
-              avatar {
-                height
-                url
-                width
-              }
-              id
-              name
-              slug
-              uri
-            }
-          }
-          excerpt
-          featuredImage {
-            node {
-              altText
-              caption
-              id
-              sizes
-              sourceUrl
-              srcSet
-            }
-          }
-          id
-          modified
-          postId
-          slug
-          uri
-          title
         }
+        date
+        author {
+          node {
+            avatar {
+              height
+              url
+              width
+            }
+            id
+            name
+            slug
+            uri
+          }
+        }
+        excerpt
+        featuredImage {
+          node {
+            altText
+            caption
+            id
+            sizes
+            sourceUrl
+            srcSet
+          }
+        }
+        id
+        modified
+        postId
+        slug
+        uri
+        title
       }
     }
   }
+}
 `
 
 export const QUERY_WP_POST_PER_PAGE = `
