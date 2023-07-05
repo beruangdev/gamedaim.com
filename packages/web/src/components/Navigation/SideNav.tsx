@@ -3,9 +3,12 @@
 import * as React from "react"
 import NextLink from "next/link"
 import useSWR from "swr"
+import env from "env"
 
 import { Icon } from "@/components/UI/Icon"
-import { wpGetPrimaryMenus } from "@/lib/api/server/wp-menus"
+import { wpGetMenusByName } from "@/lib/api/server/wp-menus"
+import { useParams } from "next/navigation"
+import { splitUriMenuWP } from "@/utils/helper"
 
 interface SideNavProps {
   isMain: boolean
@@ -13,9 +16,13 @@ interface SideNavProps {
 
 export function SideNav(props: SideNavProps) {
   const { isMain, ...rest } = props
+  const params = useParams()
+
   const stylesIcons = "inline-block text-base mr-2"
   const { data: primaryMenu } = useSWR("wp-primary-menu", () =>
-    wpGetPrimaryMenus(),
+    wpGetMenusByName(
+      params.locale === "id" ? env.MENU_PRIMARY : env.EN_MENU_PRIMARY,
+    ),
   )
 
   return (
@@ -38,24 +45,13 @@ export function SideNav(props: SideNavProps) {
         {primaryMenu?.menu &&
           primaryMenu.menu.map((menu: { url: string; label: string }) => {
             const icon = getIcons(menu.label, stylesIcons)
-            let domainUrl
-            if (menu.url.startsWith("http")) {
-              domainUrl = new URL(menu.url)
-              domainUrl = domainUrl.origin
-            } else {
-              domainUrl = ""
-            }
-            const fullUrl = menu.url.includes(domainUrl)
-            let slicedUrl
-            if (fullUrl) {
-              slicedUrl = menu.url.slice(domainUrl.length + 1)
-            }
+            const url = splitUriMenuWP(menu.url)
 
             return (
               <li key={menu.label}>
                 <NextLink
                   aria-label={menu.label}
-                  href={`/${fullUrl ? slicedUrl : menu.url}`}
+                  href={url}
                   className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
                 >
                   <p className="hover:text-primary inline-flex items-center font-bold">

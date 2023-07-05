@@ -81,6 +81,30 @@ export const splitUriWP = (uri: string) => {
   return newUri
 }
 
+export const splitUriMenuWP = (uri: string) => {
+  let domainUrl
+  if (uri.startsWith("http")) {
+    domainUrl = new URL(uri)
+    domainUrl = domainUrl.origin
+  } else {
+    domainUrl = ""
+  }
+  const fullUrl = uri.includes(domainUrl)
+  let slicedUrl = uri
+  if (fullUrl) {
+    slicedUrl = uri.slice(domainUrl.length)
+  }
+
+  const regex = /^\/([^/]+)\/?$/
+  const match: RegExpMatchArray | null = slicedUrl.match(regex)
+
+  if (match && match.length >= 2) {
+    return `/${match[1]}`
+  }
+
+  return slicedUrl
+}
+
 export function wpPrimaryCategorySlug(category: WpCategoriesDataProps[]) {
   const isPrimary = category.find(({ parent }) => {
     return parent === null
