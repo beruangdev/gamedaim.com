@@ -94,12 +94,15 @@ export const splitUriMenuWP = (uri: string) => {
   if (fullUrl) {
     slicedUrl = uri.slice(domainUrl.length)
   }
+  const pattern = /^(\/[^/]+\/)(.*)\/$/
+  const matches = slicedUrl.match(pattern)
 
-  const regex = /^\/([^/]+)\/?$/
-  const match: RegExpMatchArray | null = slicedUrl.match(regex)
+  if (matches && matches.length === 3) {
+    const path2 = matches[2]
 
-  if (match && match.length >= 2) {
-    return `/${match[1]}`
+    if (path2) {
+      return `/${path2}/`
+    }
   }
 
   return slicedUrl
