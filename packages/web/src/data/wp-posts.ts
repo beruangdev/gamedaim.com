@@ -1,5 +1,5 @@
 export const QUERY_WP_ALL_POSTS = `
-query AllPosts($language: LanguageCodeFilterEnum = ALL) {
+query AllPosts($language: LanguageCodeFilterEnum = ID) {
   posts(first: 20, where: {language: $language}) {
     pageInfo {
       hasNextPage

@@ -34,7 +34,7 @@ export async function wpGetAllPosts(language = "ID") {
     { language },
   )
 
-  if (err !== null) {
+  if (err !== null || !res) {
     console.log(err)
     return {
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -44,17 +44,19 @@ export async function wpGetAllPosts(language = "ID") {
     }
   }
 
-  const posts = res?.data.posts.edges.map(
-    ({ node = {} }) => node,
-  ) as WpMapPostDataProps[]
+  let posts: WpMapPostDataProps[] = []
+  if (res) {
+    posts = res?.data?.posts?.edges.map(
+      ({ node = {} }) => node,
+    ) as WpMapPostDataProps[]
+  }
 
   return {
     error: null,
-    posts: posts.map(wpMapPostData),
-    pageInfo: res?.data.posts.pageInfo,
+    posts: posts?.map(wpMapPostData),
+    pageInfo: res?.data?.posts?.pageInfo,
   }
 }
-
 export async function wpGetAllPostsLoadMore(after = "", language = "ID") {
   const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",

@@ -97,8 +97,8 @@ export default async function ArticleSlugPage({
             name: article?.topics[0]?.title,
             item:
               locale === "id"
-                ? `${env.SITE_URL}/article/topic/${article?.topics[0].slug}`
-                : `${env.EN_SITE_URL}/article/topic/${article?.topics[0].slug}`,
+                ? `${env.SITE_URL}/article/topic/${article?.topics[0]?.slug}`
+                : `${env.EN_SITE_URL}/article/topic/${article?.topics[0]?.slug}`,
           },
           {
             position: 4,

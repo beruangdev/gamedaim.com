@@ -8,6 +8,7 @@ import { Toaster } from "@/components/UI/Toast"
 import { ThemeProvider } from "@/components/Theme"
 import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import { type LanguageTypeData } from "@/lib/data-types"
+import { LoadingIndex } from "@/components/Loading"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -98,7 +99,11 @@ export default function RootLayout({
     <html lang={locale}>
       <body className={inter.className} suppressHydrationWarning={true}>
         <Toaster />
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <React.Suspense fallback={<LoadingIndex />}>
+            {children}
+          </React.Suspense>
+        </ThemeProvider>
       </body>
     </html>
   )
