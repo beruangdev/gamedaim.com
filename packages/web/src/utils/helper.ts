@@ -97,7 +97,6 @@ export const splitUriMenuWP = (uri: string) => {
 
   const regex = /^\/([^/]+)\/?$/
   const match: RegExpMatchArray | null = slicedUrl.match(regex)
-  console.log(match)
 
   if (match && match.length >= 2) {
     return `/${match[1]}`
