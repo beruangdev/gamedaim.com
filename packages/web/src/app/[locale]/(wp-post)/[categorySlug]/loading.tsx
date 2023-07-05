@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/UI/Skeleton"
 
-export default function LoadingIndex() {
+export default function LoadingCategory() {
   return (
     <div className="w-full">
       <div className="mx-auto mt-[160px] flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] lg:mx-auto lg:px-4 min-[1200px]:max-w-[1170px]">

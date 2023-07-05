@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 
 import { Ad } from "@/components/Ad"
@@ -54,7 +52,6 @@ export function IndexContent(props: HomeProps) {
             {posts &&
               posts.map((post: WpSinglePostDataProps) => {
                 const newUri = splitUriWP(post.uri)
-                console.log(post.uri, newUri)
 
                 return (
                   <PostCardSide

@@ -1,7 +1,6 @@
 import { Skeleton } from "@/components/UI/Skeleton"
 
-export default function LoadingIndex() {
-  // You can add any UI inside Loading, including a Skeleton.
+export default function LoadingSinglePost() {
   return (
     <div className="mt-10 w-full lg:px-4">
       <div className="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] lg:mx-auto lg:px-4 min-[1200px]:max-w-[1170px]">
