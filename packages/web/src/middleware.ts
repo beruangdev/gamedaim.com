@@ -50,7 +50,7 @@ export default async function middleware(request: NextRequest) {
     defaultLocale,
     domains: [
       {
-        domain: env.SITE_URL,
+        domain: env.EN_SUBDOMAIN,
         defaultLocale: "en",
         locales: ["en"],
       },
