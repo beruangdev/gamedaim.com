@@ -45,13 +45,15 @@ export default async function UserPage({ params }: UserPageProps) {
           <div className=" flex justify-between">
             <div className="flex flex-row space-x-8">
               {user?.profilePicture ? (
-                <Image
-                  src={user?.profilePicture.url}
-                  alt={user?.name}
-                  height={100}
-                  width={100}
-                  className="border-border h-[100px] w-[100px] rounded-full border-2 object-cover shadow"
-                />
+                <div className="relative h-[100px] w-[100px]">
+                  <Image
+                    src={user?.profilePicture.url}
+                    alt={user?.name}
+                    height={100}
+                    width={100}
+                    className="border-border rounded-full border-2 object-cover shadow"
+                  />
+                </div>
               ) : (
                 <HiOutlineUser className="bg-muted/60 border-border text-foreground/80 h-[100px] w-[100px] rounded-full border-2 object-cover p-2 shadow" />
               )}
