@@ -51,16 +51,17 @@ function buildServer() {
     logger: loggerOption[env.NODE_ENV as keyof LoggerOption] ?? true,
   })
 
-  const allowedOrigins = (env.ORIGIN?.split(",") ?? []).map((origin) => {
-    if (origin.startsWith("https://")) {
-      return origin
-    } else {
-      return `https://${origin}`
-    }
-  })
+  // const allowedOrigins = (env.ORIGIN?.split(",") ?? []).map((origin) => {
+  //   if (origin.startsWith("https://")) {
+  //     return origin
+  //   } else {
+  //     return `https://${origin}`
+  //   }
+  // })
 
   server.register(cors, {
-    origin: env.NODE_ENV === "production" ? allowedOrigins : true,
+    // origin: env.NODE_ENV === "production" ? allowedOrigins : true,
+    origin: true,
     credentials: true,
   })
 
