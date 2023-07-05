@@ -40,4 +40,4 @@ COPY --from=installer /app .
 COPY --from=installer --chown=fastify:fastify /app ./
 
 RUN cd packages/server && npx prisma generate
-CMD node packages/server/dist/src/app.js
+CMD node packages/server/dist/app.js
