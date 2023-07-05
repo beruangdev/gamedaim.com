@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import { http } from "@/lib/http"
 import { ErrorResponse, UserDataProps } from "@/lib/data-types"

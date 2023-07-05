@@ -3,7 +3,7 @@ import * as React from "react"
 import { InfiniteScrollWP } from "@/components/InfiniteScroll"
 import { Ad } from "@/components/Ad"
 import { PostCardSide } from "@/components/Card"
-import { AdDataProps } from "@/lib/data-types"
+import { AdDataProps, LanguageTypeData } from "@/lib/data-types"
 import {
   WPPageInfoProps,
   WpAuthorsDataProps,
@@ -19,10 +19,12 @@ interface AuthorProps {
   user: WpAuthorsDataProps | null | undefined
   adsBelowHeader: AdDataProps[] | null
   authorSlug: string
+  locale: LanguageTypeData
 }
 
 export function AuthorContent(props: AuthorProps) {
-  const { posts, pageInfo, listPosts, adsBelowHeader, authorSlug } = props
+  const { posts, pageInfo, listPosts, adsBelowHeader, authorSlug, locale } =
+    props
 
   return (
     <section className="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] lg:px-4 min-[1200px]:max-w-[1170px]">
@@ -38,6 +40,7 @@ export function AuthorContent(props: AuthorProps) {
             posts={posts}
             id={authorSlug}
             pageInfo={pageInfo}
+            language={locale}
           />
         )}
       </div>

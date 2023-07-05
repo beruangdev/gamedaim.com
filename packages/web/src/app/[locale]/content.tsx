@@ -5,17 +5,18 @@ import { InfiniteScrollWP } from "@/components/InfiniteScroll"
 import { ListPostFeatured } from "@/components/List"
 import { PostCardSide } from "@/components/Card"
 import { WPPageInfoProps, WpSinglePostDataProps } from "@/lib/wp-data-types"
-import { AdDataProps } from "@/lib/data-types"
+import { AdDataProps, LanguageTypeData } from "@/lib/data-types"
 import { splitUriWP } from "@/utils/helper"
 
 interface HomeProps {
   adsBelowHeader: AdDataProps[] | null
   pageInfo: WPPageInfoProps | null | undefined
   posts: WpSinglePostDataProps[] | null
+  locale: LanguageTypeData
 }
 
-export function IndexContent(props: HomeProps) {
-  const { adsBelowHeader, posts, pageInfo } = props
+export async function IndexContent(props: HomeProps) {
+  const { adsBelowHeader, posts, pageInfo, locale } = props
 
   const listFeatured = posts?.slice(0, 9)
   const listPost = posts?.slice(posts?.length / 2, posts?.length)
@@ -35,6 +36,7 @@ export function IndexContent(props: HomeProps) {
               pageType="home"
               posts={listPost}
               pageInfo={pageInfo}
+              language={locale}
             />
           )}
         </div>
@@ -50,6 +52,7 @@ export function IndexContent(props: HomeProps) {
             {posts &&
               posts.map((post: WpSinglePostDataProps) => {
                 const newUri = splitUriWP(post.uri)
+
                 return (
                   <PostCardSide
                     key={post.id}

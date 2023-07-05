@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"

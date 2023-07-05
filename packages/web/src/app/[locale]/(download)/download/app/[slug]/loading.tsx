@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/UI/Skeleton"
 export default function Loading() {
   return (
     <div className="w-full lg:px-4">
-      <div className="flex w-full">
+      <div className="mx-auto flex w-full flex-col max-[991px]:px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
         <div className="w-full px-3 lg:w-8/12">
           {/* Breadcump Skeleton */}
           <div className="mb-4">
