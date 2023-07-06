@@ -26,7 +26,7 @@ export async function deleteMenuById(menuId: string) {
 export async function getMenus(menuPage: number, perPage: number) {
   return await db.menu.findMany({
     orderBy: {
-      createdAt: "desc",
+      order: "desc",
     },
     skip: (menuPage - 1) * perPage,
     take: perPage,
