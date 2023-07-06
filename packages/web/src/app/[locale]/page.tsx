@@ -1,14 +1,15 @@
 import * as React from "react"
+import { Metadata } from "next"
 import { BreadcrumbJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 
 import env from "env"
 import { MainContainer } from "@/components/Container/MainContainer"
+import { LoadingIndex } from "@/components/Loading"
 
 import { wpGetAllPosts } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { IndexContent } from "./content"
 import { type LanguageTypeData } from "@/lib/data-types"
-import { Metadata } from "next"
 
 export const revalidate = 60
 
@@ -54,14 +55,16 @@ export default async function IndexPage({ params }: IndexPageProps) {
           },
         ]}
       />
-      <MainContainer>
-        <IndexContent
-          adsBelowHeader={adsBelowHeader}
-          posts={posts}
-          pageInfo={pageInfo}
-          locale={locale}
-        />
-      </MainContainer>
+      <React.Suspense fallback={<LoadingIndex />}>
+        <MainContainer>
+          <IndexContent
+            adsBelowHeader={adsBelowHeader}
+            posts={posts}
+            pageInfo={pageInfo}
+            locale={locale}
+          />
+        </MainContainer>
+      </React.Suspense>
     </>
   )
 }

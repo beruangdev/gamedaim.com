@@ -148,7 +148,7 @@
 
   .article-body p,
   .download-body p {
-    @apply text-foreground text-base leading-[24px] md:text-lg md:leading-[32px];
+    @apply text-foreground break-all text-base leading-[24px] md:text-lg md:leading-[32px];
   }
 
   .article-body p:not(:last-child) {

@@ -294,11 +294,14 @@ export const CommentForm = React.forwardRef<HTMLDivElement, CommentFormProps>(
                   <div className="flex justify-between">
                     <figcaption className="mb-2 flex items-center justify-start gap-2">
                       {comment.author?.profilePicture ? (
-                        <Image
-                          src={comment.author.profilePicture.url as string}
-                          className="relative aspect-square h-10 w-10 overflow-hidden rounded-full"
-                          alt={comment.author.name}
-                        />
+                        <div className="relative h-10 w-10">
+                          {" "}
+                          <Image
+                            src={comment.author.profilePicture.url as string}
+                            className="relative aspect-square overflow-hidden rounded-full"
+                            alt={comment.author.name}
+                          />
+                        </div>
                       ) : (
                         <Icon.Account
                           aria-label={comment.author?.name}

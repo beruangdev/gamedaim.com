@@ -9,8 +9,8 @@ import { wpGetPostsByCategorySlug } from "@/lib/api/server/wp-posts"
 import { wpGetCategoryBySlug } from "@/lib/api/server/wp-categories"
 import { WpCategoriesDataProps } from "@/lib/wp-data-types"
 import { LanguageTypeData } from "@/lib/data-types"
-import { CategoryContent } from "./content"
-
+import { LoadingWPCategories } from "@/components/Loading"
+const CategoryContent = React.lazy(() => import("./content"))
 export const revalidate = 60
 
 interface ArticlePageProps {
@@ -78,13 +78,15 @@ export default async function ArticlePage({
           },
         ]}
       />
-      <CategoryContent
-        category={category}
-        posts={posts}
-        pageInfo={pageInfo}
-        adsBelowHeader={adsBelowHeader}
-        locale={locale}
-      />
+      <React.Suspense fallback={<LoadingWPCategories />}>
+        <CategoryContent
+          category={category}
+          posts={posts}
+          pageInfo={pageInfo}
+          adsBelowHeader={adsBelowHeader}
+          locale={locale}
+        />
+      </React.Suspense>
     </>
   )
 }
