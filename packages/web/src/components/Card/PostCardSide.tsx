@@ -28,7 +28,12 @@ export const PostCardSide = React.forwardRef<
       >
         <div className="relative flex max-w-xs flex-col space-y-3 md:max-w-3xl md:flex-row md:space-x-4 md:space-y-0">
           <div className="relative aspect-[1/1] h-[75px] w-auto max-w-[unset] overflow-hidden rounded-md">
-            <Image src={src} alt={alt} sizes="(max-width: 768px) 50px, 100px" />
+            <Image
+              src={src}
+              alt={alt}
+              className="object-cover"
+              sizes="(max-width: 768px) 50px, 100px"
+            />
           </div>
 
           <div className="flex w-full flex-col space-y-2 md:w-2/3">

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import * as React from "react"
@@ -104,25 +103,30 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       <>
         <article id={postData?.slug} ref={ref} className="article-divider px-4">
           <ButtonGroup className="space-x-2">
-            {categories?.map((category) => {
-              return (
-                <Button
-                  key={category.name}
-                  aria-label={isWP ? category.name : category.title}
-                  className="mb-2 rounded-full uppercase"
-                >
-                  <NextLink
+            {categories?.map((category, i) => {
+              if (i < 2) {
+                return (
+                  <Button
+                    size={null}
+                    key={category.name}
                     aria-label={isWP ? category.name : category.title}
-                    href={
-                      isWP
-                        ? `/${category.slug}`
-                        : `/article/topic/${category.slug}`
-                    }
+                    className="mb-2 rounded-full px-2 py-1 uppercase"
                   >
-                    {isWP ? category.name : category.title}
-                  </NextLink>
-                </Button>
-              )
+                    <NextLink
+                      aria-label={isWP ? category.name : category.title}
+                      className="text-[11px]"
+                      href={
+                        isWP
+                          ? `/${category.slug}`
+                          : `/article/topic/${category.slug}`
+                      }
+                    >
+                      {isWP ? category.name : category.title}
+                    </NextLink>
+                  </Button>
+                )
+              }
+              return
             })}
           </ButtonGroup>
           <h1 className="border-border mb-2 mt-4 line-clamp-none border-b pb-2 text-[25px] font-bold leading-[1.7] md:border-none md:text-[40px] md:leading-[43px]">

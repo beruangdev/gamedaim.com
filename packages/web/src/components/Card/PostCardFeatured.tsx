@@ -43,7 +43,7 @@ export const PostCardFeatured = React.forwardRef<
         <div className="absolute bottom-0 left-0 z-[7] w-full p-[20px] md:px-4 md:py-5 min-[992px]:p-[25px]">
           <NextLink aria-label={title} href={newUri}>
             <h3
-              className={`hover:text-background dark:text-background text-background line-clamp-4 text-xl font-bold leading-[1.3]`}
+              className={`line-clamp-4 text-xl font-bold leading-[1.3] text-white hover:text-white/90`}
             >
               {title}
             </h3>

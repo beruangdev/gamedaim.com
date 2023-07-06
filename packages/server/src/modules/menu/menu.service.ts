@@ -68,6 +68,7 @@ export async function getMenusByLocation(menuLocation: MenuLocation) {
       createdAt: "desc",
     },
     select: {
+      id: true,
       title: true,
       link: true,
       location: true,
