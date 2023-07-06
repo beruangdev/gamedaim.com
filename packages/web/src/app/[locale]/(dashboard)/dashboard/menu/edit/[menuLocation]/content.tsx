@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 import {
   FormControl,
@@ -13,9 +13,11 @@ import {
 import { toast } from "@/components/UI/Toast"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/components/UI/Table"
 import { Button } from "@/components/UI/Button"
-import { Modal } from "@/components/Modal"
+import { Modal, ModalSelectMedia } from "@/components/Modal"
 import { ScrollArea } from "@/components/UI/ScrollArea"
 import { Icon } from "@/components/UI/Icon"
+import { Image } from "@/components/Image"
+import { Checkbox } from "@/components/UI/Checkbox"
 
 import { MenuDataProps, MenuLocation } from "@/lib/data-types"
 import { postMenu, putMenu } from "@/lib/api/server/menu"
@@ -40,7 +42,11 @@ export const MenuContent = (props: MenuContentProps) => {
         content={
           <ScrollArea className="h-[80vh]">
             <div className="px-4">
-              <FormSubmit location={location} setMenus={setMenus} />
+              <FormSubmit
+                location={location}
+                onSuccess={setOpenNewForm}
+                setMenus={setMenus}
+              />
             </div>
           </ScrollArea>
         }
@@ -88,6 +94,7 @@ export const MenuContent = (props: MenuContentProps) => {
                                 menus={menus}
                                 menu={menu}
                                 id={menu.id}
+                                onSuccess={setOpenEditForm}
                               />
                             </div>
                           </ScrollArea>
@@ -127,24 +134,42 @@ export const MenuContent = (props: MenuContentProps) => {
 interface FormSubmitProps {
   location: MenuLocation
   setMenus: (value: React.SetStateAction<MenuDataProps[]>) => void
+  onSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const FormSubmit = (props: FormSubmitProps) => {
-  const { location, setMenus } = props
+  const { location, setMenus, onSuccess } = props
+
+  const [openModal, setOpenModal] = React.useState<boolean>(false)
+
+  const [selectedIconUrl, setSelectedIconUrl] = React.useState<string>("")
+  const handleUpdateMedia = (data: {
+    id: React.SetStateAction<string>
+    url: React.SetStateAction<string>
+  }) => {
+    setSelectedIconUrl(data.url)
+    toast({ variant: "success", description: "Image has been selected" })
+    setOpenModal(false)
+  }
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm<MenuDataProps>({ defaultValues: { location: location } })
 
   const onSubmit = async (data: MenuDataProps) => {
-    const { data: newMenu, error } = await postMenu(data)
+    const { data: newMenu, error } = await postMenu({
+      ...data,
+      icon: selectedIconUrl,
+    })
 
     if (newMenu) {
       reset()
       setMenus((prevMenus) => [...prevMenus, newMenu])
       toast({ variant: "success", description: "Menu Successfully Created" })
+      onSuccess(false)
     } else {
       toast({ variant: "danger", description: error })
     }
@@ -211,20 +236,44 @@ const FormSubmit = (props: FormSubmitProps) => {
         )}
       </FormControl>
       <FormControl invalid={Boolean(errors.icon)}>
-        <FormLabel>
-          Icon
-          <RequiredIndicator />
-        </FormLabel>
-        <Input
-          type="text"
-          {...register("icon", {
-            required: "Icon is Required",
-          })}
-          className="max-w-xl"
-          placeholder="Enter Icon"
-        />
-        {errors?.icon && (
-          <FormErrorMessage>{errors.icon.message}</FormErrorMessage>
+        {selectedIconUrl ? (
+          <>
+            <FormLabel>Icon</FormLabel>
+            <ModalSelectMedia
+              handleSelectUpdateMedia={handleUpdateMedia}
+              open={openModal}
+              setOpen={setOpenModal}
+              triggerContent={
+                <div className="border-muted/30 relative mt-2 aspect-[4/4] h-[50px] cursor-pointer rounded-sm border-2 ">
+                  <Image
+                    src={selectedIconUrl}
+                    className="object-cover"
+                    fill
+                    alt="Icon"
+                    onClick={() => setOpenModal(true)}
+                    sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
+                  />
+                </div>
+              }
+            />
+          </>
+        ) : (
+          <ModalSelectMedia
+            handleSelectUpdateMedia={handleUpdateMedia}
+            open={openModal}
+            setOpen={setOpenModal}
+            triggerContent={
+              <>
+                <FormLabel>Icon</FormLabel>
+                <div
+                  onClick={() => setOpenModal(true)}
+                  className="bg-muted text-success relative mr-auto flex aspect-[4/4] h-[50px] items-center justify-center"
+                >
+                  <p>Select Icon</p>
+                </div>
+              </>
+            }
+          />
         )}
       </FormControl>
       <FormControl invalid={Boolean(errors.active)}>
@@ -232,12 +281,15 @@ const FormSubmit = (props: FormSubmitProps) => {
           Active
           <RequiredIndicator />
         </FormLabel>
-        <Input
-          type="checkbox"
-          {...register("active", {
-            required: "Active is Required",
-          })}
-          placeholder="Enter Active"
+        <Controller
+          control={control}
+          name="active"
+          render={({ field }) => (
+            <Checkbox
+              checked={field.value}
+              onCheckedChange={(value: boolean) => field.onChange(value)}
+            />
+          )}
         />
         {errors?.active && (
           <FormErrorMessage>{errors.active.message}</FormErrorMessage>
@@ -254,15 +306,28 @@ interface FormEditProps {
   id?: string
   menus: MenuDataProps[]
   menu?: MenuDataProps
+  onSuccess: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 const FormEdit = (props: FormEditProps) => {
-  const { location, setMenus, id, menu } = props
+  const { location, setMenus, id, menu, onSuccess } = props
+  const [openModal, setOpenModal] = React.useState<boolean>(false)
+
+  const [selectedIconUrl, setSelectedIconUrl] = React.useState<string>("")
+  const handleUpdateMedia = (data: {
+    id: React.SetStateAction<string>
+    url: React.SetStateAction<string>
+  }) => {
+    setSelectedIconUrl(data.url)
+    toast({ variant: "success", description: "Image has been selected" })
+    setOpenModal(false)
+  }
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm<MenuDataProps>({ defaultValues: { location: location } })
 
   React.useEffect(() => {
@@ -270,9 +335,13 @@ const FormEdit = (props: FormEditProps) => {
   }, [menu])
 
   const onEdit = async (data: MenuDataProps) => {
-    const { data: editedMenu, error } = await putMenu(id as string, data)
+    const { data: editedMenu, error } = await putMenu(id as string, {
+      ...data,
+      icon: selectedIconUrl,
+    })
     if (editedMenu) {
       toast({ variant: "success", description: "Menu has been edited" })
+      onSuccess(null)
       setMenus((prevMenus) =>
         prevMenus.map((prevMenu) => {
           if (prevMenu.id === id && editedMenu) {
@@ -347,20 +416,44 @@ const FormEdit = (props: FormEditProps) => {
         )}
       </FormControl>
       <FormControl invalid={Boolean(errors.icon)}>
-        <FormLabel>
-          Icon
-          <RequiredIndicator />
-        </FormLabel>
-        <Input
-          type="text"
-          {...register("icon", {
-            required: "Icon is Required",
-          })}
-          className="max-w-xl"
-          placeholder="Enter Icon"
-        />
-        {errors?.icon && (
-          <FormErrorMessage>{errors.icon.message}</FormErrorMessage>
+        {selectedIconUrl ? (
+          <>
+            <FormLabel>Icon</FormLabel>
+            <ModalSelectMedia
+              handleSelectUpdateMedia={handleUpdateMedia}
+              open={openModal}
+              setOpen={setOpenModal}
+              triggerContent={
+                <div className="border-muted/30 relative mt-2 aspect-[4/4] h-[50px] cursor-pointer rounded-sm border-2 ">
+                  <Image
+                    src={selectedIconUrl}
+                    className="object-cover"
+                    fill
+                    alt="Icon"
+                    onClick={() => setOpenModal(true)}
+                    sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
+                  />
+                </div>
+              }
+            />
+          </>
+        ) : (
+          <ModalSelectMedia
+            handleSelectUpdateMedia={handleUpdateMedia}
+            open={openModal}
+            setOpen={setOpenModal}
+            triggerContent={
+              <>
+                <FormLabel>Icon</FormLabel>
+                <div
+                  onClick={() => setOpenModal(true)}
+                  className="bg-muted text-success relative mr-auto flex aspect-[4/4] h-[50px] items-center justify-center"
+                >
+                  <p>Select Icon</p>
+                </div>
+              </>
+            }
+          />
         )}
       </FormControl>
       <FormControl invalid={Boolean(errors.active)}>
@@ -368,18 +461,21 @@ const FormEdit = (props: FormEditProps) => {
           Active
           <RequiredIndicator />
         </FormLabel>
-        <Input
-          type="checkbox"
-          {...register("active", {
-            required: "Active is Required",
-          })}
-          placeholder="Enter Active"
+        <Controller
+          control={control}
+          name="active"
+          render={({ field }) => (
+            <Checkbox
+              checked={field.value}
+              onCheckedChange={(value: boolean) => field.onChange(value)}
+            />
+          )}
         />
         {errors?.active && (
           <FormErrorMessage>{errors.active.message}</FormErrorMessage>
         )}
       </FormControl>
-      <Button type="submit">Add Menu</Button>
+      <Button type="submit">Edit Menu</Button>
     </form>
   )
 }

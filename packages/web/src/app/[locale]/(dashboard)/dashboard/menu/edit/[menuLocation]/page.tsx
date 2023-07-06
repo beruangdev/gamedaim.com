@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation"
 import { MenuLocation } from "@/lib/data-types"
-
-import { MenuContent } from "./content"
 import { getMenuByLocation } from "@/lib/api/server/menu"
+import { MenuContent } from "./content"
 
 interface MenuByLocationPageProps {
   menuLocation: MenuLocation
