@@ -320,6 +320,33 @@ model WpComment {
   author     User     @relation("WpCommentAuthors", fields: [authorId], references: [id])
 }
 
+model Menu {
+  id         String   @id @unique @default(uuid())
+  title      String
+  link       String
+  location   MenuLocation @default(SIDEBAR_ALL)
+  order      Int      @default(0)
+  icon       String?
+  active    Boolean    @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+enum MenuLocation {
+  SIDEBAR_ALL
+  SIDEBAR_ALL_ID
+  SIDEBAR_ALL_EN
+  SIDEBAR_SHOP_ALL
+  SIDEBAR_SHOP_EN
+  SIDEBAR_SHOP_ID
+  FOOTER_ALL
+  FOOTER_ID
+  FOOTER_EN
+  FOOTER_SHOP_ALL
+  FOOTER_SHOP_ID
+  FOOTER_SHOP_EN
+}
+
 enum UserRole {
   USER
   PRO_USER

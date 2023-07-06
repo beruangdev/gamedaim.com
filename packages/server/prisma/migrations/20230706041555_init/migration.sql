@@ -1,0 +1,19 @@
+-- CreateEnum
+CREATE TYPE "MenuLocation" AS ENUM ('SIDEBAR_ALL', 'SIDEBAR_ALL_ID', 'SIDEBAR_ALL_EN', 'SIDEBAR_SHOP_ALL', 'SIDEBAR_SHOP_EN', 'SIDEBAR_SHOP_ID', 'FOOTER_ALL', 'FOOTER_ID', 'FOOTER_EN', 'FOOTER_SHOP_ALL', 'FOOTER_SHOP_ID', 'FOOTER_SHOP_EN');
+
+-- CreateTable
+CREATE TABLE "Menu" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "link" TEXT NOT NULL,
+    "location" "MenuLocation" NOT NULL DEFAULT 'SIDEBAR_ALL',
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "icon" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Menu_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Menu_id_key" ON "Menu"("id");
