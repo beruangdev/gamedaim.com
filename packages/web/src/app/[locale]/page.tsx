@@ -8,6 +8,7 @@ import { wpGetAllPosts } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { IndexContent } from "./content"
 import { type LanguageTypeData } from "@/lib/data-types"
+import { Metadata } from "next"
 
 export const revalidate = 60
 
@@ -15,6 +16,11 @@ interface IndexPageProps {
   params: {
     locale: LanguageTypeData
   }
+}
+
+export const metadata: Metadata = {
+  title: "Gamedaim.com",
+  description: "Gamedaim.com",
 }
 
 export default async function IndexPage({ params }: IndexPageProps) {

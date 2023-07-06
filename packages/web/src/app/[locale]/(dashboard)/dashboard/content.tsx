@@ -4,7 +4,7 @@ import * as React from "react"
 import dynamic from "next/dynamic"
 
 import { Icon } from "@/components/UI/Icon"
-import { useGetAdsCount } from "@/lib/api/client/ad"
+// import { useGetAdsCount } from "@/lib/api/client/ad"
 import { useGetArticlesCount } from "@/lib/api/client/article"
 import { useGetMediasCount } from "@/lib/api/client/media"
 import { useGetTopicsCount } from "@/lib/api/client/topic"
@@ -18,7 +18,7 @@ const BoxDashboard = dynamic(() =>
 
 export function DashboardContent() {
   const { articlesCount } = useGetArticlesCount()
-  const { adsCount } = useGetAdsCount()
+  // const { adsCount } = useGetAdsCount()
   const { downloadsCount } = useGetDownloadsCount()
   const { downloadFilesCount } = useGetDownloadFilesCount()
   const { topicsCount } = useGetTopicsCount()
@@ -58,13 +58,13 @@ export function DashboardContent() {
               text="topics"
             />
           )}
-          {adsCount !== undefined && (
+          {/* {adsCount !== undefined && (
             <BoxDashboard
               icon={<Icon.Currency className="h-5 w-5" />}
               count={adsCount}
               text="ads"
             />
-          )}
+          )} */}
           {mediasCount !== undefined && (
             <BoxDashboard
               icon={<Icon.Media className="h-5 w-5" />}

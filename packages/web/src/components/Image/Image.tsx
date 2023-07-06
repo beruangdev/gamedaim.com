@@ -47,7 +47,9 @@ export const Image = (props: ImageProps) => {
           {...rest}
         />
       ) : (
-        <Icon.BrokenImage className="h-full w-full" />
+        <div onClick={rest.onClick} className="h-full w-full">
+          <Icon.BrokenImage className="h-full w-full" />
+        </div>
       )}
     </>
   )
