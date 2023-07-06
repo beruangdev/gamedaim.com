@@ -71,6 +71,17 @@ export interface TopicDataProps {
   }
 }
 
+export interface MenuDataProps {
+  updatedAt?: string
+  createdAt?: string
+  id?: string
+  title: string
+  link: string
+  location: string
+  order: number
+  icon: string
+  active: boolean
+}
 export type TopicSitemapDataProps = Pick<TopicDataProps, "slug" | "updatedAt">
 
 export interface MediaDataProps {
@@ -564,3 +575,17 @@ export type PaymentProviderData = "DUITKU" | "MIDTRANS" | "TRIPAY"
 export type TopUpStatusData = "PROCESSING" | "SUCCESS" | "FAILED" | "ERROR"
 
 export type LanguageTypeData = "id" | "en"
+
+export type MenuLocation =
+  | "SIDEBAR_ALL"
+  | "SIDEBAR_ALL_ID"
+  | "SIDEBAR_ALL_EN"
+  | "SIDEBAR_SHOP_ALL"
+  | "SIDEBAR_SHOP_EN"
+  | "SIDEBAR_SHOP_ID"
+  | "FOOTER_ALL"
+  | "FOOTER_ID"
+  | "FOOTER_EN"
+  | "FOOTER_SHOP_ALL"
+  | "FOOTER_SHOP_ID"
+  | "FOOTER_SHOP_EN"

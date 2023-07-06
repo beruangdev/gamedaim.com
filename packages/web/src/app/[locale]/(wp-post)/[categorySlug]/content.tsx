@@ -28,7 +28,7 @@ interface CategoryProps {
   locale: LanguageTypeData
 }
 
-export function CategoryContent(props: CategoryProps) {
+export default function CategoryContent(props: CategoryProps) {
   const { posts, category, pageInfo, adsBelowHeader, locale } = props
 
   return (
