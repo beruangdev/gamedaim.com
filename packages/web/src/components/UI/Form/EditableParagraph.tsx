@@ -72,7 +72,10 @@ export const EditableParagraph = React.forwardRef<
           variant="solid"
         />
       ) : (
-        <p style={{ whiteSpace: "pre-line" }} onDoubleClick={handleDoubleClick}>
+        <p
+          className="whitespace-pre-line break-all"
+          onDoubleClick={handleDoubleClick}
+        >
           {text}
         </p>
       )}

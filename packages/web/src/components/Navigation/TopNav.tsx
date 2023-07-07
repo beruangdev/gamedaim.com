@@ -47,38 +47,36 @@ export const TopNav = React.forwardRef<HTMLDivElement, TopNavProps>(
         <div className="relative ml-auto mr-auto grow px-3">
           <div className="h-full">
             <div className="-ml-4 -mr-4 flex h-full flex-row flex-nowrap items-center">
-              <div id="drawer">
-                <IconButton
-                  variant="ghost"
-                  size="sm"
-                  className="cursor-pointer"
-                  onClick={toggleSideNav}
-                >
-                  <Icon.Menu />
-                </IconButton>
-              </div>
-              <div className="flex min-w-0 max-w-full flex-shrink-0 flex-grow-0 basis-auto flex-col pl-4 pr-4">
-                <div className="flex w-full flex-row flex-wrap items-center justify-start pl-0 pr-0">
-                  <div className="ak-bar-item ak-header-logo flex w-full flex-row flex-wrap items-center justify-start pl-0 pr-0">
-                    <h2 className="m-0 p-0 text-4xl font-bold leading-none">
-                      <NextLink aria-label="Go To Homepage" href="/">
-                        <div className="relative h-[23px] w-[120px]">
-                          <NextImage
-                            fill
-                            sizes="(max-width: 768px) 30vw,
+              <div className="flex w-[250px]">
+                <div className="ml-1 mr-2">
+                  <IconButton
+                    variant="ghost"
+                    size="sm"
+                    className="cursor-pointer text-xl"
+                    onClick={toggleSideNav}
+                  >
+                    <Icon.Menu />
+                  </IconButton>
+                </div>
+                <div className="ak-bar-item ak-header-logo flex w-full flex-row flex-wrap items-center justify-start pl-0 pr-0">
+                  <h2 className="m-0 p-0 text-4xl font-bold leading-none">
+                    <NextLink aria-label="Go To Homepage" href="/">
+                      <div className="relative h-[23px] w-[120px]">
+                        <NextImage
+                          fill
+                          sizes="(max-width: 768px) 30vw,
                       (max-width: 1200px) 20vw,
                       33vw"
-                            alt={env.SITE_TITLE}
-                            src={env.LOGO_URL}
-                            quality={60}
-                          />
-                        </div>
-                      </NextLink>
-                    </h2>
-                  </div>
+                          alt={env.SITE_TITLE}
+                          src={env.LOGO_URL}
+                          quality={60}
+                        />
+                      </div>
+                    </NextLink>
+                  </h2>
                 </div>
               </div>
-              <div className="relative max-md:ml-auto md:ml-4 md:mr-auto lg:w-[40%] xl:w-[50%]">
+              <div className="relative max-md:ml-auto md:ml-3 md:mr-auto lg:w-[40%] xl:w-[50%]">
                 <SearchWP />
               </div>
               <div className="grow-1 flex flex-row space-x-2">

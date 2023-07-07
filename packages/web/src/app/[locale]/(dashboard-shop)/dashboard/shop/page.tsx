@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Metadata } from "next"
+import { checkBalance, getTransactionsCount } from "@/lib/api/server/top-up"
 
 import { ShopDashboardContent } from "./content"
 
@@ -21,6 +22,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ShopDashboardPage() {
-  return <ShopDashboardContent />
+export default async function ShopDashboardPage() {
+  const { data: totalBalanceDigiflazz } = await checkBalance()
+  const { data: totalTransactions } = await getTransactionsCount()
+  return (
+    <ShopDashboardContent
+      totalTransactions={totalTransactions}
+      totalBalanceDigiflazz={totalBalanceDigiflazz?.deposit}
+    />
+  )
 }
