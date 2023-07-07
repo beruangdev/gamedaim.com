@@ -1,5 +1,4 @@
 import * as React from "react"
-import dynamic from "next/dynamic"
 
 import { Icon } from "@/components/UI/Icon"
 import { BoxDashboard } from "@/components/Box"
