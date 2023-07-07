@@ -9,7 +9,8 @@ import { LoadingIndex } from "@/components/Loading"
 import { wpGetAllPosts } from "@/lib/api/server/wp-posts"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { IndexContent } from "./content"
-import { type LanguageTypeData } from "@/lib/data-types"
+import { LanguageTypeData } from "@/lib/data-types"
+import { getMenuByLocation } from "@/lib/api/server/menu"
 
 export const revalidate = 60
 
@@ -30,6 +31,14 @@ export default async function IndexPage({ params }: IndexPageProps) {
   const { posts, pageInfo } = await wpGetAllPosts(locale.toLocaleUpperCase())
   const { data: adsBelowHeader } = await getAdsByPositionAction(
     "HOME_BELOW_HEADER",
+  )
+  const { data: menus } = await getMenuByLocation("SIDEBAR_ALL")
+  const { data: menusByLang } = await getMenuByLocation(
+    params.locale === "id" ? "SIDEBAR_ALL_ID" : "SIDEBAR_ALL_EN",
+  )
+  const { data: menusFooterAll } = await getMenuByLocation("FOOTER_ALL")
+  const { data: menusFooterByLang } = await getMenuByLocation(
+    params.locale === "id" ? "FOOTER_ID" : "FOOTER_EN",
   )
   return (
     <>
@@ -56,7 +65,12 @@ export default async function IndexPage({ params }: IndexPageProps) {
         ]}
       />
       <React.Suspense fallback={<LoadingIndex />}>
-        <MainContainer>
+        <MainContainer
+          menus={menus}
+          menusByLang={menusByLang}
+          menusFooterAll={menusFooterAll}
+          menusFooterByLang={menusFooterByLang}
+        >
           <IndexContent
             adsBelowHeader={adsBelowHeader}
             posts={posts}

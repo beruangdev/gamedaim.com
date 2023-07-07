@@ -71,6 +71,7 @@ export async function getMenusByLocation(menuLocation: MenuLocation) {
       id: true,
       title: true,
       link: true,
+      active: true,
       location: true,
       order: true,
       icon: true,
