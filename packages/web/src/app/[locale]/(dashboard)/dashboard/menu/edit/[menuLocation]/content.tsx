@@ -396,7 +396,7 @@ const FormEdit = (props: FormEditProps) => {
     if (menu) {
       reset(menu)
     }
-  }, [menu])
+  }, [menu, reset])
 
   const onEdit = async (data: MenuDataProps) => {
     const { data: editedMenu, error } = await putMenu(id as string, {
