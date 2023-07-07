@@ -68,11 +68,44 @@ export const parseAndSplitHTMLString = (markup: string): FunctionReturn => {
     secondHalf: secondHalfHTMLString,
   }
 }
+
 export const splitUriWP = (uri: string) => {
-  let regex = /^\/(\w+)\/(\w+)\/(.*)$/
-  const match: RegExpMatchArray | null = uri.match(regex)
-  const newUri = match && match.length > 2 ? `/${match[1]}/${match[3]}` : uri
+  let newString = uri
+  if (newString.includes("https://global.gamedaim.com")) {
+    newString = newString.replace("https://global.gamedaim.com", "")
+  }
+  const regex = /^\/(\w+)\/(\w+)\/(.*)$/
+  const match: RegExpMatchArray | null = newString.match(regex)
+  const newUri =
+    match && match.length > 2 ? `/${match[1]}/${match[3]}` : newString
   return newUri
+}
+
+export const splitUriMenuWP = (uri: string) => {
+  let domainUrl
+  if (uri.startsWith("http")) {
+    domainUrl = new URL(uri)
+    domainUrl = domainUrl.origin
+  } else {
+    domainUrl = ""
+  }
+  const fullUrl = uri.includes(domainUrl)
+  let slicedUrl = uri
+  if (fullUrl) {
+    slicedUrl = uri.slice(domainUrl.length)
+  }
+  const pattern = /^(\/[^/]+\/)(.*)\/$/
+  const matches = slicedUrl.match(pattern)
+
+  if (matches && matches.length === 3) {
+    const path2 = matches[2]
+
+    if (path2) {
+      return `/${path2}/`
+    }
+  }
+
+  return slicedUrl
 }
 
 export function wpPrimaryCategorySlug(category: WpCategoriesDataProps[]) {

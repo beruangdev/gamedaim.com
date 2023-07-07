@@ -8,7 +8,6 @@ import {
   getArticlesByLangAction,
   getArticlesCountAction,
 } from "@/lib/api/server/article"
-import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import { LanguageTypeData } from "@/lib/data-types"
 import { ArticleContent } from "./content"
 
@@ -25,7 +24,6 @@ export default async function ArticlePage({
   params: { locale: LanguageTypeData }
 }) {
   const { locale } = params
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
   const { data: articles } = await getArticlesByLangAction(locale)
   const { data: articlesCount } = await getArticlesCountAction()
   const { data: adsBelowHeader } = await getAdsByPositionAction(
@@ -38,13 +36,14 @@ export default async function ArticlePage({
         itemListElements={[
           {
             position: 1,
-            name: siteDomain?.value || env.DOMAIN,
-            item: `https://${siteDomain?.value || env.DOMAIN}`,
+            name: locale === "id" ? env.DOMAIN : env.EN_SUBDOMAIN,
           },
           {
             position: 2,
-            name: "Article",
-            item: `https://${siteDomain?.value || env.DOMAIN}/article`,
+            name:
+              locale === "id"
+                ? `${env.SITE_URL}/article`
+                : `${env.EN_SITE_URL}/article`,
           },
         ]}
       />

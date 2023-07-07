@@ -96,9 +96,7 @@ export const InfiniteScrollMedia = React.forwardRef<
                         src={media.url}
                         alt={media.alt || media.name}
                         fill
-                        sizes="(max-width: 768px) 30vw,
-                        (max-width: 1200px) 20vw,
-                        33vw"
+                        sizes="(max-width: 1200px) 100px, 100px"
                         className="loading-image border-muted/30 bg-muted/30 !relative aspect-[1/1] h-[500px] max-w-[unset] rounded-sm border-2 object-cover"
                         onLoadingComplete={(e) => {
                           e.classList.remove("loading-image")

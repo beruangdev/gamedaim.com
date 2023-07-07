@@ -97,6 +97,9 @@ export const SidebarDashboard = React.forwardRef<
           <Sidebar.Item icon={<Icon.Settings />} href="/dashboard/setting">
             Settings
           </Sidebar.Item>
+          <Sidebar.Item icon={<Icon.Menu />} href="/dashboard/menu">
+            Menus
+          </Sidebar.Item>
         </>
       )}
       <Sidebar.Item icon={<Icon.Shop />} href="/dashboard/shop">

@@ -11,13 +11,32 @@ import {
   WpInfinitePostsProps,
   WpSinglePostDataProps,
 } from "@/lib/wp-data-types"
-import { AdDataProps } from "@/lib/data-types"
-import { wpPrimaryCategorySlug } from "@/utils/helper"
+import { AdDataProps, LanguageTypeData } from "@/lib/data-types"
+import {
+  parseAndSplitHTMLString,
+  splitUriWP,
+  wpPrimaryCategorySlug,
+} from "@/utils/helper"
+import { transformContent } from "@/hooks/use-transform-content"
+
+interface ParsedContentProps {
+  firstContent: React.ReactElement<
+    unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    string | React.JSXElementConstructor<any>
+  >
+  secondContent: React.ReactElement<
+    unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    string | React.JSXElementConstructor<any>
+  >
+}
 
 interface PostProps {
   posts: WpSinglePostDataProps[]
   post: WpSinglePostDataProps
   adsBelowHeader: AdDataProps[]
+  locale: LanguageTypeData
   adsSingleArticleAbove: AdDataProps[]
   adsSingleArticleBelow: AdDataProps[]
   adsSingleArticleInline: AdDataProps[]
@@ -31,6 +50,7 @@ export function InfiniteScrollArticles(props: PostProps) {
     adsSingleArticleBelow,
     adsSingleArticleInline,
     adsSingleArticlePopUp,
+    locale,
   } = props
 
   const { categories } = post
@@ -38,6 +58,9 @@ export function InfiniteScrollArticles(props: PostProps) {
     categories as WpCategoriesDataProps[],
   )
   const [articles, setArticles] = React.useState<WpSinglePostDataProps[]>([])
+  const [parsedContents, SetParsedContents] = React.useState<
+    ParsedContentProps[]
+  >([])
   const [hasNextPage, setHasNextPage] = React.useState(true)
   const [endCursor, setEndCursor] = React.useState("")
   const LoaderRef = React.useRef(null)
@@ -51,6 +74,26 @@ export function InfiniteScrollArticles(props: PostProps) {
           primary.id,
           endCursor,
         )) as unknown as WpInfinitePostsProps
+        const { firstHalf, secondHalf } = parseAndSplitHTMLString(
+          data.posts[0]?.content as string,
+        )
+
+        const firstContent = await transformContent(
+          firstHalf as string,
+          data.posts[0].title,
+        )
+        const secondContent = await transformContent(
+          secondHalf as string,
+          data.posts[0].title,
+        )
+
+        document.title = data.posts[0].title
+
+        const newPath = splitUriWP(data.posts[0].uri)
+
+        window.history.pushState({}, data.posts[0].title, newPath)
+
+        SetParsedContents((list) => [...list, { firstContent, secondContent }])
         setArticles((list) => [...list, ...data.posts])
         setEndCursor(data.pageInfo.endCursor)
         setHasNextPage(data.pageInfo.hasNextPage)
@@ -97,6 +140,7 @@ export function InfiniteScrollArticles(props: PostProps) {
         return (
           <Article
             key={i}
+            locale={locale}
             posts={posts}
             ref={articleRef}
             postData={postDatas}
@@ -105,6 +149,8 @@ export function InfiniteScrollArticles(props: PostProps) {
             adsSingleArticleInline={adsSingleArticleInline}
             adsSingleArticlePopUp={adsSingleArticlePopUp}
             isWP={true}
+            firstContent={parsedContents[i].firstContent}
+            secondContent={parsedContents[i].secondContent}
           />
         )
       })}

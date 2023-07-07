@@ -9,14 +9,17 @@ import { Ad } from "@/components/Ad"
 import { ArticleInfo } from "@/components/ArticleInfo"
 import { StickyShare } from "@/components/Share"
 
-import { AdDataProps, ArticleDataProps } from "@/lib/data-types"
+import {
+  AdDataProps,
+  ArticleDataProps,
+  LanguageTypeData,
+} from "@/lib/data-types"
 import {
   WpCategoriesDataProps,
   WpSinglePostDataProps,
   WpTagsDataProps,
 } from "@/lib/wp-data-types"
 import {
-  parseAndSplitHTMLString,
   splitUriWP,
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
@@ -53,6 +56,9 @@ interface PostProps {
   adsSingleArticleBelow: AdDataProps[] | null
   adsSingleArticleInline: AdDataProps[] | null
   adsSingleArticlePopUp: AdDataProps[] | null
+  firstContent: React.ReactNode | null
+  secondContent: React.ReactNode | null
+  locale: LanguageTypeData
 }
 
 export const Article = React.forwardRef<HTMLDivElement, PostProps>(
@@ -65,9 +71,11 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       adsSingleArticleAbove,
       adsSingleArticleBelow,
       adsSingleArticleInline,
+      firstContent,
+      secondContent,
+      locale,
     } = props
     const {
-      content,
       title,
       authorName,
       authorUrl,
@@ -89,32 +97,36 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       primaryData = primary
     }
 
-    const { firstHalf, secondHalf } = parseAndSplitHTMLString(content)
     const { user } = useCurrentUser()
 
     return (
       <>
         <article id={postData?.slug} ref={ref} className="article-divider px-4">
           <ButtonGroup className="space-x-2">
-            {categories?.map((category) => {
-              return (
-                <Button
-                  key={category.name}
-                  aria-label={isWP ? category.name : category.title}
-                  className="mb-2 rounded-full uppercase"
-                >
-                  <NextLink
+            {categories?.map((category, i) => {
+              if (i < 2) {
+                return (
+                  <Button
+                    size={null}
+                    key={category.name}
                     aria-label={isWP ? category.name : category.title}
-                    href={
-                      isWP
-                        ? `/${category.slug}`
-                        : `/article/topic/${category.slug}`
-                    }
+                    className="mb-2 rounded-full px-2 py-1 uppercase"
                   >
-                    {isWP ? category.name : category.title}
-                  </NextLink>
-                </Button>
-              )
+                    <NextLink
+                      aria-label={isWP ? category.name : category.title}
+                      className="text-[11px]"
+                      href={
+                        isWP
+                          ? `/${category.slug}`
+                          : `/article/topic/${category.slug}`
+                      }
+                    >
+                      {isWP ? category.name : category.title}
+                    </NextLink>
+                  </Button>
+                )
+              }
+              return
             })}
           </ButtonGroup>
           <h1 className="border-border mb-2 mt-4 line-clamp-none border-b pb-2 text-[25px] font-bold leading-[1.7] md:border-none md:text-[40px] md:leading-[43px]">
@@ -150,6 +162,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
           )}
           <div className="flex">
             <StickyShare
+              locale={locale}
               title={title}
               categorySlug={isWP ? (primaryData?.slug as string) : "article"}
               postSlug={slug}
@@ -160,13 +173,14 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                 adsSingleArticleAbove.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
-              <div dangerouslySetInnerHTML={{ __html: firstHalf }} />
+              {firstContent}
+
               {adsSingleArticleInline &&
                 adsSingleArticleInline.length > 0 &&
                 adsSingleArticleInline.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
-              <div dangerouslySetInnerHTML={{ __html: secondHalf }} />
+              {secondContent}
               {adsSingleArticleBelow &&
                 adsSingleArticleBelow.length > 0 &&
                 adsSingleArticleBelow.map((ad: AdDataProps) => {
@@ -198,7 +212,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
           <section className="mb-5" id="comment">
             {user?.id ? (
               <CommentForm
-                postId={postData?.postId || postData.id}
+                postId={isWP ? postData?.slug : postData.id}
                 postType={isWP ? "wp-post" : "article"}
               />
             ) : (

@@ -6,20 +6,20 @@ import { HiOutlineCalendar, HiOutlineUser } from "react-icons/hi"
 import env from "env"
 import { ArticleCardVertical } from "@/components/Card"
 import { Image } from "@/components/Image"
-import { ArticleDataProps } from "@/lib/data-types"
+import { ArticleDataProps, LanguageTypeData } from "@/lib/data-types"
 import { formatDate } from "@/utils/date"
 import { getUserByUsernameAction } from "@/lib/api/server/user"
-import { getSettingByKeyAction } from "@/lib/api/server/setting"
 
 interface UserPageProps {
   params: {
     username: string
+    locale: LanguageTypeData
   }
 }
 
 export default async function UserPage({ params }: UserPageProps) {
+  const { locale } = params
   const { data: user } = await getUserByUsernameAction(params.username)
-  const { data: siteDomain } = await getSettingByKeyAction("siteDomain")
 
   return (
     <>
@@ -28,15 +28,15 @@ export default async function UserPage({ params }: UserPageProps) {
         itemListElements={[
           {
             position: 1,
-            name: siteDomain?.value || env.DOMAIN,
-            item: `https://${siteDomain?.value || env.DOMAIN}`,
+            name: locale === "id" ? env.DOMAIN : env.EN_SUBDOMAIN,
           },
           {
             position: 2,
             name: user?.name,
-            item: `https://${siteDomain?.value || env.DOMAIN}/user/${
-              user?.username
-            }`,
+            item:
+              locale === "id"
+                ? `${env.SITE_URL}/user/${user?.username}`
+                : `${env.EN_SITE_URL}/user/${user?.username}`,
           },
         ]}
       />
@@ -45,13 +45,15 @@ export default async function UserPage({ params }: UserPageProps) {
           <div className=" flex justify-between">
             <div className="flex flex-row space-x-8">
               {user?.profilePicture ? (
-                <Image
-                  src={user?.profilePicture.url}
-                  alt={user?.name}
-                  height={100}
-                  width={100}
-                  className="border-border h-[100px] w-[100px] rounded-full border-2 object-cover shadow"
-                />
+                <div className="relative h-[100px] w-[100px]">
+                  <Image
+                    src={user?.profilePicture.url}
+                    alt={user?.name}
+                    height={100}
+                    width={100}
+                    className="border-border rounded-full border-2 object-cover shadow"
+                  />
+                </div>
               ) : (
                 <HiOutlineUser className="bg-muted/60 border-border text-foreground/80 h-[100px] w-[100px] rounded-full border-2 object-cover p-2 shadow" />
               )}

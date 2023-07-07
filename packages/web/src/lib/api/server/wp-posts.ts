@@ -1,4 +1,4 @@
-import { AxiosError, AxiosRequestConfig } from "axios"
+import { AxiosError } from "axios"
 import { wpUpdateUserAvatar } from "@/lib/api/server/wp-users"
 import {
   QUERY_WP_ALL_POSTS,
@@ -27,14 +27,14 @@ export function wpPostPathBySlug(slug: string) {
   return `/${slug}`
 }
 
-export async function wpGetAllPosts(config?: AxiosRequestConfig) {
+export async function wpGetAllPosts(language = "ID") {
   const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     QUERY_WP_ALL_POSTS,
-    config,
+    { language },
   )
 
-  if (err !== null) {
+  if (err !== null || !res) {
     console.log(err)
     return {
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -44,23 +44,26 @@ export async function wpGetAllPosts(config?: AxiosRequestConfig) {
     }
   }
 
-  const posts = res?.data.posts.edges.map(
-    ({ node = {} }) => node,
-  ) as WpMapPostDataProps[]
+  let posts: WpMapPostDataProps[] = []
+  if (res) {
+    posts = res?.data?.posts?.edges.map(
+      ({ node = {} }) => node,
+    ) as WpMapPostDataProps[]
+  }
 
   return {
     error: null,
-    posts: posts.map(wpMapPostData),
-    pageInfo: res?.data.posts.pageInfo,
+    posts: posts?.map(wpMapPostData),
+    pageInfo: res?.data?.posts?.pageInfo,
   }
 }
-
-export async function wpGetAllPostsLoadMore(after = "") {
+export async function wpGetAllPostsLoadMore(after = "", language = "ID") {
   const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     QUERY_WP_ALL_POSTS_LOAD_MORE,
     {
       after,
+      language,
     },
   )
 
@@ -166,6 +169,7 @@ export async function wpGetPostBySlug(slug: string) {
 export async function wpGetPostsByAuthorSlug(
   slug: string | string[],
   after = "",
+  language = "ID",
 ) {
   const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
@@ -173,6 +177,7 @@ export async function wpGetPostsByAuthorSlug(
     {
       slug,
       after,
+      language,
     },
   )
 
@@ -200,13 +205,18 @@ export async function wpGetPostsByAuthorSlug(
   }
 }
 
-export async function wpGetPostsByCategorySlug(categoryId: string, after = "") {
+export async function wpGetPostsByCategorySlug(
+  categoryId: string,
+  after = "",
+  language = "ID",
+) {
   const [res, err] = await wpHttp<WpResAllPostsProps>(
     "GET",
     QUERY_WP_POSTS_BY_CATEGORY_SLUG,
     {
       categoryId,
       after,
+      language,
     },
   )
 

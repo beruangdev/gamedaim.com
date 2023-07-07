@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/UI/Skeleton"
 
-export default function LoadingIndex() {
+export const LoadingIndex = () => {
   return (
     <>
       <div className="left-auto top-0 -my-0 mx-auto box-border flex h-16 w-full items-center border-none px-2 py-0 align-baseline shadow-lg outline-none">
@@ -56,41 +56,41 @@ export default function LoadingIndex() {
             <Skeleton className="mr-[15px] aspect-[8/16] h-[300px] rounded-xl md:aspect-[9/16]" />
             <Skeleton className="mr-[15px] aspect-[8/16] h-[300px] rounded-xl md:aspect-[9/16]" />
           </div>
-          <div className="flex w-full">
+          <div className="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
             {/* Post Card Skeleton */}
             <div className="w-full px-3 lg:w-8/12">
               <div className="mb-[30px] flex w-full justify-between lg:justify-start">
-                <Skeleton className=" order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
+                <Skeleton className="order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
                 <div className="order-1 mr-3 flex flex-col md:order-2 md:mr-[unset]">
-                  <Skeleton className="h-8 w-40" />
+                  <Skeleton className="h-8 w-[200px] md:w-[300px]" />
                   <Skeleton className="mt-4 h-20 w-40" />
                 </div>
               </div>
               <div className="mb-[30px] flex w-full justify-between lg:justify-start">
-                <Skeleton className=" order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
+                <Skeleton className="order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
                 <div className="order-1 mr-3 flex flex-col md:order-2 md:mr-[unset]">
-                  <Skeleton className="h-8 w-40" />
+                  <Skeleton className="h-8 w-[200px] md:w-[300px]" />
                   <Skeleton className="mt-4 h-20 w-40" />
                 </div>
               </div>
               <div className="mb-[30px] flex w-full justify-between lg:justify-start">
-                <Skeleton className=" order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
+                <Skeleton className="order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
                 <div className="order-1 mr-3 flex flex-col md:order-2 md:mr-[unset]">
-                  <Skeleton className="h-8 w-[200px] md:w-20" />
-                  <Skeleton className="mt-4 hidden h-20 w-40 md:block" />
-                </div>
-              </div>
-              <div className="mb-[30px] flex w-full justify-between lg:justify-start">
-                <Skeleton className=" order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
-                <div className="order-1 mr-3 flex flex-col md:order-2 md:mr-[unset]">
-                  <Skeleton className="h-8 w-40" />
+                  <Skeleton className="h-8 w-[200px] md:w-[300px]" />
                   <Skeleton className="mt-4 h-20 w-40" />
                 </div>
               </div>
               <div className="mb-[30px] flex w-full justify-between lg:justify-start">
-                <Skeleton className=" order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
+                <Skeleton className="order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
                 <div className="order-1 mr-3 flex flex-col md:order-2 md:mr-[unset]">
-                  <Skeleton className="h-8 w-40" />
+                  <Skeleton className="h-8 w-[200px] md:w-[300px]" />
+                  <Skeleton className="mt-4 h-20 w-40" />
+                </div>
+              </div>
+              <div className="mb-[30px] flex w-full justify-between lg:justify-start">
+                <Skeleton className="order-2 h-[90px] min-h-[90px] w-[125px] min-w-[125px] md:order-1 md:mr-[30px] md:h-[193px] md:min-h-full md:w-[270px] md:min-w-[270px]" />
+                <div className="order-1 mr-3 flex flex-col md:order-2 md:mr-[unset]">
+                  <Skeleton className="h-8 w-[200px] md:w-[300px]" />
                   <Skeleton className="mt-4 h-20 w-40" />
                 </div>
               </div>

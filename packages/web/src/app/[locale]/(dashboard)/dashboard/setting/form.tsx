@@ -33,7 +33,6 @@ export function SettingForm() {
   const { settingValue: metaDescription } = useGetSettingValue(
     "siteMetaDescription",
   )
-  const { settingValue: domain } = useGetSettingValue("siteDomain")
   const { settingValue: email } = useGetSettingValue("email")
   const { settingValue: supportEmail } = useGetSettingValue("supportEmail")
   const { settingValue: facebook } = useGetSettingValue("facebookUsername")
@@ -94,17 +93,6 @@ export function SettingForm() {
   } = useForm<FormValues>({
     defaultValues: {
       key: "siteMetaDescription",
-    },
-  })
-
-  const {
-    register: registerDomain,
-    formState: { errors: errorsDomain },
-    handleSubmit: handleSubmitDomain,
-    reset: resetDomain,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "siteDomain",
     },
   })
 
@@ -190,7 +178,6 @@ export function SettingForm() {
     resetDescription(description)
     resetMetaTitle(metaTitle)
     resetMetaDescription(metaDescription)
-    resetDomain(domain)
     resetEmail(email)
     resetSupportEmail(supportEmail)
     resetTagline(tagline)
@@ -209,14 +196,12 @@ export function SettingForm() {
     tagline,
     title,
     twitter,
-    domain,
     youtube,
     email,
     resetTitle,
     resetDescription,
     resetMetaTitle,
     resetMetaDescription,
-    resetDomain,
     resetEmail,
     resetTagline,
     supportEmail,
@@ -288,19 +273,6 @@ export function SettingForm() {
         success: true,
         message: "success",
         name: "siteMetaDescription",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitDomain = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetDomain(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "siteDomain",
       }
       setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
     }
@@ -404,7 +376,6 @@ export function SettingForm() {
     handleSubmitDescription(onSubmitDescription)()
     handleSubmitMetaTitle(onSubmitMetaTitle)()
     handleSubmitMetaDescription(onSubmitMetaDescription)()
-    handleSubmitDomain(onSubmitDomain)()
     handleSubmitEmail(onSubmitEmail)()
     handleSubmitSupportEmail(onSubmitSupportEmail)()
     handleSubmitFacebook(onSubmitFacebook)()
@@ -529,25 +500,6 @@ export function SettingForm() {
               <FormErrorMessage>
                 {errorsMetaDescription.value.message}
               </FormErrorMessage>
-            )}
-          </FormControl>
-        </form>
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsDomain.value)}>
-            <FormLabel>
-              Domain
-              <RequiredIndicator />
-            </FormLabel>
-            <Input
-              type="text"
-              {...registerDomain("value", {
-                required: "Domain is Required",
-              })}
-              className="max-w-xl"
-              placeholder="Enter Domain"
-            />
-            {errorsDomain?.value && (
-              <FormErrorMessage>{errorsDomain.value.message}</FormErrorMessage>
             )}
           </FormControl>
         </form>

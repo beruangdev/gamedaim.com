@@ -1,4 +1,3 @@
-
 version: "3"
 
 services:
@@ -53,7 +52,7 @@ services:
     env_file:
       - ./packages/server/.env
     ports:
-      - "8001:8001"
+      - "8000:8000"
     networks:
       - app_network
     extra_hosts:
@@ -70,7 +69,7 @@ services:
     env_file:
       - ./packages/web/.env
     ports:
-      - "3001:3001"
+      - "3000:3000"
     networks:
       - app_network
     extra_hosts:

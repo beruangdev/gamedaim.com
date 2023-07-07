@@ -262,6 +262,7 @@ export const getProductBySlug = async (slug: string) => {
 
 export const getTopUpByBrand = async (slug: string) => {
   const { data: allPrices } = await getPriceListPrePaid()
+
   const getPricesbyBrand = Array.from(
     new Set(allPrices?.map((item: PriceListPrePaidProps) => item.brand)),
   ).map((brand) => {
@@ -269,10 +270,13 @@ export const getTopUpByBrand = async (slug: string) => {
       (item: PriceListPrePaidProps) => item.brand === brand,
     )[0]
   }) as PriceListPrePaidProps[]
+
   const filteredPrices = getPricesbyBrand.map(addPropertiesPrices)
+
   const getDataBySlug = filteredPrices.find(
     (price) => price.slug === slug.toLocaleLowerCase(),
   )
+
   return { topUp: getDataBySlug }
 }
 
@@ -329,7 +333,23 @@ export const postTopUpTransactionCounter = async (brand: string) => {
 
   return { data: res, error: null }
 }
+export const getTransactionsCount = async () => {
+  const [res, err] = await http<number>("GET", {
+    url: `/top-up-transaction/count`,
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+  })
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: err,
+    }
+  }
 
+  return { data: res, error: null }
+}
 export const checkBalance = async () => {
   const [res, err] = await http<{ data: { deposit: number } }>("POST", {
     url: "/top-up/digiflazz/check-balance",

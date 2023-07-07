@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 import Cookies from "js-cookie"
+import env from "env"
 
 import { useRouter } from "next/navigation"
 import {
@@ -50,7 +51,7 @@ export const LoginForm: React.FunctionComponent = () => {
       const dataCookies = { ...data, expiration: isoDate }
       Cookies.set("currentUser", JSON.stringify(dataCookies), {
         path: "/",
-        domain: ".localhost",
+        domain: `.${env.DOMAIN}`,
       })
 
       toast({ variant: "success", description: "Successfully signed in" })

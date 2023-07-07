@@ -5,9 +5,14 @@ import * as React from "react"
 import { TopNav, SideNav } from "@/components/Navigation"
 import { Footer } from "@/components/Footer"
 import { useDisclosure } from "@/hooks/use-disclosure"
+import { MenuDataProps } from "@/lib/data-types"
 
 interface MainContainerProps {
   children: React.ReactNode
+  menus?: MenuDataProps[] | null
+  menusByLang?: MenuDataProps[] | null
+  menusFooterAll?: MenuDataProps[] | null
+  menusFooterByLang?: MenuDataProps[] | null
 }
 
 export const MainContainer = React.forwardRef<
@@ -16,7 +21,14 @@ export const MainContainer = React.forwardRef<
 >((props, ref) => {
   const { isOpen, onToggle } = useDisclosure()
 
-  const { children, ...rest } = props
+  const {
+    menus,
+    menusByLang,
+    menusFooterAll,
+    menusFooterByLang,
+    children,
+    ...rest
+  } = props
 
   return (
     <div ref={ref} {...rest}>
@@ -29,7 +41,11 @@ export const MainContainer = React.forwardRef<
               : "max-md:-translate-x-full max-md:opacity-0 md:translate-x-0 md:opacity-100"
           } scrollbar border- bg-background fixed top-0 z-20 flex h-full w-[250px] flex-row overflow-x-auto border-r pt-20 transition-[transform] delay-150 ease-in-out`}
         >
-          <SideNav isMain={true} />
+          <SideNav
+            menuSideBarAll={menus}
+            menuSideBarByLang={menusByLang}
+            isMain={true}
+          />
         </div>
         <div
           onClick={onToggle}
@@ -46,7 +62,11 @@ export const MainContainer = React.forwardRef<
       >
         {children}
       </div>
-      <Footer className={isOpen ? "md:pl-0" : "md:pl-[250px]"} />
+      <Footer
+        menusFooterAll={menusFooterAll}
+        menusFooterByLang={menusFooterByLang}
+        className={isOpen ? "md:pl-0" : "md:pl-[250px]"}
+      />
     </div>
   )
 })

@@ -1,6 +1,9 @@
+"use client"
+
 import * as React from "react"
 import NextImage from "next/image"
 import { ImageProps } from "next/image"
+import { Icon } from "@/components/UI/Icon"
 
 const keyStr =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
@@ -26,15 +29,28 @@ export const Image = (props: ImageProps) => {
     fill = true,
     ...rest
   } = props
+  const [imageError, setImageError] = React.useState(false)
+
   return (
-    <NextImage
-      src={src}
-      placeholder={placeholder}
-      blurDataURL={rgbDataURL(218, 218, 218)}
-      quality={60}
-      sizes={sizes}
-      fill={fill}
-      {...rest}
-    />
+    <>
+      {!imageError ? (
+        <NextImage
+          src={src}
+          placeholder={placeholder}
+          blurDataURL={rgbDataURL(218, 218, 218)}
+          quality={60}
+          onError={() => {
+            setImageError(true)
+          }}
+          sizes={sizes}
+          fill={fill}
+          {...rest}
+        />
+      ) : (
+        <div onClick={rest.onClick} className="h-full w-full">
+          <Icon.BrokenImage className="h-full w-full" />
+        </div>
+      )}
+    </>
   )
 }

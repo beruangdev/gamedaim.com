@@ -1,3 +1,5 @@
+import { getProtocol } from "@/utils/protocol"
+
 interface EnvProps {
   [key: string]: string
 }
@@ -5,7 +7,10 @@ interface EnvProps {
 const env: EnvProps = {
   NODE_ENV: process.env.NODE_ENV || "development",
   API: process.env.NEXT_PUBLIC_API || "http://localhost:8000",
-  DOMAIN: process.env.NEXT_PUBLIC_DOMAIN || "localhost",
+  DOMAIN: process.env.NEXT_PUBLIC_DOMAIN || "localhost:3000",
+  EN_SUBDOMAIN: process.env.NEXT_PUBLIC_EN_SUBDOMAIN || "global.localhost:3000",
+  SITE_URL: getProtocol() + process.env.NEXT_PUBLIC_DOMAIN,
+  EN_SITE_URL: getProtocol() + process.env.NEXT_PUBLIC_EN_SUBDOMAIN,
   ADSENSE_CLIENT_ID: process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID as string,
   SITE_TITLE: process.env.NEXT_PUBLIC_SITE_TITLE as string,
   SITE_COLOR: process.env.NEXT_PUBLIC_SITE_COLOR as string,
@@ -29,6 +34,7 @@ const env: EnvProps = {
   LOGO_OG_HEIGHT: process.env.NEXT_PUBLIC_LOGO_OG_HEIGHT as string,
   WP_API_URL: process.env.NEXT_PUBLIC_WP_API_URL as string,
   MENU_PRIMARY: process.env.NEXT_PUBLIC_MENU_PRIMARY as string,
+  EN_MENU_PRIMARY: process.env.NEXT_PUBLIC_EN_MENU_PRIMARY as string,
   MENU_FOOTER: process.env.NEXT_PUBLIC_MENU_FOOTER as string,
   SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN as string,
   GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
