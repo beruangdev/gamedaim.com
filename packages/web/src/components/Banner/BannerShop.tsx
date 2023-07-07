@@ -33,12 +33,12 @@ export const BannerShop = () => {
     <>
       {data && content && Array.isArray(content) && content.length > 0 ? (
         <div className="flex h-full items-center justify-center">
-          <div className="relative h-[400px] w-full overflow-hidden rounded-md">
+          <div className="relative h-[200px] w-full overflow-hidden rounded-md md:h-[400px]">
             <Button
               aria-label="Prev"
               id="prev"
               variant="outline"
-              className={`${arrowClass} left-[5%] z-[20]`}
+              className={`${arrowClass} left-[5%] z-[18]`}
             >
               <Icon.ArrowBack aria-label="Prev" />
             </Button>
@@ -46,7 +46,7 @@ export const BannerShop = () => {
               aria-label="Next"
               id="next"
               variant="outline"
-              className={`${arrowClass} right-[5%] z-[20]`}
+              className={`${arrowClass} right-[5%] z-[18]`}
             >
               <Icon.ArrowForward aria-label="Next" />
             </Button>
@@ -58,10 +58,14 @@ export const BannerShop = () => {
                   <div
                     key={i}
                     id={`slides__${arrow}`}
-                    className="scale-1 relative mr-0 box-border flex h-[400px] w-full flex-shrink-0 origin-[center_center] snap-center items-center justify-center"
+                    className="scale-1 relative mr-0 box-border flex h-[200px] w-full flex-shrink-0 origin-[center_center] snap-center items-center justify-center md:h-[400px]"
                   >
                     <div className="relative aspect-video h-[inherit] w-[inherit]">
-                      <Image src={c.url} alt="Gamedaim Shop" />
+                      <Image
+                        src={c.url}
+                        className="object-cover"
+                        alt="Gamedaim Shop"
+                      />
                     </div>
                     <Button
                       aria-label="Prev"

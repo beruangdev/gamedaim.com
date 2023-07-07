@@ -17,10 +17,10 @@ import { Modal, ModalSelectMedia } from "@/components/Modal"
 import { ScrollArea } from "@/components/UI/ScrollArea"
 import { Icon } from "@/components/UI/Icon"
 import { Image } from "@/components/Image"
-import { Checkbox } from "@/components/UI/Checkbox"
+import { Switch } from "@/components/UI/Switch"
 
 import { MenuDataProps, MenuLocation } from "@/lib/data-types"
-import { postMenu, putMenu } from "@/lib/api/server/menu"
+import { deleteMenu, postMenu, putMenu } from "@/lib/api/server/menu"
 
 interface MenuContentProps {
   initialMenus: MenuDataProps[] | null
@@ -34,10 +34,22 @@ export const MenuContent = (props: MenuContentProps) => {
   )
   const [openNewForm, setOpenNewForm] = React.useState(false)
   const [openEditForm, setOpenEditForm] = React.useState<string | null>(null)
+  const [openDeleteForm, setDeleteForm] = React.useState<string | null>(null)
+
+  const handleDeleteMenu = async (id: string) => {
+    const { data, error } = await deleteMenu(id)
+    if (data) {
+      setMenus((prevMenus) => prevMenus.filter((menu) => menu.id !== data.id))
+      toast({ variant: "success", description: "Menu has been deleted" })
+    } else if (error) {
+      toast({ variant: "danger", description: error })
+    }
+  }
+
   const title = location.replace(/_/g, " ")
   return (
     <div className="min-h-screen px-2 py-5">
-      <h1 className="mb-4">{title}</h1>
+      <h1 className="mb-4 text-xl">{title}</h1>
       <Modal
         content={
           <ScrollArea className="h-[80vh]">
@@ -62,7 +74,7 @@ export const MenuContent = (props: MenuContentProps) => {
       <div>
         {menus && menus.length > 0 ? (
           <>
-            <Table className="!table-fixed border-collapse border-spacing-0">
+            <Table className="border-collapse border-spacing-0 overflow-x-scroll">
               <Thead>
                 <Tr isTitle>
                   <Th>Title</Th>
@@ -73,52 +85,100 @@ export const MenuContent = (props: MenuContentProps) => {
                 </Tr>
               </Thead>
               <Tbody>
-                {menus.map((menu) => (
-                  <Tr key={menu.id}>
-                    <Td className="line-clamp-3 max-w-[120px]">
-                      <div className="flex">
-                        <span className="font-medium">{menu.title}</span>
-                      </div>
-                    </Td>
-                    <Td>{menu.link}</Td>
-                    <Td>{menu.active ? "Yes" : "No"}</Td>
-                    <Td>{menu.icon}</Td>
-                    <Td>
-                      <Modal
-                        content={
-                          <ScrollArea className="h-[80vh]">
-                            <div className="px-4">
-                              <FormEdit
-                                location={location}
-                                setMenus={setMenus}
-                                menus={menus}
-                                menu={menu}
-                                id={menu.id}
-                                onSuccess={setOpenEditForm}
-                              />
-                            </div>
-                          </ScrollArea>
-                        }
-                        title={"Edit Menu"}
-                        trigger={
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => setOpenEditForm(menu.id as string)}
-                          >
-                            <Icon.Edit />
-                          </Button>
-                        }
-                        onOpenChange={(isOpen) => {
-                          if (!isOpen) {
-                            setOpenEditForm(null)
+                {menus
+                  .sort((a, b) => a.order - b.order)
+                  .map((menu) => (
+                    <Tr key={menu.id}>
+                      <Td className="line-clamp-3 max-w-[120px]">
+                        <div className="flex">
+                          <span className="font-medium">{menu.title}</span>
+                        </div>
+                      </Td>
+                      <Td>{menu.link}</Td>
+                      <Td>{menu.active ? "Yes" : "No"}</Td>
+                      <Td>
+                        {menu.icon && menu.icon.includes("http") && (
+                          <div className="relative mr-2 aspect-[1/1] h-5 w-5">
+                            <Image
+                              src={menu.icon}
+                              alt={menu.title}
+                              sizes={`(max-width: 1200px) 16px, 16px`}
+                            />
+                          </div>
+                        )}
+                      </Td>
+                      <Td className="space-x-2">
+                        <Modal
+                          content={
+                            <ScrollArea className="h-[80vh]">
+                              <div className="px-4">
+                                <FormEdit
+                                  location={location}
+                                  setMenus={setMenus}
+                                  menus={menus}
+                                  menu={menu}
+                                  id={menu.id}
+                                  onSuccess={setOpenEditForm}
+                                />
+                              </div>
+                            </ScrollArea>
                           }
-                        }}
-                        open={openEditForm === (menu.id as string)}
-                      />
-                    </Td>
-                  </Tr>
-                ))}
+                          title={"Edit Menu"}
+                          trigger={
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => setOpenEditForm(menu.id as string)}
+                            >
+                              <Icon.Edit />
+                            </Button>
+                          }
+                          onOpenChange={(isOpen) => {
+                            if (!isOpen) {
+                              setOpenEditForm(null)
+                            }
+                          }}
+                          open={openEditForm === (menu.id as string)}
+                        />
+                        <Modal
+                          content={
+                            <div className="flex w-full justify-between">
+                              <Button
+                                type="button"
+                                onClick={() =>
+                                  handleDeleteMenu(menu.id as string)
+                                }
+                              >
+                                Delete
+                              </Button>
+                              <Button
+                                type="button"
+                                onClick={() => setDeleteForm(menu.id as string)}
+                              >
+                                Cancel
+                              </Button>
+                            </div>
+                          }
+                          title={"Are you sure to delete this menu?"}
+                          trigger={
+                            <Button
+                              onClick={() => setDeleteForm(menu.id as string)}
+                              type="button"
+                              variant="outline"
+                            >
+                              <Icon.Delete />
+                            </Button>
+                          }
+                          onOpenChange={(isOpen) => {
+                            if (!isOpen) {
+                              setDeleteForm(null)
+                            }
+                          }}
+                          open={openDeleteForm === (menu.id as string)}
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
               </Tbody>
             </Table>
           </>
@@ -267,7 +327,7 @@ const FormSubmit = (props: FormSubmitProps) => {
                 <FormLabel>Icon</FormLabel>
                 <div
                   onClick={() => setOpenModal(true)}
-                  className="bg-muted text-success relative mr-auto flex aspect-[4/4] h-[50px] items-center justify-center"
+                  className="bg-muted text-success relative mr-auto flex aspect-video h-[100px] items-center justify-center"
                 >
                   <p>Select Icon</p>
                 </div>
@@ -285,7 +345,7 @@ const FormSubmit = (props: FormSubmitProps) => {
           control={control}
           name="active"
           render={({ field }) => (
-            <Checkbox
+            <Switch
               checked={field.value}
               onCheckedChange={(value: boolean) => field.onChange(value)}
             />
@@ -313,7 +373,9 @@ const FormEdit = (props: FormEditProps) => {
   const { location, setMenus, id, menu, onSuccess } = props
   const [openModal, setOpenModal] = React.useState<boolean>(false)
 
-  const [selectedIconUrl, setSelectedIconUrl] = React.useState<string>("")
+  const [selectedIconUrl, setSelectedIconUrl] = React.useState<string>(
+    menu ? menu.icon : "",
+  )
   const handleUpdateMedia = (data: {
     id: React.SetStateAction<string>
     url: React.SetStateAction<string>
@@ -331,7 +393,9 @@ const FormEdit = (props: FormEditProps) => {
   } = useForm<MenuDataProps>({ defaultValues: { location: location } })
 
   React.useEffect(() => {
-    if (menu) reset(menu)
+    if (menu) {
+      reset(menu)
+    }
   }, [menu])
 
   const onEdit = async (data: MenuDataProps) => {
@@ -447,7 +511,7 @@ const FormEdit = (props: FormEditProps) => {
                 <FormLabel>Icon</FormLabel>
                 <div
                   onClick={() => setOpenModal(true)}
-                  className="bg-muted text-success relative mr-auto flex aspect-[4/4] h-[50px] items-center justify-center"
+                  className="bg-muted text-success relative mr-auto flex aspect-video h-[100px] items-center justify-center"
                 >
                   <p>Select Icon</p>
                 </div>
@@ -465,7 +529,7 @@ const FormEdit = (props: FormEditProps) => {
           control={control}
           name="active"
           render={({ field }) => (
-            <Checkbox
+            <Switch
               checked={field.value}
               onCheckedChange={(value: boolean) => field.onChange(value)}
             />

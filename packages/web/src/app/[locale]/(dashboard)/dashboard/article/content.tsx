@@ -207,7 +207,7 @@ const TableArticle = (props: TableArticleProps) => {
 
   return (
     <>
-      <Table className="table-fixed	border-collapse border-spacing-0">
+      <Table className="table-fixed	border-collapse border-spacing-0 overflow-x-scroll">
         <Thead>
           <Tr isTitle>
             <Th>Title</Th>

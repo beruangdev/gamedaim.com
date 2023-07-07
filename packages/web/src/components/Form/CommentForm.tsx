@@ -298,7 +298,7 @@ export const CommentForm = React.forwardRef<HTMLDivElement, CommentFormProps>(
                           {" "}
                           <Image
                             src={comment.author.profilePicture.url as string}
-                            className="relative aspect-square overflow-hidden rounded-full"
+                            className="relative aspect-square overflow-hidden rounded-full object-cover"
                             alt={comment.author.name}
                           />
                         </div>

@@ -12,7 +12,11 @@ import {
   WpSinglePostDataProps,
 } from "@/lib/wp-data-types"
 import { AdDataProps, LanguageTypeData } from "@/lib/data-types"
-import { parseAndSplitHTMLString, wpPrimaryCategorySlug } from "@/utils/helper"
+import {
+  parseAndSplitHTMLString,
+  splitUriWP,
+  wpPrimaryCategorySlug,
+} from "@/utils/helper"
 import { transformContent } from "@/hooks/use-transform-content"
 
 interface ParsedContentProps {
@@ -82,6 +86,13 @@ export function InfiniteScrollArticles(props: PostProps) {
           secondHalf as string,
           data.posts[0].title,
         )
+
+        document.title = data.posts[0].title
+
+        const newPath = splitUriWP(data.posts[0].uri)
+
+        window.history.pushState({}, data.posts[0].title, newPath)
+
         SetParsedContents((list) => [...list, { firstContent, secondContent }])
         setArticles((list) => [...list, ...data.posts])
         setEndCursor(data.pageInfo.endCursor)

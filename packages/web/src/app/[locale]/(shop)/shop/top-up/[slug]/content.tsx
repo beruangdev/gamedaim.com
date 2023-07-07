@@ -464,7 +464,7 @@ const FormTopUp = (props: FormTopUpProps) => {
               Pilih Nominal
             </h1>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {products.map((price: PriceListPrePaidProps) => {
               const priceWithMargin = addMarginTopUp(price.price, totalmargin)
               const name = removeCharsBeforeNumberTopUpPrice(price.product_name)
@@ -506,7 +506,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   </h2>
                 </div>
                 <div
-                  className={`grid-cols-2 gap-4 transition-all md:grid-cols-3 ${
+                  className={`grid-cols-1 gap-4 transition-all md:grid-cols-2 lg:grid-cols-3 ${
                     showListEWallet ? "grid" : "hidden"
                   }`}
                 >
@@ -560,7 +560,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   </h2>
                 </div>
                 <div
-                  className={`grid-cols-2 gap-4 transition-all md:grid-cols-3  ${
+                  className={`grid-cols-1 gap-4 transition-all md:grid-cols-2 lg:grid-cols-3 ${
                     showListVA ? "grid" : "hidden"
                   }`}
                 >
@@ -614,7 +614,7 @@ const FormTopUp = (props: FormTopUpProps) => {
                   </h2>
                 </div>
                 <div
-                  className={`grid-cols-2 gap-4 transition-all md:grid-cols-3  ${
+                  className={`grid-cols-1 gap-4 transition-all md:grid-cols-2 lg:grid-cols-3 ${
                     showListMart ? "grid" : "hidden"
                   }`}
                 >

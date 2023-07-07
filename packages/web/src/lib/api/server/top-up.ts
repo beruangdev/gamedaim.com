@@ -333,7 +333,23 @@ export const postTopUpTransactionCounter = async (brand: string) => {
 
   return { data: res, error: null }
 }
+export const getTransactionsCount = async () => {
+  const [res, err] = await http<number>("GET", {
+    url: `/top-up-transaction/count`,
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+  })
+  if (err !== null) {
+    console.log(err)
+    return {
+      data: null,
+      error: err,
+    }
+  }
 
+  return { data: res, error: null }
+}
 export const checkBalance = async () => {
   const [res, err] = await http<{ data: { deposit: number } }>("POST", {
     url: "/top-up/digiflazz/check-balance",

@@ -6,14 +6,17 @@ import NextLink from "next/link"
 import env from "env"
 import { Icon } from "@/components/UI/Icon"
 import { Logo } from "@/components/Brand"
+import { MenuDataProps } from "@/lib/data-types"
 
 interface FooterProps {
   className?: string
+  menusFooterAll?: MenuDataProps[] | null
+  menusFooterByLang?: MenuDataProps[] | null
 }
 
 export const Footer = React.forwardRef<HTMLDivElement, FooterProps>(
   (props, ref) => {
-    const { className, ...rest } = props
+    const { menusFooterAll, menusFooterByLang, className, ...rest } = props
 
     const currentYear = new Date().getFullYear()
 
@@ -57,93 +60,41 @@ export const Footer = React.forwardRef<HTMLDivElement, FooterProps>(
             <div className="w-7/12">
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-4 sm:gap-6">
                 <div>
-                  <h2 className="text-foreground mb-6 text-sm font-semibold uppercase">
-                    Sitemap
-                  </h2>
                   <ul className="text-foreground/80 space-y-2 font-medium">
-                    <li>
-                      <NextLink href="/" className="hover:underline">
-                        Home
-                      </NextLink>
-                    </li>
-                    <li>
-                      <NextLink href="/auth/login" className="hover:underline">
-                        Login
-                      </NextLink>
-                    </li>
-                    <li>
-                      <NextLink href="/auth/signup" className="hover:underline">
-                        Signup
-                      </NextLink>
-                    </li>
-                    <li>
-                      <NextLink href="/article" className="hover:underline">
-                        Article
-                      </NextLink>
-                    </li>
-                    <li>
-                      <NextLink href="/download" className="hover:underline">
-                        Download
-                      </NextLink>
-                    </li>
-                    <li>
-                      <NextLink href="/shop" className="hover:underline">
-                        Shop
-                      </NextLink>
-                    </li>
-                    <li>
-                      <NextLink
-                        href="/shop/top-up/transactions"
-                        className="hover:underline"
-                      >
-                        Check Transaction
-                      </NextLink>
-                    </li>
+                    {menusFooterAll?.map((menu) => {
+                      if (menu.active) {
+                        return (
+                          <li>
+                            <NextLink
+                              href={menu.link}
+                              className="hover:underline"
+                            >
+                              {menu.title}
+                            </NextLink>
+                          </li>
+                        )
+                      }
+                      return
+                    })}
                   </ul>
                 </div>
                 <div>
-                  <h2 className="text-foreground mb-6 text-sm font-semibold uppercase">
-                    Support
-                  </h2>
                   <ul className="text-foreground/80 space-y-2 font-medium">
-                    <li>
-                      <NextLink
-                        href={`mailto:${env.SUPPORT_EMAIL}`}
-                        className="hover:underline"
-                      >
-                        Email
-                      </NextLink>
-                    </li>
-                    <li>
-                      <NextLink
-                        href={`https://api.whatsapp.com/send?phone=${env.WHATSAPP_NUMBER}`}
-                        className="hover:underline"
-                      >
-                        WhatsApp
-                      </NextLink>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h2 className="text-foreground mb-6 text-sm font-semibold uppercase">
-                    Legal
-                  </h2>
-                  <ul className="text-foreground/80 space-y-2 font-medium">
-                    <li>
-                      <NextLink href="/contact" className="hover:underline">
-                        Contact
-                      </NextLink>
-                    </li>
-                    <li>
-                      <NextLink href="/privacy" className="hover:underline">
-                        Privacy Policy
-                      </NextLink>
-                    </li>
-                    <li>
-                      <a href="/tos" className="hover:underline">
-                        Terms &amp; Conditions
-                      </a>
-                    </li>
+                    {menusFooterByLang?.map((menu) => {
+                      if (menu.active) {
+                        return (
+                          <li>
+                            <NextLink
+                              href={menu.link}
+                              className="hover:underline"
+                            >
+                              {menu.title}
+                            </NextLink>
+                          </li>
+                        )
+                      }
+                      return
+                    })}
                   </ul>
                 </div>
               </div>

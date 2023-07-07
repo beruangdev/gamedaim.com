@@ -5,9 +5,14 @@ import * as React from "react"
 import { TopNavShop, SideNav } from "@/components/Navigation"
 import { FooterShop } from "@/components/Footer"
 import { useDisclosure } from "@/hooks/use-disclosure"
+import { MenuDataProps } from "@/lib/data-types"
 
 interface MainContainerProps {
   children: React.ReactNode
+  menusByLang?: MenuDataProps[] | null
+  menus?: MenuDataProps[] | null
+  menusFooterShopAll?: MenuDataProps[] | null
+  menusFooterShopByLang?: MenuDataProps[] | null
 }
 
 export const ShopContainer = React.forwardRef<
@@ -16,7 +21,14 @@ export const ShopContainer = React.forwardRef<
 >((props, ref) => {
   const { isOpen, onToggle } = useDisclosure()
 
-  const { children, ...rest } = props
+  const {
+    children,
+    menus,
+    menusByLang,
+    menusFooterShopAll,
+    menusFooterShopByLang,
+    ...rest
+  } = props
 
   return (
     <div ref={ref} {...rest}>
@@ -29,7 +41,11 @@ export const ShopContainer = React.forwardRef<
               : "max-md:-translate-x-full max-md:opacity-0 md:translate-x-0 md:opacity-100"
           } scrollbar border- bg-background fixed top-0 z-20 flex h-full w-[250px] flex-row overflow-x-auto border-r pt-20 transition-[transform] delay-150 ease-in-out`}
         >
-          <SideNav isMain={true} />
+          <SideNav
+            menuSideBarShopByLang={menusByLang}
+            menuSideBarShopAll={menus}
+            isMain={false}
+          />
         </div>
         <div
           onClick={onToggle}
@@ -46,7 +62,11 @@ export const ShopContainer = React.forwardRef<
       >
         {children}
       </div>
-      <FooterShop className={isOpen ? "md:pl-0" : "md:pl-[250px]"} />
+      <FooterShop
+        menusFooterShopAll={menusFooterShopAll}
+        menusFooterShopByLang={menusFooterShopByLang}
+        className={isOpen ? "md:pl-0" : "md:pl-[250px]"}
+      />
     </div>
   )
 })

@@ -6,6 +6,8 @@ import { MenuContent } from "./content"
 interface MenuByLocationPageProps {
   menuLocation: MenuLocation
 }
+export const revalidate = 60
+
 export default async function MenuByLocationPage({
   params,
 }: {
