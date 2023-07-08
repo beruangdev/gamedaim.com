@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Metadata } from "next"
-import { Inter } from "next/font/google"
 
 import "@/styles/globals.css"
 import env from "env"
@@ -8,8 +7,6 @@ import { Toaster } from "@/components/UI/Toast"
 import { ThemeProvider } from "@/components/Theme"
 import { getSettingByKeyAction } from "@/lib/api/server/setting"
 import { type LanguageTypeData } from "@/lib/data-types"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export async function generateMetadata({
   locale,
@@ -96,7 +93,7 @@ export default function RootLayout({
 }: RootLayoutProps) {
   return (
     <html lang={locale}>
-      <body className={inter.className} suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true}>
         <Toaster />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
