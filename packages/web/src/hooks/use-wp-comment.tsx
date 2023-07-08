@@ -1,6 +1,7 @@
-import { WpCommentDataProps } from "@/lib/data-types"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
+
+import { WpCommentDataProps } from "@/lib/data-types"
 
 interface WpCommentStore {
   wpComments: WpCommentDataProps[]

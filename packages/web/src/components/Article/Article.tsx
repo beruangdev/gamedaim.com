@@ -209,7 +209,7 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                 )
               })}
           </section>
-          <section className="mb-5" id="comment">
+          <section className="mb-5 flex justify-center" id="comment">
             {user?.id ? (
               <CommentForm
                 postId={isWP ? postData?.slug : postData.id}

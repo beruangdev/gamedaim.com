@@ -1,8 +1,9 @@
 import useSWR from "swr"
 import { fetcher, http } from "@/lib/http"
 import { AxiosError } from "axios"
-import { CommentDataProps, ErrorResponse } from "@/lib/data-types"
 import { toast } from "@/components/UI/Toast"
+
+import { CommentDataProps, ErrorResponse } from "@/lib/data-types"
 
 export const FetchArticleComment = ({
   addComment,

@@ -1,6 +1,7 @@
-import { CommentDataProps } from "@/lib/data-types"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
+
+import { CommentDataProps } from "@/lib/data-types"
 
 interface DownloadCommentStore {
   downloadComments: CommentDataProps[]
