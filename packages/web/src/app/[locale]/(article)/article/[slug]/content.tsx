@@ -22,7 +22,7 @@ interface SingleArticleProps {
   locale: LanguageTypeData
 }
 
-export default async function SingleArticleContent(props: SingleArticleProps) {
+export async function SingleArticleContent(props: SingleArticleProps) {
   const {
     article,
     articles,

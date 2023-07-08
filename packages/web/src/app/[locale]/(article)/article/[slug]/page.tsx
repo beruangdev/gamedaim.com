@@ -10,7 +10,7 @@ import {
 } from "@/lib/api/server/article"
 import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { LanguageTypeData } from "@/lib/data-types"
-import SingleArticleContent from "./content"
+import { SingleArticleContent } from "./content"
 
 export const revalidate = 60
 
