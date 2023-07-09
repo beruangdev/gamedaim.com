@@ -17,7 +17,7 @@ import {
   WpSinglePostDataProps,
   WpTagsDataProps,
 } from "@/lib/wp-data-types"
-import { wpPrimaryCategorySlug, wpTagPathBySlug } from "@/utils/helper"
+import { wpPrimaryCategorySlug } from "@/utils/helper"
 
 interface PostProps {
   postData: {
@@ -47,6 +47,7 @@ interface PostProps {
   adsSingleArticleInline: AdDataProps[] | null
   adsSingleArticlePopUp: AdDataProps[] | null
   locale: LanguageTypeData
+  firstContent: React.ReactNode | null
 }
 
 export const ArticleScroll = React.forwardRef<HTMLDivElement, PostProps>(
@@ -58,6 +59,7 @@ export const ArticleScroll = React.forwardRef<HTMLDivElement, PostProps>(
       adsSingleArticleBelow,
       adsSingleArticleInline,
       locale,
+      firstContent,
     } = props
     const {
       title,
@@ -70,7 +72,6 @@ export const ArticleScroll = React.forwardRef<HTMLDivElement, PostProps>(
       featuredImageAlt,
       date,
       slug,
-      tags,
     } = postData
 
     let primaryData
@@ -149,13 +150,13 @@ export const ArticleScroll = React.forwardRef<HTMLDivElement, PostProps>(
               categorySlug={isWP ? (primaryData?.slug as string) : "article"}
               postSlug={slug}
             />
-            <section className="mb-4 space-y-4">
+            <section className="article-body mb-4 max-h-[300px] space-y-4 overflow-y-hidden pt-4">
               {adsSingleArticleAbove &&
                 adsSingleArticleAbove.length > 0 &&
                 adsSingleArticleAbove.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
-
+              {firstContent}
               {adsSingleArticleInline &&
                 adsSingleArticleInline.length > 0 &&
                 adsSingleArticleInline.map((ad: AdDataProps) => {
@@ -168,35 +169,15 @@ export const ArticleScroll = React.forwardRef<HTMLDivElement, PostProps>(
                   return <Ad ad={ad} />
                 })}
             </section>
-          </div>
-          <section className="mx-4 my-6 space-x-3 md:mx-12" id="tag">
-            {tags &&
-              tags.map((tag: { slug: string; name: string }) => {
-                return (
-                  <Button
-                    variant="outline"
-                    aria-label={tag.name}
-                    size="sm"
-                    key={tag.slug}
-                    className="mb-2 rounded-full uppercase"
-                  >
-                    <NextLink
-                      aria-label={tag.slug}
-                      href={wpTagPathBySlug(tag.slug)}
-                    >
-                      {tag.name}
-                    </NextLink>
-                  </Button>
-                )
-              })}
-          </section>
-          <div className="mb-4">
-            <StaticShare
-              locale={locale}
-              title={title}
-              categorySlug={isWP ? (primaryData?.slug as string) : "article"}
-              postSlug={slug}
-            />
+            <div className="before:from-background relative my-4 flex justify-center from-60% to-40% before:absolute before:bottom-[99%] before:right-0 before:block before:h-[150px] before:w-full before:bg-gradient-to-t  before:to-transparent">
+              <NextLink
+                href={`/${
+                  isWP ? (primaryData?.slug as string) : "article"
+                }/${slug}`}
+              >
+                <Button type="button">Read more</Button>
+              </NextLink>
+            </div>
           </div>
         </article>
       </>
