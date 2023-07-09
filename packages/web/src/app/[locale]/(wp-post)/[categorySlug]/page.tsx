@@ -49,7 +49,7 @@ export default async function ArticlePage({
 }) {
   const { categorySlug, locale } = params
   const { category } = await wpGetCategoryBySlug(categorySlug as string)
-  if (!category) {
+  if ((category && category.language.slug !== locale) || !category) {
     notFound()
   }
   const { posts, pageInfo } = await wpGetPostsByCategorySlug(

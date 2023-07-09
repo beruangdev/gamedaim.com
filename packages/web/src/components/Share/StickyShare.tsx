@@ -20,14 +20,16 @@ export const StickyShare = React.forwardRef<HTMLDivElement, StickyShareProps>(
         ref={ref}
         {...rest}
       >
-        <ShareButtonArticle
-          url={
-            locale === "id"
-              ? `${env.SiTE_URL}/${categorySlug}/${postSlug}`
-              : `${env.EN_SiTE_URL}/${categorySlug}/${postSlug}`
-          }
-          text={title}
-        />
+        <div className="lg:justify-unset flex flex-row justify-evenly py-2 max-lg:w-full sm:max-[767px]:w-1/2 lg:mt-2 lg:w-auto lg:flex-col lg:py-0">
+          <ShareButtonArticle
+            url={
+              locale === "id"
+                ? `${env.SiTE_URL}/${categorySlug}/${postSlug}`
+                : `${env.EN_SiTE_URL}/${categorySlug}/${postSlug}`
+            }
+            text={title}
+          />
+        </div>
       </div>
     )
   },

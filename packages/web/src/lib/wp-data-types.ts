@@ -1,3 +1,5 @@
+import { LanguageTypeData } from "./data-types"
+
 export interface WpAvatarDataProps {
   url: string
 }
@@ -26,6 +28,9 @@ export interface WpFeaturedImageDataProps {
 }
 
 export interface WpCategoriesDataProps {
+  language: {
+    slug: LanguageTypeData
+  }
   title: string
   seo: WpSeoProps
   id: string
@@ -61,6 +66,7 @@ export interface SeoWPProps {
   tags: WpTagsDataProps[]
 }
 export interface WpTagsDataProps {
+  language: { slug: LanguageTypeData }
   title: string
   seo: WpSeoProps
 
@@ -77,6 +83,9 @@ export interface WpCategoriesEdgesDataProps {
   edges: { node: WpCategoriesDataProps }[]
 }
 export interface WpSinglePostDataProps {
+  language: {
+    slug: LanguageTypeData
+  }
   id: string
   postId: number
   article: string
