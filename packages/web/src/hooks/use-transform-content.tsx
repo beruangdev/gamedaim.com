@@ -1,10 +1,14 @@
 import * as React from "react"
-
+import Script from "next/script"
 import rehypeParse from "rehype-parse"
 import rehypeReact from "rehype-react"
 import { unified } from "unified"
+
 import { Image } from "@/components/Image"
+import YouTube from "@/components/UI/YouTube"
 import { cn } from "@/utils/classname"
+
+import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css"
 
 export const transformContent = async (html: string, title: string) => {
   const data = await unified()
@@ -34,6 +38,40 @@ export const transformContent = async (html: string, title: string) => {
                 )}
               </React.Fragment>
             )
+          }
+        },
+        iframe: (
+          props: React.DetailedHTMLProps<
+            React.IframeHTMLAttributes<HTMLIFrameElement>,
+            HTMLIFrameElement
+          >,
+        ) => {
+          if (props?.src?.includes("youtube.com/embed")) {
+            const arr = props?.src?.split(
+              /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm,
+            )
+
+            return (
+              <YouTube
+                title={props.title || title}
+                id={undefined !== arr[3] ? arr[3] : arr[0]}
+                wrapperClass="yt-lite"
+              />
+            )
+          }
+          return <iframe {...props} />
+        },
+        script: (
+          props: React.DetailedHTMLProps<
+            React.ScriptHTMLAttributes<HTMLScriptElement>,
+            HTMLScriptElement
+          >,
+        ) => {
+          if (props?.src) {
+            // if (props?.src?.includes("twitter")) {
+            //   return <Script strategy="lazyOnload" {...props} />
+            // }
+            return <Script {...props} />
           }
         },
       },

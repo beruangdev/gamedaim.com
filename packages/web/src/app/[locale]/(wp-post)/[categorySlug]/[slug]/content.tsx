@@ -8,8 +8,9 @@ import { AdDataProps, LanguageTypeData } from "@/lib/data-types"
 import { Ad } from "@/components/Ad"
 import { Article } from "@/components/Article"
 import { InfiniteScrollArticles } from "@/components/InfiniteScroll"
-import { parseAndSplitHTMLString, wpPrimaryCategorySlug } from "@/utils/helper"
 import { PostCardSide } from "@/components/Card"
+
+import { parseAndSplitHTMLString, wpPrimaryCategorySlug } from "@/utils/helper"
 import { transformContent } from "@/hooks/use-transform-content"
 
 interface PostProps {
@@ -63,7 +64,6 @@ export async function PostContent(props: PostProps) {
   const { firstHalf, secondHalf } = parseAndSplitHTMLString(
     post?.content as string,
   )
-
   const firstContent = await transformContent(
     firstHalf as string,
     postData?.title as string,
