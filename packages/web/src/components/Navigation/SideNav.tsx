@@ -56,7 +56,7 @@ export function SideNav(props: SideNavProps) {
                       className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
                     >
                       {menu.icon && menu.icon.includes("http") && (
-                        <div className="relative mr-2 aspect-[1/1] h-5 w-5 rounded">
+                        <div className="relative mr-2 aspect-[1/1] h-5 w-5 overflow-hidden rounded bg-transparent">
                           <Image
                             src={menu.icon}
                             alt={menu.title}
@@ -87,7 +87,7 @@ export function SideNav(props: SideNavProps) {
                       className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
                     >
                       {menu.icon && menu.icon.includes("http") && (
-                        <div className="relative mr-2 aspect-[1/1] h-5 w-5 rounded">
+                        <div className="relative mr-2 aspect-[1/1] h-5 w-5 overflow-hidden rounded bg-transparent">
                           <Image
                             src={menu.icon}
                             alt={menu.title}
@@ -106,8 +106,6 @@ export function SideNav(props: SideNavProps) {
             })}
           </>
         )}
-      </ul>
-      <ul className="border-muted flex flex-col space-y-3 border-b p-4">
         {isMain &&
           menuSideBarByLang?.map((menu) => {
             if (menu.active) {
@@ -119,7 +117,7 @@ export function SideNav(props: SideNavProps) {
                     className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
                   >
                     {menu.icon && menu.icon.includes("http") && (
-                      <div className="relative mr-2 aspect-[1/1] h-5 w-5 rounded">
+                      <div className="relative mr-2 aspect-[1/1] h-5 w-5 overflow-hidden rounded bg-transparent">
                         <Image
                           src={menu.icon}
                           alt={menu.title}
@@ -147,7 +145,7 @@ export function SideNav(props: SideNavProps) {
                     className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
                   >
                     {menu.icon && menu.icon.includes("http") && (
-                      <div className="relative mr-2 aspect-[1/1] h-5 w-5 rounded">
+                      <div className="relative mr-2 aspect-[1/1] h-5 w-5 overflow-hidden rounded bg-transparent">
                         <Image
                           src={menu.icon}
                           alt={menu.title}
@@ -164,6 +162,43 @@ export function SideNav(props: SideNavProps) {
             }
             return
           })}
+      </ul>
+      <ul className="border-theme-100 dark:border-theme-700 flex flex-col space-y-3 border-b p-4">
+        <li>
+          <NextLink
+            aria-label="Article"
+            href="/article"
+            className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
+          >
+            <p className="hover:text-primary-400 inline-flex items-center font-bold">
+              <Icon.Article aria-label="Article" className={stylesIcons} />{" "}
+              Article
+            </p>
+          </NextLink>
+        </li>
+        <li>
+          <NextLink
+            aria-label="Download"
+            href="/download"
+            className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
+          >
+            <p className="hover:text-primary inline-flex items-center font-bold">
+              <Icon.Download aria-label="Download" className={stylesIcons} />
+              Download
+            </p>
+          </NextLink>
+        </li>
+        <li>
+          <NextLink
+            aria-label="Shop"
+            href="/shop"
+            className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
+          >
+            <p className="hover:text-primary inline-flex items-center font-bold">
+              <Icon.Shop aria-label="Shop" className={stylesIcons} /> Shop
+            </p>
+          </NextLink>
+        </li>
       </ul>
     </nav>
   )

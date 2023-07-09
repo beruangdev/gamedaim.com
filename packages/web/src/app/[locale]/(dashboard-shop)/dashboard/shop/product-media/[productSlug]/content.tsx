@@ -25,7 +25,7 @@ export function UploadProductMediaDashboardContent(
   const { priceBySlug } = props
 
   const [loading, setLoading] = React.useState<boolean>(false)
-  const [openModal, setOpenModal] = React.useState<boolean>(false)
+  const [openModal, setOpenModal] = React.useState<string | null>("")
   const [activeMedia, setActiveMedia] = React.useState("")
   const [selectedThumbnailUrl, setSelectedThumbnailUrl] =
     React.useState<string>("")
@@ -96,7 +96,7 @@ export function UploadProductMediaDashboardContent(
       setActiveMedia("")
     }
 
-    setOpenModal(false)
+    setOpenModal("")
   }
   return (
     <>
@@ -110,8 +110,12 @@ export function UploadProductMediaDashboardContent(
                   <FormLabel>Thumbail Image</FormLabel>
                   <ModalSelectMedia
                     handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
+                    open={openModal === "thumbnail"}
+                    setOpen={(isOpen) => {
+                      if (!isOpen) {
+                        setOpenModal(null)
+                      }
+                    }}
                     triggerContent={
                       <>
                         <div className="border-muted/30 relative mt-2 aspect-video h-[120px] cursor-pointer rounded-sm border-2">
@@ -122,7 +126,7 @@ export function UploadProductMediaDashboardContent(
                             alt="Featured Image"
                             onClick={() => {
                               setActiveMedia("thumbnail")
-                              setOpenModal(true)
+                              setOpenModal("thumbnail")
                             }}
                             sizes="(max-width: 768px) 30vw,
           (max-width: 1200px) 20vw,
@@ -138,15 +142,19 @@ export function UploadProductMediaDashboardContent(
                 <>
                   <ModalSelectMedia
                     handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
+                    open={openModal === "thumbnail"}
+                    setOpen={(isOpen) => {
+                      if (!isOpen) {
+                        setOpenModal(null)
+                      }
+                    }}
                     triggerContent={
                       <>
                         <FormLabel>Thumbnail Image</FormLabel>
                         <div
                           onClick={() => {
                             setActiveMedia("thumbnail")
-                            setOpenModal(true)
+                            setOpenModal("thumbnail")
                           }}
                           className="bg-muted text-success relative mr-auto flex aspect-video h-[120px] items-center justify-center"
                         >
@@ -164,8 +172,12 @@ export function UploadProductMediaDashboardContent(
                   <FormLabel>Cover Image</FormLabel>
                   <ModalSelectMedia
                     handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
+                    open={openModal === "cover"}
+                    setOpen={(isOpen) => {
+                      if (!isOpen) {
+                        setOpenModal(null)
+                      }
+                    }}
                     triggerContent={
                       <>
                         <div className="border-muted/30 relative mt-2 aspect-video h-[120px] cursor-pointer rounded-sm border-2">
@@ -176,7 +188,7 @@ export function UploadProductMediaDashboardContent(
                             alt="Cover Image"
                             onClick={() => {
                               setActiveMedia("cover")
-                              setOpenModal(true)
+                              setOpenModal("cover")
                             }}
                             sizes="(max-width: 768px) 30vw,
           (max-width: 1200px) 20vw,
@@ -192,15 +204,19 @@ export function UploadProductMediaDashboardContent(
                 <>
                   <ModalSelectMedia
                     handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
+                    open={openModal === "cover"}
+                    setOpen={(isOpen) => {
+                      if (!isOpen) {
+                        setOpenModal(null)
+                      }
+                    }}
                     triggerContent={
                       <>
                         <FormLabel>Cover</FormLabel>
                         <div
                           onClick={() => {
                             setActiveMedia("cover")
-                            setOpenModal(true)
+                            setOpenModal("cover")
                           }}
                           className="bg-muted text-success relative mr-auto flex aspect-video h-[120px] items-center justify-center"
                         >
@@ -218,8 +234,12 @@ export function UploadProductMediaDashboardContent(
                   <FormLabel>Icon Image</FormLabel>
                   <ModalSelectMedia
                     handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
+                    open={openModal === "icon"}
+                    setOpen={(isOpen) => {
+                      if (!isOpen) {
+                        setOpenModal(null)
+                      }
+                    }}
                     triggerContent={
                       <>
                         <div className="border-muted/30 relative mt-2 aspect-video h-[120px] cursor-pointer rounded-sm border-2 ">
@@ -230,7 +250,7 @@ export function UploadProductMediaDashboardContent(
                             alt="Icon Image"
                             onClick={() => {
                               setActiveMedia("icon")
-                              setOpenModal(true)
+                              setOpenModal("icon")
                             }}
                             sizes="(max-width: 768px) 30vw,
           (max-width: 1200px) 20vw,
@@ -246,15 +266,19 @@ export function UploadProductMediaDashboardContent(
                 <>
                   <ModalSelectMedia
                     handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
+                    open={openModal === "icon"}
+                    setOpen={(isOpen) => {
+                      if (!isOpen) {
+                        setOpenModal(null)
+                      }
+                    }}
                     triggerContent={
                       <>
                         <FormLabel>Icon Image</FormLabel>
                         <div
                           onClick={() => {
                             setActiveMedia("icon")
-                            setOpenModal(true)
+                            setOpenModal("icon")
                           }}
                           className="bg-muted text-success relative mr-auto flex aspect-video h-[120px] items-center justify-center"
                         >
@@ -272,8 +296,12 @@ export function UploadProductMediaDashboardContent(
                   <FormLabel>Info ID Image</FormLabel>
                   <ModalSelectMedia
                     handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
+                    open={openModal === "info-id"}
+                    setOpen={(isOpen) => {
+                      if (!isOpen) {
+                        setOpenModal(null)
+                      }
+                    }}
                     triggerContent={
                       <>
                         <div className="border-muted/30 relative mt-2 aspect-video h-[120px] cursor-pointer rounded-sm border-2 ">
@@ -284,7 +312,7 @@ export function UploadProductMediaDashboardContent(
                             alt="Info ID Image"
                             onClick={() => {
                               setActiveMedia("info-id")
-                              setOpenModal(true)
+                              setOpenModal("info-id")
                             }}
                             sizes="(max-width: 768px) 30vw,
           (max-width: 1200px) 20vw,
@@ -300,15 +328,19 @@ export function UploadProductMediaDashboardContent(
                 <>
                   <ModalSelectMedia
                     handleSelectUpdateMedia={handleUpdateMedia}
-                    open={openModal}
-                    setOpen={setOpenModal}
+                    open={openModal === "info-id"}
+                    setOpen={(isOpen) => {
+                      if (!isOpen) {
+                        setOpenModal(null)
+                      }
+                    }}
                     triggerContent={
                       <>
                         <FormLabel>Info ID Image</FormLabel>
                         <div
                           onClick={() => {
                             setActiveMedia("info-id")
-                            setOpenModal(true)
+                            setOpenModal("info-id")
                           }}
                           className="bg-muted text-success relative mr-auto flex aspect-video h-[120px] items-center justify-center"
                         >

@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import NextLink from "next/link"
 
@@ -7,7 +5,7 @@ import { Button, ButtonGroup } from "@/components/UI/Button"
 import { Image } from "@/components/Image"
 import { Ad } from "@/components/Ad"
 import { ArticleInfo } from "@/components/ArticleInfo"
-import { StickyShare } from "@/components/Share"
+import { StaticShare } from "@/components/Share"
 
 import {
   AdDataProps,
@@ -19,14 +17,7 @@ import {
   WpSinglePostDataProps,
   WpTagsDataProps,
 } from "@/lib/wp-data-types"
-import {
-  splitUriWP,
-  wpPrimaryCategorySlug,
-  wpTagPathBySlug,
-} from "@/utils/helper"
-import { useCurrentUser } from "@/hooks/use-current-user"
-import { Icon } from "@/components/UI/Icon"
-import { CommentForm } from "@/components/Form/CommentForm"
+import { wpPrimaryCategorySlug, wpTagPathBySlug } from "@/utils/helper"
 
 interface PostProps {
   postData: {
@@ -50,29 +41,22 @@ interface PostProps {
     featuredImageAlt: string
   }
   posts: WpSinglePostDataProps[] | ArticleDataProps[] | null
-  isMain?: boolean
   isWP?: boolean
   adsSingleArticleAbove: AdDataProps[] | null
   adsSingleArticleBelow: AdDataProps[] | null
   adsSingleArticleInline: AdDataProps[] | null
   adsSingleArticlePopUp: AdDataProps[] | null
-  firstContent: React.ReactNode | null
-  secondContent: React.ReactNode | null
   locale: LanguageTypeData
 }
 
-export const Article = React.forwardRef<HTMLDivElement, PostProps>(
+export const ArticleScroll = React.forwardRef<HTMLDivElement, PostProps>(
   (props, ref) => {
     const {
-      posts,
-      isMain,
       isWP,
       postData,
       adsSingleArticleAbove,
       adsSingleArticleBelow,
       adsSingleArticleInline,
-      firstContent,
-      secondContent,
       locale,
     } = props
     const {
@@ -96,8 +80,6 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       )
       primaryData = primary
     }
-
-    const { user } = useCurrentUser()
 
     return (
       <>
@@ -160,27 +142,26 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
               )}
             </>
           )}
-          <div className="flex">
-            <StickyShare
+          <div className="mt-[30px] flex flex-col">
+            <StaticShare
               locale={locale}
               title={title}
               categorySlug={isWP ? (primaryData?.slug as string) : "article"}
               postSlug={slug}
             />
-            <section className="article-body">
+            <section className="mb-4 space-y-4">
               {adsSingleArticleAbove &&
                 adsSingleArticleAbove.length > 0 &&
                 adsSingleArticleAbove.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
-              {firstContent}
 
               {adsSingleArticleInline &&
                 adsSingleArticleInline.length > 0 &&
                 adsSingleArticleInline.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
-              {secondContent}
+
               {adsSingleArticleBelow &&
                 adsSingleArticleBelow.length > 0 &&
                 adsSingleArticleBelow.map((ad: AdDataProps) => {
@@ -209,61 +190,14 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
                 )
               })}
           </section>
-          <section className="mb-5" id="comment">
-            {user?.id ? (
-              <CommentForm
-                postId={isWP ? postData?.slug : postData.id}
-                postType={isWP ? "wp-post" : "article"}
-              />
-            ) : (
-              <NextLink href="/auth/login">
-                <Button aria-label="Login" type="button">
-                  <Icon.Login
-                    aria-label="Login"
-                    className="-ml-1 mr-2 h-4 w-4"
-                  />{" "}
-                  Login for comment
-                </Button>
-              </NextLink>
-            )}
-          </section>
-          <section className="mb-20">
-            {isMain === true && (
-              <>
-                <div className="mb-2">
-                  <h4 className="text-primary border-primary/40 border-b-4">
-                    Related Posts
-                  </h4>
-                </div>
-                <div className="grid grid-cols-[repeat(1,1fr)] gap-4 md:grid-cols-2">
-                  {posts &&
-                    posts.map((post) => {
-                      return (
-                        <article
-                          className="border-border border-b-2"
-                          key={post.title}
-                        >
-                          <NextLink
-                            aria-label={post.title}
-                            href={
-                              isWP
-                                ? splitUriWP(
-                                    (post as WpSinglePostDataProps).uri,
-                                  )
-                                : "/article/" + post.slug
-                            }
-                          >
-                            <p className="hover:text-primary font-semibold">
-                              {post.title}
-                            </p>
-                          </NextLink>
-                        </article>
-                      )
-                    })}
-                </div>
-              </>
-            )}
-          </section>
+          <div className="mb-4">
+            <StaticShare
+              locale={locale}
+              title={title}
+              categorySlug={isWP ? (primaryData?.slug as string) : "article"}
+              postSlug={slug}
+            />
+          </div>
         </article>
       </>
     )

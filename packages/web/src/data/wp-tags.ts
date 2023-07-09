@@ -36,6 +36,9 @@ export const QUERY_WP_TAG_BY_SLUG = `
       description
       id
       name
+      language {
+        slug
+      }
       seo {
         breadcrumbTitle
         canonicalUrl

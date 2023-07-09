@@ -64,6 +64,7 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=()",
   },
+  { key: "Accept-Encoding", value: "gzip, compress, br" },
 ]
 
 module.exports = nextConfig

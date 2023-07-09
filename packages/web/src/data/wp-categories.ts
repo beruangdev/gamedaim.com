@@ -46,6 +46,9 @@ export const QUERY_WP_CATEGORY_BY_SLUG = `
         }
       }
       name
+      language {
+        slug
+      }
       slug
       children {
         nodes {
