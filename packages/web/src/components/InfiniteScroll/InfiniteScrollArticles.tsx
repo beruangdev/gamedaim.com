@@ -12,7 +12,20 @@ import {
   WpSinglePostDataProps,
 } from "@/lib/wp-data-types"
 import { AdDataProps, LanguageTypeData } from "@/lib/data-types"
-import { splitUriWP, wpPrimaryCategorySlug } from "@/utils/helper"
+import {
+  parseAndSplitHTMLString,
+  splitUriWP,
+  wpPrimaryCategorySlug,
+} from "@/utils/helper"
+import { transformContent } from "@/hooks/use-transform-content"
+
+interface ParsedContentProps {
+  firstContent: React.ReactElement<
+    unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    string | React.JSXElementConstructor<any>
+  >
+}
 
 interface PostProps {
   posts: WpSinglePostDataProps[]
@@ -40,7 +53,9 @@ export function InfiniteScrollArticles(props: PostProps) {
     categories as WpCategoriesDataProps[],
   )
   const [articles, setArticles] = React.useState<WpSinglePostDataProps[]>([])
-
+  const [parsedContents, SetParsedContents] = React.useState<
+    ParsedContentProps[]
+  >([])
   const [hasNextPage, setHasNextPage] = React.useState(true)
   const [endCursor, setEndCursor] = React.useState("")
   const LoaderRef = React.useRef(null)
@@ -54,6 +69,14 @@ export function InfiniteScrollArticles(props: PostProps) {
           primary.id,
           endCursor,
         )) as unknown as WpInfinitePostsProps
+        const { firstHalf } = parseAndSplitHTMLString(
+          data.posts[0]?.content as string,
+        )
+
+        const firstContent = await transformContent(
+          firstHalf as string,
+          data.posts[0].title,
+        )
 
         document.title = data.posts[0].title
 
@@ -61,6 +84,7 @@ export function InfiniteScrollArticles(props: PostProps) {
 
         window.history.pushState({}, data.posts[0].title, newPath)
 
+        SetParsedContents((list) => [...list, { firstContent }])
         setArticles((list) => [...list, ...data.posts])
         setEndCursor(data.pageInfo.endCursor)
         setHasNextPage(data.pageInfo.hasNextPage)
@@ -116,6 +140,7 @@ export function InfiniteScrollArticles(props: PostProps) {
             adsSingleArticleInline={adsSingleArticleInline}
             adsSingleArticlePopUp={adsSingleArticlePopUp}
             isWP={true}
+            firstContent={parsedContents[i].firstContent}
           />
         )
       })}
