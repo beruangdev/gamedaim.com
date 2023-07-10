@@ -1,6 +1,10 @@
 import { AxiosError } from "axios"
 
-import { ErrorResponse, SettingDataProps } from "@/lib/data-types"
+import {
+  ErrorResponse,
+  SettingDataProps,
+  SettingsSiteProps,
+} from "@/lib/data-types"
 import { http } from "@/lib/http"
 
 export const getSettingByKeyAction = async (settingKey: string) => {
@@ -39,23 +43,14 @@ export const postSettingAction = async (values: unknown) => {
 }
 
 export const getSettingsSiteAction = async () => {
-  const { data: siteTitle } = await getSettingByKeyAction("siteTitle")
-  const { data: siteTagline } = await getSettingByKeyAction("siteTagline")
-  const { data: siteDescription } = await getSettingByKeyAction(
-    "siteDescription",
-  )
-  const { data: siteMetaTitle } = await getSettingByKeyAction("siteMetaTitle")
-  const { data: siteMetaDescription } = await getSettingByKeyAction(
-    "siteMetaDescription",
-  )
-  const { data: emailShop } = await getSettingByKeyAction("emailShop")
+  const { data } = await getSettingByKeyAction("settings")
+  let settingsValue: SettingsSiteProps | undefined
+  if (data) {
+    const parsedData = JSON.parse(data.value)
+    settingsValue = parsedData
+  }
 
   return {
-    siteTitle,
-    siteTagline,
-    siteDescription,
-    siteMetaTitle,
-    siteMetaDescription,
-    emailShop,
+    settings: settingsValue,
   }
 }

@@ -11,6 +11,7 @@ import { getAdsByPositionAction } from "@/lib/api/server/ad"
 import { IndexContent } from "./content"
 import { LanguageTypeData } from "@/lib/data-types"
 import { getMenuByLocation } from "@/lib/api/server/menu"
+import { getSettingsSiteAction } from "@/lib/api/server/setting"
 
 export const revalidate = 60
 
@@ -19,10 +20,12 @@ interface IndexPageProps {
     locale: LanguageTypeData
   }
 }
-
+const { settings } = await getSettingsSiteAction()
 export const metadata: Metadata = {
-  title: "Gamedaim.com",
-  description: "Gamedaim.com",
+  title: `${settings?.siteTitle || env.SITE_TITTLE} | ${
+    settings?.siteTagline || ""
+  }`,
+  description: settings?.siteDescription || env.DESCRIPTION,
 }
 
 export default async function IndexPage({ params }: IndexPageProps) {

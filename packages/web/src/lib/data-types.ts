@@ -248,7 +248,19 @@ export interface SettingDataProps {
 }
 
 export interface SettingsSiteProps {
-  [x: string]: { value: string; key: string }
+  emailShop: string
+  siteTitle: string
+  siteTagline: string
+  siteDescription: string
+  siteMetaTitle: string
+  siteMetaDescription: string
+  email: string
+  supportEmail: string
+  facebookUsername: string
+  twitterUsername: string
+  instagramUsername: string
+  youtubeChannel: string
+  pinterestUsername: string
 }
 
 export interface DownloadPrimaryDataProps {

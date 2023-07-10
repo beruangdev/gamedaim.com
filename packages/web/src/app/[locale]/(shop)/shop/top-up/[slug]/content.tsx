@@ -29,7 +29,7 @@ import { methodsEWallet, methodsMart, methodsVA } from "@/data/payment-methods"
 import {
   PaymentMethodsProps,
   PriceListPrePaidProps,
-  SettingDataProps,
+  SettingsSiteProps,
   VoucherDataProps,
 } from "@/lib/data-types"
 import {
@@ -58,7 +58,7 @@ interface FormData {
 interface TopUpPageProps {
   products: PriceListPrePaidProps[] | null | undefined
   topUp: PriceListPrePaidProps | null | undefined
-  settingsSite: { [x: string]: SettingDataProps | null } | null | undefined
+  settingsSite: SettingsSiteProps | null
   channel:
     | {
         eWallet: PaymentMethodsProps[] | undefined
@@ -96,8 +96,8 @@ export function TopUpProductContent(props: TopUpPageProps) {
               topUp={topUp}
               channel={channel}
               margin={margin}
-              emailTopUp={settingsSite?.emailShop?.value || ""}
-              merchanTopUp={settingsSite?.siteTitle?.value || ""}
+              emailTopUp={settingsSite?.emailShop || ""}
+              merchanTopUp={settingsSite?.siteTitle || ""}
             />
           )}
         </div>

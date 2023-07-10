@@ -123,6 +123,7 @@ export default async function PostPage({ params }: PostPageProps) {
         description={post.excerpt}
         isAccessibleForFree={true}
       />
+
       <PostContent
         locale={locale}
         posts={posts}

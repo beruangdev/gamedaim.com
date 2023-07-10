@@ -40,7 +40,7 @@ export default async function TopUpProductSlugPage({
   params: { slug: string }
 }) {
   const { slug } = params
-  const settingsSite = await getSettingsSiteAction()
+  const { settings } = await getSettingsSiteAction()
   const { topUp } = await getTopUpByBrand(slug as string)
   const { products } = await getProductBySlug(topUp?.brand as string)
   const { channel } = await getPaymentChannel()
@@ -50,7 +50,7 @@ export default async function TopUpProductSlugPage({
     <TopUpProductContent
       products={products}
       topUp={topUp}
-      settingsSite={settingsSite}
+      settingsSite={settings || null}
       channel={channel}
       margin={margin}
     />

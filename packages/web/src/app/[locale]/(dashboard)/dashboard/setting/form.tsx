@@ -13,505 +13,164 @@ import {
 } from "@/components/UI/Form"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast"
-import { useGetSettingValue } from "@/lib/api/client/setting"
+
 import { postSettingAction } from "@/lib/api/server/setting"
-import { CheckSuccessResponse } from "@/lib/data-types"
 
 interface FormValues {
-  key: string
-  value: string
+  siteTitle: string
+  siteTagline: string
+  siteDescription: string
+  siteMetaTitle: string
+  siteMetaDescription: string
+  email: string
+  supportEmail: string
+  facebookUsername: string
+  twitterUsername: string
+  instagramUsername: string
+  youtubeChannel: string
+  pinterestUsername: string
 }
 
-export function SettingForm() {
+interface SettingFormProps {
+  settingsValue?: FormValues
+}
+export function SettingForm(props: SettingFormProps) {
+  const { settingsValue } = props
   const [loading, setLoading] = React.useState<boolean>(false)
-  const [formStatus, setFormStatus] = React.useState<CheckSuccessResponse[]>([])
-
-  const { settingValue: title } = useGetSettingValue("siteTitle")
-  const { settingValue: tagline } = useGetSettingValue("siteTagline")
-  const { settingValue: description } = useGetSettingValue("siteDescription")
-  const { settingValue: metaTitle } = useGetSettingValue("siteMetaTitle")
-  const { settingValue: metaDescription } = useGetSettingValue(
-    "siteMetaDescription",
-  )
-  const { settingValue: email } = useGetSettingValue("email")
-  const { settingValue: supportEmail } = useGetSettingValue("supportEmail")
-  const { settingValue: facebook } = useGetSettingValue("facebookUsername")
-  const { settingValue: twitter } = useGetSettingValue("twitterUsername")
-  const { settingValue: instagram } = useGetSettingValue("instagramUsername")
-  const { settingValue: pinterest } = useGetSettingValue("pinterestUsername")
-  const { settingValue: youtube } = useGetSettingValue("youtubeChannel")
 
   const {
-    register: registerTitle,
-    formState: { errors: errorsTitle },
-    handleSubmit: handleSubmitTitle,
-    reset: resetTitle,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "siteTitle",
-    },
-  })
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<FormValues>({ defaultValues: settingsValue })
 
-  const {
-    register: registerTagline,
-    formState: { errors: errorsTagline },
-    handleSubmit: handleSubmitTagline,
-    reset: resetTagline,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "siteTagline",
-    },
-  })
-
-  const {
-    register: registerDescription,
-    formState: { errors: errorsDescription },
-    handleSubmit: handleSubmitDescription,
-    reset: resetDescription,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "siteDescription",
-    },
-  })
-
-  const {
-    register: registerMetaTitle,
-    formState: { errors: errorsMetaTitle },
-    handleSubmit: handleSubmitMetaTitle,
-    reset: resetMetaTitle,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "siteMetaTitle",
-    },
-  })
-
-  const {
-    register: registerMetaDescription,
-    formState: { errors: errorsMetaDescription },
-    handleSubmit: handleSubmitMetaDescription,
-    reset: resetMetaDescription,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "siteMetaDescription",
-    },
-  })
-
-  const {
-    register: registerEmail,
-    formState: { errors: errorsEmail },
-    handleSubmit: handleSubmitEmail,
-    reset: resetEmail,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "email",
-    },
-  })
-
-  const {
-    register: registerSupportEmail,
-    formState: { errors: errorsSupportEmail },
-    handleSubmit: handleSubmitSupportEmail,
-    reset: resetSupportEmail,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "supportEmail",
-    },
-  })
-
-  const {
-    register: registerFacebook,
-    formState: { errors: errorsFacebook },
-    handleSubmit: handleSubmitFacebook,
-    reset: resetFacebook,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "facebookUsername",
-    },
-  })
-
-  const {
-    register: registerTwitter,
-    formState: { errors: errorsTwitter },
-    handleSubmit: handleSubmitTwitter,
-    reset: resetTwitter,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "twitterUsername",
-    },
-  })
-
-  const {
-    register: registerInstagram,
-    formState: { errors: errorsInstagram },
-    handleSubmit: handleSubmitInstagram,
-    reset: resetInstagram,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "instagramUsername",
-    },
-  })
-
-  const {
-    register: registerPinterest,
-    formState: { errors: errorsPinterest },
-    handleSubmit: handleSubmitPinterest,
-    reset: resetPinterest,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "pinterestUsername",
-    },
-  })
-
-  const {
-    register: registerYoutube,
-    formState: { errors: errorsYoutube },
-    handleSubmit: handleSubmitYoutube,
-    reset: resetYoutube,
-  } = useForm<FormValues>({
-    defaultValues: {
-      key: "youtubeChannel",
-    },
-  })
-
-  React.useEffect(() => {
-    resetTitle(title)
-    resetDescription(description)
-    resetMetaTitle(metaTitle)
-    resetMetaDescription(metaDescription)
-    resetEmail(email)
-    resetSupportEmail(supportEmail)
-    resetTagline(tagline)
-    resetFacebook(facebook)
-    resetInstagram(instagram)
-    resetPinterest(pinterest)
-    resetTwitter(twitter)
-    resetYoutube(youtube)
-  }, [
-    description,
-    facebook,
-    instagram,
-    metaDescription,
-    metaTitle,
-    pinterest,
-    tagline,
-    title,
-    twitter,
-    youtube,
-    email,
-    resetTitle,
-    resetDescription,
-    resetMetaTitle,
-    resetMetaDescription,
-    resetEmail,
-    resetTagline,
-    supportEmail,
-    resetFacebook,
-    resetInstagram,
-    resetPinterest,
-    resetTwitter,
-    resetYoutube,
-    resetSupportEmail,
-  ])
-
-  const onSubmitTitle = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetTitle(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "siteTitle",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitTagline = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetTagline(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "siteTagline",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitDescription = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetDescription(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "siteDescription",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitMetaTitle = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetMetaTitle(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "siteMetaTitle",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitMetaDescription = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetMetaDescription(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "siteMetaDescription",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitEmail = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetEmail(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "email",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitSupportEmail = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetEmail(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "supportEmail",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitFacebook = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetFacebook(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "facebookUsername",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitInstagram = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetInstagram(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "instagramUsername",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitTwitter = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetTwitter(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "twitterUsername",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitPinterest = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetPinterest(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "pinterestUsername",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitYoutube = async (values: FormValues) => {
-    const { data } = await postSettingAction(values)
-    if (data) {
-      resetYoutube(data)
-      const checkSuccess = {
-        success: true,
-        message: "success",
-        name: "youtubeChannel",
-      }
-      setFormStatus((prevStatus) => [...prevStatus, checkSuccess])
-    }
-  }
-
-  const onSubmitAll = () => {
+  const onSubmit = async (values: FormValues) => {
     setLoading(true)
-    handleSubmitTitle(onSubmitTitle)()
-    handleSubmitTagline(onSubmitTagline)()
-    handleSubmitDescription(onSubmitDescription)()
-    handleSubmitMetaTitle(onSubmitMetaTitle)()
-    handleSubmitMetaDescription(onSubmitMetaDescription)()
-    handleSubmitEmail(onSubmitEmail)()
-    handleSubmitSupportEmail(onSubmitSupportEmail)()
-    handleSubmitFacebook(onSubmitFacebook)()
-    handleSubmitTwitter(onSubmitTwitter)()
-    handleSubmitInstagram(onSubmitInstagram)()
-    handleSubmitPinterest(onSubmitPinterest)()
-    handleSubmitYoutube(onSubmitYoutube)()
-    setFormStatus([])
+    const keyValues = {
+      key: "settings",
+      value: JSON.stringify(values),
+    }
+    const { data } = await postSettingAction(keyValues)
+    if (data) {
+      const parsedData = JSON.parse(data.value)
+      reset(parsedData)
+      toast({ variant: "success", description: "Settings has been updated" })
+    }
     setLoading(false)
   }
-
-  React.useEffect(() => {
-    if (
-      formStatus.length === 13 &&
-      formStatus.every((successStatus) => successStatus.success === true)
-    ) {
-      toast({
-        variant: "success",
-        description: "Settings submitted successfully!",
-      })
-      setFormStatus([])
-      setLoading(false)
-    }
-  }, [formStatus])
 
   return (
     <div className="mb-[100px] mt-4 flex items-end justify-end">
       <div className="flex-1 space-y-4">
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsTitle.value)}>
+          <FormControl invalid={Boolean(errors.siteTitle)}>
             <FormLabel>
               Site Title
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerTitle("value", {
+              {...register("siteTitle", {
                 required: "Title is Required",
               })}
               className="max-w-xl"
               placeholder="Enter Title"
             />
-            {errorsTitle?.value && (
-              <FormErrorMessage>{errorsTitle.value.message}</FormErrorMessage>
+            {errors?.siteTitle && (
+              <FormErrorMessage>{errors.siteTitle.message}</FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsTagline.value)}>
+          <FormControl invalid={Boolean(errors.siteTagline)}>
             <FormLabel>
               Site Tagline
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerTagline("value", {
+              {...register("siteTagline", {
                 required: "Tagline is Required",
               })}
               className="max-w-xl"
               placeholder="Enter Tagline Username"
             />
-            {errorsTagline?.value && (
-              <FormErrorMessage>{errorsTagline.value.message}</FormErrorMessage>
+            {errors?.siteTagline && (
+              <FormErrorMessage>{errors.siteTagline.message}</FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsDescription.value)}>
+          <FormControl invalid={Boolean(errors.siteDescription)}>
             <FormLabel>
               Site Description
               <RequiredIndicator />
             </FormLabel>
             <Textarea
-              {...registerDescription("value", {
+              {...register("siteDescription", {
                 required: "Description is Required",
               })}
               className="max-w-xl"
               placeholder="Description"
             />
-            {errorsDescription?.value && (
+            {errors?.siteDescription && (
               <FormErrorMessage>
-                {errorsDescription.value.message}
+                {errors.siteDescription.message}
               </FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsMetaTitle.value)}>
+          <FormControl invalid={Boolean(errors.siteMetaTitle)}>
             <FormLabel>
               Site Meta Title
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerMetaTitle("value", {
+              {...register("siteMetaTitle", {
                 required: "Meta Title is Required",
               })}
               className="max-w-xl"
               placeholder="Enter Meta Title"
             />
-            {errorsMetaTitle?.value && (
+            {errors?.siteMetaTitle && (
               <FormErrorMessage>
-                {errorsMetaTitle.value.message}
+                {errors.siteMetaTitle.message}
               </FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsMetaDescription.value)}>
+          <FormControl invalid={Boolean(errors.siteMetaDescription)}>
             <FormLabel>
               Site Meta Description
               <RequiredIndicator />
             </FormLabel>
             <Textarea
-              {...registerMetaDescription("value", {
+              {...register("siteMetaDescription", {
                 required: "Meta Description is Required",
               })}
               className="max-w-xl"
               placeholder="Enter Meta Description"
             />
-            {errorsMetaDescription?.value && (
+            {errors?.siteMetaDescription && (
               <FormErrorMessage>
-                {errorsMetaDescription.value.message}
+                {errors.siteMetaDescription.message}
               </FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsEmail.value)}>
+          <FormControl invalid={Boolean(errors.email)}>
             <FormLabel>
               Email
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerEmail("value", {
+              {...register("email", {
                 required: "Email is Required",
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -521,20 +180,20 @@ export function SettingForm() {
               className="max-w-xl"
               placeholder="Enter Email"
             />
-            {errorsEmail?.value && (
-              <FormErrorMessage>{errorsEmail.value.message}</FormErrorMessage>
+            {errors?.email && (
+              <FormErrorMessage>{errors.email.message}</FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsSupportEmail.value)}>
+          <FormControl invalid={Boolean(errors.supportEmail)}>
             <FormLabel>
               Support Email
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerSupportEmail("value", {
+              {...register("supportEmail", {
                 required: "Support Email is Required",
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -544,115 +203,121 @@ export function SettingForm() {
               className="max-w-xl"
               placeholder="Enter Support Email"
             />
-            {errorsSupportEmail?.value && (
-              <FormErrorMessage>
-                {errorsSupportEmail.value.message}
-              </FormErrorMessage>
+            {errors?.supportEmail && (
+              <FormErrorMessage>{errors.supportEmail.message}</FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsFacebook.value)}>
+          <FormControl invalid={Boolean(errors.facebookUsername)}>
             <FormLabel>
               Facebook Username
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerFacebook("value", {
+              {...register("facebookUsername", {
                 required: "Facebook username is Required",
               })}
               className="max-w-xl"
               placeholder="Enter Facebook Username"
             />
-            {errorsFacebook?.value && (
+            {errors?.facebookUsername && (
               <FormErrorMessage>
-                {errorsFacebook.value.message}
+                {errors.facebookUsername.message}
               </FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsTwitter.value)}>
+          <FormControl invalid={Boolean(errors.twitterUsername)}>
             <FormLabel>
               Twitter Username
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerTwitter("value", {
+              {...register("twitterUsername", {
                 required: "Twitter username is Required",
               })}
               className="max-w-xl"
               placeholder="Enter Twitter Username"
             />
-            {errorsTwitter?.value && (
-              <FormErrorMessage>{errorsTwitter.value.message}</FormErrorMessage>
+            {errors?.twitterUsername && (
+              <FormErrorMessage>
+                {errors.twitterUsername.message}
+              </FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsInstagram.value)}>
+          <FormControl invalid={Boolean(errors.instagramUsername)}>
             <FormLabel>
               Instagram Username
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerInstagram("value", {
+              {...register("instagramUsername", {
                 required: "Instagram username is Required",
               })}
               className="max-w-xl"
               placeholder="Enter Instagram Username"
             />
-            {errorsInstagram?.value && (
+            {errors?.instagramUsername && (
               <FormErrorMessage>
-                {errorsInstagram.value.message}
+                {errors.instagramUsername.message}
               </FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsPinterest.value)}>
+          <FormControl invalid={Boolean(errors.pinterestUsername)}>
             <FormLabel>
               Pinterest Username
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerPinterest("value", {
+              {...register("pinterestUsername", {
                 required: "Pinterest username is Required",
               })}
               className="max-w-xl"
               placeholder="Enter Pinterest Username"
             />
-            {errorsPinterest?.value && (
+            {errors?.pinterestUsername && (
               <FormErrorMessage>
-                {errorsPinterest.value.message}
+                {errors.pinterestUsername.message}
               </FormErrorMessage>
             )}
           </FormControl>
         </form>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-          <FormControl invalid={Boolean(errorsYoutube.value)}>
+          <FormControl invalid={Boolean(errors.youtubeChannel)}>
             <FormLabel>
               Youtube Channel
               <RequiredIndicator />
             </FormLabel>
             <Input
               type="text"
-              {...registerYoutube("value", {
+              {...register("youtubeChannel", {
                 required: "Youtube channel is Required",
               })}
               className="max-w-xl"
               placeholder="Enter Youtube Channel"
             />
-            {errorsYoutube?.value && (
-              <FormErrorMessage>{errorsYoutube.value.message}</FormErrorMessage>
+            {errors?.youtubeChannel && (
+              <FormErrorMessage>
+                {errors.youtubeChannel.message}
+              </FormErrorMessage>
             )}
           </FormControl>
         </form>
-        <Button aria-label="Submit" onClick={onSubmitAll} loading={loading}>
+        <Button
+          aria-label="Submit"
+          onClick={handleSubmit(onSubmit)}
+          loading={loading}
+        >
           Submit
         </Button>
       </div>
