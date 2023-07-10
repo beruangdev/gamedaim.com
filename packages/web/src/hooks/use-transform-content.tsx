@@ -9,6 +9,7 @@ import YouTube from "@/components/UI/YouTube"
 import { cn } from "@/utils/classname"
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css"
+import { Twitter } from "@/components/UI/Twitter"
 
 export const transformContent = async (html: string, title: string) => {
   const data = await unified()
@@ -61,16 +62,24 @@ export const transformContent = async (html: string, title: string) => {
           }
           return <iframe {...props} />
         },
+        blockquote: (
+          props: React.DetailedHTMLProps<
+            React.BlockquoteHTMLAttributes<HTMLQuoteElement>,
+            HTMLQuoteElement
+          >,
+        ) => {
+          if (props?.className?.includes("twitter-tweet")) {
+            return <Twitter>{props.children}</Twitter>
+          }
+          return <blockquote {...props} />
+        },
         script: (
           props: React.DetailedHTMLProps<
             React.ScriptHTMLAttributes<HTMLScriptElement>,
             HTMLScriptElement
           >,
         ) => {
-          if (props?.src) {
-            // if (props?.src?.includes("twitter")) {
-            //   return <Script strategy="lazyOnload" {...props} />
-            // }
+          if (props) {
             return <Script {...props} />
           }
         },

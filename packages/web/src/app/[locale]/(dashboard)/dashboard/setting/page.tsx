@@ -2,6 +2,7 @@ import * as React from "react"
 import { Metadata } from "next"
 
 import { SettingForm } from "./form"
+import { getSettingByKeyAction } from "@/lib/api/server/setting"
 
 export const metadata: Metadata = {
   title: "Setting Dashboard",
@@ -21,6 +22,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default function DashboardPage() {
-  return <SettingForm />
+export const revalidate = 60
+export default async function DashboardPage() {
+  const { data } = await getSettingByKeyAction("settings")
+  let settingsValue
+  if (data) {
+    const parsedData = JSON.parse(data.value)
+    settingsValue = parsedData
+  }
+  return <SettingForm settingsValue={settingsValue} />
 }
