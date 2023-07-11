@@ -2,6 +2,7 @@ import * as React from "react"
 import { Metadata } from "next"
 
 import { SettingForm } from "./form"
+import { getSettingsSiteAction } from "@/lib/api/server/setting"
 
 export const metadata: Metadata = {
   title: "Setting Dashboard",
@@ -21,6 +22,9 @@ export const metadata: Metadata = {
   },
 }
 
-export default function DashboardPage() {
-  return <SettingForm />
+export const revalidate = 60
+export default async function DashboardPage() {
+  const { settings } = await getSettingsSiteAction()
+
+  return <SettingForm settingsValue={settings} />
 }

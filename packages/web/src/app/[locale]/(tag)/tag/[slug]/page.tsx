@@ -44,7 +44,7 @@ export async function generateMetadata({
 export default async function TagPage({ params }: { params: TagPageProps }) {
   const { slug, locale } = params
   const { tag } = await wpGetTagBySlug(slug)
-  if (!tag) {
+  if ((tag && tag.language.slug !== locale) || !tag) {
     notFound()
   }
   const { posts, pageInfo } = await wpGetPostsByTagSlug(tag?.slug as string)

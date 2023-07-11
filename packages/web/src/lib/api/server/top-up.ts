@@ -356,6 +356,7 @@ export const checkBalance = async () => {
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
     },
+    data: null,
   })
   if (err !== null) {
     console.log(err)

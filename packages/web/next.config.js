@@ -13,7 +13,7 @@ const nextConfig = {
       "assets.tripay.co.id",
     ],
   },
-  headers() {
+  async headers() {
     return [
       {
         source: "/(.*)",
@@ -25,12 +25,14 @@ const nextConfig = {
 
 const ContentSecurityPolicy = `
     default-src 'self' vercel.live;
-    script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live vitals.vercel-insights.com;
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live platform.twitter.com  youtube.com vitals.vercel-insights.com;
     style-src 'self' 'unsafe-inline';
     img-src * blob: data:;
     media-src 'none';
     connect-src *;
     font-src 'self';
+    frame-src https://www.youtube.com https://platform.twitter.com https://www.youtube-nocookie.com;
+    script-src-elem 'self' 'unsafe-inline' https://www.youtube.com http://platform.twitter.com/widgets.js https://platform.twitter.com/js/tweet.b81b6d7af2d75db873cff6099e4f433a.js;
 `
 
 const securityHeaders = [
@@ -62,6 +64,7 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=()",
   },
+  { key: "Accept-Encoding", value: "gzip, compress, br" },
 ]
 
 module.exports = nextConfig

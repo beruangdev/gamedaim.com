@@ -164,6 +164,9 @@ export const QUERY_WP_POST_BY_SLUG = `
         }
       }
       id
+      language {
+        slug
+      }
       seo {
         openGraph {
           url

@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import NextLink from "next/link"
 
@@ -7,7 +5,7 @@ import { Button, ButtonGroup } from "@/components/UI/Button"
 import { Image } from "@/components/Image"
 import { Ad } from "@/components/Ad"
 import { ArticleInfo } from "@/components/ArticleInfo"
-import { StickyShare } from "@/components/Share"
+import { StaticShare } from "@/components/Share"
 
 import {
   AdDataProps,
@@ -19,14 +17,7 @@ import {
   WpSinglePostDataProps,
   WpTagsDataProps,
 } from "@/lib/wp-data-types"
-import {
-  splitUriWP,
-  wpPrimaryCategorySlug,
-  wpTagPathBySlug,
-} from "@/utils/helper"
-import { useCurrentUser } from "@/hooks/use-current-user"
-import { Icon } from "@/components/UI/Icon"
-import { CommentForm } from "@/components/Form/CommentForm"
+import { wpPrimaryCategorySlug } from "@/utils/helper"
 
 interface PostProps {
   postData: {
@@ -50,30 +41,25 @@ interface PostProps {
     featuredImageAlt: string
   }
   posts: WpSinglePostDataProps[] | ArticleDataProps[] | null
-  isMain?: boolean
   isWP?: boolean
   adsSingleArticleAbove: AdDataProps[] | null
   adsSingleArticleBelow: AdDataProps[] | null
   adsSingleArticleInline: AdDataProps[] | null
   adsSingleArticlePopUp: AdDataProps[] | null
-  firstContent: React.ReactNode | null
-  secondContent: React.ReactNode | null
   locale: LanguageTypeData
+  firstContent: React.ReactNode | null
 }
 
-export const Article = React.forwardRef<HTMLDivElement, PostProps>(
+export const ArticleScroll = React.forwardRef<HTMLDivElement, PostProps>(
   (props, ref) => {
     const {
-      posts,
-      isMain,
       isWP,
       postData,
       adsSingleArticleAbove,
       adsSingleArticleBelow,
       adsSingleArticleInline,
-      firstContent,
-      secondContent,
       locale,
+      firstContent,
     } = props
     const {
       title,
@@ -86,7 +72,6 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       featuredImageAlt,
       date,
       slug,
-      tags,
     } = postData
 
     let primaryData
@@ -96,8 +81,6 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
       )
       primaryData = primary
     }
-
-    const { user } = useCurrentUser()
 
     return (
       <>
@@ -160,110 +143,42 @@ export const Article = React.forwardRef<HTMLDivElement, PostProps>(
               )}
             </>
           )}
-          <div className="flex">
-            <StickyShare
+          <div className="mt-[30px] flex flex-col">
+            <StaticShare
               locale={locale}
               title={title}
               categorySlug={isWP ? (primaryData?.slug as string) : "article"}
               postSlug={slug}
             />
-            <section className="article-body">
+            <section className="article-body mb-4 max-h-[300px] space-y-4 overflow-y-hidden pt-4">
               {adsSingleArticleAbove &&
                 adsSingleArticleAbove.length > 0 &&
                 adsSingleArticleAbove.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
               {firstContent}
-
               {adsSingleArticleInline &&
                 adsSingleArticleInline.length > 0 &&
                 adsSingleArticleInline.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
-              {secondContent}
+
               {adsSingleArticleBelow &&
                 adsSingleArticleBelow.length > 0 &&
                 adsSingleArticleBelow.map((ad: AdDataProps) => {
                   return <Ad ad={ad} />
                 })}
             </section>
-          </div>
-          <section className="mx-4 my-6 space-x-3 md:mx-12" id="tag">
-            {tags &&
-              tags.map((tag: { slug: string; name: string }) => {
-                return (
-                  <Button
-                    variant="outline"
-                    aria-label={tag.name}
-                    size="sm"
-                    key={tag.slug}
-                    className="mb-2 rounded-full uppercase"
-                  >
-                    <NextLink
-                      aria-label={tag.slug}
-                      href={wpTagPathBySlug(tag.slug)}
-                    >
-                      {tag.name}
-                    </NextLink>
-                  </Button>
-                )
-              })}
-          </section>
-          <section className="mb-5 flex justify-center" id="comment">
-            {user?.id ? (
-              <CommentForm
-                postId={isWP ? postData?.slug : postData.id}
-                postType={isWP ? "wp-post" : "article"}
-              />
-            ) : (
-              <NextLink href="/auth/login">
-                <Button aria-label="Login" type="button">
-                  <Icon.Login
-                    aria-label="Login"
-                    className="-ml-1 mr-2 h-4 w-4"
-                  />{" "}
-                  Login for comment
-                </Button>
+            <div className="before:from-background relative my-4 flex justify-center from-60% to-40% before:absolute before:bottom-[99%] before:right-0 before:block before:h-[150px] before:w-full before:bg-gradient-to-t  before:to-transparent">
+              <NextLink
+                href={`/${
+                  isWP ? (primaryData?.slug as string) : "article"
+                }/${slug}`}
+              >
+                <Button type="button">Read more</Button>
               </NextLink>
-            )}
-          </section>
-          <section className="mb-20">
-            {isMain === true && (
-              <>
-                <div className="mb-2">
-                  <h4 className="text-primary border-primary/40 border-b-4">
-                    Related Posts
-                  </h4>
-                </div>
-                <div className="grid grid-cols-[repeat(1,1fr)] gap-4 md:grid-cols-2">
-                  {posts &&
-                    posts.map((post) => {
-                      return (
-                        <article
-                          className="border-border border-b-2"
-                          key={post.title}
-                        >
-                          <NextLink
-                            aria-label={post.title}
-                            href={
-                              isWP
-                                ? splitUriWP(
-                                    (post as WpSinglePostDataProps).uri,
-                                  )
-                                : "/article/" + post.slug
-                            }
-                          >
-                            <p className="hover:text-primary font-semibold">
-                              {post.title}
-                            </p>
-                          </NextLink>
-                        </article>
-                      )
-                    })}
-                </div>
-              </>
-            )}
-          </section>
+            </div>
+          </div>
         </article>
       </>
     )

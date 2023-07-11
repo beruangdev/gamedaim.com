@@ -52,7 +52,7 @@ export default async function PostPage({ params }: PostPageProps) {
   const { primary } = wpPrimaryCategorySlug(
     post?.categories as WpCategoriesDataProps[],
   )
-  if (!post) {
+  if ((post && post.language.slug !== locale) || !post) {
     notFound()
   }
   const { data: adsBelowHeader } = await getAdsByPositionAction(
@@ -123,6 +123,7 @@ export default async function PostPage({ params }: PostPageProps) {
         description={post.excerpt}
         isAccessibleForFree={true}
       />
+
       <PostContent
         locale={locale}
         posts={posts}

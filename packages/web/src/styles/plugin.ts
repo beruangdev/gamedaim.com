@@ -1,5 +1,4 @@
 import plugin from "tailwindcss/plugin"
-import { fontFamily } from "tailwindcss/defaultTheme"
 
 export const stylePlugin = plugin(
   function ({ addBase }) {
@@ -66,7 +65,7 @@ export const stylePlugin = plugin(
     addBase({
       "*": { "@apply border-border": {} },
       body: {
-        "@apply bg-background text-foreground": {},
+        "@apply bg-background font-sans text-foreground": {},
         fontFeatureSettings: '"rlig" 1, "calt" 1',
       },
       "::selection": { "@apply bg-primary/40 text-foreground": {} },
@@ -143,7 +142,19 @@ export const stylePlugin = plugin(
           sm: "calc(var(--radius) - 4px)",
         },
         fontFamily: {
-          sans: ["var(--font-sans)", ...fontFamily.sans],
+          sans: [
+            "-apple-system",
+            "BlinkMacSystemFont",
+            "segoe ui",
+            "helvetica neue",
+            "Arial",
+            "noto sans",
+            "sans-serif",
+            "apple color emoji",
+            "segoe ui emoji",
+            "segoe ui symbol",
+            "noto color emoji",
+          ],
         },
         keyframes: {
           "accordion-down": {
