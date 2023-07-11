@@ -60,7 +60,7 @@ export const getWpCommentsCount = async () => {
         description: (err as AxiosError<ErrorResponse>)?.response?.data
           ?.message as string,
       })
-      console.log(err)
+      console.error(err)
     }
 
     return res
@@ -81,7 +81,7 @@ export const getWpComments = async (articleId: string) => {
         description: (err as AxiosError<ErrorResponse>)?.response?.data
           ?.message as string,
       })
-      console.log(err)
+      console.error(err)
     }
 
     return res
@@ -103,7 +103,7 @@ export const postWpComment = async (articleId: string, content: string) => {
         description: (err as AxiosError<ErrorResponse>)?.response?.data
           ?.message as string,
       })
-      console.log(err)
+      console.error(err)
     } else {
       toast({
         variant: "success",
@@ -129,7 +129,7 @@ export const deleteWpComment = async ({ commentId }: { commentId: string }) => {
         description: (err as AxiosError<ErrorResponse>)?.response?.data
           ?.message as string,
       })
-      console.log(err)
+      console.error(err)
     } else {
       toast({
         variant: "success",
@@ -155,7 +155,7 @@ export const getWpCommentById = async (commentId: string) => {
         description: (err as AxiosError<ErrorResponse>)?.response?.data
           ?.message as string,
       })
-      console.log(err)
+      console.error(err)
     }
 
     return res
@@ -176,7 +176,7 @@ export const getWpCommentsByArticleId = async (articleId: string) => {
         description: (err as AxiosError<ErrorResponse>)?.response?.data
           ?.message as string,
       })
-      console.log(err)
+      console.error(err)
     }
 
     return res

@@ -2,20 +2,27 @@ import useSWR from "swr"
 import { fetcher, http } from "@/lib/http"
 import { AxiosError } from "axios"
 import { toast } from "@/components/UI/Toast"
-import { CommentDataProps, ErrorResponse } from "@/lib/data-types"
-
+import {
+  WpCommentDataProps,
+  CommentDataProps,
+  ErrorResponse,
+} from "@/lib/data-types"
+type WpCommentDataWithoutAuthor = Omit<WpCommentDataProps, "author">
+type CommentDataOrWpCommentDataWithoutAuthor =
+  | CommentDataProps
+  | WpCommentDataWithoutAuthor
 export const FetchDownloadComment = ({
   addComment,
   setTotalComments,
   page,
   totalComments,
 }: {
-  addComment: (item: CommentDataProps[]) => void
+  addComment: (item: CommentDataOrWpCommentDataWithoutAuthor[]) => void
   setTotalComments: (item: number) => void
   page: number
   totalComments: number
 }): {
-  data: CommentDataProps[]
+  data: CommentDataOrWpCommentDataWithoutAuthor[]
   count: number
   lastPage: number
 } => {
@@ -52,9 +59,12 @@ export const deleteDownloadComment = async ({
   commentId: string
 }) => {
   try {
-    const [res, err] = await http<CommentDataProps>("DELETE", {
-      url: `/download-comment/${commentId}`,
-    })
+    const [res, err] = await http<CommentDataOrWpCommentDataWithoutAuthor>(
+      "DELETE",
+      {
+        url: `/download-comment/${commentId}`,
+      },
+    )
 
     if (err !== null) {
       toast({
@@ -62,7 +72,7 @@ export const deleteDownloadComment = async ({
         description: (err as AxiosError<ErrorResponse>)?.response?.data
           ?.message as string,
       })
-      console.log(err)
+      console.error(err)
     } else {
       toast({
         variant: "success",

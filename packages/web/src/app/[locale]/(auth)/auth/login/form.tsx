@@ -40,7 +40,6 @@ export const LoginForm: React.FunctionComponent = () => {
     setLoading(true)
 
     const { data, error } = await loginUserAction(values)
-
     if (data) {
       const currentDate = new Date()
       const thirdDayDate = new Date(
@@ -48,6 +47,7 @@ export const LoginForm: React.FunctionComponent = () => {
       )
       const isoDate = thirdDayDate.toISOString()
       const dataCookies = { ...data, expiration: isoDate }
+
       Cookies.set("currentUser", JSON.stringify(dataCookies), {
         path: "/",
         domain: `.${env.DOMAIN}`,

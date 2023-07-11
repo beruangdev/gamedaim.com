@@ -6,10 +6,6 @@ import relativeTime from "dayjs/plugin/relativeTime"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs"
 
-import useArticleCommentStore from "@/hooks/use-article-comment"
-import useDownloadCommentStore from "@/hooks/use-download-comment"
-import useWpPostCommentStore from "@/hooks/use-wp-comment"
-
 import { FetchWpComment, deleteWpComment } from "@/lib/api/client/wp-comments"
 import {
   FetchArticleComment,
@@ -51,20 +47,22 @@ export function CommentDashboardContent() {
   const [downloadTotalComments, setDownloadTotalComments] =
     React.useState<number>(0)
 
-  const { wpComments, addWpComment, removeWpComment } = useWpPostCommentStore()
-
-  const { articleComments, addArticleComment, removeArticleComment } =
-    useArticleCommentStore()
-
-  const { downloadComments, addDownloadComment, removeDownloadComment } =
-    useDownloadCommentStore()
+  const [wpComments, setWpComments] = React.useState<
+    CommentDataOrWpCommentDataWithoutAuthor[]
+  >([])
+  const [articleComments, setArticleComments] = React.useState<
+    CommentDataOrWpCommentDataWithoutAuthor[]
+  >([])
+  const [downloadComments, setDownloadComment] = React.useState<
+    CommentDataOrWpCommentDataWithoutAuthor[]
+  >([])
 
   const {
     data: wpData,
     count: wpCount,
     lastPage: wpLastPage,
   } = FetchWpComment({
-    addComment: addWpComment,
+    addComment: setWpComments,
     setTotalComments: setWpTotalComments,
     page: wpPage,
     totalComments: wpTotalComments,
@@ -75,7 +73,7 @@ export function CommentDashboardContent() {
     count: articleCount,
     lastPage: articleLastPage,
   } = FetchArticleComment({
-    addComment: addArticleComment,
+    addComment: setArticleComments,
     setTotalComments: setArticleTotalComments,
     page: articlePage,
     totalComments: articleTotalComments,
@@ -86,7 +84,7 @@ export function CommentDashboardContent() {
     count: downloadCount,
     lastPage: downloadLastPage,
   } = FetchDownloadComment({
-    addComment: addDownloadComment,
+    addComment: setDownloadComment,
     setTotalComments: setDownloadTotalComments,
     page: downloadPage,
     totalComments: downloadTotalComments,
@@ -98,7 +96,11 @@ export function CommentDashboardContent() {
       type: "wp-post",
       state: {
         comments: wpComments,
-        removeComments: removeWpComment,
+        removeComments: ({ id }: { id: string }) => {
+          setWpComments(
+            wpComments.filter((data: { id: string }) => data.id !== id),
+          )
+        },
       },
       data: wpData,
       count: wpCount,
@@ -112,7 +114,11 @@ export function CommentDashboardContent() {
       type: "article",
       state: {
         comments: articleComments,
-        removeComments: removeArticleComment,
+        removeComments: ({ id }: { id: string }) => {
+          setArticleComments(
+            articleComments.filter((data: { id: string }) => data.id !== id),
+          )
+        },
       },
       data: articleData,
       count: articleCount,
@@ -126,7 +132,11 @@ export function CommentDashboardContent() {
       type: "download",
       state: {
         comments: downloadComments,
-        removeComments: removeDownloadComment,
+        removeComments: ({ id }: { id: string }) => {
+          setDownloadComment(
+            downloadComments.filter((data: { id: string }) => data.id !== id),
+          )
+        },
       },
       data: downloadData,
       count: downloadCount,
