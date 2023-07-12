@@ -67,16 +67,10 @@ interface TopUpPageProps {
       }
     | null
     | undefined
-  margin:
-    | {
-        value: string
-      }
-    | null
-    | undefined
 }
 
 export function TopUpProductContent(props: TopUpPageProps) {
-  const { settingsSite, products, topUp, channel, margin } = props
+  const { settingsSite, products, topUp, channel } = props
 
   const cleanedText = topUp && topUp.product_name.replace(/\d+(\.\d+)?/g, "")
 
@@ -90,15 +84,19 @@ export function TopUpProductContent(props: TopUpPageProps) {
       </div>
       <div className="flex flex-col lg:flex-row lg:space-x-2">
         <div className="order-2 w-full lg:order-1 lg:w-2/3">
-          {products && topUp && channel && margin && settingsSite && (
+          {products && topUp ? (
             <FormTopUp
               products={products}
               topUp={topUp}
               channel={channel}
-              margin={margin}
+              margin={settingsSite?.margin || "15"}
               emailTopUp={settingsSite?.emailShop || ""}
               merchanTopUp={settingsSite?.siteTitle || ""}
             />
+          ) : (
+            <div className="text-center">
+              <h1>Product not found</h1>
+            </div>
           )}
         </div>
         <div className="order-1 mb-4 w-full lg:order-2 lg:w-1/3">
@@ -151,15 +149,12 @@ export function TopUpProductContent(props: TopUpPageProps) {
 interface FormTopUpProps {
   products: PriceListPrePaidProps[]
   topUp: PriceListPrePaidProps
-  channel: {
+  channel?: {
     eWallet: PaymentMethodsProps[] | undefined
     virtualAccount: PaymentMethodsProps[] | undefined
     convenienceShop: PaymentMethodsProps[] | undefined
-  }
-
-  margin: {
-    value: string
-  }
+  } | null
+  margin: string | null
 
   emailTopUp: string
   merchanTopUp: string
@@ -182,7 +177,7 @@ const FormTopUp = (props: FormTopUpProps) => {
     React.useState<VoucherDataProps | null>(null)
   const [amount, setAmount] = React.useState<PriceListPrePaidProps | null>()
   const [openModalTopUp, setOpenModalTopUp] = React.useState(false)
-  const totalmargin = margin !== null ? parseInt(margin.value) : 15
+  const totalmargin = margin !== null ? parseInt(margin) : 15
   const [payment, setPayment] = React.useState<PaymentMethodsProps | null>()
   const [queryAccountId, setQueryAccountId] = React.useState("")
   const [loadingModal, setLoadingModal] = React.useState(false)
@@ -493,6 +488,7 @@ const FormTopUp = (props: FormTopUpProps) => {
             </h1>
           </div>
           {amount &&
+            channel &&
             channel.eWallet &&
             methodsEWallet.some((method) => method.maxamount > amount?.price) &&
             channel.eWallet.length > 0 && (
@@ -546,6 +542,7 @@ const FormTopUp = (props: FormTopUpProps) => {
               </div>
             )}
           {amount &&
+            channel &&
             channel.virtualAccount &&
             methodsVA.some((method) => method.minamount < amount.price) &&
             methodsVA.some((method) => method.maxamount > amount.price) &&
@@ -600,6 +597,7 @@ const FormTopUp = (props: FormTopUpProps) => {
               </div>
             )}
           {amount &&
+            channel &&
             channel.convenienceShop &&
             methodsMart.some((method) => method.minamount < amount.price) &&
             methodsMart.some((method) => method.maxamount > amount.price) &&

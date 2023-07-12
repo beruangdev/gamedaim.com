@@ -44,10 +44,15 @@ export const postSettingAction = async (values: unknown) => {
 
 export const getSettingsSiteAction = async () => {
   const { data } = await getSettingByKeyAction("settings")
+  const { data: dataShop } = await getSettingByKeyAction("settingsShop")
   let settingsValue: SettingsSiteProps | undefined
   if (data) {
     const parsedData = JSON.parse(data.value)
-    settingsValue = parsedData
+    settingsValue = { ...parsedData }
+    if (dataShop) {
+      const parsedDataShop = JSON.parse(data.value)
+      settingsValue = { ...parsedData, ...parsedDataShop }
+    }
   }
 
   return {
