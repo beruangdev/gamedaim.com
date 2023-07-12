@@ -5,7 +5,7 @@ import env from "env"
 import { getProductBySlug, getTopUpByBrand } from "@/lib/api/server/top-up"
 import { TopUpProductContent } from "./content"
 import { getSettingsSiteAction } from "@/lib/api/server/setting"
-import { getMargin, getPaymentChannel } from "@/lib/api/server/payment"
+import { getPaymentChannel } from "@/lib/api/server/payment"
 import { type LanguageTypeData } from "@/lib/data-types"
 
 export const revalidate = 60
@@ -44,7 +44,6 @@ export default async function TopUpProductSlugPage({
   const { topUp } = await getTopUpByBrand(slug as string)
   const { products } = await getProductBySlug(topUp?.brand as string)
   const { channel } = await getPaymentChannel()
-  const { margin } = await getMargin()
 
   return (
     <TopUpProductContent
@@ -52,7 +51,6 @@ export default async function TopUpProductSlugPage({
       topUp={topUp}
       settingsSite={settings || null}
       channel={channel}
-      margin={margin}
     />
   )
 }
