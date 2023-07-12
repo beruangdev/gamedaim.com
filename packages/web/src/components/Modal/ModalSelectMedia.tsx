@@ -63,10 +63,11 @@ export const ModalSelectMedia: React.FunctionComponent<
       <Modal
         open={open}
         onOpenChange={setOpen}
+        className="w-[100vw] max-w-[600px]"
         trigger={triggerContent}
         title="Select Featured Image"
         content={
-          <ScrollArea className="h-[65vh] max-lg:h-[80vh] md:w-[60vh]">
+          <ScrollArea className="h-[65vh] max-lg:h-[80vh]">
             <div className="px-4">
               <MediaUpload addLoadMedias={updateMedias} />
               <div>

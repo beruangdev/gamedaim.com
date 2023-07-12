@@ -248,7 +248,8 @@ export interface SettingDataProps {
 }
 
 export interface SettingsSiteProps {
-  emailShop: string
+  emailShop?: string
+  margin?: string
   siteTitle: string
   siteTagline: string
   siteDescription: string
