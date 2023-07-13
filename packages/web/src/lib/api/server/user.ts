@@ -16,7 +16,7 @@ export const signUpUserAction = async (values: unknown) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -34,7 +34,7 @@ export const loginUserAction = async (values: unknown) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -52,7 +52,7 @@ export const sendResetPasswordAction = async (values: unknown) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -74,7 +74,7 @@ export const validityTokenAction = async (values: unknown) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -95,7 +95,7 @@ export const sendVerificationTokenAction = async (email: string) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -113,7 +113,7 @@ export const putUserByAdminAction = async (userId: string, values: unknown) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -130,7 +130,7 @@ export const deleteUserAction = async (userId: unknown) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -147,7 +147,7 @@ export const getUsersAction = async (userPage = 1) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -167,7 +167,7 @@ export const getUsersByRoleAction = async (
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -184,7 +184,7 @@ export const getUsersCountAction = async () => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -201,7 +201,7 @@ export const getUserByIdAction = async (userId: string) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -218,7 +218,7 @@ export const getUserByUsernameAction = async (userUsername: string) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -238,7 +238,7 @@ export const getUserArticlesByUsernameAction = async (
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -258,7 +258,7 @@ export const getUserDownloadsByUsernameAction = async (
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -276,7 +276,7 @@ export const putUserAction = async (userId: string, values: unknown) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data
@@ -292,7 +292,7 @@ export const searchUsersAction = async (query: string) => {
   })
 
   if (err !== null) {
-    console.log(err)
+    console.error(err)
     return {
       data: null,
       error: (err as AxiosError<ErrorResponse>)?.response?.data

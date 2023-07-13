@@ -208,7 +208,7 @@ export function DownloadAppSlugContent(props: DownloadAppProps) {
             </div>
 
             {download && (
-              <div className="mb-5" id="comment">
+              <div className="mb-5 flex justify-center" id="comment">
                 {user?.id ? (
                   <CommentForm postId={download.id} postType="download" />
                 ) : (

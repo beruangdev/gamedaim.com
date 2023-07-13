@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import NextLink from "next/link"
 import { http } from "@/lib/http"
 import { ErrorResponse, UserDataProps } from "@/lib/data-types"
 import { useCurrentUser } from "@/hooks/use-current-user"
@@ -238,12 +239,14 @@ const TopUpReviewItem = ({
             </div>
           ))}
         </div>
-        <div className="mb-4">
-          <TopUpReplyForm
-            reviewId={topUpReview.id}
-            handleStoreTopUpReply={handleStoreTopUpReply}
-          />
-        </div>
+        {user?.accessToken && (
+          <div className="mb-4">
+            <TopUpReplyForm
+              reviewId={topUpReview.id}
+              handleStoreTopUpReply={handleStoreTopUpReply}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
@@ -966,12 +969,21 @@ export const TopUpCommentForm = ({ brand }: { brand: string }) => {
           })}
         </div>
 
-        {/* Comment Form */}
-        <ReviewForm
-          handleStoreReview={handleStoreReview}
-          loading={loading}
-          topUpReviewRef={topUpReviewRef}
-        />
+        {user?.accessToken ? (
+          <ReviewForm
+            handleStoreReview={handleStoreReview}
+            loading={loading}
+            topUpReviewRef={topUpReviewRef}
+          />
+        ) : (
+          <div className="flex justify-center">
+            <NextLink href="/auth/login">
+              <Button type="button">
+                <Icon.Login className="-ml-1 mr-2 h-4 w-4" /> Login for comment
+              </Button>
+            </NextLink>
+          </div>
+        )}
       </div>
 
       {/* Right */}
