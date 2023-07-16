@@ -83,6 +83,12 @@ interface HandleDeleteTopUpReplyProps {
   replyId: string
 }
 
+function IsCanEditDelete({ authorId }: { authorId: string }) {
+  const { user } = useCurrentUser()
+  if (!authorId || !user) return false
+  return user?.id === authorId
+}
+
 const TopUpReviewItem = ({
   topUpReview,
   handleDeleteTopUpReview,
@@ -146,7 +152,7 @@ const TopUpReviewItem = ({
 
             <div className="ml-auto">
               {" "}
-              {user?.role === "ADMIN" || user?.id === topUpReview.authorId ? (
+              {IsCanEditDelete({ authorId: topUpReview.authorId }) ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <Button
@@ -168,7 +174,11 @@ const TopUpReviewItem = ({
                         variant="ghost"
                         aria-label="Edit"
                         onClick={() => {
-                          setIsEditing(true)
+                          if (
+                            IsCanEditDelete({ authorId: topUpReview.authorId })
+                          ) {
+                            setIsEditing(true)
+                          }
                         }}
                         className="w-full justify-start"
                       >
@@ -199,7 +209,9 @@ const TopUpReviewItem = ({
           <div
             className="mb-2 w-full"
             onDoubleClick={() => {
-              setIsEditing(true)
+              if (IsCanEditDelete({ authorId: topUpReview.authorId })) {
+                setIsEditing(true)
+              }
             }}
           >
             <EditableParagraph
@@ -263,7 +275,6 @@ function TopUpReplyItem({
   handleDeleteTopUpReply: (props: HandleDeleteTopUpReplyProps) => void
   handleUpdateTopUpReply: (props: HandleUpdateTopUpReplyProps) => void
 }) {
-  const { user } = useCurrentUser()
   const [isEditing, setIsEditing] = React.useState(false)
   return (
     <div className="flex">
@@ -276,7 +287,7 @@ function TopUpReplyItem({
             <h5 className="text-base font-bold">{topUpReply.author?.name}</h5>
             <div className="ml-auto">
               {" "}
-              {user?.role === "ADMIN" || user?.id === topUpReply.authorId ? (
+              {IsCanEditDelete({ authorId: topUpReply.authorId || "" }) ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <Button
@@ -333,7 +344,9 @@ function TopUpReplyItem({
             <div
               className="mb-2 w-full"
               onDoubleClick={() => {
-                setIsEditing(true)
+                if (IsCanEditDelete({ authorId: topUpReply.authorId || "" })) {
+                  setIsEditing(true)
+                }
               }}
             >
               <EditableParagraph
