@@ -70,6 +70,7 @@ export const parseAndSplitHTMLString = (markup: string): FunctionReturn => {
 }
 
 export const splitUriWP = (uri: string) => {
+  if (!uri) return uri
   let newString = uri
   if (newString.includes("https://global.gamedaim.com")) {
     newString = newString.replace("https://global.gamedaim.com", "")

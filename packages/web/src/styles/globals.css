@@ -437,3 +437,5 @@
 .tippybox {
   @apply !max-w-5xl;
 }
+
+@import "./dbe-style.css"

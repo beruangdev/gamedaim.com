@@ -1,0 +1,23 @@
+.dbe-block h4,
+.dbe-block h5,
+.dbe-block p {
+  margin: 0px !important;
+}
+
+.dbe-block .text-white {
+  color: white !important;
+}
+
+.dbe-block ol li {
+  list-style-type: none !important;
+  margin-left: 0px !important;
+}
+
+.dbe-block .howto-step__image {
+  width: 100%;
+}
+
+.dbe-block figure {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
