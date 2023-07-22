@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss"
 
 import { stylePlugin } from "./plugin"
+import dafundaSafelist from "./safelist-dafunda-blocks"
 
 export const stylePreset = {
   content: [],
@@ -20,5 +21,6 @@ export const stylePreset = {
       "noto color emoji",
     ],
   },
+  safelist: [...dafundaSafelist],
   plugins: [stylePlugin, require("tailwindcss-animate")],
 } satisfies Config

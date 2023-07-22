@@ -1,3 +1,7 @@
+.dbe-block {
+  @apply my-6;
+}
+
 .dbe-block h4,
 .dbe-block h5,
 .dbe-block p {
