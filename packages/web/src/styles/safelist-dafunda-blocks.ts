@@ -1,4 +1,4 @@
-const className = [
+export const safelistDafundaBlocks = [
   "!font-bold",
   "!list-none",
   "!m-0",
@@ -218,4 +218,3 @@ const className = [
   "z-0",
   "z-10",
 ]
-export default className
