@@ -1,3 +1,10 @@
+@import "./components/button-download.css";
+@import "./components/how-to.css";
+@import "./components/ranked-list.css";
+@import "./components/recommendation.css";
+@import "./components/review.css";
+
+
 .dbe-block {
   @apply my-6;
 }

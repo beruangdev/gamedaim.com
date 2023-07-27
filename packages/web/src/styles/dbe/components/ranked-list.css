@@ -1,0 +1,46 @@
+.ranked-list {
+  @apply text-white rounded-xl flex flex-wrap items-center px-4 py-3 mb-3;
+}
+.ranked-list-card {
+  @apply flex flex-wrap flex-col relative shadow-lg rounded-lg mb-6 dark:bg-black/30 w-full !ml-0;
+}
+.ranked-list-image {
+  @apply relative aspect-[16/7] object-cover object-center w-full overflow-hidden rounded-t-lg;
+}
+.ranked-list-image-img {
+  @apply w-full max-h-[-webkit-fill-available] object-cover object-center;
+}
+.ranked-list-image-placeholder {
+  @apply rounded-xl aspect-square w-full object-cover object-center bg-black/20 flex justify-center items-center h-full;
+}
+.ranked-list-image-placeholder-text {
+  @apply text-lg font-bold;
+}
+.ranked-list-image-overlay {
+  @apply absolute flex flex-wrap left-0 bottom-0 pl-3 md:pl-4 pb-1 md:pb-2 pt-6 md:pt-8 w-full;
+  @apply bg-gradient-to-t from-black via-black/50 to-transparent;
+}
+.ranked-list-image-overlay-index {
+  @apply font-semibold text-lg md:text-2xl;
+}
+.ranked-list-image-overlay-title {
+  @apply font-semibold text-lg md:text-2xl;
+}
+.ranked-list-vote {
+  @apply p-5 flex w-full justify-center gap-3;
+}
+.ranked-list-vote-button {
+  @apply flex flex-wrap items-start w-fit opacity-50 hover:shadow-none bg-transparent;
+}
+.ranked-list-vote-button-text {
+  @apply m-0 mx-1 inline-block font-bold text-xl leading-6 text-muted-foreground;
+}
+.ranked-list-vote-button-icon {
+  @apply h-7 w-7 inline-block translate-y-[-2px] text-muted-foreground;
+}
+.ranked-list-description {
+  @apply p-5 pt-0;
+}
+.ranked-list-description-text {
+  @apply w-full my-0 text-base;
+}

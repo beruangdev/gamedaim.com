@@ -1,0 +1,31 @@
+.dbe-button-download-block {
+  @apply rounded-lg border border-border border-solid p-3 flex flex-wrap overflow-hidden;
+}
+
+.dbe-button-download-image {
+  @apply basis-2/12;
+}
+
+.dbe-button-download-figure {
+  @apply relative;
+}
+
+.dbe-button-download-img {
+  @apply w-full aspect-square rounded-lg object-cover object-center;
+}
+
+.dbe-button-download-content {
+  @apply basis-auto md:basis-7/12 ml-3;
+}
+
+.dbe-button-download-title {
+  @apply m-0;
+}
+
+.dbe-button-download-description {
+  @apply m-0 text-sm;
+}
+
+.dbe-button-download-download {
+  @apply py-2 px-5 ml-auto w-fit h-fit text-xs md:text-base font-bold;
+}

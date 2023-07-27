@@ -368,6 +368,7 @@
   }
 }
 
+
 /* Editor */
 .ProseMirror {
   @apply text-foreground min-h-screen min-w-0 items-center space-y-2 px-3 py-2 text-base outline-none focus:outline-none;
@@ -438,4 +439,4 @@
   @apply !max-w-5xl;
 }
 
-@import "./dbe-style.css"
+@import "./dbe/dbe-style.css"

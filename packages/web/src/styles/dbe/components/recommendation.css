@@ -1,0 +1,60 @@
+.recommendation {
+  @apply space-y-4 p-0;
+}
+
+.recommendation-card {
+  @apply relative mb-6 flex flex-col flex-wrap rounded-lg shadow-lg;
+}
+
+.recommendation-image {
+  @apply relative aspect-[16/10] w-full overflow-hidden rounded-t-lg object-cover object-center md:aspect-[16/7];
+}
+
+.recommendation-image-img {
+  @apply max-h-[-webkit-fill-available] w-full object-cover object-center;
+}
+
+.recommendation-image-overlay {
+  @apply absolute inset-0;
+}
+
+.recommendation-image-info {
+  @apply absolute bottom-0 left-0 flex w-full flex-wrap pb-2 pl-4;
+}
+
+.recommendation-image-info-index {
+  @apply font-semibold text-white;
+}
+
+.recommendation-image-info-title {
+  @apply font-semibold text-white;
+}
+
+.recommendation-image-info-subtitle {
+  @apply m-0 w-full leading-5 text-white;
+}
+
+.recommendation-olshop {
+  @apply bg-black/5 p-5 dark:bg-white/5;
+}
+
+.recommendation-olshop>div {
+  @apply grid grid-cols-2 gap-3;
+}
+
+.recommendation-olshop-link {
+  @apply flex items-center justify-center rounded-lg bg-black/10 py-2 text-sm font-bold duration-200 hover:bg-black/20 dark:bg-white/5 dark:hover:bg-black/10;
+}
+
+.recommendation-description {
+  @apply p-5 pt-0;
+}
+
+.recommendation-more-link {
+  @apply rounded-b-md bg-black/10 hover:bg-black/10 dark:bg-white/10 dark:text-primary dark:hover:bg-white/40 dark:hover:text-card;
+  @apply m-0 flex w-full flex-wrap items-center justify-center py-3 text-center text-base font-bold no-underline;
+}
+
+.recommendation-more-link-icon {
+  @apply h-5 w-5;
+}

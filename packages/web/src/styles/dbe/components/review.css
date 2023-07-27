@@ -1,0 +1,85 @@
+.review {
+  @apply relative w-full overflow-hidden rounded-md p-4 mb-7;
+}
+.review__image {
+  @apply absolute inset-0 z-0;
+}
+.review__image img {
+  @apply w-full;
+}
+.review__image::before {
+  @apply block w-full h-full;
+  content: "";
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6477941518) 7%, rgb(0, 0, 0) 14%, rgb(0, 0, 0) 100%);
+  transform: scaleY(1.5);
+}
+.review__content {
+  @apply relative z-10 mb-4 flex w-full flex-row flex-wrap;
+}
+.review__content .flex-1 {
+  @apply order-2 md:order-1;
+}
+.review__content .flex-1 .title {
+  @apply mt-0 mb-3 text-2xl md:text-3xl font-bold text-white;
+}
+.review__content .flex-1 .description {
+  @apply mt-0 mb-3 text-base text-white;
+}
+.review__content .score {
+  @apply flex w-full md:w-28 flex-col flex-wrap items-center overflow-hidden rounded-md bg-success/70 order-1 md:order-2 mb-4 md:mb-0;
+  max-height: 162px;
+}
+.review__content .score .percentage {
+  @apply flex grow items-center text-3xl font-bold text-white mb-0 py-4 md:py-10;
+}
+.review__content .score .label {
+  @apply flex w-full justify-center bg-success/90 py-2 text-xs text-white;
+}
+.review__details {
+  @apply relative z-10 flex w-full flex-wrap overflow-hidden rounded-md bg-white;
+}
+.review__details .pros-cons {
+  @apply flex w-full flex-wrap border-0 border-b-2 border-muted-foreground/20 dark:border-muted/10 border-solid gap-4 md:gap-0;
+}
+.review__details .pros-cons .pros,
+.review__details .pros-cons .cons {
+  @apply basis-full md:basis-6/12 border-0 border-b-2 md:border-b-0 md:border-r-2 border-muted-foreground/20 dark:border-muted/10 border-solid p-3;
+}
+.review__details .pros-cons .pros p,
+.review__details .pros-cons .cons p {
+  @apply mt-0 mb-3 text-sm font-bold text-black/70;
+}
+.review__details .pros-cons .pros ul,
+.review__details .pros-cons .cons ul {
+  @apply list-none pl-0 m-0;
+}
+.review__details .pros-cons .pros ul li,
+.review__details .pros-cons .cons ul li {
+  @apply flex flex-wrap m-0;
+}
+.review__details .pros-cons .pros ul li svg,
+.review__details .pros-cons .cons ul li svg {
+  @apply h-5 w-5 text-success/70;
+}
+.review__details .pros-cons .pros ul li p,
+.review__details .pros-cons .cons ul li p {
+  @apply mt-0 mb-3 flex-1 text-base text-black/70;
+}
+.review__details .review-breakdown {
+  @apply flex w-full flex-wrap p-5;
+}
+.review__details .review-breakdown p {
+  @apply mt-0 mb-3 text-sm font-bold text-black/70;
+}
+.review__details .review-breakdown .dafunda-block_review-slider {
+  @apply mb-6;
+}
+.review__details .review-breakdown .dafunda-block_review-slider .bar {
+  @apply w-full h-2 rounded bg-white dark:bg-black/10 border dark:border-0 border-muted-foreground/30 relative border-solid;
+}
+.review__details .review-breakdown .dafunda-block_review-slider .bar .progress {
+  @apply rounded h-full;
+}
+.review__details .review-breakdown .dafunda-block_review-slider .bar .marker {
+  @apply absolute w-4 h-4 bg-white rounded-full border-[4px] border-danger border-solid top-1/2 -translate-x-1/2 -translate-y-1/2;
+}
